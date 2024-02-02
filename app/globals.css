@@ -4,6 +4,13 @@
 
 @layer utilities{
   .wrapper{
-    @apply max-w-7xl mx-auto
+    @apply max-w-7xl mx-auto w-full
+  }
+  .flex-center {
+    @apply flex justify-center items-center;
+  }
+
+  .flex-between {
+    @apply flex justify-between items-center;
   }
 }

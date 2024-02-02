@@ -3,9 +3,9 @@ import NavMenu from "./NavMenu";
 
 const Navbar = () => {
     return (
-        <nav>
+        <nav className="py-5">
             {/* Wrapper */}
-            <div className="wrapper">
+            <div className="wrapper flex-between">
                 {/* Logo */}
                 <NavLogo />
 

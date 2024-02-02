@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={onest.className}>
-        <div className="flex h-screen flex-col">
+        <div className="flex h-screen flex-col bg-primary text-white">
           <Navbar />
           <main className="flex-1">
             {children}
