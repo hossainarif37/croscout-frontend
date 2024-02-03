@@ -3,6 +3,11 @@ import { Onest } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/shared/Navbar/Navbar";
 import Footer from "@/components/shared/Footer/Footer";
+import { ModalProvider } from "@/providers/ModalProvider";
+import { ToggleProvider } from "@/providers/ToggleProvider";
+import LoginModal from "@/components/ui/Modal/LoginModal";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const onest = Onest({
   subsets: ["latin"],
@@ -22,14 +27,22 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={onest.className}>
-        <div className="flex h-screen flex-col bg-primary text-white">
-          <Navbar />
-          <main className="flex-1">
-            {children}
-          </main>
-          <Footer />
-        </div>
+      <body className={`${onest.className} bg-primary`}>
+        <ModalProvider>
+          <ToggleProvider>
+
+            {/* Login */}
+            <LoginModal />
+
+            <div className="flex h-screen flex-col ">
+              <Navbar />
+              <main className="flex-1">
+                {children}
+              </main>
+              <Footer />
+            </div>
+          </ToggleProvider>
+        </ModalProvider>
       </body>
     </html>
   );

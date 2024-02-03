@@ -1,17 +1,20 @@
 "use client"
 
 import Link from "next/link";
-import { AiOutlineMenu } from "react-icons/ai";
+import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import { VscGlobe } from "react-icons/vsc";
 import Avatar from "./Avatar";
 import { useState } from "react";
 import { FaUser, FaUserCircle } from "react-icons/fa";
+import navbarStyles from "./navbar.module.css"
+import { useToggleContext } from "@/providers/ToggleProvider";
 
 
 const NavMenu = () => {
     const [currentUser, setCurrent] = useState(false);
+    const { navUserToggle, setNavUserToggle } = useToggleContext();
     return (
-        <ul className="flex items-center font-bold gap-7 text-[#f5f5f5]">
+        <ul className={`hidden md:flex items-center font-bold gap-7 text-[#f5f5f5] ${navbarStyles.navMenu}`}>
             <li><Link href="/croscout-your-home">Croscout Your Home</Link></li>
             <li>
                 <Link href="/translation" className="flex-center space-x-2">
@@ -23,7 +26,8 @@ const NavMenu = () => {
 
             {/* User Menu Icon */}
             <div
-                className="p-4 md:py-1 md:px-2 border-[1px] border-[#A9A9A9] flex flex-row items-center gap-3 rounded-full bg-[#3A4E55] cursor-pointer hover:shadow-md transition"
+                onClick={() => setNavUserToggle(prev => !prev)}
+                className={navbarStyles.navMenuButton}
             >
                 <AiOutlineMenu color="white" />
                 <div className="hidden md:block">
@@ -35,6 +39,8 @@ const NavMenu = () => {
                             </div>
                     }
                 </div>
+
+
             </div>
         </ul>
     );
