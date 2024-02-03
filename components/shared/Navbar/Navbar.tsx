@@ -9,7 +9,7 @@ const Navbar = () => {
     const { navUserToggle, setNavUserToggle } = useToggleContext();
     const { setLoginModal, setSignupModal } = useModalContext();
     return (
-        <nav className="py-5 bg-primary z-50 sticky top-0">
+        <nav className="py-5 bg-primary z-40 sticky top-0">
             {/* Wrapper */}
             <div className="wrapper flex-between relative">
                 {/* Logo */}
@@ -28,7 +28,11 @@ const Navbar = () => {
                         }}
                     >Login</button>
                     <button
-                        onClick={() => setSignupModal(false)}
+                        onClick={() => {
+                            setSignupModal(true);
+                            setNavUserToggle(false);
+
+                        }}
                     >Signup</button>
                 </ul>
             </div>

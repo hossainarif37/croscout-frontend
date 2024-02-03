@@ -8,6 +8,7 @@ import { ToggleProvider } from "@/providers/ToggleProvider";
 import LoginModal from "@/components/ui/Modal/LoginModal";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import SignupModal from "@/components/ui/Modal/SignupModal";
 
 const onest = Onest({
   subsets: ["latin"],
@@ -33,6 +34,7 @@ export default function RootLayout({
 
             {/* Login */}
             <LoginModal />
+            <SignupModal />
 
             <div className="flex h-screen flex-col ">
               <Navbar />

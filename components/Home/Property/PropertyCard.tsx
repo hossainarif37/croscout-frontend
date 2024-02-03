@@ -22,11 +22,11 @@ export default function PropertyCard() {
         <div
             onMouseEnter={handleHover}
             onMouseLeave={handleHoverOut}
-            className=" relative border border-accent p-[5px] bg-secondary rounded-[8px] text-white"
+            className=" relative border border-accent p-[5px]  hover:scale-95 duration-300 bg-secondary rounded-[8px] text-white"
         >
             <div className="h-[15rem] w-full relative rounded-t-[4px] overflow-hidden">
 
-                <Image src="/images/img.png" layout="fill" objectFit="cover" alt="" />
+                <Image src="/images/propertyImage_1.png" layout="fill" objectFit="cover" alt="" />
 
             </div>
             <div className="p-2 mt-5">
