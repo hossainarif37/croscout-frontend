@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function PrimaryButton({ children, className }) {
+export default function PrimaryButton({ children, className }: any) {
     return (
         <div className="flex-center">
             <button
