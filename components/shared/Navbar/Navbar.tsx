@@ -9,7 +9,7 @@ const Navbar = () => {
     const { navUserToggle, setNavUserToggle } = useToggleContext();
     const { setLoginModal, setSignupModal } = useModalContext();
     return (
-        <nav className="py-5 bg-primary z-40 sticky top-0">
+        <nav id="topbar" className="py-5  bg-primary z-40 sticky top-0">
             {/* Wrapper */}
             <div className="wrapper flex-between relative">
                 {/* Logo */}

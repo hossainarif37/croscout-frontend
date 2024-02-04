@@ -6,7 +6,7 @@ export default function PropertyReviews() {
         <div className="">
             <div className='wrapper'>
                 <div className="py-[6.875rem] text-white">
-                    <h1 className="text-[2.625rem] font-bold text-white">Our Reviews</h1>
+                    <h1 className="text-[2.625rem] font-bold text-white">Things to know</h1>
                     <div className="mt-[3.75rem] grid grid-cols-3 gap-6">
                         {/* Item 1 */}
                         <div className="col-span-3 lg:col-span-1">

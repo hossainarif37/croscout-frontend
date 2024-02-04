@@ -26,8 +26,7 @@ const PropertyList = () => {
                 && <div className="mb-5"><ClearSearchButton
                     onClick={() => {
                         setIsSearchBtnClicked(false);
-                        setFilteredProperty([])
-
+                        setFilteredProperty([]);
                     }}
                 /></div>
             }
