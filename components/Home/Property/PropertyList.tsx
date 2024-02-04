@@ -9,7 +9,7 @@ import { IoMdClose } from "react-icons/io";
 const PropertyList = () => {
     const { filteredProperty, isSearchBtnClicked, setIsSearchBtnClicked } = useSearchContext();
 
-    if (isSearchBtnClicked) {
+    if (isSearchBtnClicked && filteredProperty.length < 1) {
         return <div className="flex flex-col lg:pb-60 lg:pt-20 pt-10 pb-20 items-center">
             <h1 className="text-4xl font-bold text-white">Not Matched</h1>
             <div className="mt-5">
