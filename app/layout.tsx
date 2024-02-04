@@ -9,6 +9,9 @@ import LoginModal from "@/components/ui/Modal/LoginModal";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import SignupModal from "@/components/ui/Modal/SignupModal";
+import CalenderModal from "@/components/ui/Modal/CalenderModal";
+import GuestModal from "@/components/ui/Modal/GuestModal";
+import { SearchProvider } from "@/providers/SearchProvider";
 
 const onest = Onest({
   subsets: ["latin"],
@@ -29,22 +32,26 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${onest.className} bg-primary`}>
-        <ModalProvider>
-          <ToggleProvider>
+        <SearchProvider>
+          <ModalProvider>
+            <ToggleProvider>
 
-            {/* Login */}
-            <LoginModal />
-            <SignupModal />
+              {/* Login */}
+              <LoginModal />
+              <SignupModal />
+              <CalenderModal />
+              <GuestModal />
 
-            <div className="flex h-screen flex-col ">
-              <Navbar />
-              <main className="flex-1">
-                {children}
-              </main>
-              <Footer />
-            </div>
-          </ToggleProvider>
-        </ModalProvider>
+              <div className="flex h-screen flex-col ">
+                <Navbar />
+                <main className="flex-1">
+                  {children}
+                </main>
+                <Footer />
+              </div>
+            </ToggleProvider>
+          </ModalProvider>
+        </SearchProvider>
       </body>
     </html>
   );

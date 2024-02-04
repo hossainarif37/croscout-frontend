@@ -14,3 +14,7 @@
     @apply flex justify-between items-center;
   }
 }
+
+input:focus{
+  @apply focus:ring-0
+}

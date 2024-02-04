@@ -1,6 +1,6 @@
 "use client";
 
-import { dataMultiCategory } from "@/constant";
+import { propertyTypeCategory } from "@/constant";
 import React, { useEffect, useState } from "react";
 import { BsArrowRight } from "react-icons/bs";
 
@@ -20,7 +20,7 @@ export default function MultiCategory() {
                     Inspiration for future getaways
                 </p>
                 <div className="mt-10 flex max-w-screen lg:max-w-full overflow-x-scroll">
-                    {dataMultiCategory.map((item, index) => (
+                    {propertyTypeCategory.map((item, index) => (
                         <div
                             key={index}
                             onClick={() => setActiveCat(item.title)}
@@ -32,7 +32,7 @@ export default function MultiCategory() {
                     ))}
                 </div>
                 <div className="grid grid-cols-6 mt-20 gap-5 lg:gap-20">
-                    {dataMultiCategory[0].subCats.map((item, index) => (
+                    {propertyTypeCategory[0].subCats.map((item, index) => (
                         <div
                             key={index}
                             className="col-span-3 lg:col-span-1 text-lg font-semibold  cursor-pointer text-white whitespace-nowrap"

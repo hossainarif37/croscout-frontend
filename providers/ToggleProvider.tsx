@@ -11,11 +11,11 @@ interface ToggleContextProps {
 
 const ToggleContext = createContext<ToggleContextProps | null>(null);
 
-interface ModalProviderProps {
+interface ToggleProviderProps {
     children: ReactNode;
 }
 
-const ToggleProvider: React.FC<ModalProviderProps> = ({ children }) => {
+const ToggleProvider: React.FC<ToggleProviderProps> = ({ children }) => {
     const [navUserToggle, setNavUserToggle] = useState(false);
     const [taxToggle, setTaxToggle] = useState(false);
 

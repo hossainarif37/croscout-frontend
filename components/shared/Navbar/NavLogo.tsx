@@ -12,9 +12,9 @@ const NavLogo = () => {
                 onClick={() => router.push("/")}
                 className="cursor-pointer"
                 src="/images/navLogo.svg"
-                layout="fill"
-                objectFit="cover"
                 alt="Logo"
+                height={24}
+                width={336}
             />
         </div>
     );
