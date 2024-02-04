@@ -14,7 +14,7 @@ const PropertyList = () => {
             <h1 className="text-4xl font-bold text-white">Not Matched</h1>
             <div className="mt-5">
                 <button
-                    className="py-3 px-5 border border-white text-white rounded-lg flex-center gap-x-2"
+                    className="py-3 px-5 border hover:border-accent duration-200 border-white text-white rounded-lg flex-center gap-x-2"
                     onClick={() => setIsSearchBtnClicked(false)}
                 ><IoMdClose className="text-2xl" /> <span>Clear Search</span></button>
             </div>
