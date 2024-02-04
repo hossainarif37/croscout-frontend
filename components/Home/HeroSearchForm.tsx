@@ -70,8 +70,8 @@ const HeroSearchForm = () => {
                         <div className="flex  items-center gap-2 text-white px-2 lg:px-5 ">
                             <Image src="/icons/bookingIcon.svg" height={24} width={24} alt="img" />
                             <div className="">
-                                <div className="text-sm lg:text-lg leading-[111%]">{format(searchCalDate[0].startDate, "MMM dd, yyyy")}</div>
-                                <div className="text-sm lg:text-lg leading-[111%]">{format(searchCalDate[0].startDate, "EEEE")}</div>
+                                <div className="text-sm lg:text-base leading-[111%]">{format(searchCalDate[0].startDate, "MMM dd, yyyy")}</div>
+                                <div className="text-sm lg:text-base leading-[111%]">{format(searchCalDate[0].startDate, "EEEE")}</div>
                             </div>
                         </div>
 
@@ -79,8 +79,8 @@ const HeroSearchForm = () => {
                         <div className="flex items-center gap-2 text-white px-2 lg:px-5  relative">
                             <Image src="/icons/bookingIcon.svg" height={24} width={24} alt="img" />
                             <div>
-                                <div className="text-sm lg:text-lg leading-[111%]">{format(searchCalDate[0].endDate, "MMM dd, yyyy")}</div>
-                                <div className="text-sm lg:text-lg leading-[111%]">{format(searchCalDate[0].endDate, "EEEE")}</div>
+                                <div className="text-sm lg:text-base leading-[111%]">{format(searchCalDate[0].endDate, "MMM dd, yyyy")}</div>
+                                <div className="text-sm lg:text-base leading-[111%]">{format(searchCalDate[0].endDate, "EEEE")}</div>
                             </div>
                             {/* Down Arrow Button */}
                             <FaChevronDown className={`absolute ${heroStyles.downArrow} right-1 lg:right-4 text-xl lg:text-2xl`} />
