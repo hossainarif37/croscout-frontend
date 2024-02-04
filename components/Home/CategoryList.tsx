@@ -78,6 +78,7 @@ export default function CategoryList() {
                         key={index}
                         onClick={() => {
                             setActiveCat(item.name);
+                            setCatergoryInputValue(item.name)
                             setFilteredProperty(searchProperties({
                                 location,
                                 propertyType: item.name
