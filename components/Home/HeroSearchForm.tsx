@@ -69,9 +69,9 @@ const HeroSearchForm = () => {
                         {/* Check In */}
                         <div className="flex  items-center gap-2 text-white px-2 lg:px-5 ">
                             <Image src="/icons/bookingIcon.svg" height={24} width={24} alt="img" />
-                            <div className="">
-                                <div className="text-sm lg:text-base leading-[111%]">{format(searchCalDate[0].startDate, "MMM dd, yyyy")}</div>
-                                <div className="text-sm lg:text-base leading-[111%]">{format(searchCalDate[0].startDate, "EEEE")}</div>
+                            <div className="lg:leading-5">
+                                <div className="text-sm lg:text-base lg:leading-5">{format(searchCalDate[0].startDate, "MMM dd, yyyy")}</div>
+                                <div className="text-sm lg:text-base lg:leading-5">{format(searchCalDate[0].startDate, "EEEE")}</div>
                             </div>
                         </div>
 
@@ -79,11 +79,11 @@ const HeroSearchForm = () => {
                         <div className="flex items-center gap-2 text-white px-2 lg:px-5  relative">
                             <Image src="/icons/bookingIcon.svg" height={24} width={24} alt="img" />
                             <div>
-                                <div className="text-sm lg:text-base leading-[111%]">{format(searchCalDate[0].endDate, "MMM dd, yyyy")}</div>
-                                <div className="text-sm lg:text-base leading-[111%]">{format(searchCalDate[0].endDate, "EEEE")}</div>
+                                <div className="text-sm lg:text-base lg:leading-5">{format(searchCalDate[0].endDate, "MMM dd, yyyy")}</div>
+                                <div className="text-sm lg:text-base lg:leading-5">{format(searchCalDate[0].endDate, "EEEE")}</div>
                             </div>
                             {/* Down Arrow Button */}
-                            <FaChevronDown className={`absolute ${heroStyles.downArrow} right-1 lg:right-4 text-xl lg:text-2xl`} />
+                            <FaChevronDown className={`absolute ${heroStyles.downArrow} right-1 lg:right-4 text-xl`} />
                         </div>
 
                     </div>
@@ -94,7 +94,7 @@ const HeroSearchForm = () => {
                         className={`${heroStyles.dateSelectionButton} duration-100 mb-8 lg:mb-0 col-span-2 lg:col-span-1 divide-x-2 py-3 bg-transparent border rounded-[5px] cursor-pointer grid grid-cols-2 relative`}>
                         <div className="flex items-center gap-2 text-white px-5 ">
                             <Image src="/icons/people.svg" height={24} width={24} alt="img" />
-                            <div className="leading-[111%]">
+                            <div className="">
                                 {
                                     adultsCount > 0 || childrenCount > 0 ? (
                                         <>
@@ -107,7 +107,7 @@ const HeroSearchForm = () => {
                                     )
                                 }
                             </div>
-                            <FaChevronDown className={`absolute ${heroStyles.downArrow} right-1 lg:right-4 text-xl lg:text-2xl`} />
+                            <FaChevronDown className={`absolute ${heroStyles.downArrow} right-1 lg:right-4 text-xl `} />
                         </div>
                         {/* Down Arrow Button */}
 
