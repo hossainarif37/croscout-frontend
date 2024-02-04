@@ -16,7 +16,19 @@ const HeroSearchForm = () => {
 
 
     return (
-        <>
+        <form onSubmit={(e) => {
+            e.preventDefault();
+            const formattedStartDate = format(searchCalDate[0].startDate, "MMM dd, yyyy");
+            const formattedEndDate = format(searchCalDate[0].endDate, "MMM dd, yyyy");
+            let guests = childrenCount + adultsCount;
+            setIsSearchBtnClicked(true);
+            setFilteredProperty(searchProperties({
+                location,
+                startDate: formattedStartDate,
+                guests,
+                endDate: formattedEndDate,
+            }));
+        }}>
             {/* Search Label */}
             <div className="flex select-none  justify-center absolute left-0 right-0 -top-10">
                 <label
@@ -110,24 +122,13 @@ const HeroSearchForm = () => {
                     className={`py-2 lg:py-[15px]  px-20
                     rounded-[5px] border  duration-100   text-lg lg:text-2xl  ${!location ? 'bg-gray-700 text-gray-400 border-gray-700' : 'bg-primary border-white text-white font-semibold hover:border-accent'}`}
                     disabled={!location}
-                    onClick={() => {
-                        const formattedStartDate = format(searchCalDate[0].startDate, "MMM dd, yyyy");
-                        const formattedEndDate = format(searchCalDate[0].endDate, "MMM dd, yyyy");
-                        let guests = childrenCount + adultsCount;
-                        setIsSearchBtnClicked(true);
-                        setFilteredProperty(searchProperties({
-                            location,
-                            startDate: formattedStartDate,
-                            guests,
-                            endDate: formattedEndDate,
-                        }));
-                    }}
+
                 >
                     Search
                 </button>
 
             </div >
-        </>
+        </form>
     );
 };
 

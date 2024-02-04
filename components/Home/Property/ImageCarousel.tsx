@@ -3,6 +3,7 @@
 import { Carousel } from "flowbite-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import propertyStyles from "./property.module.css"
 
 
 import React from 'react'
@@ -40,7 +41,7 @@ export default function ImageCarousel({ propertyImages }: any) {
                         height={300}
                         // layout="fill"
                         objectFit="cover"
-                        className="cursor-pointer h-full"
+                        className={"cursor-pointer h-full carouselImage"}
                     />)
                 }
             </Carousel>

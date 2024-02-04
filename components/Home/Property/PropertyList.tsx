@@ -5,24 +5,32 @@ import PrimaryButton from "@/components/ui/buttons/Button";
 import { Property, propertyList } from "@/constant";
 import { useSearchContext } from "@/providers/SearchProvider";
 import { IoMdClose } from "react-icons/io";
+import ClearSearchButton from "@/components/ui/buttons/ClearSearchButton";
 
 const PropertyList = () => {
-    const { filteredProperty, isSearchBtnClicked, setIsSearchBtnClicked } = useSearchContext();
+    const { filteredProperty, setFilteredProperty, isSearchBtnClicked, setIsSearchBtnClicked } = useSearchContext();
 
     if (isSearchBtnClicked && filteredProperty.length < 1) {
         return <div className="flex flex-col lg:pb-60 lg:pt-20 pt-10 pb-20 items-center">
             <h1 className="text-4xl font-bold text-white">Not Matched</h1>
-            <div className="mt-5">
-                <button
-                    className="py-3 px-5 border hover:border-accent duration-200 border-white text-white rounded-lg flex-center gap-x-2"
-                    onClick={() => setIsSearchBtnClicked(false)}
-                ><IoMdClose className="text-2xl" /> <span>Clear Search</span></button>
-            </div>
+            <ClearSearchButton onClick={() => {
+                setIsSearchBtnClicked(false);
+            }} />
         </div>
     }
 
     return (
         <>
+            {
+                (isSearchBtnClicked && filteredProperty.length > 0)
+                && <div className="mb-5"><ClearSearchButton
+                    onClick={() => {
+                        setIsSearchBtnClicked(false);
+                        setFilteredProperty([])
+
+                    }}
+                /></div>
+            }
             <div className="grid grid-cols-4 gap-5">
                 {(filteredProperty.length > 0 && filteredProperty || propertyList).map((property: Property, index: number) => (
                     // <Link

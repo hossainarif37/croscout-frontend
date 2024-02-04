@@ -8,6 +8,7 @@ import FavFilled from "@/public/icons/love-filled.svg";
 import ImageCarousel from "./ImageCarousel";
 import { useRouter } from "next/navigation";
 import { Property } from "@/constant";
+import propertyStyles from "./property.module.css"
 
 
 export default function PropertyCard({ property }: Property & any) {
@@ -48,14 +49,14 @@ export default function PropertyCard({ property }: Property & any) {
             // onMouseEnter={handleHover}
             // onMouseLeave={handleHoverOut}
 
-            className={"cursor-pointer relative border border-accent p-[5px] bg-secondary rounded-[8px] text-white"}
+            className={`cursor-pointer relative border border-accent p-[5px] bg-secondary rounded-[8px] text-white `}
         >
             <div className="h-[15rem] w-full relative rounded-t-[4px] overflow-hidden">
                 <ImageCarousel propertyImages={propertyImages} />
             </div>
             <div
                 onClick={() => router.push('/about')}
-                className="p-2 mt-5">
+                className={"p-2 mt-5"}>
 
                 {/* Location and State */}
                 <h1 className="text-xl font-bold">
