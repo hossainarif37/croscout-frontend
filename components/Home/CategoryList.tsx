@@ -71,7 +71,7 @@ export default function CategoryList() {
 
 
     return (
-        <div className="py-10 w-full px-6 placeholder-cyan-100">
+        <div id="categoryTypeList" className="py-10  w-full px-6 placeholder-cyan-100">
             <Slider {...settings}>
                 {categoryList.map((item, index) => (
                     <div

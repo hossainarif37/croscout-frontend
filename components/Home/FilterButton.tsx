@@ -9,7 +9,7 @@ const FilterButton = () => {
 
     return (
         <>
-            <div className="mt-10 md:mt-[14rem]" />
+            <div id="filter-section" className="mt-10 md:mt-[14rem]" />
 
             <section>
                 <div className="flex gap-2 lg:gap-5">

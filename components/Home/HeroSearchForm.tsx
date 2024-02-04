@@ -9,6 +9,7 @@ import { TextInput } from 'flowbite-react';
 import { useSearchContext } from "@/providers/SearchProvider";
 import { format } from "date-fns";
 import { searchProperties } from "@/utils/filterProperties";
+import { goToSpecificSection } from "@/utils/goToSpecificSection";
 
 const HeroSearchForm = () => {
     const { setCalenderModal, setGuestModal } = useModalContext();
@@ -18,6 +19,7 @@ const HeroSearchForm = () => {
     return (
         <form onSubmit={(e) => {
             e.preventDefault();
+            goToSpecificSection('filter-section')
             const formattedStartDate = format(searchCalDate[0].startDate, "MMM dd, yyyy");
             const formattedEndDate = format(searchCalDate[0].endDate, "MMM dd, yyyy");
             let guests = childrenCount + adultsCount;
