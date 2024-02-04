@@ -41,7 +41,7 @@ const PropertyList = () => {
                 /></div>
             }
 
-            <div className="grid grid-cols-4 gap-5">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-5">
                 {(filteredProperty.length > 0 && filteredProperty || propertyList).map((property: Property, index: number) => (
                     // <Link
                     //     href={`/property-details/${index + 1}`}
