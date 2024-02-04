@@ -26,7 +26,7 @@ const HeroSearchForm = () => {
                 location,
                 startDate: formattedStartDate,
                 guests,
-                endDate: formattedEndDate,
+                endDate: formattedEndDate
             }));
         }}>
             {/* Search Label */}

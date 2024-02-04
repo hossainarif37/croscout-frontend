@@ -6,30 +6,39 @@ import { Property, propertyList } from "@/constant";
 import { useSearchContext } from "@/providers/SearchProvider";
 import { IoMdClose } from "react-icons/io";
 import ClearSearchButton from "@/components/ui/buttons/ClearSearchButton";
+import { clearSearchInputValue } from "@/utils/filterProperties";
 
 const PropertyList = () => {
-    const { filteredProperty, setFilteredProperty, isSearchBtnClicked, setIsSearchBtnClicked } = useSearchContext();
+    const { filteredProperty, setFilteredProperty, isSearchBtnClicked, setIsSearchBtnClicked, setLocation } = useSearchContext();
 
     if (isSearchBtnClicked && filteredProperty.length < 1) {
         return <div className="flex flex-col lg:pb-60 lg:pt-20 pt-10 pb-20 items-center">
             <h1 className="text-4xl font-bold text-white">Not Matched</h1>
             <ClearSearchButton onClick={() => {
                 setIsSearchBtnClicked(false);
+                clearSearchInputValue();
+                setLocation('');
+
             }} />
         </div>
     }
 
     return (
         <>
+
+            {/* Clear Search Button */}
             {
                 (isSearchBtnClicked && filteredProperty.length > 0)
                 && <div className="mb-5"><ClearSearchButton
                     onClick={() => {
                         setIsSearchBtnClicked(false);
                         setFilteredProperty([]);
+                        clearSearchInputValue();
+                        setLocation('');
                     }}
                 /></div>
             }
+
             <div className="grid grid-cols-4 gap-5">
                 {(filteredProperty.length > 0 && filteredProperty || propertyList).map((property: Property, index: number) => (
                     // <Link
