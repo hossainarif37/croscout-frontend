@@ -8,7 +8,7 @@ import propertyStyles from "./property.module.css"
 
 import React from 'react'
 
-export default function ImageCarousel({ propertyImages }: any) {
+export default function ImageCarousel({ propertyImages, propertyId }: any) {
     const router = useRouter();
 
     const customLeftControl = (
@@ -34,7 +34,7 @@ export default function ImageCarousel({ propertyImages }: any) {
             <Carousel slide={false}>
                 {
                     propertyImages.map((img: any, i: number) => <Image key={i}
-                        onClick={() => router.push('/about')}
+                        onClick={() => router.push(`/property-details/${propertyId}`)}
                         src={img}
                         alt="Property Image"
                         width={300}

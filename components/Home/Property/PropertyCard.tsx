@@ -52,11 +52,11 @@ export default function PropertyCard({ property }: Property & any) {
             className={`cursor-pointer relative border border-accent p-[5px] bg-secondary rounded-[8px] text-white `}
         >
             <div className="h-[15rem] w-full relative rounded-t-[4px] overflow-hidden">
-                <ImageCarousel propertyImages={propertyImages} />
+                <ImageCarousel propertyId={id} propertyImages={propertyImages} />
             </div>
             <div
                 className="p-2 "
-                onClick={() => router.push('/about')}
+                onClick={() => router.push(`/property-details/${id}`)}
             >
                 <div
                     className={"mt-5"}>
