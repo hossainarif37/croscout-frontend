@@ -8,7 +8,7 @@ import { useSearchContext } from "@/providers/SearchProvider";
 import { searchProperties } from "@/utils/filterProperties";
 
 export default function CategoryList() {
-    const [activeCat, setActiveCat] = useState("Amazing views");
+    const [activeCat, setActiveCat] = useState("");
     const { setCatergoryInputValue, location, setFilteredProperty } = useSearchContext();
 
     const CustomPrevArrow = (props: any) => (
