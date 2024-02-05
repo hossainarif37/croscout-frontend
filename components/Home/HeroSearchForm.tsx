@@ -12,7 +12,7 @@ import { searchProperties } from "@/utils/filterProperties";
 import { goToSpecificSection } from "@/utils/goToSpecificSection";
 
 const HeroSearchForm = () => {
-    const { setCalenderModal, setGuestModal } = useModalContext();
+    const { setCalenderModal, setGuestModal, setLocationModal } = useModalContext();
     const { childrenCount, adultsCount, searchCalDate, location, setLocation, setFilteredProperty, isSearchBtnClicked, setIsSearchBtnClicked } = useSearchContext();
 
 
@@ -49,13 +49,15 @@ const HeroSearchForm = () => {
             <div className="">
 
                 {/* location */}
-                <input
-                    className="p-4 mt-6 lg:mt-0 md:p-5 bg-transparent outline-none border border-white-50 focus:border-accent hover:border-accent placeholder:text-gray-300 rounded-[5px] w-full text-white"
-                    type=""
-                    placeholder="Enter Your location"
+                <div
+                    onClick={() => setLocationModal(true)}
+                    className="p-4 flex-between cursor-pointer mt-6 lg:mt-0 md:p-5 bg-transparent outline-none border border-white-50 focus:border-accent hover:border-accent placeholder:text-gray-300 rounded-[5px] w-full text-white"
                     id="search-location"
-                    onChange={(e) => setLocation(e.target.value)}
-                />
+                >
+                    <span>{location ? location : 'Select Your Location'}</span>
+                    {/* Down Arrow Button */}
+                    <FaChevronDown className={` ${heroStyles.downArrow} text-xl`} />
+                </div>
 
 
 

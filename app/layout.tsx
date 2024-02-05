@@ -12,6 +12,7 @@ import SignupModal from "@/components/ui/Modal/SignupModal";
 import CalenderModal from "@/components/ui/Modal/CalenderModal";
 import GuestModal from "@/components/ui/Modal/GuestModal";
 import { SearchProvider } from "@/providers/SearchProvider";
+import LocationModal from "@/components/ui/Modal/LocationModal";
 
 const onest = Onest({
   subsets: ["latin"],
@@ -39,6 +40,7 @@ export default function RootLayout({
               {/* Login */}
               <LoginModal />
               <SignupModal />
+              <LocationModal />
               <CalenderModal />
               <GuestModal />
 

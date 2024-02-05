@@ -1,5 +1,6 @@
 "use client"
 
+import { CountrySelectValue } from "@/components/ui/Inputs/CountrySelect";
 import { Property } from "@/constant";
 import { createContext, ReactNode, useContext, useState, Dispatch, SetStateAction } from "react";
 
@@ -13,12 +14,15 @@ export interface DateRange {
 
 type FilteredProperty = Property[] | [];
 
+
+
+
 // SearchContextProps Interface
 export interface SearchContextProps {
     searchCalDate: DateRange[];
     setSearchCalDate: Dispatch<SetStateAction<DateRange[]>>;
-    location: string;
-    setLocation: Dispatch<SetStateAction<string>>;
+    locationObject?: CountrySelectValue;
+    setLocationObject: Dispatch<SetStateAction<CountrySelectValue>>;
     adultsCount: number;
     setAdultsCount: Dispatch<SetStateAction<number>>;
     childrenCount: number;
@@ -31,6 +35,8 @@ export interface SearchContextProps {
     setSearchDisable: Dispatch<SetStateAction<boolean>>,
     catergoryInputValue: string;
     setCatergoryInputValue: Dispatch<SetStateAction<string>>;
+    location: string;
+    setLocation: Dispatch<SetStateAction<string>>;
 
 
 }
@@ -52,6 +58,7 @@ const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
         }
     ]);
 
+    const [locationObject, setLocationObject] = useState<CountrySelectValue | undefined>(undefined);
     const [location, setLocation] = useState<string>("");
     const [catergoryInputValue, setCatergoryInputValue] = useState<string>("");
     const [adultsCount, setAdultsCount] = useState<number>(1);
@@ -64,8 +71,8 @@ const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
     const contextValue: SearchContextProps = {
         searchCalDate,
         setSearchCalDate,
-        location: location,
-        setLocation: setLocation,
+        location,
+        setLocation,
         adultsCount,
         setAdultsCount,
         childrenCount,
@@ -78,6 +85,8 @@ const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
         setSearchDisable,
         catergoryInputValue,
         setCatergoryInputValue,
+        locationObject,
+        setLocationObject
     };
 
 

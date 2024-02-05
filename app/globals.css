@@ -21,6 +21,15 @@ input:focus{
 
 
 
+/* Map Styles */
+.leaflet-bottom,
+.leaflet-control,
+.leaflet-pane,
+.leaflet-top{
+  z-index: 0 !important;
+}
+
+
 /* Remove autosuggestion styles for all browsers */
 /* Remove autosuggestion styles for all browsers */
 /* input:-webkit-autofill,

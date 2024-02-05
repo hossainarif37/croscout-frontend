@@ -1,5 +1,6 @@
 import { Property, propertyList } from "@/constant";
 
+
 // Search Interface
 export interface SearchOptions {
     location?: string;

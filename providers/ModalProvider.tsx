@@ -11,6 +11,8 @@ interface ModalContextProps {
     setCalenderModal: React.Dispatch<React.SetStateAction<boolean>>;
     guestModal: boolean;
     setGuestModal: React.Dispatch<React.SetStateAction<boolean>>;
+    locationModal: boolean;
+    setLocationModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ModalContext = createContext<ModalContextProps | null>(null);
@@ -24,6 +26,7 @@ const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
     const [signupModal, setSignupModal] = useState(false);
     const [calenderModal, setCalenderModal] = useState(false);
     const [guestModal, setGuestModal] = useState(false);
+    const [locationModal, setLocationModal] = useState(false);
 
     const contextValue: ModalContextProps = {
         loginModal,
@@ -33,7 +36,9 @@ const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
         calenderModal,
         setCalenderModal,
         guestModal,
-        setGuestModal
+        setGuestModal,
+        locationModal,
+        setLocationModal
     };
 
     return (
