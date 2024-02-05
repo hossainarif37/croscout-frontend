@@ -2,7 +2,7 @@
 import Select from 'react-select'
 
 import { useCountries } from "@/hooks/useCountries";
-import { useSearchContext } from '@/providers/SearchProvider';
+
 
 export type CountrySelectValue = {
     flag: string,
@@ -20,16 +20,8 @@ interface CountrySelectProps {
 
 const CountrySelect: React.FC<CountrySelectProps> = ({ value, onChange }) => {
     const { getAll } = useCountries();
-    const { setLocation, setLocationObject } = useSearchContext();
-    const handleMenuClose = () => {
-        // Triggered when the menu is closed, including when the user clears the filter
-        if (!value) {
-            // User cleared the filter, you can perform additional actions here
-            // For example, clear another state in your context
-            setLocationObject(undefined);
-            setLocation('')
-        }
-    };
+
+
     return (
         <div>
             <Select
@@ -41,7 +33,7 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ value, onChange }) => {
 
                 onChange={(value) => onChange(value as CountrySelectValue)}
                 formatOptionLabel={(option: any) => (
-                    <div className='flex flex-row items-center gap-3'>
+                    <div className='flex flex-row items-center gap-3 '>
                         <div>{option.flag}</div>
                         <div>
                             {option.label},
@@ -52,7 +44,7 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ value, onChange }) => {
                     </div>
                 )}
                 classNames={{
-                    control: () => 'p-3 border-2',
+                    control: () => 'p-3 border-2 hover:cursor-pointer',
                     input: () => 'text-lg',
                     option: () => 'text-lg',
                 }}

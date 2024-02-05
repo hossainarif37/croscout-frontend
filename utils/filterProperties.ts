@@ -39,6 +39,7 @@ export const searchProperties = (options: SearchOptions): Property[] => {
         if (startFilteredProperties.length > 0) {
             filteredProperties = startFilteredProperties;
         }
+
     }
 
     if (location && startDate) {
