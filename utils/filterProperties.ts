@@ -18,16 +18,27 @@ export const searchProperties = (options: SearchOptions): Property[] => {
     // if (!location && !startDate && !endDate && guests === undefined) {
     //     return propertyList;
     // }
-
     // Start with all properties
     let filteredProperties = [...propertyList];
 
     // Apply filters based on provided criteria
     if (location) {
-        filteredProperties = filteredProperties.filter(property => property.location.toLowerCase().includes(location.toLowerCase()));
+        const startFilteredProperties = filteredProperties.filter(property => property.location.toLowerCase().includes(location.toLowerCase()));
+        console.log(startFilteredProperties);
+        if (startFilteredProperties.length > 0) {
+            filteredProperties = startFilteredProperties;
+        }
+        if (startFilteredProperties.length < 1 && !propertyType) {
+            filteredProperties = startFilteredProperties;
+        }
     }
+
+
     if (propertyType) {
-        filteredProperties = filteredProperties.filter(property => property.propertyType.toLowerCase() === propertyType?.toLowerCase());
+        const startFilteredProperties = filteredProperties.filter(property => property.propertyType.toLowerCase() === propertyType?.toLowerCase());
+        if (startFilteredProperties.length > 0) {
+            filteredProperties = startFilteredProperties;
+        }
     }
 
     if (location && startDate) {

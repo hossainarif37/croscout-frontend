@@ -37,6 +37,8 @@ export interface SearchContextProps {
     setCatergoryInputValue: Dispatch<SetStateAction<string>>;
     location: string;
     setLocation: Dispatch<SetStateAction<string>>;
+    activeCat: string;
+    setActiveCat: Dispatch<SetStateAction<string>>;
 
 
 }
@@ -60,6 +62,7 @@ const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
 
     const [locationObject, setLocationObject] = useState<CountrySelectValue | undefined>(undefined);
     const [location, setLocation] = useState<string>("");
+    const [activeCat, setActiveCat] = useState("");
     const [catergoryInputValue, setCatergoryInputValue] = useState<string>("");
     const [adultsCount, setAdultsCount] = useState<number>(1);
     const [childrenCount, setChildrenCount] = useState<number>(0);
@@ -86,7 +89,9 @@ const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
         catergoryInputValue,
         setCatergoryInputValue,
         locationObject,
-        setLocationObject
+        setLocationObject,
+        activeCat,
+        setActiveCat
     };
 
 

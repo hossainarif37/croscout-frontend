@@ -8,8 +8,7 @@ import { useSearchContext } from "@/providers/SearchProvider";
 import { searchProperties } from "@/utils/filterProperties";
 
 export default function CategoryList() {
-    const [activeCat, setActiveCat] = useState("");
-    const { setCatergoryInputValue, location, setFilteredProperty } = useSearchContext();
+    const { setCatergoryInputValue, location, activeCat, setActiveCat, setFilteredProperty } = useSearchContext();
 
     const CustomPrevArrow = (props: any) => (
         <div
@@ -79,10 +78,12 @@ export default function CategoryList() {
                         onClick={() => {
                             setActiveCat(item.name);
                             setCatergoryInputValue(item.name)
-                            setFilteredProperty(searchProperties({
+                            const categoryClick = setFilteredProperty(searchProperties({
                                 location,
                                 propertyType: item.name
                             }))
+
+
                         }}
                         className="px-2"
                     >

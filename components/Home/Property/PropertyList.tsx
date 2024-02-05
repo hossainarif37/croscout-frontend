@@ -9,7 +9,7 @@ import ClearSearchButton from "@/components/ui/buttons/ClearSearchButton";
 import { clearSearchInputValue } from "@/utils/filterProperties";
 
 const PropertyList = () => {
-    const { filteredProperty, setFilteredProperty, isSearchBtnClicked, setIsSearchBtnClicked, setLocation, catergoryInputValue, locationObject, setLocationObject } = useSearchContext();
+    const { filteredProperty, setFilteredProperty, isSearchBtnClicked, setIsSearchBtnClicked, setActiveCat, catergoryInputValue, setCatergoryInputValue } = useSearchContext();
 
     if (isSearchBtnClicked && filteredProperty.length < 1) {
         return <div className="flex flex-col lg:pb-60 lg:pt-20 pt-10 pb-20 items-center">
@@ -17,6 +17,9 @@ const PropertyList = () => {
             <ClearSearchButton onClick={() => {
                 setIsSearchBtnClicked(false);
                 clearSearchInputValue();
+                setCatergoryInputValue('');
+                setActiveCat('')
+
             }} />
         </div>
     }
@@ -32,7 +35,8 @@ const PropertyList = () => {
                     onClick={() => {
                         setIsSearchBtnClicked(false);
                         setFilteredProperty([]);
-                        clearSearchInputValue();
+                        setCatergoryInputValue('');
+                        setActiveCat('')
                     }}
                 /></div>
             }
