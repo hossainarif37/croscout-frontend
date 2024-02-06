@@ -10,19 +10,33 @@ import { useSearchContext } from "@/providers/SearchProvider";
 import { format } from "date-fns";
 import { searchProperties } from "@/utils/filterProperties";
 import { goToSpecificSection } from "@/utils/goToSpecificSection";
+import { calculateDuration } from "@/utils/calculateDuration";
+import AddSearchValueBtn from "../ui/buttons/AddSearchValueBtn";
+import '../ui/buttons/addSearchValueBtn.css'
+import { MdLocationOn } from "react-icons/md";
 
 const HeroSearchForm = () => {
     const { setCalenderModal, setGuestModal, setLocationModal } = useModalContext();
     const { childrenCount, adultsCount, searchCalDate, location, setLocation, setFilteredProperty, isSearchBtnClicked, setIsSearchBtnClicked } = useSearchContext();
 
+    // Selection Date formatted
+    const formattedStartDate = format(searchCalDate[0].startDate, "MMM dd, yyyy");
+    const formattedEndDate = format(searchCalDate[0].endDate, "MMM dd, yyyy");
+
+    // Use calculateDuration function to get the duration
+    const duration = calculateDuration(searchCalDate[0].startDate, searchCalDate[0].endDate);
+
+    // Guest Calculation
+    let guests = childrenCount + adultsCount;
+
 
     return (
+
+        // Search Submission 
         <form onSubmit={(e) => {
             e.preventDefault();
             goToSpecificSection('filter-section')
-            const formattedStartDate = format(searchCalDate[0].startDate, "MMM dd, yyyy");
-            const formattedEndDate = format(searchCalDate[0].endDate, "MMM dd, yyyy");
-            let guests = childrenCount + adultsCount;
+
             setIsSearchBtnClicked(true);
             setFilteredProperty(searchProperties({
                 location,
@@ -32,17 +46,35 @@ const HeroSearchForm = () => {
             }));
         }}>
             {/* Search Label */}
-            <div className="flex select-none  justify-center absolute left-0 right-0 -top-10">
-                <label
-                    htmlFor="search-location"
-                    className="flex py-4 md:py-7 hover:shadow-2xl cursor-pointer rounded-full active:scale-[.99] duration-200 text-white bg-primary text-sm md:text-lg "
+            <div className="flex select-none  justify-center absolute left-0 right-0 md:-top-10 -top-14">
+                <div
+                    className="flex py-2 px-2 cursor-pointer rounded-full active:scale-[.99] duration-200 text-white bg-primary text-sm md:text-lg "
                 >
-                    <div className="px-5 md:px-[2.875rem]">Anywhere</div>
-                    <div className="px-5 md:px-[2.875rem] border-x border-[#a9a9a9]">
-                        Any week
-                    </div>
-                    <div className="px-5 md:px-[2.875rem]">Add guests</div>
-                </label>
+                    {/* Add Location */}
+                    <AddSearchValueBtn
+                        id="add-location"
+                        onClick={() => setLocationModal(true)}
+                    >
+                        {location ? location : 'Anywhere'}
+                    </AddSearchValueBtn>
+
+                    {/* Add Dates */}
+                    <AddSearchValueBtn
+                        id="add-dates"
+                        isBorderX={true}
+                        onClick={() => setCalenderModal(true)}
+                    >
+                        {duration !== '0 week' ? duration : 'Any week'}
+                    </AddSearchValueBtn>
+
+                    {/* Add Guests */}
+                    <AddSearchValueBtn
+                        id="add-guests"
+                        onClick={() => setGuestModal(true)}
+                    >
+                        {guests ? (`${guests} ${guests === 1 ? 'guest' : 'guests'}`) : 'Add guests'}
+                    </AddSearchValueBtn>
+                </div>
             </div>
 
             {/* Search Form Values */}
@@ -51,12 +83,12 @@ const HeroSearchForm = () => {
                 {/* location */}
                 <div
                     onClick={() => setLocationModal(true)}
-                    className="p-4 flex-between cursor-pointer mt-6 lg:mt-0 md:p-5 bg-transparent outline-none border border-white-50 focus:border-accent hover:border-accent placeholder:text-gray-300 rounded-[5px] w-full text-white"
-                    id="search-location"
+                    className="p-4 relative hover:border-accent duration-200 flex items-center gap-2 cursor-pointer mt-6 lg:mt-0 md:p-5 bg-transparent outline-none border border-white-50 placeholder:text-gray-300 rounded-[5px] w-full text-white"
                 >
+                    <MdLocationOn className="text-2xl" />
                     <span>{location ? location : 'Select Your Location'}</span>
                     {/* Down Arrow Button */}
-                    <FaChevronDown className={` ${heroStyles.downArrow} text-xl`} />
+                    <FaChevronDown className={`absolute ${heroStyles.downArrow} right-1 lg:right-4 text-xl`} />
                 </div>
 
 
@@ -68,6 +100,7 @@ const HeroSearchForm = () => {
                     <div
                         onClick={() => setCalenderModal(true)}
                         className={`${heroStyles.dateSelectionButton} col-span-2  lg:col-span-1 divide-x-2 py-3 bg-transparent border duration-100 rounded-[5px] grid grid-cols-2`}>
+
                         {/* Check In */}
                         <div className="flex  items-center gap-2 text-white px-2 lg:px-5 ">
                             <Image src="/icons/bookingIcon.svg" height={24} width={24} alt="img" />
@@ -84,8 +117,10 @@ const HeroSearchForm = () => {
                                 <div className="text-sm lg:text-base lg:leading-5">{format(searchCalDate[0].endDate, "MMM dd, yyyy")}</div>
                                 <div className="text-sm lg:text-base lg:leading-5">{format(searchCalDate[0].endDate, "EEEE")}</div>
                             </div>
+
                             {/* Down Arrow Button */}
                             <FaChevronDown className={`absolute ${heroStyles.downArrow} right-1 lg:right-4 text-xl`} />
+
                         </div>
 
                     </div>
@@ -124,8 +159,7 @@ const HeroSearchForm = () => {
             >
                 <button
                     className={`py-2 lg:py-[15px]  px-20
-                    rounded-[5px] border  duration-100   text-lg lg:text-2xl  ${!location ? 'bg-gray-700 text-gray-400 border-gray-700' : 'bg-primary border-white text-white font-semibold hover:border-accent'}`}
-                    disabled={!location}
+                    rounded-[5px] border  duration-100 cursor-pointer  bg-primary border-white text-white font-semibold hover:border-accent`}
 
                 >
                     Search

@@ -19,10 +19,18 @@ const CalenderModal = () => {
     return (
         <div className={`lg:fixed absolute z-50 w-full h-full bg-black bg-opacity-30 flex justify-center items-center top-0 right-0 ${calenderModal ? 'scale-100' : 'scale-0'}`}>
             <div className={`lg:w-[470px]  bg-white rounded-lg text-black relative py-5 px-10 duration-300 ${calenderModal ? 'scale-100' : 'scale-0'}`}>
-                {/* Close Modal */}
-                <div className="flex justify-end mb-5 text-4xl">
-                    <button onClick={() => setCalenderModal(false)}><IoIosCloseCircle /></button>
+                <div className="flex-between mb-5">
+                    <h1 className="text-center flex-1 text-xl font-semibold text-secondary ">Calendar</h1>
+                    <button
+                        onClick={() => setCalenderModal(false)}
+                        type="button" className="text-3xl text-primary">
+                        <IoIosCloseCircle />
+                    </button>
+
+
                 </div>
+                <hr className="my-5" />
+
 
                 <div className="full-width-date-range flex flex-col items-center w-full">
                     <DateRange
