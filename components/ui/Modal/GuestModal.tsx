@@ -35,7 +35,7 @@ const GuestModal = () => {
                     />
                 </div>
                 {/* Close Modal */}
-                <button className="w-full bg-rose-500 py-3 mt-10 rounded-full text-white hover:bg-rose-400 duration-100" onClick={() => setGuestModal(false)}>Continue</button>
+                <button className="w-full bg-rose-500 select-none py-3 mt-10 rounded-full text-white hover:bg-rose-400 duration-100" onClick={() => setGuestModal(false)}>Continue</button>
             </div>
         </div>
     )
