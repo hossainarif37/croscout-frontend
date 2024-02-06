@@ -454,3 +454,17 @@ export const locations = [
     'Vineyard Valley',
     'Dhaka City',
 ]
+
+
+export const languages = [
+    "German",
+    "Croatian",
+    "English",
+    "Polish",
+    "Czech",
+    "Russian",
+    "Swedish",
+    "Norway",
+    "Slovak",
+    "Dutch"
+];
