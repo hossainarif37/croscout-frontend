@@ -21,10 +21,12 @@ type FilteredProperty = Property[] | [];
 export interface SearchContextProps {
     searchCalDate: DateRange[];
     setSearchCalDate: Dispatch<SetStateAction<DateRange[]>>;
-    locationObject?: CountrySelectValue;
-    setLocationObject: Dispatch<SetStateAction<CountrySelectValue>>;
+    location: string;
+    setLocation: Dispatch<SetStateAction<string>>;
     adultsCount: number;
     setAdultsCount: Dispatch<SetStateAction<number>>;
+    locationObject?: CountrySelectValue;
+    setLocationObject: Dispatch<SetStateAction<CountrySelectValue>>;
     childrenCount: number;
     setChildrenCount: Dispatch<SetStateAction<number>>;
     isSearchBtnClicked: boolean;
@@ -35,12 +37,8 @@ export interface SearchContextProps {
     setSearchDisable: Dispatch<SetStateAction<boolean>>,
     catergoryInputValue: string;
     setCatergoryInputValue: Dispatch<SetStateAction<string>>;
-    location: string;
-    setLocation: Dispatch<SetStateAction<string>>;
     activeCat: string;
     setActiveCat: Dispatch<SetStateAction<string>>;
-
-
 }
 
 const SearchContext = createContext<SearchContextProps | null>(null);

@@ -1,85 +1,96 @@
-export const propertyTypeCategory = [
+export const multiCategory = [
     {
         title: "Popular",
         subCats: [
             {
-                title: "Canmore",
+                title: "Istria",
                 link: "",
             },
             {
-                title: "Benalmádena",
+                title: "Primorje",
                 link: "",
             },
             {
-                title: "Marbella",
+                title: "Lika-senj",
                 link: "",
             },
             {
-                title: "Mijas",
+                title: "Zadar",
                 link: "",
             },
             {
-                title: "Prescott",
+                title: "Sibenik-Knin",
                 subCat: "Cabin rentals",
                 link: "",
             },
             {
-                title: "Scottsdale",
+                title: "Split-Dalmatia",
                 subCat: "House rentals",
                 link: "",
             },
             {
-                title: "Tucson",
+                title: "Dubrovnik-Neretva",
                 link: "",
             },
             {
-                title: "Jasper",
+                title: "Karlovac",
                 link: "",
             },
             {
-                title: "Mountain View",
+                title: "Zagreb County",
                 link: "",
             },
             {
-                title: "Devonport",
+                title: "City of Zagreb",
                 link: "",
             },
             {
-                title: "Mallacoota",
+                title: "Krapina-Zagorje",
                 subCat: "Pet-friendly rentals",
                 link: "",
             },
             {
-                title: "Ibiza",
+                title: "Varazdin",
                 subCat: "Apartment rentals",
                 link: "",
             },
             {
-                title: "Anaheim",
+                title: "Koprivnica-Krizevci",
                 link: "",
             },
             {
-                title: "Benalmádena",
+                title: "Bjelovar-Bilogora",
                 link: "",
             },
             {
-                title: "Monterey",
+                title: "Virovitica-Podravina",
                 link: "",
             },
             {
-                title: "Paso Robles",
+                title: "Pozega-Slavonia",
                 link: "",
             },
             {
-                title: "Santa Barbara",
-                subCat: "Beach house rentals",
+                title: "Brod Posavina",
+                subCat: "",
                 link: "",
             },
             {
-                title: "Show more",
+                title: "Osijek-Baranja",
+                subCat: "",
                 link: "",
-                isArrow: true,
             },
+            {
+                title: "Vukovar-Srijem",
+                subCat: "",
+                link: "",
+            },
+            {
+                title: "Medimurje",
+                subCat: "",
+                link: "",
+            }
+
         ],
     },
     {
@@ -443,3 +454,17 @@ export const locations = [
     'Vineyard Valley',
     'Dhaka City',
 ]
+
+
+export const languages = [
+    "German",
+    "Croatian",
+    "English",
+    "Polish",
+    "Czech",
+    "Russian",
+    "Swedish",
+    "Norway",
+    "Slovak",
+    "Dutch"
+];

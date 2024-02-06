@@ -22,12 +22,12 @@ const LocationModal = () => {
         <div className={`fixed z-50 w-full h-full bg-black bg-opacity-30 flex justify-center items-center top-0 right-0 ${locationModal ? 'scale-100' : 'scale-0'}`}>
             <div className={`lg:w-[650px] bg-white rounded-lg text-black relative p-5 duration-300 ${locationModal ? 'scale-100' : 'scale-0'}`}>
                 <div className="flex-between mb-5">
+                    <h1 className="text-center flex-1 text-xl font-semibold text-secondary ">Location</h1>
                     <button
                         onClick={() => setLocationModal(false)}
                         type="button" className="text-3xl text-primary">
                         <IoIosCloseCircle />
                     </button>
-                    <h1 className="text-center flex-1 text-xl font-semibold text-secondary ">Location</h1>
 
                 </div>
                 <hr />

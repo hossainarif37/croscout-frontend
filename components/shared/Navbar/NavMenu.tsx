@@ -8,18 +8,25 @@ import { useState } from "react";
 import { FaUser, FaUserCircle } from "react-icons/fa";
 import navbarStyles from "./navbar.module.css"
 import { useToggleContext } from "@/providers/ToggleProvider";
+import { useModalContext } from "@/providers/ModalProvider";
+import { useLocalizationContext } from "@/providers/LocalizationContext";
+import { useSelectedLanguage } from "@/hooks/useSelectedLanguage";
 
 
 const NavMenu = () => {
     const [currentUser, setCurrent] = useState(false);
     const { navUserToggle, setNavUserToggle } = useToggleContext();
+    const { languageModal, setLanguageModal } = useModalContext();
+    const { selectedLanguage } = useLocalizationContext();
     return (
         <ul className={`hidden md:flex items-center font-bold gap-7 text-[#f5f5f5] ${navbarStyles.navMenu}`}>
             <li><Link href="/croscout-your-home">Croscout Your Home</Link></li>
             <li>
-                <Link href="/translation" className="flex-center space-x-2">
+                <Link
+                    onClick={() => setLanguageModal(true)}
+                    href={''} className="flex-center space-x-2">
                     <span><VscGlobe /> </span>
-                    <span>English (Us)</span>
+                    <span>{selectedLanguage ? selectedLanguage : 'English'}</span>
                 </Link>
             </li>
             <li><Link href="/currency">$USD</Link></li>

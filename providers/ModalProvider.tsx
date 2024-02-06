@@ -2,6 +2,7 @@
 
 import { createContext, ReactNode, useContext, useState } from "react";
 
+// Interface of Modal Context Props
 interface ModalContextProps {
     loginModal: boolean;
     setLoginModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -13,8 +14,11 @@ interface ModalContextProps {
     setGuestModal: React.Dispatch<React.SetStateAction<boolean>>;
     locationModal: boolean;
     setLocationModal: React.Dispatch<React.SetStateAction<boolean>>;
+    languageModal: boolean;
+    setLanguageModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+// Created Context
 const ModalContext = createContext<ModalContextProps | null>(null);
 
 interface ModalProviderProps {
@@ -22,12 +26,16 @@ interface ModalProviderProps {
 }
 
 const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
+
+    //* States
     const [loginModal, setLoginModal] = useState(false);
     const [signupModal, setSignupModal] = useState(false);
     const [calenderModal, setCalenderModal] = useState(false);
     const [guestModal, setGuestModal] = useState(false);
     const [locationModal, setLocationModal] = useState(false);
+    const [languageModal, setLanguageModal] = useState(false);
 
+    // Context Values
     const contextValue: ModalContextProps = {
         loginModal,
         setLoginModal,
@@ -38,7 +46,9 @@ const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
         guestModal,
         setGuestModal,
         locationModal,
-        setLocationModal
+        setLocationModal,
+        languageModal,
+        setLanguageModal
     };
 
     return (

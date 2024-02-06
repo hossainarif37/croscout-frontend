@@ -13,6 +13,8 @@ import CalenderModal from "@/components/ui/Modal/CalenderModal";
 import GuestModal from "@/components/ui/Modal/GuestModal";
 import { SearchProvider } from "@/providers/SearchProvider";
 import LocationModal from "@/components/ui/Modal/LocationModal";
+import LanguageModal from "@/components/ui/Modal/LanguageModal";
+import { LocalizationProvider } from "@/providers/LocalizationContext";
 
 const onest = Onest({
   subsets: ["latin"],
@@ -33,27 +35,31 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${onest.className} bg-primary`}>
-        <SearchProvider>
-          <ModalProvider>
-            <ToggleProvider>
+        <LocalizationProvider>
+          <SearchProvider>
+            <ModalProvider>
+              <ToggleProvider>
 
-              {/* Login */}
-              <LoginModal />
-              <SignupModal />
-              <LocationModal />
-              <CalenderModal />
-              <GuestModal />
+                {/* Modals */}
+                <LoginModal />
+                <SignupModal />
+                <LocationModal />
+                <CalenderModal />
+                <GuestModal />
+                <LanguageModal />
 
-              <div className="flex h-screen flex-col ">
-                <Navbar />
-                <main className="flex-1">
-                  {children}
-                </main>
-                <Footer />
-              </div>
-            </ToggleProvider>
-          </ModalProvider>
-        </SearchProvider>
+
+                <div className="flex h-screen flex-col ">
+                  <Navbar />
+                  <main className="flex-1">
+                    {children}
+                  </main>
+                  <Footer />
+                </div>
+              </ToggleProvider>
+            </ModalProvider>
+          </SearchProvider>
+        </LocalizationProvider>
       </body>
     </html>
   );
