@@ -7,7 +7,7 @@
 }
 
 .navUserMenu{
-    @apply bg-white w-56 shadow-lg p-1 right-0 absolute duration-200  border border-primary z-50  top-[65px] rounded-lg origin-top flex flex-col  gap-y-3
+    @apply bg-white w-56 shadow-lg p-1 right-0 absolute duration-200  border border-primary z-50  md:top-[65px] top-[42px] rounded-lg origin-top flex flex-col  gap-y-3
 }
 
 .navUserMenu button {

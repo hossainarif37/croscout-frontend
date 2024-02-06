@@ -4,6 +4,8 @@ import NavLogo from "./NavLogo";
 import NavMenu from "./NavMenu";
 import navbarStyles from "./navbar.module.css"
 import { useModalContext } from "@/providers/ModalProvider";
+import { AiOutlineMenu } from "react-icons/ai";
+import { IoIosCloseCircle } from "react-icons/io";
 
 const Navbar = () => {
     const { navUserToggle, setNavUserToggle } = useToggleContext();
@@ -15,8 +17,16 @@ const Navbar = () => {
                 {/* Logo */}
                 <NavLogo />
 
-                {/* NavMenu */}
+                {/* NavMenu - Visible for Version */}
                 <NavMenu />
+
+                {/* Menu Button - Visible for Mobile Version */}
+                <button
+                    onClick={() => setNavUserToggle((prev) => !prev)}
+                    className="block md:hidden text-white select-none text-2xl">
+                    {navUserToggle ? <IoIosCloseCircle /> : <AiOutlineMenu color="white" />}
+                </button>
+
 
                 {/* User Menu Dropdown */}
                 <ul className={`${navbarStyles.navUserMenu} ${navUserToggle ? "scale-y-100" : "scale-y-0"}`}>

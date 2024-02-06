@@ -7,7 +7,7 @@ const NavLogo = () => {
     const router = useRouter();
 
     return (
-        <div className="h-[24px] md:h-[48px] w-[336px] relative">
+        <div className="h-[24px] md:h-[48px] md:w-[336px] w-[200px] relative">
             <Image
                 onClick={() => router.push("/")}
                 className="cursor-pointer"

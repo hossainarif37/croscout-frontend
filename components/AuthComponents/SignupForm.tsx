@@ -7,7 +7,7 @@ const SignupForm = () => {
     const { setLoginModal, setSignupModal } = useModalContext();
 
     return (
-        <div className="w-full relative max-w-md p-8 space-y-3 bg-white  font-sans mx-auto">
+        <div className="w-full relative max-w-md p-8 md:px-8 px-0 space-y-3 bg-white  font-sans mx-auto">
             <button onClick={() => setSignupModal(false)} className="absolute hover:text-primary top-0 right-0 text-4xl"><IoIosCloseCircle /></button>
             <h1 className="text-3xl font-bold text-center text-secondary">Signup</h1>
 

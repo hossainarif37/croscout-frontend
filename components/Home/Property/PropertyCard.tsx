@@ -95,6 +95,7 @@ export default function PropertyCard({ property }: Property & any) {
             </div>
             <div className="absolute z-10 top-5 right-5 cursor-pointer" onClick={() => setIsFav(!isFav)}>
                 <Image src={isFav ? FavFilled : FavOutline} alt="" />
+
             </div>
         </div>
     );

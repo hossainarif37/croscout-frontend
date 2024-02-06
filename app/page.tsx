@@ -5,6 +5,7 @@ import MultiCategory from "@/components/Home/MultiCategory";
 import PropertyList from "@/components/Home/Property/PropertyList";
 
 export default function Home() {
+
   return (
     <>
       <Hero />
