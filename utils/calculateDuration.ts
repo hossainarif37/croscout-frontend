@@ -1,7 +1,7 @@
 import { differenceInDays, differenceInMonths, differenceInWeeks } from 'date-fns';
 
 // Function to calculate the duration in terms of weeks and days or months and days
-export const calculateDuration = (startDate, endDate) => {
+export const calculateDuration = (startDate: any, endDate: any) => {
     const daysDifference = differenceInDays(endDate, startDate);
     const weeksDifference = differenceInWeeks(endDate, startDate);
     const monthsDifference = differenceInMonths(endDate, startDate);
