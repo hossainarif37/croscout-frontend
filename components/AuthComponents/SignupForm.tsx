@@ -2,34 +2,48 @@
 
 import { useModalContext } from "@/providers/ModalProvider";
 import { IoIosCloseCircle } from "react-icons/io";
+import { useForm, SubmitHandler } from "react-hook-form"
 
+type Inputs = {
+    name: string
+    email: string
+    password: string
+}
 const SignupForm = () => {
     const { setLoginModal, setSignupModal } = useModalContext();
+    const { register, handleSubmit, watch, formState: { errors }, } = useForm<Inputs>()
 
+    // handle signup submit
+    const onSubmit: SubmitHandler<Inputs> = (data) => {
+        console.log(data);
+    }
     return (
         <div className="w-full relative max-w-md p-8 md:px-8 px-0 space-y-3 bg-white  font-sans mx-auto">
             <button onClick={() => setSignupModal(false)} className="absolute hover:text-primary top-0 right-0 text-4xl"><IoIosCloseCircle /></button>
             <h1 className="text-3xl font-bold text-center text-secondary">Signup</h1>
 
             {/* Input fields and the form started */}
-            <form action="" className="space-y-6">
+            <form onSubmit={handleSubmit(onSubmit)} action="" className="space-y-6">
                 <div className="space-y-2 text-sm">
-                    <label htmlFor="username" className="block ">
+                    <label htmlFor="name" className="block ">
                         Your Name
                     </label>
-                    <input type="name" name="name" id="name" placeholder="Name" className="w-full px-4 py-3 rounded-md border border-indigo-300 focus:outline-none " />
+                    <input {...register("name", { required: true })} type="name" name="name" id="name" placeholder="Name" className="w-full px-4 py-3 rounded-md border border-indigo-300 focus:outline-none " />
+                    {errors.name && <span>Include your name.</span>}
                 </div>
                 <div className="space-y-2 text-sm">
-                    <label htmlFor="username" className="block ">
+                    <label htmlFor="email" className="block ">
                         Your Email
                     </label>
-                    <input type="email" name="email" id="email" placeholder="Email" className="w-full px-4 py-3 rounded-md border border-indigo-300 focus:outline-none " />
+                    <input {...register("email", { required: true })} type="email" name="email" id="email" placeholder="Email" className="w-full px-4 py-3 rounded-md border border-indigo-300 focus:outline-none " />
+                    {errors.email && <span>Include your email.</span>}
                 </div>
                 <div className="space-y-2 text-sm">
                     <label htmlFor="password" className="block ">
                         Password
                     </label>
-                    <input type="password" name="password" id="password" placeholder="Password" className="w-full px-4 py-3 rounded-md border border-indigo-300 focus:outline-none  " />
+                    <input {...register("password", { required: true })} type="password" name="password" id="password" placeholder="Password" className="w-full px-4 py-3 rounded-md border border-indigo-300 focus:outline-none  " />
+                    {errors.password && <span>Include a password.</span>}
                     <div className="flex justify-end text-xs ">
                         <a href="#" className="hover:underline">
                             Forgot Password?
@@ -37,8 +51,8 @@ const SignupForm = () => {
                     </div>
                 </div>
                 {/* Sign in Button */}
-                <button type="button" className="text-lg rounded-xl relative p-[10px] block w-full bg-rose-500 hover:bg-rose-400 text-white duration-200 overflow-hidden active:bg-rose-400 z-50">
-                    Log In
+                <button type="submit" className="text-lg rounded-xl relative p-[10px] block w-full bg-rose-500 hover:bg-rose-400 text-white duration-200 overflow-hidden active:bg-rose-400 z-50">
+                    Register
                 </button>
             </form>
             <div className="flex items-center pt-4 space-x-2">
