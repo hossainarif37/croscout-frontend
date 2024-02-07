@@ -18,7 +18,7 @@ const LoginForm = () => {
         console.log(data);
     }
     return (
-        <div className="w-full relative max-w-md p-8 px-0 md:px-8 space-y-3 bg-white  font-sans mx-auto">
+        <div className="w-full relative max-w-xl p-8 px-0 md:px-8 space-y-3 bg-white  font-sans mx-auto">
             <button onClick={() => setLoginModal(false)} className="absolute hover:text-primary top-0 right-0 text-4xl"><IoIosCloseCircle /></button>
             <h1 className="text-3xl font-bold text-center text-secondary">Login</h1>
 

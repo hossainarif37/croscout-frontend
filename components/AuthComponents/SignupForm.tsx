@@ -4,17 +4,23 @@ import { useModalContext } from "@/providers/ModalProvider";
 import { IoIosCloseCircle } from "react-icons/io";
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useState } from "react";
+import { registerUser } from "@/lib/registerUser";
+import toast from "react-hot-toast";
+import { ImSpinner9 } from "react-icons/im";
+
 
 type Inputs = {
     name: string
     email: string
     password: string
     taxNumber: string
+    role: string
 }
 const SignupForm = () => {
     const { setLoginModal, setSignupModal } = useModalContext();
     const { register, unregister, handleSubmit, watch, formState: { errors }, } = useForm<Inputs>()
     const [isAgent, setIsAgent] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const adminRequestToggle = (checked: boolean) => {
         if (checked) {
@@ -27,11 +33,32 @@ const SignupForm = () => {
     }
 
     // handle signup submit
-    const onSubmit: SubmitHandler<Inputs> = (data) => {
-        console.log(data);
+    const onSubmit: SubmitHandler<Inputs> = async (data) => {
+        try {
+            setIsLoading(true)
+            if (isAgent) {
+                data.role = "agent"
+            }
+            else {
+                data.role = "user"
+            }
+            const dbResponse = await registerUser({ data });
+            if (dbResponse?.success) {
+                toast.success(dbResponse?.message);
+
+            }
+            else {
+                toast.error(dbResponse?.error);;
+            }
+            setIsLoading(false)
+        } catch (error) {
+            setIsLoading(false)
+            console.log(error);
+        }
     }
+
     return (
-        <div className="w-full relative max-w-md p-8 md:px-8 px-0 space-y-3 bg-white  font-sans mx-auto">
+        <div className=" relative max-w-xl w-full p-8 md:px-8 px-0 space-y-3 bg-white  font-sans mx-auto">
             <button onClick={() => setSignupModal(false)} className="absolute hover:text-primary top-0 right-0 text-4xl"><IoIosCloseCircle /></button>
             <h1 className="text-3xl font-bold text-center text-secondary">Signup</h1>
 
@@ -68,13 +95,18 @@ const SignupForm = () => {
                         {errors.taxNumber && <span>Include a Tax Number.</span>}
                     </div>
                 }
-                <div>
+                <div className="flex gap-1 items-center">
                     <input onChange={(e) => adminRequestToggle(e.target.checked)} type="checkbox" id="isAgent" name="isAgent" value="agent" />
-                    <label htmlFor="isAgent" className="ml-2">Register as a agent</label>
+                    <label htmlFor="isAgent" className="">Register as an agent.</label>
                 </div>
                 {/* Sign in Button */}
-                <button type="submit" className="text-lg rounded-xl relative p-[10px] block w-full bg-rose-500 hover:bg-rose-400 text-white duration-200 overflow-hidden active:bg-rose-400 z-50">
-                    Register
+                <button type="submit" className="text-lg flex items-center justify-center rounded-xl relative  py-2 h-[52px] w-full bg-rose-500 hover:bg-rose-400 text-white duration-200 overflow-hidden active:bg-rose-400 z-50 font-semibold">
+                    {
+                        isLoading ?
+                            <ImSpinner9 className="animate-spin text-[26px]"></ImSpinner9>
+                            :
+                            "Register"
+                    }
                 </button>
             </form>
             <div className="flex items-center pt-4 space-x-2">

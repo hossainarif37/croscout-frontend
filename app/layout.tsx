@@ -15,6 +15,7 @@ import { SearchProvider } from "@/providers/SearchProvider";
 import LocationModal from "@/components/ui/Modal/LocationModal";
 import LanguageModal from "@/components/ui/Modal/LanguageModal";
 import { LocalizationProvider } from "@/providers/LocalizationContext";
+import { Toaster } from "react-hot-toast";
 
 const onest = Onest({
   subsets: ["latin"],
@@ -39,7 +40,10 @@ export default function RootLayout({
           <SearchProvider>
             <ModalProvider>
               <ToggleProvider>
-
+                <Toaster
+                  position="top-center"
+                  reverseOrder={false}
+                />
                 {/* Modals */}
                 <LoginModal />
                 <SignupModal />
