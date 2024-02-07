@@ -20,14 +20,32 @@ const HeroSearchForm = () => {
     const { childrenCount, adultsCount, searchCalDate, location, setLocation, setFilteredProperty, isSearchBtnClicked, setIsSearchBtnClicked } = useSearchContext();
 
     // Selection Date formatted
-    const formattedStartDate = format(searchCalDate[0].startDate, "MMM dd, yyyy");
-    const formattedEndDate = format(searchCalDate[0].endDate, "MMM dd, yyyy");
+    // const formattedStartDate = format(searchCalDate[0].startDate, "MMM dd, yyyy");
+    // const formattedEndDate = format(searchCalDate[0].endDate, "MMM dd, yyyy");
+    let formattedStartDate: any;
+
+    let formattedEndDate: any;
+
+    if (searchCalDate[0].startDate && searchCalDate[0].endDate) {
+        const startDate = new Date(searchCalDate[0].startDate);
+        const endDate = new Date(searchCalDate[0].endDate);
+        formattedStartDate = format(startDate, "MMM dd, yyyy");
+        formattedEndDate = format(endDate, "MMM dd, yyyy");
+    }
+
+
+    // const formattedStartDate = format(new Date(searchCalDate[0].startDate), "MMM dd, yyyy");
+    // const formattedEndDate = format(new Date(searchCalDate[0].endDate), "MMM dd, yyyy");
+
 
     // Use calculateDuration function to get the duration
     const duration = calculateDuration(searchCalDate[0].startDate, searchCalDate[0].endDate);
 
     // Guest Calculation
     let guests = childrenCount + adultsCount;
+
+
+
 
 
     return (
@@ -72,7 +90,7 @@ const HeroSearchForm = () => {
                         id="add-guests"
                         onClick={() => setGuestModal(true)}
                     >
-                        {guests ? (`${guests} ${guests === 1 ? 'guest' : 'guests'}`) : 'Add guests'}
+                        {guests ? (`${guests} ${guests === 1 ? 'Guest' : 'Guests'}`) : 'Add guests'}
                     </AddSearchValueBtn>
                 </div>
             </div>
@@ -105,17 +123,49 @@ const HeroSearchForm = () => {
                         <div className="flex  items-center gap-2 text-white px-2 lg:px-5 ">
                             <Image src="/icons/bookingIcon.svg" height={24} width={24} alt="img" />
                             <div className="lg:leading-5">
-                                <div className="text-sm lg:text-base lg:leading-5">{format(searchCalDate[0].startDate, "MMM dd, yyyy")}</div>
-                                <div className="text-sm lg:text-base lg:leading-5">{format(searchCalDate[0].startDate, "EEEE")}</div>
+                                {
+                                    searchCalDate && searchCalDate[0] && searchCalDate[0].startDate ? (
+                                        <>
+                                            <div className="text-sm lg:text-base lg:leading-5">
+                                                {format(new Date(searchCalDate[0].startDate), "MMM dd, yyyy")}
+                                            </div>
+                                            <div className="text-sm lg:text-base lg:leading-5">
+                                                {format(new Date(searchCalDate[0].startDate), "EEEE")}
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <div className="text-sm lg:text-base lg:leading-5">Check in</div>
+                                            <div className="text-sm lg:leading-5 text-gray-300">Add dates</div>
+                                        </>
+                                    )
+                                }
                             </div>
+
                         </div>
 
                         {/* Check Out */}
                         <div className="flex items-center gap-2 text-white px-2 lg:px-5  relative">
                             <Image src="/icons/bookingIcon.svg" height={24} width={24} alt="img" />
                             <div>
-                                <div className="text-sm lg:text-base lg:leading-5">{format(searchCalDate[0].endDate, "MMM dd, yyyy")}</div>
-                                <div className="text-sm lg:text-base lg:leading-5">{format(searchCalDate[0].endDate, "EEEE")}</div>
+                                {
+                                    searchCalDate && searchCalDate[0] && searchCalDate[0].startDate ? (
+                                        <>
+                                            <div className="text-sm lg:text-base lg:leading-5">
+                                                {format(new Date(searchCalDate[0].endDate), "MMM dd, yyyy")}
+                                            </div>
+                                            <div className="text-sm lg:text-base lg:leading-5">
+                                                {format(new Date(searchCalDate[0].endDate), "EEEE")}
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <div className="text-sm lg:text-base lg:leading-5">Check out</div>
+                                            <div className="text-sm lg:leading-5 text-gray-300">Add dates</div>
+                                        </>
+                                    )
+                                }
+
                             </div>
 
                             {/* Down Arrow Button */}

@@ -4,7 +4,9 @@ const Hero = () => {
     return (
         <section
             className=" bg-white bg-cover bg-no-repeat pt-10 lg:pt-[8.125rem] lg:h-[35.56rem] pb-20 lg:pb-0 px-2 lg:px-0"
-            style={{ backgroundImage: `url(/images/hero-bg.png)` }}
+            style={{
+                backgroundImage: `url(/images/hero-bg.png)`
+            }}
         >
             <h1
                 className="text-3xl lg:text-4xl select-none lg:text-[3.5rem] font-extrabold text-white text-center mt-0 lg:mt-5 mb-5"
