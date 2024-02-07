@@ -3,15 +3,28 @@
 import { useModalContext } from "@/providers/ModalProvider";
 import { IoIosCloseCircle } from "react-icons/io";
 import { useForm, SubmitHandler } from "react-hook-form"
+import { useState } from "react";
 
 type Inputs = {
     name: string
     email: string
     password: string
+    taxNumber: string
 }
 const SignupForm = () => {
     const { setLoginModal, setSignupModal } = useModalContext();
-    const { register, handleSubmit, watch, formState: { errors }, } = useForm<Inputs>()
+    const { register, unregister, handleSubmit, watch, formState: { errors }, } = useForm<Inputs>()
+    const [isAgent, setIsAgent] = useState(false);
+
+    const adminRequestToggle = (checked: boolean) => {
+        if (checked) {
+            setIsAgent(true);
+            register("taxNumber", { required: true });
+        } else {
+            setIsAgent(false);
+            unregister("taxNumber");
+        }
+    }
 
     // handle signup submit
     const onSubmit: SubmitHandler<Inputs> = (data) => {
@@ -44,11 +57,20 @@ const SignupForm = () => {
                     </label>
                     <input {...register("password", { required: true })} type="password" name="password" id="password" placeholder="Password" className="w-full px-4 py-3 rounded-md border border-indigo-300 focus:outline-none  " />
                     {errors.password && <span>Include a password.</span>}
-                    <div className="flex justify-end text-xs ">
-                        <a href="#" className="hover:underline">
-                            Forgot Password?
-                        </a>
+                </div>
+                {
+                    isAgent &&
+                    <div className="space-y-2 text-sm">
+                        <label htmlFor="taxNumber" className="block ">
+                            Tax Number
+                        </label>
+                        <input {...register("taxNumber", { required: true })} type="text" name="taxNumber" id="taxNumber" placeholder="Tax Number" className="w-full px-4 py-3 rounded-md border border-indigo-300 focus:outline-none  " />
+                        {errors.taxNumber && <span>Include a Tax Number.</span>}
                     </div>
+                }
+                <div>
+                    <input onChange={(e) => adminRequestToggle(e.target.checked)} type="checkbox" id="isAgent" name="isAgent" value="agent" />
+                    <label htmlFor="isAgent" className="ml-2">Register as a agent</label>
                 </div>
                 {/* Sign in Button */}
                 <button type="submit" className="text-lg rounded-xl relative p-[10px] block w-full bg-rose-500 hover:bg-rose-400 text-white duration-200 overflow-hidden active:bg-rose-400 z-50">
