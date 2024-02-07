@@ -72,7 +72,7 @@ const HeroSearchForm = () => {
                         id="add-guests"
                         onClick={() => setGuestModal(true)}
                     >
-                        {guests ? (`${guests} ${guests === 1 ? 'guest' : 'guests'}`) : 'Add guests'}
+                        {guests ? (`${guests} ${guests === 1 ? 'Guest' : 'Guests'}`) : 'Add guests'}
                     </AddSearchValueBtn>
                 </div>
             </div>

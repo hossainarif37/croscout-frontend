@@ -62,7 +62,7 @@ const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
     const [location, setLocation] = useState<string>("");
     const [activeCat, setActiveCat] = useState("");
     const [catergoryInputValue, setCatergoryInputValue] = useState<string>("");
-    const [adultsCount, setAdultsCount] = useState<number>(1);
+    const [adultsCount, setAdultsCount] = useState<number>(0);
     const [childrenCount, setChildrenCount] = useState<number>(0);
     const [isSearchBtnClicked, setIsSearchBtnClicked] = useState<boolean>(false);
     const [searchDisable, setSearchDisable] = useState<boolean>(true);
