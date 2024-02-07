@@ -4,9 +4,9 @@ import { useModalContext } from "@/providers/ModalProvider";
 import { IoIosCloseCircle } from "react-icons/io";
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useState } from "react";
-import { registerUser } from "@/lib/registerUser";
 import toast from "react-hot-toast";
 import { ImSpinner9 } from "react-icons/im";
+import { registerUser } from "@/lib/database/authUser";
 
 
 type Inputs = {
@@ -99,7 +99,7 @@ const SignupForm = () => {
                     <input onChange={(e) => adminRequestToggle(e.target.checked)} type="checkbox" id="isAgent" name="isAgent" value="agent" />
                     <label htmlFor="isAgent" className="">Register as an agent.</label>
                 </div>
-                {/* Sign in Button */}
+                {/* register Button */}
                 <button type="submit" className="text-lg flex items-center justify-center rounded-xl relative  py-2 h-[52px] w-full bg-rose-500 hover:bg-rose-400 text-white duration-200 overflow-hidden active:bg-rose-400 z-50 font-semibold">
                     {
                         isLoading ?
