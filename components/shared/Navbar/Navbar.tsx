@@ -10,26 +10,31 @@ import { useAuthContext } from "@/providers/AuthProvider";
 import { logoutUser } from "@/lib/database/authUser";
 import toast from "react-hot-toast";
 import { clearToken } from "@/utils/tokenStorage";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
     const { navUserToggle, setNavUserToggle } = useToggleContext();
     const { setLoginModal, setSignupModal } = useModalContext();
     const { user, setUser } = useAuthContext();
 
+    // navbar will be hidden if them pathname matches the include pathname
+    const pathname = usePathname();
+    const isNavbarHidden = /\/reset\/[^/]+$/.test(pathname) || /\/dashboard\/[^/]+$/.test(pathname);
+
     const handleLogout = async () => {
         try {
             // const dbResponse = await logoutUser();
             // if(dbResponse.isLogout){
-                toast.success("Successfully Logout")
-                setUser(null)
-                clearToken();
+            toast.success("Successfully Logout")
+            setUser(null)
+            clearToken();
             // }
         } catch (error) {
             console.log(error);
         }
     }
     return (
-        <nav id="topbar" className="py-5  bg-primary z-40 sticky top-0">
+        <nav hidden={isNavbarHidden} id="topbar" className="py-5  bg-primary z-40 sticky top-0">
             {/* Wrapper */}
             <div className="wrapper flex-between relative">
                 {/* Logo */}
