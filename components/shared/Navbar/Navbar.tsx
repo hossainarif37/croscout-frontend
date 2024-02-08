@@ -4,17 +4,19 @@ import NavLogo from "./NavLogo";
 import NavMenu from "./NavMenu";
 import navbarStyles from "./navbar.module.css"
 import { useModalContext } from "@/providers/ModalProvider";
-import { AiOutlineMenu } from "react-icons/ai";
+import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import { IoIosCloseCircle } from "react-icons/io";
 import Link from "next/link";
 import { useAuthContext } from "@/providers/AuthProvider";
 import { logoutUser } from "@/lib/database/authUser";
 import toast from "react-hot-toast";
 import { clearToken } from "@/utils/tokenStorage";
+import { HiMenuAlt1 } from "react-icons/hi";
 
 const Navbar = () => {
     const { navUserToggle, setNavUserToggle } = useToggleContext();
-    const { setLoginModal, setSignupModal } = useModalContext();
+    const { setLoginModal, setSignupModal, sidebarToggle,
+        setSidebarToggle } = useModalContext();
     const { user, setUser } = useAuthContext();
 
     const handleLogout = async () => {
@@ -29,10 +31,18 @@ const Navbar = () => {
             console.log(error);
         }
     }
+
     return (
         <nav id="topbar" className="py-5  bg-primary z-40 sticky top-0">
             {/* Wrapper */}
             <div className="wrapper flex-between relative">
+                <div className="text-white lg:hidden">
+                    <div
+                        onClick={() => setSidebarToggle((pre) => !pre)}
+                        className="text-2xl cursor-pointer block lg:hidden">
+                        {sidebarToggle ? <IoIosCloseCircle /> : <AiOutlineMenu color="white" />}
+                    </div>
+                </div>
                 {/* Logo */}
                 <NavLogo />
 
@@ -45,6 +55,7 @@ const Navbar = () => {
                     className="block md:hidden text-white select-none text-2xl">
                     {navUserToggle ? <IoIosCloseCircle /> : <AiOutlineMenu color="white" />}
                 </button>
+
 
 
                 {/* User Menu Dropdown */}

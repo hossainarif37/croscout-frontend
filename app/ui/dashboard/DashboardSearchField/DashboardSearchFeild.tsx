@@ -1,6 +1,6 @@
 "use client";
 import { usePathname } from "next/navigation";
-import styles from "./navbar.module.css";
+import styles from "./searchField.module.css";
 import {
     MdNotifications,
     MdOutlineChat,
@@ -8,7 +8,7 @@ import {
     MdSearch,
 } from "react-icons/md";
 
-const Navbar = () => {
+const DashboardSearchFeild = () => {
     const pathname = usePathname();
 
     return (
@@ -29,4 +29,4 @@ const Navbar = () => {
     );
 };
 
-export default Navbar;
+export default DashboardSearchFeild;
