@@ -20,6 +20,7 @@ import { useModalContext } from '@/providers/ModalProvider';
 
 export default function Sidebar() {
     // const { sidebarToggle } = useModalContext();
+    // console.log(sidebarToggle);
     const menuItems = [
         {
             title: "Pages",

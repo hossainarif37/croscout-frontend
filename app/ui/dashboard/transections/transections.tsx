@@ -14,7 +14,7 @@ const Transactions = () => {
             <td>Amount</td>
           </tr>
         </thead>
-        <tbody>
+        <tbody className={styles.tbody}>
           <tr>
             <td>
               <div className={styles.user}>

@@ -1,36 +1,13 @@
-/* .container{
-    display: flex;
-}
-
-.menu{
-   width: 300px;
-   background-color:var(--bgSoft);
-   padding: 20px;
-}
-.container{
-    flex: 1;
-}
-.contain{
-    flex: 4;
-    padding: 30px;
-}
-.cards {
-  display: flex;
-  gap: 20px;
-  justify-content: space-between;
-  margin: 20px 0px;
-} */
-
 .container {
     @apply flex bg-[#151c2c];
   }
   
   .menu {
-    @apply w-[300px] bg-[#182237] text-[#b7bac1] p-5;
+    @apply lg:w-[300px] bg-[#182237] text-[#b7bac1] lg:p-5;
   }
   
   .contain {
-    @apply flex-1 p-8;
+    @apply flex-1 lg:p-8 p-2;
   }
   
   .cards {

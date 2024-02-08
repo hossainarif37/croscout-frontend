@@ -4,7 +4,7 @@
 }
 
 .title {
-  @apply text-[#b7bac1] font-bold capitalize;
+  @apply text-[#b7bac1] font-bold capitalize lg:block hidden;
 }
 
 .menu {

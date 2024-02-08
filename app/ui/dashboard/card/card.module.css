@@ -1,6 +1,6 @@
 
 .container {
-  @apply bg-[#182237] p-5 rounded-lg lg:flex gap-5 cursor-pointer;
+  @apply bg-[#182237] p-5 rounded-lg lg:flex gap-5 cursor-pointer w-full;
   width: 100%;
 }
 

@@ -1,17 +1,6 @@
-/* .container {
-  height: 450px;
-  background-color: var(--bgSoft);
-  padding: 20px;
-  border-radius: 10px;
-}
 
-.title{
-  font-weight: 200;
-  color: var(--textSoft);
-  margin-bottom: 20px;
-} */
 .container {
-  @apply h-[450px] bg-[#182237] p-5 rounded-lg;
+  @apply lg:h-[450px] h-[300px] bg-[#182237] lg:p-5 rounded-lg;
 }
 
 .title {
