@@ -44,7 +44,7 @@ const SignupForm = () => {
             }
             const dbResponse = await registerUser({ data });
             if (dbResponse?.success) {
-                toast.success(dbResponse?.message);
+                toast.success(`${dbResponse?.message} Now Login with your credentials.`, {duration: 3000});
                 setSignupModal(false)
                 setLoginModal(true);
             }
