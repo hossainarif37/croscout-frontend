@@ -1,0 +1,40 @@
+
+.container {
+  @apply bg-[#182237] p-5 rounded-lg;
+}
+
+.title {
+  @apply mb-5 font-light text-[#182237];
+}
+
+.table {
+  @apply w-full;
+}
+
+.table td {
+  @apply p-3;
+}
+
+.user {
+  @apply flex items-center gap-3;
+}
+
+.userImage {
+  @apply rounded-full;
+}
+
+.status {
+  @apply rounded px-2 py-1 text-sm;
+}
+
+.pending {
+  @apply bg-[#f7cb7383];
+}
+
+.done {
+  @apply bg-[#afcfee83];
+}
+
+.cancelled {
+  @apply bg-[#f773737e];
+}
