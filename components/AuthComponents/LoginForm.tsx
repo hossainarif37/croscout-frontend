@@ -3,9 +3,9 @@
 import { useModalContext } from "@/providers/ModalProvider";
 import { IoIosCloseCircle } from "react-icons/io";
 import { useForm, SubmitHandler } from "react-hook-form"
-import { getUser, loginUser } from "@/lib/database/authUser";
+import { forgotRequest, getUser, loginUser } from "@/lib/database/authUser";
 import toast from "react-hot-toast";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ImSpinner9 } from "react-icons/im";
 import { getStoredToken, storeToken } from "@/utils/tokenStorage";
 import { useAuthContext } from "@/providers/AuthProvider";
@@ -19,21 +19,36 @@ const LoginForm = () => {
     const { setLoginModal, setSignupModal } = useModalContext();
     const { register, handleSubmit, watch, formState: { errors }, } = useForm<Inputs>()
     const [isLoading, setIsLoading] = useState(false);
+    const [isForgotMode, setIsForgotMode] = useState(false);
     const { setUser } = useAuthContext();
     // handle login login
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         try {
             setIsLoading(true);
-            const dbResponse = await loginUser({ data })
-            if (dbResponse?.success) {
-                toast.success(dbResponse?.message);
-                await storeToken(dbResponse.token);
-                setUser(dbResponse.user);
-                setLoginModal(false);
+            if (isForgotMode) {
+                const dbResponse = await forgotRequest({ email: data.email });
+                if (dbResponse.success) {
+                    toast.success(dbResponse?.message);
+                    setLoginModal(false);
+                    setIsForgotMode(false);
+                }
+                else {
+                    toast.error(dbResponse.error);
+                }
             }
             else {
-                toast.error(dbResponse.error);
+                const dbResponse = await loginUser({ data })
+                if (dbResponse?.success) {
+                    toast.success(dbResponse?.message);
+                    await storeToken(dbResponse.token);
+                    setUser(dbResponse.user);
+                    setLoginModal(false);
+                }
+                else {
+                    toast.error(dbResponse.error);
+                }
             }
+            console.log(data);
             setIsLoading(false);
         } catch (error) {
             setIsLoading(false);
@@ -41,40 +56,49 @@ const LoginForm = () => {
         }
     }
 
+    const handleForgotMode = () => {
+        setIsForgotMode(!isForgotMode);
+    }
 
     return (
-        <div className="w-full relative max-w-xl p-8 px-0 md:px-8 space-y-3 bg-white  font-sans mx-auto">
+        <div className="w-full relative max-w-xl p-8 px-0 md:px-8 bg-white  font-sans mx-auto">
             <button onClick={() => setLoginModal(false)} className="absolute hover:text-primary top-0 right-0 text-4xl"><IoIosCloseCircle /></button>
-            <h1 className="text-3xl font-bold text-center text-secondary">Login</h1>
-            {/* <button onClick={fetchUser}>Get User</button> */}
+            <h1 className="text-3xl font-bold text-center text-secondary">{isForgotMode ? "Forgot Password" : "Login"}</h1>
+
             {/* Input fields and the form started */}
-            <form onSubmit={handleSubmit(onSubmit)} action="" className="space-y-6">
-                <div className="space-y-2 text-sm">
+            <form onSubmit={handleSubmit(onSubmit)} action="" className="space-y-2">
+                <div className="space-y-2 text-sm my-2">
                     <label htmlFor="email" className="block ">
                         Your Email
                     </label>
                     <input {...register("email", { required: true })} type="email" name="email" id="email" placeholder="Email" className="w-full px-4 py-3 rounded-md border border-indigo-300 focus:outline-none" />
                     {errors.email && <span>Include your email.</span>}
                 </div>
-                <div className="space-y-2 text-sm">
+
+                <div hidden={isForgotMode} className="space-y-2 text-sm mt-2">
                     <label htmlFor="password" className="block ">
                         Password
                     </label>
-                    <input {...register("password", { required: true })} type="password" name="password" id="password" placeholder="Password" className="w-full px-4 py-3 rounded-md border border-indigo-300 focus:outline-none" />
+                    <input  {...register("password", { required: !isForgotMode })} type="password" name="password" id="password" placeholder="Password" className="w-full px-4 pt-3 rounded-md border border-indigo-300 focus:outline-none" />
                     {errors.password && <span>Include a password.</span>}
-                    <div className="flex justify-end text-xs ">
-                        <a href="#" className="hover:underline">
-                            Forgot Password?
-                        </a>
-                    </div>
+                </div>
+                <div className="flex justify-end text-xs my-0">
+                    <span onClick={handleForgotMode} className="hover:underline cursor-pointer">
+                        {
+                            isForgotMode ?
+                                "Login with email and password?"
+                                :
+                                "Forgot Password?"
+                        }
+                    </span>
                 </div>
                 {/* Sign in Button */}
-                <button type="submit" className="text-lg flex items-center justify-center rounded-xl relative  py-2 h-[52px] w-full bg-rose-500 hover:bg-rose-400 text-white duration-200 overflow-hidden active:bg-rose-400 z-50 font-semibold">
+                <button type="submit" className="text-lg flex items-center justify-center rounded-xl relative  py-2 h-[52px] w-full bg-rose-500 hover:bg-rose-400 text-white duration-200 overflow-hidden active:bg-rose-400 z-50 font-semibold my-6">
                     {
                         isLoading ?
                             <ImSpinner9 className="animate-spin text-[26px]"></ImSpinner9>
                             :
-                            "Login"
+                            isForgotMode ? "Send Reset Link" : "login"
                     }
                 </button>
             </form>

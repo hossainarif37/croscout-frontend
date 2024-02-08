@@ -1,11 +1,17 @@
 "use client"
 
+import { resetPassword } from "@/lib/database/authUser";
+import { useParams, useRouter } from "next/navigation";
 import { useRef, useState } from "react";
+import toast from "react-hot-toast";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function ResetPassword() {
     const [isShow, setIsShow] = useState(false);
     const passwordRef = useRef<HTMLInputElement>(null);
+
+    const { token } = useParams();
+    const navigate = useRouter();
 
     // handler for toggle password show option
     const handleShowPassword = () => {
@@ -13,9 +19,20 @@ export default function ResetPassword() {
     }
 
     // handler for submit reset button 
-    const handleResetPassword = () => {
-        const password = passwordRef.current?.value;
-        console.log(password);
+    const handleResetPassword = async () => {
+        try {
+            const newPassword = passwordRef.current?.value;
+            const dbResponse = await resetPassword({ token: token as string, newPassword });
+            if (dbResponse.success) {
+                toast.success(dbResponse?.message);
+                navigate.push('/')
+            }
+            else {
+                toast.error(dbResponse?.error)
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
     return (
         <div className="min-h-screen flex items-center justify-center">

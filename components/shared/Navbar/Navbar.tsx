@@ -19,7 +19,7 @@ const Navbar = () => {
 
     // navbar will be hidden if them pathname matches the include pathname
     const pathname = usePathname();
-    const isNavbarHidden = /\/reset\/[^/]+$/.test(pathname) || /\/dashboard\/[^/]+$/.test(pathname);
+    const isNavbarHidden = /\/reset-password\/[^/]+$/.test(pathname) || /\/dashboard\/[^/]+$/.test(pathname);
 
     const handleLogout = async () => {
         try {

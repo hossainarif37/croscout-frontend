@@ -14,7 +14,7 @@ import { usePathname } from "next/navigation";
 const Footer = () => {
     // footer will be hidden if them pathname matches the include pathname
     const pathname = usePathname();
-    const isFooterHidden = /\/reset\/[^/]+$/.test(pathname) || /\/dashboard\/[^/]+$/.test(pathname);
+    const isFooterHidden = /\/reset-password\/[^/]+$/.test(pathname) || /\/dashboard\/[^/]+$/.test(pathname);
 
     const currentYear = new Date().getFullYear();
     return (
