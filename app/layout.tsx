@@ -16,6 +16,7 @@ import LocationModal from "@/components/ui/Modal/LocationModal";
 import LanguageModal from "@/components/ui/Modal/LanguageModal";
 import { LocalizationProvider } from "@/providers/LocalizationContext";
 import { Toaster } from "react-hot-toast";
+import { AuthProvider } from "@/providers/AuthProvider";
 
 const onest = Onest({
   subsets: ["latin"],
@@ -37,32 +38,34 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${onest.className} bg-primary`}>
         <LocalizationProvider>
-          <SearchProvider>
-            <ModalProvider>
-              <ToggleProvider>
-                <Toaster
-                  position="top-center"
-                  reverseOrder={false}
-                />
-                {/* Modals */}
-                <LoginModal />
-                <SignupModal />
-                <LocationModal />
-                <CalenderModal />
-                <GuestModal />
-                <LanguageModal />
+          <AuthProvider>
+            <SearchProvider>
+              <ModalProvider>
+                <ToggleProvider>
+                  <Toaster
+                    position="top-center"
+                    reverseOrder={false}
+                  />
+                  {/* Modals */}
+                  <LoginModal />
+                  <SignupModal />
+                  <LocationModal />
+                  <CalenderModal />
+                  <GuestModal />
+                  <LanguageModal />
 
 
-                <div className="flex h-screen flex-col ">
-                  <Navbar />
-                  <main className="flex-1">
-                    {children}
-                  </main>
-                  <Footer />
-                </div>
-              </ToggleProvider>
-            </ModalProvider>
-          </SearchProvider>
+                  <div className="flex h-screen flex-col ">
+                    <Navbar />
+                    <main className="flex-1">
+                      {children}
+                    </main>
+                    <Footer />
+                  </div>
+                </ToggleProvider>
+              </ModalProvider>
+            </SearchProvider>
+          </AuthProvider>
         </LocalizationProvider>
       </body>
     </html>

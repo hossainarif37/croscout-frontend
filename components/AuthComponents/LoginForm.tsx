@@ -3,11 +3,12 @@
 import { useModalContext } from "@/providers/ModalProvider";
 import { IoIosCloseCircle } from "react-icons/io";
 import { useForm, SubmitHandler } from "react-hook-form"
-import { loginUser } from "@/lib/database/authUser";
+import { getUser, loginUser } from "@/lib/database/authUser";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import { ImSpinner9 } from "react-icons/im";
-import { storeToken } from "@/utils/tokenStorage";
+import { getStoredToken, storeToken } from "@/utils/tokenStorage";
+import { useAuthContext } from "@/providers/AuthProvider";
 
 type Inputs = {
     email: string
@@ -38,11 +39,13 @@ const LoginForm = () => {
             console.log(error);
         }
     }
+
+
     return (
         <div className="w-full relative max-w-xl p-8 px-0 md:px-8 space-y-3 bg-white  font-sans mx-auto">
             <button onClick={() => setLoginModal(false)} className="absolute hover:text-primary top-0 right-0 text-4xl"><IoIosCloseCircle /></button>
             <h1 className="text-3xl font-bold text-center text-secondary">Login</h1>
-
+            {/* <button onClick={fetchUser}>Get User</button> */}
             {/* Input fields and the form started */}
             <form onSubmit={handleSubmit(onSubmit)} action="" className="space-y-6">
                 <div className="space-y-2 text-sm">
