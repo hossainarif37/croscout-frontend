@@ -6,8 +6,8 @@ import { createContext, ReactNode, useContext, useState, Dispatch, SetStateActio
 
 // DateRange Interface
 export interface DateRange {
-    startDate: string | Date;
-    endDate: string | Date;
+    startDate: Date;
+    endDate: Date;
     key: string;
 }
 
