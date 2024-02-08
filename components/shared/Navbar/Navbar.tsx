@@ -14,15 +14,16 @@ import { clearToken } from "@/utils/tokenStorage";
 const Navbar = () => {
     const { navUserToggle, setNavUserToggle } = useToggleContext();
     const { setLoginModal, setSignupModal } = useModalContext();
-    const { user } = useAuthContext();
+    const { user, setUser } = useAuthContext();
 
     const handleLogout = async () => {
         try {
-            const dbResponse = await logoutUser();
-            if(dbResponse.isLogout){
+            // const dbResponse = await logoutUser();
+            // if(dbResponse.isLogout){
                 toast.success("Successfully Logout")
+                setUser(null)
                 clearToken();
-            }
+            // }
         } catch (error) {
             console.log(error);
         }
@@ -50,7 +51,7 @@ const Navbar = () => {
                     {
                         user ?
                             <>
-                                <h4 className="text-center my-1">{user?.name}</h4>
+                                <button className="text-secondary cursor-default">{user?.name}</button>
                                 <button
                                     onClick={handleLogout}
                                 >Logout</button>

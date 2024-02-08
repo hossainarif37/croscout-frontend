@@ -32,6 +32,14 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // State for user
     const [user, setUser] = useState<User | null>(null);
 
+    // console.log(user);
+    // if(user){
+    //     console.log('found');
+    // }
+    // else{
+    //     console.log('not found');
+    // }
+
     // Fetches user data on component mount, sets user state
     const token = getStoredToken();
     useEffect(() => {
@@ -39,7 +47,10 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         const fetchUser = async () => {
             if (token && isMounted) {
                 const { user } = await getUser({ token });
-                setUser(user || null);
+                setUser(user);
+            }
+            else{
+                setUser(null)
             }
         };
         fetchUser();
