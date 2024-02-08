@@ -2,43 +2,112 @@
 
 import { useModalContext } from "@/providers/ModalProvider";
 import { IoIosCloseCircle } from "react-icons/io";
+import { useForm, SubmitHandler } from "react-hook-form"
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { ImSpinner9 } from "react-icons/im";
+import { registerUser } from "@/lib/database/authUser";
 
+
+type Inputs = {
+    name: string
+    email: string
+    password: string
+    taxNumber: string
+    role: string
+}
 const SignupForm = () => {
     const { setLoginModal, setSignupModal } = useModalContext();
+    const { register, unregister, handleSubmit, watch, formState: { errors }, } = useForm<Inputs>()
+    const [isAgent, setIsAgent] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const adminRequestToggle = (checked: boolean) => {
+        if (checked) {
+            setIsAgent(true);
+            register("taxNumber", { required: true });
+        } else {
+            setIsAgent(false);
+            unregister("taxNumber");
+        }
+    }
+
+    // handle signup submit
+    const onSubmit: SubmitHandler<Inputs> = async (data) => {
+        try {
+            setIsLoading(true)
+            if (isAgent) {
+                data.role = "agent"
+            }
+            else {
+                data.role = "user"
+            }
+            const dbResponse = await registerUser({ data });
+            if (dbResponse?.success) {
+                toast.success(dbResponse?.message);
+                setSignupModal(false)
+                setLoginModal(true);
+            }
+            else {
+                toast.error(dbResponse?.error);;
+            }
+            setIsLoading(false)
+        } catch (error) {
+            setIsLoading(false)
+            console.log(error);
+        }
+    }
 
     return (
-        <div className="w-full relative max-w-md p-8 md:px-8 px-0 space-y-3 bg-white  font-sans mx-auto">
+        <div className=" relative max-w-xl w-full p-8 md:px-8 px-0 space-y-3 bg-white  font-sans mx-auto">
             <button onClick={() => setSignupModal(false)} className="absolute hover:text-primary top-0 right-0 text-4xl"><IoIosCloseCircle /></button>
             <h1 className="text-3xl font-bold text-center text-secondary">Signup</h1>
 
             {/* Input fields and the form started */}
-            <form action="" className="space-y-6">
+            <form onSubmit={handleSubmit(onSubmit)} action="" className="space-y-6">
                 <div className="space-y-2 text-sm">
-                    <label htmlFor="username" className="block ">
+                    <label htmlFor="name" className="block ">
                         Your Name
                     </label>
-                    <input type="name" name="name" id="name" placeholder="Name" className="w-full px-4 py-3 rounded-md border border-indigo-300 focus:outline-none " />
+                    <input {...register("name", { required: true })} type="name" name="name" id="name" placeholder="Name" className="w-full px-4 py-3 rounded-md border border-indigo-300 focus:outline-none " />
+                    {errors.name && <span>Include your name.</span>}
                 </div>
                 <div className="space-y-2 text-sm">
-                    <label htmlFor="username" className="block ">
+                    <label htmlFor="email" className="block ">
                         Your Email
                     </label>
-                    <input type="email" name="email" id="email" placeholder="Email" className="w-full px-4 py-3 rounded-md border border-indigo-300 focus:outline-none " />
+                    <input {...register("email", { required: true })} type="email" name="email" id="email" placeholder="Email" className="w-full px-4 py-3 rounded-md border border-indigo-300 focus:outline-none " />
+                    {errors.email && <span>Include your email.</span>}
                 </div>
                 <div className="space-y-2 text-sm">
                     <label htmlFor="password" className="block ">
                         Password
                     </label>
-                    <input type="password" name="password" id="password" placeholder="Password" className="w-full px-4 py-3 rounded-md border border-indigo-300 focus:outline-none  " />
-                    <div className="flex justify-end text-xs ">
-                        <a href="#" className="hover:underline">
-                            Forgot Password?
-                        </a>
-                    </div>
+                    <input {...register("password", { required: true })} type="password" name="password" id="password" placeholder="Password" className="w-full px-4 py-3 rounded-md border border-indigo-300 focus:outline-none  " />
+                    {errors.password && <span>Include a password.</span>}
                 </div>
-                {/* Sign in Button */}
-                <button type="button" className="text-lg rounded-xl relative p-[10px] block w-full bg-rose-500 hover:bg-rose-400 text-white duration-200 overflow-hidden active:bg-rose-400 z-50">
-                    Log In
+                {
+                    isAgent &&
+                    <div className="space-y-2 text-sm">
+                        <label htmlFor="taxNumber" className="block ">
+                            Tax Number
+                        </label>
+                        <input {...register("taxNumber", { required: true })} type="text" name="taxNumber" id="taxNumber" placeholder="Tax Number" className="w-full px-4 py-3 rounded-md border border-indigo-300 focus:outline-none  " />
+                        {errors.taxNumber && <span>Include a Tax Number.</span>}
+                    </div>
+                }
+                <div className="flex gap-1 items-center">
+                    <input onChange={(e) => adminRequestToggle(e.target.checked)} type="checkbox" id="isAgent" name="isAgent" value="agent" />
+                    <label htmlFor="isAgent" className="">Register as an agent.</label>
+                </div>
+                {/* register Button */}
+                <button type="submit" className="text-lg flex items-center justify-center rounded-xl relative  py-2 h-[52px] w-full bg-rose-500 hover:bg-rose-400 text-white duration-200 overflow-hidden active:bg-rose-400 z-50 font-semibold">
+                    {
+                        isLoading ?
+                            <ImSpinner9 className="animate-spin text-[26px]"></ImSpinner9>
+                            :
+                            "Register"
+                    }
                 </button>
             </form>
             <div className="flex items-center pt-4 space-x-2">

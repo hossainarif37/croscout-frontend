@@ -26,7 +26,7 @@ const PropertyList = () => {
         </div>
     }
 
-    console.log(catergoryInputValue);
+    // console.log(catergoryInputValue);
 
     return (
         <>
