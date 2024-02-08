@@ -1,9 +1,8 @@
 import React, { ReactNode } from 'react';
-import Sidebar from '../ui/dashboard/sidebar/sidebar'
 import styles from "../ui/dashboard/dashboard.module.css"
-import Navbar from '../ui/dashboard/navbar/navbar'
 import "@/app/ui/dashboardGlobal.css"
-import { usePathname } from 'next/navigation';
+import Sidebar from '../ui/dashboard/sidebar/Sidebar';
+import DashboardSearchFeild from '../ui/dashboard/DashboardSearchField/DashboardSearchFeild';
 
 
 interface DashboardLayoutProps {
@@ -19,7 +18,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             </div>
             <div className={styles.contain}>
                 <div className='mb-4'>
-                    <Navbar />
+                    <DashboardSearchFeild />
                 </div>
                 {children}
             </div>
