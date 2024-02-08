@@ -44,7 +44,7 @@ const SignupForm = () => {
             }
             const dbResponse = await registerUser({ data });
             if (dbResponse?.success) {
-                toast.success(`${dbResponse?.message} Now Login with your credentials.`, {duration: 3000});
+                toast.success(`${dbResponse?.message} Now Login with your credentials.`, { duration: 3000 });
                 setSignupModal(false)
                 setLoginModal(true);
             }
@@ -70,21 +70,23 @@ const SignupForm = () => {
                         Your Name
                     </label>
                     <input {...register("name", { required: true })} type="name" name="name" id="name" placeholder="Name" className="w-full px-4 py-3 rounded-md border border-indigo-300 focus:outline-none " />
-                    {errors.name && <span>Include your name.</span>}
+                    {errors.name && <p className="error">Enter your name.</p>}
+
                 </div>
                 <div className="space-y-2 text-sm">
                     <label htmlFor="email" className="block ">
                         Your Email
                     </label>
                     <input {...register("email", { required: true })} type="email" name="email" id="email" placeholder="Email" className="w-full px-4 py-3 rounded-md border border-indigo-300 focus:outline-none " />
-                    {errors.email && <span>Include your email.</span>}
+                    {errors.email && <p className="error">Enter your email.</p>}
+
                 </div>
                 <div className="space-y-2 text-sm">
                     <label htmlFor="password" className="block ">
                         Password
                     </label>
                     <input {...register("password", { required: true })} type="password" name="password" id="password" placeholder="Password" className="w-full px-4 py-3 rounded-md border border-indigo-300 focus:outline-none  " />
-                    {errors.password && <span>Include a password.</span>}
+                    {errors.password && <p className="error">Enter a password.</p>}
                 </div>
                 {
                     isAgent &&
@@ -93,7 +95,8 @@ const SignupForm = () => {
                             Tax Number
                         </label>
                         <input {...register("taxNumber", { required: true })} type="text" name="taxNumber" id="taxNumber" placeholder="Tax Number" className="w-full px-4 py-3 rounded-md border border-indigo-300 focus:outline-none  " />
-                        {errors.taxNumber && <span>Include a Tax Number.</span>}
+                        {errors.taxNumber && <p className="error">Enter a Tax Number.</p>}
+
                     </div>
                 }
                 <div className="flex gap-1 items-center">
@@ -137,7 +140,7 @@ const SignupForm = () => {
                     Log In
                 </button>
             </p>
-        </div>
+        </div >
     );
 };
 

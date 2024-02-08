@@ -54,14 +54,15 @@ const LoginForm = () => {
                         Your Email
                     </label>
                     <input {...register("email", { required: true })} type="email" name="email" id="email" placeholder="Email" className="w-full px-4 py-3 rounded-md border border-indigo-300 focus:outline-none" />
-                    {errors.email && <span>Include your email.</span>}
+                    {errors.email && <p className="error">Enter your email.</p>}
                 </div>
                 <div className="space-y-2 text-sm">
                     <label htmlFor="password" className="block ">
                         Password
                     </label>
                     <input {...register("password", { required: true })} type="password" name="password" id="password" placeholder="Password" className="w-full px-4 py-3 rounded-md border border-indigo-300 focus:outline-none" />
-                    {errors.password && <span>Include a password.</span>}
+                    {errors.password && <p className="error">Enter a password.</p>}
+
                     <div className="flex justify-end text-xs ">
                         <a href="#" className="hover:underline">
                             Forgot Password?
