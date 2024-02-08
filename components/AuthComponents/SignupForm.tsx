@@ -45,7 +45,8 @@ const SignupForm = () => {
             const dbResponse = await registerUser({ data });
             if (dbResponse?.success) {
                 toast.success(dbResponse?.message);
-
+                setSignupModal(false)
+                setLoginModal(true);
             }
             else {
                 toast.error(dbResponse?.error);;

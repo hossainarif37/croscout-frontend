@@ -19,23 +19,24 @@ const LoginForm = () => {
     const { setLoginModal, setSignupModal } = useModalContext();
     const { register, handleSubmit, watch, formState: { errors }, } = useForm<Inputs>()
     const [isLoading, setIsLoading] = useState(false);
-    const {setUser} = useAuthContext();
+    const { setUser } = useAuthContext();
     // handle login login
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         try {
             setIsLoading(true);
             const dbResponse = await loginUser({ data })
             if (dbResponse?.success) {
-                toast.success(dbResponse?.message)
-                await storeToken(dbResponse.token)
-                setUser(dbResponse.user)
+                toast.success(dbResponse?.message);
+                await storeToken(dbResponse.token);
+                setUser(dbResponse.user);
+                setLoginModal(false);
             }
             else {
-                toast.error(dbResponse.error)
+                toast.error(dbResponse.error);
             }
-            setIsLoading(false)
+            setIsLoading(false);
         } catch (error) {
-            setIsLoading(false)
+            setIsLoading(false);
             console.log(error);
         }
     }
