@@ -1,0 +1,24 @@
+
+.container {
+  @apply p-5 rounded-lg bg-[#182237] flex items-center justify-between text-[#b7bac1];
+}
+
+.title {
+  @apply text-[#b7bac1] font-bold capitalize;
+}
+
+.menu {
+  @apply flex items-center gap-5;
+}
+
+.search {
+  @apply flex items-center gap-3 bg-[#2e374a] p-3 rounded-lg;
+}
+
+.input {
+  @apply bg-transparent p-0 border-none outline-none text-white;
+}
+
+.icons {
+  @apply flex gap-5;
+}
