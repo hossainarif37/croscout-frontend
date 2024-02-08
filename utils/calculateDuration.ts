@@ -13,14 +13,14 @@ export const calculateDuration = (startDate: any, endDate: any) => {
         if (daysDifference % 30 > 0) {
             duration += ` ${daysDifference % 30} day${daysDifference % 30 > 1 ? 's' : ''}`;
         }
-    } else {
+    } else if (weeksDifference >= 1) {
         duration += `${weeksDifference} week${weeksDifference > 1 ? 's' : ''}`;
         if (daysDifference % 7 > 0) {
             duration += ` ${daysDifference % 7} day${daysDifference % 7 > 1 ? 's' : ''}`;
         }
+    } else {
+        duration += `${daysDifference} day${daysDifference > 1 ? 's' : ''}`;
     }
-
-
 
     return duration;
 };

@@ -26,12 +26,17 @@ const HeroSearchForm = () => {
 
     let formattedEndDate: any;
 
-    if (searchCalDate[0].startDate && searchCalDate[0].endDate) {
-        const startDate = new Date(searchCalDate[0].startDate);
-        const endDate = new Date(searchCalDate[0].endDate);
-        formattedStartDate = format(startDate, "MMM dd, yyyy");
-        formattedEndDate = format(endDate, "MMM dd, yyyy");
-    }
+    let duration: any = "Any week";
+
+    const startDate = new Date(searchCalDate[0].startDate);
+    const endDate = new Date(searchCalDate[0].endDate);
+    formattedStartDate = format(startDate, "MMM dd, yyyy");
+    formattedEndDate = format(endDate, "MMM dd, yyyy");
+
+    duration = calculateDuration(searchCalDate[0].startDate, searchCalDate[0].endDate);
+
+
+
 
 
     // const formattedStartDate = format(new Date(searchCalDate[0].startDate), "MMM dd, yyyy");
@@ -39,7 +44,8 @@ const HeroSearchForm = () => {
 
 
     // Use calculateDuration function to get the duration
-    const duration = calculateDuration(searchCalDate[0].startDate, searchCalDate[0].endDate);
+
+
 
     // Guest Calculation
     let guests = childrenCount + adultsCount;
@@ -82,7 +88,7 @@ const HeroSearchForm = () => {
                         isBorderX={true}
                         onClick={() => setCalenderModal(true)}
                     >
-                        {duration !== '0 week' ? duration : 'Any week'}
+                        {(duration === '0 week' || duration === '0 day') ? 'Any week' : duration}
                     </AddSearchValueBtn>
 
                     {/* Add Guests */}
@@ -124,7 +130,7 @@ const HeroSearchForm = () => {
                             <Image src="/icons/bookingIcon.svg" height={24} width={24} alt="img" />
                             <div className="lg:leading-5">
                                 {
-                                    searchCalDate && searchCalDate[0] && searchCalDate[0].startDate ? (
+                                    formattedStartDate !== formattedEndDate ? (
                                         <>
                                             <div className="text-sm lg:text-base lg:leading-5">
                                                 {format(new Date(searchCalDate[0].startDate), "MMM dd, yyyy")}
@@ -149,7 +155,7 @@ const HeroSearchForm = () => {
                             <Image src="/icons/bookingIcon.svg" height={24} width={24} alt="img" />
                             <div>
                                 {
-                                    searchCalDate && searchCalDate[0] && searchCalDate[0].startDate ? (
+                                    formattedStartDate !== formattedEndDate ? (
                                         <>
                                             <div className="text-sm lg:text-base lg:leading-5">
                                                 {format(new Date(searchCalDate[0].endDate), "MMM dd, yyyy")}
