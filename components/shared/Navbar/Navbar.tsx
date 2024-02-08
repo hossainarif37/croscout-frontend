@@ -22,7 +22,8 @@ const Navbar = () => {
 
     // navbar will be hidden if them pathname matches the include pathname
     const pathname = usePathname();
-    const isNavbarHidden = /\/reset-password\/[^/]+$/.test(pathname) || /\/dashboard\/[^/]+$/.test(pathname);
+    const isResetPassword = /\/reset-password\/[^/]+$/.test(pathname);
+    const isDashboard = pathname.includes('/dashboard')
 
     const handleLogout = async () => {
         try {
@@ -38,7 +39,7 @@ const Navbar = () => {
     }
 
     return (
-        <nav hidden={isNavbarHidden} id="topbar" className="py-5  bg-primary z-40 sticky top-0">
+        <nav hidden={isResetPassword || isDashboard} id="topbar" className="py-5  bg-primary z-40 sticky top-0">
             {/* Wrapper */}
             <div className="wrapper flex-between relative">
                 <div className="text-white lg:hidden">
