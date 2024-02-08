@@ -72,7 +72,7 @@ const LoginForm = () => {
                         Your Email
                     </label>
                     <input {...register("email", { required: true })} type="email" name="email" id="email" placeholder="Email" className="w-full px-4 py-3 rounded-md border border-indigo-300 focus:outline-none" />
-                    {errors.email && <span>Include your email.</span>}
+                    {errors.email && <p className="error">Enter your email.</p>}
                 </div>
 
                 <div hidden={isForgotMode} className="space-y-2 text-sm mt-2">

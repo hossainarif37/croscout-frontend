@@ -6,6 +6,7 @@ import navbarStyles from "./navbar.module.css"
 import { useModalContext } from "@/providers/ModalProvider";
 import { AiOutlineMenu } from "react-icons/ai";
 import { IoIosCloseCircle } from "react-icons/io";
+import Link from "next/link";
 import { useAuthContext } from "@/providers/AuthProvider";
 import { logoutUser } from "@/lib/database/authUser";
 import toast from "react-hot-toast";
@@ -81,7 +82,7 @@ const Navbar = () => {
                     }
                 </ul>
             </div>
-        </nav>
+        </nav >
     );
 };
 
