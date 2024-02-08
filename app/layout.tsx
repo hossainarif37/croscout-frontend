@@ -15,6 +15,7 @@ import { SearchProvider } from "@/providers/SearchProvider";
 import LocationModal from "@/components/ui/Modal/LocationModal";
 import LanguageModal from "@/components/ui/Modal/LanguageModal";
 import { LocalizationProvider } from "@/providers/LocalizationContext";
+import { usePathname } from "next/navigation";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "@/providers/AuthProvider";
 
@@ -34,6 +35,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
       <body className={`${onest.className} bg-primary`}>
