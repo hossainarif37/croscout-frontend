@@ -16,6 +16,9 @@ interface ModalContextProps {
     setLocationModal: React.Dispatch<React.SetStateAction<boolean>>;
     languageModal: boolean;
     setLanguageModal: React.Dispatch<React.SetStateAction<boolean>>;
+    sidebarToggle: boolean;
+    setSidebarToggle: React.Dispatch<React.SetStateAction<boolean>>;
+
 }
 
 // Created Context
@@ -34,6 +37,7 @@ const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
     const [guestModal, setGuestModal] = useState(false);
     const [locationModal, setLocationModal] = useState(false);
     const [languageModal, setLanguageModal] = useState(false);
+    const [sidebarToggle, setSidebarToggle] = useState(false);
 
     // Context Values
     const contextValue: ModalContextProps = {
@@ -48,7 +52,9 @@ const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
         locationModal,
         setLocationModal,
         languageModal,
-        setLanguageModal
+        setLanguageModal,
+        sidebarToggle,
+        setSidebarToggle
     };
 
     return (
