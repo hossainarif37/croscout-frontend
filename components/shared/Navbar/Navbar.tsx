@@ -6,6 +6,7 @@ import navbarStyles from "./navbar.module.css"
 import { useModalContext } from "@/providers/ModalProvider";
 import { AiOutlineMenu } from "react-icons/ai";
 import { IoIosCloseCircle } from "react-icons/io";
+import Link from "next/link";
 
 const Navbar = () => {
     const { navUserToggle, setNavUserToggle } = useToggleContext();
@@ -44,6 +45,7 @@ const Navbar = () => {
 
                         }}
                     >Signup</button>
+                    <Link href={"/dashboard"} className="select-none font-semibold text-secondary hover:bg-slate-200 w-full text-left py-2 px-4 rounded-lg duration-150">Dashboard</Link>
                 </ul>
             </div>
         </nav>

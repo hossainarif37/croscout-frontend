@@ -3,8 +3,46 @@ import React from 'react'
 import Image from 'next/image';
 import ShareActive from "@/public/icons/share-active.svg";
 import FavActive from "@/public/icons/fav-active.svg";
+import { FaChevronDown } from 'react-icons/fa';
+import { useModalContext } from '@/providers/ModalProvider';
+import { useSearchContext } from '@/providers/SearchProvider';
+import { format } from "date-fns";
+import { calculateDuration } from '@/utils/calculateDuration';
+
 
 export default function PropertyHero() {
+
+    const { setCalenderModal, setGuestModal, setLocationModal } = useModalContext();
+    const { childrenCount, adultsCount, searchCalDate, location, setLocation, setFilteredProperty, isSearchBtnClicked, setIsSearchBtnClicked } = useSearchContext();
+
+
+    let formattedStartDate: any;
+
+    let formattedEndDate: any;
+
+    let duration: any = "Any week";
+
+    const startDate = new Date(searchCalDate[0].startDate);
+    const endDate = new Date(searchCalDate[0].endDate);
+    formattedStartDate = format(startDate, "MMM dd, yyyy");
+    formattedEndDate = format(endDate, "MMM dd, yyyy");
+
+    duration = calculateDuration(searchCalDate[0].startDate, searchCalDate[0].endDate);
+
+
+
+
+
+    // const formattedStartDate = format(new Date(searchCalDate[0].startDate), "MMM dd, yyyy");
+    // const formattedEndDate = format(new Date(searchCalDate[0].endDate), "MMM dd, yyyy");
+
+
+    // Use calculateDuration function to get the duration
+
+
+
+    // Guest Calculation
+    let guests = childrenCount + adultsCount;
     return (
         <section className='wrapper'>
             {/* Top section */}
@@ -45,33 +83,149 @@ export default function PropertyHero() {
                                 Select check-in date
                             </div>
                             <div className="grid grid-cols-2 px-4 lg:px-[2.5rem] py-[1.25rem] gap-[1.25rem] bg-secondary">
-                                {/* <AccentInput />
-                <AccentInput /> */}
-                                <div className="col-span-2 flex flex-col">
-                                    <label
-                                        htmlFor="checkIn"
-                                        className="text-[1.25rem] font-semibold"
-                                    >
-                                        Guests
-                                    </label>
-                                    <select className="mt-3 rounded-[5px] p-[0.875rem] bg-transparent border border-accent placeholder:text-white">
-                                        <option>A</option>
-                                    </select>
-                                </div>
 
-                                {/* Amount Section */}
-                                <div className="text-[1.25rem] font-semibold col-span-2">
-                                    Night - $45
-                                </div>
                                 <div className="col-span-2">
-                                    <div className="flex justify-between border-b border-accent pb-3">
+                                    {/* <div className="flex justify-between border-b border-accent pb-3">
                                         <div className="font-medium">Night x $45</div>
                                         <div className="font-medium">$225</div>
+                                    </div> */}
+
+
+
+                                    {/*//? Check in and check out label */}
+                                    <div className='mb-3'>
+                                        <label
+                                            htmlFor="checkIn"
+                                            className="text-[1.25rem] font-semibold"
+                                        >
+                                            Check in and check out
+                                        </label>
                                     </div>
+
+                                    {/*//? Check in and check out input section start */}
+                                    <div
+                                        onClick={() => setCalenderModal(true)}
+                                        className={'mb-10 cursor-pointer border-accent col-span-2  lg:col-span-1 divide-x-2 py-3 bg-transparent border duration-100 rounded-[5px] grid grid-cols-2'}>
+
+
+                                        {/* Check In */}
+                                        <div className="flex  items-center gap-2 text-white px-2 lg:px-5 ">
+                                            <Image src="/icons/bookingIcon.svg" height={24} width={24} alt="img" />
+                                            <div className="lg:leading-5">
+                                                {
+                                                    formattedStartDate !== formattedEndDate ? (
+                                                        <>
+                                                            <div className="text-sm lg:text-base lg:leading-5">
+                                                                {format(new Date(searchCalDate[0].startDate), "MMM dd, yyyy")}
+                                                            </div>
+                                                            <div className="text-sm lg:text-base lg:leading-5">
+                                                                {format(new Date(searchCalDate[0].startDate), "EEEE")}
+                                                            </div>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <div className="text-sm lg:text-base lg:leading-5">Check in</div>
+                                                            <div className="text-sm lg:leading-5 text-gray-300">Add dates</div>
+                                                        </>
+                                                    )
+                                                }
+                                            </div>
+
+                                        </div>
+
+                                        {/* Check Out */}
+                                        <div className="flex items-center gap-2 text-white px-2 lg:px-5  relative">
+                                            <Image src="/icons/bookingIcon.svg" height={24} width={24} alt="img" />
+                                            <div>
+                                                {
+                                                    formattedStartDate !== formattedEndDate ? (
+                                                        <>
+                                                            <div className="text-sm lg:text-base lg:leading-5">
+                                                                {format(new Date(searchCalDate[0].endDate), "MMM dd, yyyy")}
+                                                            </div>
+                                                            <div className="text-sm lg:text-base lg:leading-5">
+                                                                {format(new Date(searchCalDate[0].endDate), "EEEE")}
+                                                            </div>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <div className="text-sm lg:text-base lg:leading-5">Check out</div>
+                                                            <div className="text-sm lg:leading-5 text-gray-300">Add dates</div>
+                                                        </>
+                                                    )
+                                                }
+
+                                            </div>
+
+                                            {/* Down Arrow Button */}
+                                            <FaChevronDown className={'absolute right-1 lg:right-4 text-xl '} />
+
+                                        </div>
+                                    </div>
+                                    {/*//? Check in and check out input section End */}
+
+
+                                    {/*//? Guest label */}
+                                    <div className='mb-3'>
+                                        <label
+                                            htmlFor="guest"
+                                            className="text-[1.25rem] font-semibold"
+                                        >
+                                            Guests
+                                        </label>
+                                    </div>
+
+                                    {/*//? Guest input section start */}
+                                    <div
+
+                                        onClick={() => setGuestModal(true)}
+                                        className={' border-accent duration-100 mb-8 lg:mb-0 col-span-2 lg:col-span-1 divide-x-2 py-3 bg-transparent border rounded-[5px] cursor-pointer grid grid-cols-2 relative'}>
+
+
+
+                                        <div className="flex items-center gap-2 text-white px-5 ">
+                                            <Image src="/icons/people.svg" height={24} width={24} alt="img" />
+                                            <div className="">
+
+                                                {
+                                                    adultsCount > 0 || childrenCount > 0 ? (
+                                                        <>
+                                                            {adultsCount > 0 && <span>{adultsCount} Adult{adultsCount > 1 && 's'}</span>}
+                                                            {adultsCount > 0 && childrenCount > 0 && <span>, </span>}
+                                                            {childrenCount > 0 && <span>{childrenCount} Children{childrenCount > 1 && 's'}</span>}
+                                                        </>
+                                                    ) : (
+                                                        <span>Select Guests</span>
+                                                    )
+                                                }
+                                            </div>
+                                            <FaChevronDown className={'absolute right-1 lg:right-4 text-xl '} />
+                                        </div>
+                                        {/* Down Arrow Button */}
+
+                                    </div>
+
+                                    {/*//? Guest input section End */}
+
+                                    {/* Amount Section */}
+                                    <div className="text-[1.25rem] font-semibold col-span-2 mt-6">
+                                        Night - $45
+                                    </div>
+
+                                    <div className='flex justify-between lg:text-xl font-semibold my-3'>
+                                        <span>5 Night X 45</span>
+                                        <span>$225</span>
+                                    </div>
+
+                                    <div className='border-y border-y-accent py-3 my-5 flex justify-between'>
+                                        <span className=''>Croscout Services Fee</span>
+                                        <span className=''>30$</span>
+                                    </div>
+
                                     {/* <div className="flex justify-between border-b border-accent py-3">
-                    <div className="font-medium">Croscout Services Fee</div>
-                    <div className="font-medium">$30</div>
-                  </div> */}
+                                        <div className="font-medium">Croscout Services Fee</div>
+                                        <div className="font-medium">$30</div>
+                                    </div> */}
                                     <div className="flex justify-between items-center mt-3">
                                         <div className="font-medium">Total</div>
                                         <div className="font-medium border border-accent px-3 py-1.5 rounded">
