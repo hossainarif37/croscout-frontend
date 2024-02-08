@@ -51,16 +51,16 @@ const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
 
     //*--------- States Start -------------//
     const [searchCalDate, setSearchCalDate] = useState<DateRange[] | any>([
-        {
-            startDate: "",
-            endDate: "",
-            key: 'selection'
-        }
         // {
-        //     startDate: new Date(),
-        //     endDate: new Date(),
+        //     startDate: "",
+        //     endDate: "",
         //     key: 'selection'
         // }
+        {
+            startDate: new Date(),
+            endDate: new Date(),
+            key: 'selection'
+        }
 
     ]);
 
