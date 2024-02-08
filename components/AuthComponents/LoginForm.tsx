@@ -72,7 +72,7 @@ const LoginForm = () => {
                         Your Email
                     </label>
                     <input {...register("email", { required: true })} type="email" name="email" id="email" placeholder="Email" className="w-full px-4 py-3 rounded-md border border-indigo-300 focus:outline-none" />
-                    {errors.email && <p className="error">Enter your email.</p>}
+                    {errors.email && <p className="error">Enter your email</p>}
                 </div>
 
                 <div hidden={isForgotMode} className="space-y-2 text-sm mt-2">
@@ -80,7 +80,7 @@ const LoginForm = () => {
                         Password
                     </label>
                     <input  {...register("password", { required: !isForgotMode })} type="password" name="password" id="password" placeholder="Password" className="w-full px-4 pt-3 rounded-md border border-indigo-300 focus:outline-none" />
-                    {errors.password && <span>Include a password.</span>}
+                    {errors.password && <p className="error">Enter your password</p>}
                 </div>
                 <div className="flex justify-end text-xs my-0">
                     <span onClick={handleForgotMode} className="hover:underline cursor-pointer">

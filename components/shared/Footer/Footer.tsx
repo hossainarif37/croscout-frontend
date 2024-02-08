@@ -15,10 +15,11 @@ const Footer = () => {
     // footer will be hidden if them pathname matches the include pathname
     const pathname = usePathname();
     const isFooterHidden = /\/reset-password\/[^/]+$/.test(pathname) || /\/dashboard\/[^/]+$/.test(pathname);
+    const isDashboard = pathname.includes('/dashboard')
 
     const currentYear = new Date().getFullYear();
     return (
-        <div hidden={isFooterHidden}>
+        <div hidden={isFooterHidden || isDashboard}>
             <MultiCategory />
             <footer className={`bg-primary pt-20 ${footerStyles.footer}`}>
                 <div className="wrapper">
