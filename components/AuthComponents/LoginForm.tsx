@@ -17,13 +17,23 @@ const LoginForm = () => {
                     <label htmlFor="username" className="block ">
                         Your Email
                     </label>
+<<<<<<< Updated upstream
                     <input type="email" name="email" id="email" placeholder="Email" className="w-full px-4 py-3 rounded-md border border-indigo-300 focus:outline-none " />
+=======
+                    <input {...register("email", { required: true })} type="email" name="email" id="email" placeholder="Email" className="w-full px-4 py-3 rounded-md border border-indigo-300 focus:outline-none" />
+                    {errors.email && <p className="error">Enter your email.</p>}
+>>>>>>> Stashed changes
                 </div>
                 <div className="space-y-2 text-sm">
                     <label htmlFor="password" className="block ">
                         Password
                     </label>
+<<<<<<< Updated upstream
                     <input type="password" name="password" id="password" placeholder="Password" className="w-full px-4 py-3 rounded-md border border-indigo-300 focus:outline-none  " />
+=======
+                    <input {...register("password", { required: true })} type="password" name="password" id="password" placeholder="Password" className="w-full px-4 py-3 rounded-md border border-indigo-300 focus:outline-none" />
+                    {errors.password && <p className="error">Enter a password.</p>}
+>>>>>>> Stashed changes
                     <div className="flex justify-end text-xs ">
                         <a href="#" className="hover:underline">
                             Forgot Password?
