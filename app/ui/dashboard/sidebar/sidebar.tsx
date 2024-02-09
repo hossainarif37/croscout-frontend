@@ -19,11 +19,12 @@ import {
 import Image from 'next/image';
 import { useModalContext } from '@/providers/ModalProvider';
 import { useAuthContext } from '@/providers/AuthProvider';
-import MenuLink from './menuLink/menuLink';
+import MenuLink from './MenuLink/menuLink';
+import { IoIosCloseCircle } from 'react-icons/io';
 
 
 export default function Sidebar() {
-    const { sidebarToggle } = useModalContext();
+    const { sidebarToggle, setSidebarToggle } = useModalContext();
     const { user } = useAuthContext();
     const menuItems = [
         {
@@ -87,6 +88,7 @@ export default function Sidebar() {
             ],
         },
     ];
+
     return (
         <div>
             <div className={styles.container}>
@@ -109,8 +111,14 @@ export default function Sidebar() {
                 </ul>
             </div>
 
+            {sidebarToggle && <div
+                onClick={() => setSidebarToggle(pre => !pre)}
+                className="text-3xl cursor-pointer block lg:hidden  top-4 left-5 z-50 fixed ">
+                <IoIosCloseCircle />
+            </div>}
+
             {/*//* ------Mobile Version-------*/}
-            <div className={`z-10 block lg:hidden fixed h-full bg-[#151c2c]  p-5 shadow-lg origin-left rounded-md ${!sidebarToggle ? 'scale-x-0 ' : 'scale-x-100 w-64'} duration-300 rounded-md`}>
+            <div className={`z-40 pt-14 block lg:hidden fixed h-full bg-[#151c2c]  p-5 shadow-lg origin-left top-0 rounded-md ${!sidebarToggle ? 'scale-x-0' : 'scale-x-100 w-72'} duration-300 rounded-md`}>
                 <ul className="space-y-3 text-[#b7bac1]">
                     <ul className={styles.list}>
                         {menuItems.map((cat) => (

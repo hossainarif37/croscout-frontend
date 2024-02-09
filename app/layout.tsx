@@ -4,7 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/shared/Navbar/Navbar";
 import Footer from "@/components/shared/Footer/Footer";
 import { ModalProvider } from "@/providers/ModalProvider";
-import { ToggleProvider } from "@/providers/ToggleProvider";
+import { ToggleProvider, useToggleContext } from "@/providers/ToggleProvider";
 import LoginModal from "@/components/ui/Modal/LoginModal";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -24,6 +24,11 @@ const onest = Onest({
   weight: ["400", "500", "600", "700", "800", "900"]
 });
 
+// const { navUserToggle, setNavUserToggle } = useToggleContext();
+
+// const handleToogleUserMenu = () => {
+//   setNavUserToggle(false);
+// }
 
 export const metadata: Metadata = {
   title: "Airbnb",
