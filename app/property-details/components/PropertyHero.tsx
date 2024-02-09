@@ -241,7 +241,7 @@ export default function PropertyHero({ singlePropertyDetails }: { singleProperty
                                     <div className="flex justify-between items-center mt-3">
                                         <div className="font-medium">Total</div>
                                         <div className="font-medium border border-accent px-3 py-1.5 rounded">
-                                            ${nightFeeCalculation + crouscouteServiceFee}
+                                            ${nightFeeCalculation && nightFeeCalculation + crouscouteServiceFee}
                                         </div>
                                     </div>
                                     <div className="flex justify-center">
