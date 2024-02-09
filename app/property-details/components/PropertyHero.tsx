@@ -11,7 +11,7 @@ import { calculateDuration } from '@/utils/calculateDuration';
 import { Property } from '@/constant';
 
 
-export default function PropertyHero({ singlePropertyDetails }: { singlePropertyDetails: Property }) {
+export default function PropertyHero({ singlePropertyDetails }: { singlePropertyDetails?: Property }) {
 
     const { setCalenderModal, setGuestModal, setLocationModal } = useModalContext();
     const { childrenCount, adultsCount, searchCalDate, location, setLocation, setFilteredProperty, isSearchBtnClicked, setIsSearchBtnClicked } = useSearchContext();
@@ -30,9 +30,12 @@ export default function PropertyHero({ singlePropertyDetails }: { singleProperty
     formattedEndDate = format(endDate, "MMM dd, yyyy");
 
     const daysDifference = differenceInDays(endDate, startDate);
+    let nightFeeCalculation;
+    if (singlePropertyDetails) {
 
+        nightFeeCalculation = daysDifference * singlePropertyDetails.pricePerNight;
+    }
 
-    const nightFeeCalculation = daysDifference * singlePropertyDetails.pricePerNight;
     const crouscouteServiceFee = 30;
 
 
@@ -57,10 +60,10 @@ export default function PropertyHero({ singlePropertyDetails }: { singleProperty
             {/* Top section */}
             <div className="text-white mt-[3rem] lg:mt-[6.875rem]">
                 <h1 className="text-[2.625rem] font-bold">
-                    {singlePropertyDetails.name}
+                    {singlePropertyDetails?.name}
                 </h1>
                 <div className="mt-6 lg:flex justify-between items-center">
-                    <p>{singlePropertyDetails.state}, {singlePropertyDetails.location}</p>
+                    <p>{singlePropertyDetails?.state}, {singlePropertyDetails?.location}</p>
                     <div className="flex items-center gap-16 mt-4 lg:mt-0">
                         <div className="flex items-center gap-3 cursor-pointer">
                             <Image src={ShareActive} height={24} width={24} alt="" />
@@ -218,11 +221,11 @@ export default function PropertyHero({ singlePropertyDetails }: { singleProperty
 
                                     {/* Amount Section */}
                                     <div className="text-[1.25rem] font-semibold col-span-2 mt-6">
-                                        <span className='font-normal'>Per Night</span> - ${singlePropertyDetails.pricePerNight}
+                                        <span className='font-normal'>Per Night</span> - ${singlePropertyDetails?.pricePerNight}
                                     </div>
 
                                     <div className='flex justify-between lg:text-xl font-semibold my-3'>
-                                        <span>({daysDifference} Night X ${singlePropertyDetails.pricePerNight})</span>
+                                        <span>({daysDifference} Night X ${singlePropertyDetails?.pricePerNight})</span>
                                         <span>${nightFeeCalculation}</span>
                                     </div>
 
