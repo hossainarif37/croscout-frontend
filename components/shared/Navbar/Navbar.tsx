@@ -69,8 +69,12 @@ const Navbar = () => {
                     {
                         user ?
                             <>
-                                <button className="text-secondary cursor-default">{user?.name}</button>
+                                <button className="text-secondary bg-slate-200 cursor-default">{user?.name}</button>
+
+                                <Link className={navbarStyles.dashboardBtn} href={"/dashboard"}>Dashboard</Link>
+
                                 <button
+
                                     onClick={handleLogout}
                                 >Logout</button>
                             </>
@@ -91,7 +95,7 @@ const Navbar = () => {
                                     }}
                                 >Signup</button>
 
-                                <Link className={navbarStyles.dashboardBtn} href={"/dashboard"}>Dashboard</Link>
+
                             </>
                     }
                 </ul>
