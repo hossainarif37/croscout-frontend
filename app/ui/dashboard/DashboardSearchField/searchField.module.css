@@ -1,6 +1,6 @@
 
 .container {
-  @apply lg:p-5 rounded-lg bg-[#182237] flex items-center justify-between text-[#b7bac1];
+  @apply lg:p-5 mt-3 rounded-lg bg-[#182237] flex items-center justify-between text-[#b7bac1];
 }
 
 .title {

@@ -13,15 +13,19 @@ interface DashboardLayoutProps {
 }
 
 
+
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
-    const { setSidebarToggle } = useModalContext();
+    const { setSidebarToggle, sidebarToggle } = useModalContext();
+    const handleToggleSidebar = () => {
+        setSidebarToggle(false);
+    }
 
     return (
         <div className={styles.container}>
             <div className={styles.menu}>
                 <Sidebar />
             </div>
-            <div onClick={() => setSidebarToggle((pre) => !pre)} className={`${styles.contain} overflow-hidden`}>
+            <div onClick={handleToggleSidebar} className={`${styles.contain} overflow-hidden ${sidebarToggle && "blur-md pointer-events-auto"}`}>
                 <div className='mb-4'>
                     <DashboardSearchFeild />
                 </div>
