@@ -6,28 +6,37 @@ import FavActive from "@/public/icons/fav-active.svg";
 import { FaChevronDown } from 'react-icons/fa';
 import { useModalContext } from '@/providers/ModalProvider';
 import { useSearchContext } from '@/providers/SearchProvider';
-import { format } from "date-fns";
+import { differenceInDays, format } from "date-fns";
 import { calculateDuration } from '@/utils/calculateDuration';
+import { Property } from '@/constant';
 
 
-export default function PropertyHero() {
+export default function PropertyHero({ singlePropertyDetails }: { singlePropertyDetails: Property }) {
 
     const { setCalenderModal, setGuestModal, setLocationModal } = useModalContext();
     const { childrenCount, adultsCount, searchCalDate, location, setLocation, setFilteredProperty, isSearchBtnClicked, setIsSearchBtnClicked } = useSearchContext();
+
 
 
     let formattedStartDate: any;
 
     let formattedEndDate: any;
 
-    let duration: any = "Any week";
+    // let duration: any = "Any week";
 
     const startDate = new Date(searchCalDate[0].startDate);
     const endDate = new Date(searchCalDate[0].endDate);
     formattedStartDate = format(startDate, "MMM dd, yyyy");
     formattedEndDate = format(endDate, "MMM dd, yyyy");
 
-    duration = calculateDuration(searchCalDate[0].startDate, searchCalDate[0].endDate);
+    const daysDifference = differenceInDays(endDate, startDate);
+
+
+    const nightFeeCalculation = daysDifference * singlePropertyDetails.pricePerNight;
+    const crouscouteServiceFee = 30;
+
+
+    // duration = calculateDuration(searchCalDate[0].startDate, searchCalDate[0].endDate);
 
 
 
@@ -37,7 +46,7 @@ export default function PropertyHero() {
     // const formattedEndDate = format(new Date(searchCalDate[0].endDate), "MMM dd, yyyy");
 
 
-    // Use calculateDuration function to get the duration
+
 
 
 
@@ -48,10 +57,10 @@ export default function PropertyHero() {
             {/* Top section */}
             <div className="text-white mt-[3rem] lg:mt-[6.875rem]">
                 <h1 className="text-[2.625rem] font-bold">
-                    Cappadocia St Nino’s Garden
+                    {singlePropertyDetails.name}
                 </h1>
                 <div className="mt-6 lg:flex justify-between items-center">
-                    <p>Ortahisar, Nevsehir, Turkey</p>
+                    <p>{singlePropertyDetails.state}, {singlePropertyDetails.location}</p>
                     <div className="flex items-center gap-16 mt-4 lg:mt-0">
                         <div className="flex items-center gap-3 cursor-pointer">
                             <Image src={ShareActive} height={24} width={24} alt="" />
@@ -79,7 +88,7 @@ export default function PropertyHero() {
                             // onSubmit={(e) => e.preventDefault()}
                             className="border border-accent rounded-[10px] overflow-hidden"
                         >
-                            <div className="lg:px-[9.25rem] text-center font-bold text-[1.5rem] py-6 bg-accent">
+                            <div className="lg:px-36 text-center font-bold text-[1.5rem] py-6 bg-accent">
                                 Select check-in date
                             </div>
                             <div className="grid grid-cols-2 px-4 lg:px-[2.5rem] py-[1.25rem] gap-[1.25rem] bg-secondary">
@@ -209,17 +218,17 @@ export default function PropertyHero() {
 
                                     {/* Amount Section */}
                                     <div className="text-[1.25rem] font-semibold col-span-2 mt-6">
-                                        Night - $45
+                                        <span className='font-normal'>Per Night</span> - ${singlePropertyDetails.pricePerNight}
                                     </div>
 
                                     <div className='flex justify-between lg:text-xl font-semibold my-3'>
-                                        <span>5 Night X 45</span>
-                                        <span>$225</span>
+                                        <span>({daysDifference} Night X ${singlePropertyDetails.pricePerNight})</span>
+                                        <span>${nightFeeCalculation}</span>
                                     </div>
 
                                     <div className='border-y border-y-accent py-3 my-5 flex justify-between'>
                                         <span className=''>Croscout Services Fee</span>
-                                        <span className=''>30$</span>
+                                        <span className=''>${crouscouteServiceFee}</span>
                                     </div>
 
                                     {/* <div className="flex justify-between border-b border-accent py-3">
@@ -229,7 +238,7 @@ export default function PropertyHero() {
                                     <div className="flex justify-between items-center mt-3">
                                         <div className="font-medium">Total</div>
                                         <div className="font-medium border border-accent px-3 py-1.5 rounded">
-                                            $255
+                                            ${nightFeeCalculation + crouscouteServiceFee}
                                         </div>
                                     </div>
                                     <div className="flex justify-center">

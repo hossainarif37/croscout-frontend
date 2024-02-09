@@ -16,7 +16,7 @@ const GuestModal = () => {
             <div className={`lg:w-[450px] bg-white rounded-lg text-black relative p-5 duration-300 ${guestModal ? 'scale-100' : 'scale-0'}`}>
                 <div className="flex flex-col">
                     <div className="flex-between ">
-                        <h1 className="text-center flex-1 text-xl font-semibold text-secondary ">Location</h1>
+                        <h1 className="text-center flex-1 text-xl font-semibold text-secondary ">Guests</h1>
                         <button
                             onClick={() => setGuestModal(false)}
                             type="button" className="text-3xl text-primary">
