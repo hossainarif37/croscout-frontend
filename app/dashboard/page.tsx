@@ -1,7 +1,8 @@
-import Card from "../ui/dashboard/Card/Cart";
-import Chart from "../ui/dashboard/Chart/Chart";
+
+import Card from "../ui/dashboard/card/cart";
+import Chart from "../ui/dashboard/chart/chart";
 import styles from "../ui/dashboard/dashboard.module.css";
-import Transactions from "../ui/dashboard/Transections/transections";
+import Transactions from "../ui/dashboard/transections/transections";
 
 const Dashboard = () => {
     const cards = [

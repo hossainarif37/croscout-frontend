@@ -18,8 +18,8 @@ import {
 
 import Image from 'next/image';
 import { useModalContext } from '@/providers/ModalProvider';
-import MenuLink from './MenuLink/MenuLink';
 import { useAuthContext } from '@/providers/AuthProvider';
+import MenuLink from './menuLink/menuLink';
 
 
 export default function Sidebar() {
