@@ -39,9 +39,9 @@ const Navbar = () => {
     }
 
     return (
-        <nav hidden={isResetPassword || isDashboard} id="topbar" className="py-5  bg-primary z-40 sticky top-0">
+        <nav hidden={isResetPassword} id="topbar" className={`py-5   z-40 sticky top-0 ${isDashboard ? "bg-[#182237]" : "bg-primary"}`}>
             {/* Wrapper */}
-            <div className="wrapper flex-between relative">
+            <div className={` flex-between relative ${isDashboard ? "w-full px-6" : "wrapper"}`}>
                 <div className="text-white lg:hidden">
                     <div
                         onClick={() => setSidebarToggle((pre) => !pre)}
@@ -90,6 +90,8 @@ const Navbar = () => {
 
                                     }}
                                 >Signup</button>
+
+                                <Link className={navbarStyles.dashboardBtn} href={"/dashboard"}>Dashboard</Link>
                             </>
                     }
                 </ul>
