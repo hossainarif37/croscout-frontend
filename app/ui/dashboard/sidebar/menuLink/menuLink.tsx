@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation'
 import styles from "./menuLink.module.css"
 import React from 'react'
 
-export default function MenuLink({ item }) {
+export default function MenuLink({ item }: any) {
     const pathname = usePathname();
     return (
         <div className='mb-1'>
