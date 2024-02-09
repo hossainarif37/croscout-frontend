@@ -1,27 +1,28 @@
 "use client"
 import React, { ReactNode } from 'react';
-import styles from "../ui/dashboard/dashboard.module.css"
-import "@/app/ui/dashboardGlobal.css"
-
-import DashboardSearchFeild from '../ui/dashboard/DashboardSearchField/DashboardSearchFeild';
-import Sidebar from '../ui/dashboard/sidebar/sidebar';
 import { useModalContext } from '@/providers/ModalProvider';
-
+import Sidebar from './components/Sidebar/Sidebar';
+import DashboardSearchFeild from './components/DashboardSearchField/DashboardSearchFeild';
+import styles from "@/app/dashboard/components/dashboard.module.css"
 
 interface DashboardLayoutProps {
     children: ReactNode;
 }
 
 
+
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
-    const { setSidebarToggle } = useModalContext();
+    const { setSidebarToggle, sidebarToggle } = useModalContext();
+    const handleToggleSidebar = () => {
+        setSidebarToggle(false);
+    }
 
     return (
         <div className={styles.container}>
             <div className={styles.menu}>
                 <Sidebar />
             </div>
-            <div onClick={() => setSidebarToggle((pre) => !pre)} className={`${styles.contain} overflow-hidden`}>
+            <div onClick={handleToggleSidebar} className={`${styles.contain} overflow-hidden ${sidebarToggle && "blur-md pointer-events-auto"}`}>
                 <div className='mb-4'>
                     <DashboardSearchFeild />
                 </div>

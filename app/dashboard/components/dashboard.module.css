@@ -11,7 +11,7 @@
   }
   
   .cards {
-    @apply flex lg:flex-row flex-col gap-8 justify-between my-5;
+    @apply flex lg:flex-row flex-col lg:gap-8 gap-6 justify-between my-5;
   }
   
   .main {

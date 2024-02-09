@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 import { clearToken } from "@/utils/tokenStorage";
 import { usePathname } from "next/navigation";
 import { HiMenuAlt1 } from "react-icons/hi";
+import { CgMenuGridR } from "react-icons/cg";
 
 const Navbar = () => {
     const { navUserToggle, setNavUserToggle } = useToggleContext();
@@ -38,16 +39,28 @@ const Navbar = () => {
         }
     }
 
+    {/*//*-----====== Handle open menubar to close sidebar=====------*/ }
+    const handleMenuToggle = () => {
+        setNavUserToggle(pre => !pre);
+        setSidebarToggle(false); // Close the sidebar menu
+    };
+
+    {/*//*--=== Handle open sidebar to close menubar===-----*/ }
+    const handleSidebarToggle = () => {
+        setSidebarToggle(pre => !pre);
+        setNavUserToggle(false); // Close the menuList 
+    };
+
     return (
         <nav hidden={isResetPassword} id="topbar" className={`py-5   z-40 sticky top-0 ${isDashboard ? "bg-[#182237]" : "bg-primary"}`}>
             {/* Wrapper */}
-            <div className={` flex-between relative ${isDashboard ? "w-full px-6" : "wrapper"}`}>
+            <div className={` flex-between items-center relative ${isDashboard ? "w-full px-6" : "wrapper"}`}>
                 <div className="text-white lg:hidden">
-                    <div
-                        onClick={() => setSidebarToggle((pre) => !pre)}
+                    {isDashboard && <div
+                        onClick={handleSidebarToggle}
                         className="text-2xl cursor-pointer block lg:hidden">
-                        {sidebarToggle ? <IoIosCloseCircle /> : <AiOutlineMenu color="white" />}
-                    </div>
+                        {sidebarToggle ? <IoIosCloseCircle /> : <CgMenuGridR color="white" />}
+                    </div>}
                 </div>
                 {/* Logo */}
                 <NavLogo />
@@ -57,7 +70,7 @@ const Navbar = () => {
 
                 {/* Menu Button - Visible for Mobile Version */}
                 <button
-                    onClick={() => setNavUserToggle((prev) => !prev)}
+                    onClick={handleMenuToggle}
                     className="block md:hidden text-white select-none text-2xl">
                     {navUserToggle ? <IoIosCloseCircle /> : <AiOutlineMenu color="white" />}
                 </button>
@@ -69,7 +82,7 @@ const Navbar = () => {
                     {
                         user ?
                             <>
-                                <button className="text-secondary bg-slate-200 cursor-default">{user?.name}</button>
+                                <button className={navbarStyles.dashboardBtn}>{user?.name}</button>
 
                                 <Link className={navbarStyles.dashboardBtn} href={"/dashboard"}>Dashboard</Link>
 
