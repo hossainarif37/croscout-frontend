@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 import { clearToken } from "@/utils/tokenStorage";
 import { usePathname } from "next/navigation";
 import { HiMenuAlt1 } from "react-icons/hi";
+import { CgMenuGridR } from "react-icons/cg";
 
 const Navbar = () => {
     const { navUserToggle, setNavUserToggle } = useToggleContext();
@@ -53,12 +54,12 @@ const Navbar = () => {
     return (
         <nav hidden={isResetPassword} id="topbar" className={`py-5   z-40 sticky top-0 ${isDashboard ? "bg-[#182237]" : "bg-primary"}`}>
             {/* Wrapper */}
-            <div className={` flex-between relative ${isDashboard ? "w-full px-6" : "wrapper"}`}>
+            <div className={` flex-between items-center relative ${isDashboard ? "w-full px-6" : "wrapper"}`}>
                 <div className="text-white lg:hidden">
                     {isDashboard && <div
                         onClick={handleSidebarToggle}
                         className="text-2xl cursor-pointer block lg:hidden">
-                        {sidebarToggle ? <IoIosCloseCircle /> : <AiOutlineMenu color="white" />}
+                        {sidebarToggle ? <IoIosCloseCircle /> : <CgMenuGridR color="white" />}
                     </div>}
                 </div>
                 {/* Logo */}

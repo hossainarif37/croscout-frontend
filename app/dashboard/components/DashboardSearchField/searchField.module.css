@@ -8,7 +8,7 @@
 }
 
 .menu {
-  @apply flex items-center lg:gap-5 gap-3;
+  @apply flex items-center justify-between lg:gap-5 gap-3;
 }
 
 .search {

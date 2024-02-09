@@ -1,8 +1,7 @@
-
-import Card from "../ui/dashboard/card/cart";
-import Chart from "../ui/dashboard/chart/chart";
-import styles from "../ui/dashboard/dashboard.module.css";
-import Transactions from "../ui/dashboard/transections/transections";
+import StatisticsCard from "./components/StatisticsCard/StatisticsCard";
+import Transactions from "./components/Transections/Transections";
+import Chart from "./components/Chart/Chart";
+import styles from "@/app/dashboard/components/dashboard.module.css"
 
 const Dashboard = () => {
     const cards = [
@@ -30,7 +29,7 @@ const Dashboard = () => {
             <div className={styles.main}>
                 <div className={styles.cards}>
                     {cards.map((item) => (
-                        <Card item={item} key={item.id} />
+                        <StatisticsCard item={item} key={item.id} />
                     ))}
                 </div>
                 <div className="my-5">

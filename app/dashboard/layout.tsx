@@ -1,12 +1,9 @@
 "use client"
 import React, { ReactNode } from 'react';
-import styles from "../ui/dashboard/dashboard.module.css"
-import "@/app/ui/dashboardGlobal.css"
-
-import DashboardSearchFeild from '../ui/dashboard/DashboardSearchField/DashboardSearchFeild';
-import Sidebar from '../ui/dashboard/sidebar/sidebar';
 import { useModalContext } from '@/providers/ModalProvider';
-
+import Sidebar from './components/Sidebar/Sidebar';
+import DashboardSearchFeild from './components/DashboardSearchField/DashboardSearchFeild';
+import styles from "@/app/dashboard/components/dashboard.module.css"
 
 interface DashboardLayoutProps {
     children: ReactNode;

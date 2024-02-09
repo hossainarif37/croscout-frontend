@@ -1,6 +1,4 @@
 "use client"
-
-
 import React from 'react'
 import styles from "./sidebar.module.css"
 import userImg from "@/public/noavatar.png"
@@ -17,10 +15,10 @@ import {
 } from "react-icons/md";
 
 import Image from 'next/image';
+import { IoIosCloseCircle } from 'react-icons/io';
 import { useModalContext } from '@/providers/ModalProvider';
 import { useAuthContext } from '@/providers/AuthProvider';
-import MenuLink from './MenuLink/menuLink';
-import { IoIosCloseCircle } from 'react-icons/io';
+import MenuLink from './MenuLink/MenuLink';
 
 
 export default function Sidebar() {
