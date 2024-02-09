@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react";
 import FooterLogo from "@/public/images/footer-logo.svg";
 import Image from "next/image";
@@ -7,11 +9,17 @@ import footerStyles from "./footer.module.css"
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { AiFillTwitterCircle } from "react-icons/ai";
 import MultiCategory from "@/components/Home/MultiCategory";
+import { usePathname } from "next/navigation";
 
 const Footer = () => {
+    // footer will be hidden if them pathname matches the include pathname
+    const pathname = usePathname();
+    const isFooterHidden = /\/reset-password\/[^/]+$/.test(pathname) || /\/dashboard\/[^/]+$/.test(pathname);
+    const isDashboard = pathname.includes('/dashboard')
+
     const currentYear = new Date().getFullYear();
     return (
-        <>
+        <div hidden={isFooterHidden || isDashboard}>
             <MultiCategory />
             <footer className={`bg-primary pt-20 ${footerStyles.footer}`}>
                 <div className="wrapper">
@@ -92,7 +100,7 @@ const Footer = () => {
                     </div>
                 </div>
             </footer>
-        </>
+        </div>
 
     );
 }

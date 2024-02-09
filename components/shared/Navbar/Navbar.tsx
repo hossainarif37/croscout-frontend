@@ -11,6 +11,7 @@ import { useAuthContext } from "@/providers/AuthProvider";
 import { logoutUser } from "@/lib/database/authUser";
 import toast from "react-hot-toast";
 import { clearToken } from "@/utils/tokenStorage";
+import { usePathname } from "next/navigation";
 import { HiMenuAlt1 } from "react-icons/hi";
 
 const Navbar = () => {
@@ -18,6 +19,11 @@ const Navbar = () => {
     const { setLoginModal, setSignupModal, sidebarToggle,
         setSidebarToggle } = useModalContext();
     const { user, setUser } = useAuthContext();
+
+    // navbar will be hidden if them pathname matches the include pathname
+    const pathname = usePathname();
+    const isResetPassword = /\/reset-password\/[^/]+$/.test(pathname);
+    const isDashboard = pathname.includes('/dashboard')
 
     const handleLogout = async () => {
         try {
@@ -33,9 +39,9 @@ const Navbar = () => {
     }
 
     return (
-        <nav id="topbar" className="py-5  bg-primary z-40 sticky top-0">
+        <nav hidden={isResetPassword} id="topbar" className={`py-5   z-40 sticky top-0 ${isDashboard ? "bg-[#182237]" : "bg-primary"}`}>
             {/* Wrapper */}
-            <div className="wrapper flex-between relative">
+            <div className={` flex-between relative ${isDashboard ? "w-full px-6" : "wrapper"}`}>
                 <div className="text-white lg:hidden">
                     <div
                         onClick={() => setSidebarToggle((pre) => !pre)}
@@ -63,8 +69,12 @@ const Navbar = () => {
                     {
                         user ?
                             <>
-                                <button className="text-secondary cursor-default">{user?.name}</button>
+                                <button className="text-secondary bg-slate-200 cursor-default">{user?.name}</button>
+
+                                <Link className={navbarStyles.dashboardBtn} href={"/dashboard"}>Dashboard</Link>
+
                                 <button
+
                                     onClick={handleLogout}
                                 >Logout</button>
                             </>
@@ -84,6 +94,8 @@ const Navbar = () => {
 
                                     }}
                                 >Signup</button>
+
+
                             </>
                     }
                 </ul>

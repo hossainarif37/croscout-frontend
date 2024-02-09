@@ -13,6 +13,10 @@
   .flex-between {
     @apply flex justify-between items-center;
   }
+
+  .error{
+    @apply text-sm text-red-500 mt-5
+  }
 }
 
 input:focus{
