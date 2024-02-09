@@ -19,10 +19,12 @@ import {
 import Image from 'next/image';
 import { useModalContext } from '@/providers/ModalProvider';
 import MenuLink from './MenuLink/MenuLink';
+import { useAuthContext } from '@/providers/AuthProvider';
 
 
 export default function Sidebar() {
     const { sidebarToggle } = useModalContext();
+    const { user } = useAuthContext();
     const menuItems = [
         {
             title: "Pages",
@@ -91,8 +93,8 @@ export default function Sidebar() {
                 <div className='flex gap-4 items-center mb-4'>
                     <Image src={userImg} alt='userImage' width={50} height={50} className='rounded-full' />
                     <div className='flex flex-col'>
-                        <span>User Name</span>
-                        <span className='text-sm text-gray-300'>User title</span>
+                        <span>{user?.name}</span>
+                        <span className='text-sm text-gray-300'>{user?.role}</span>
                     </div>
                 </div>
                 <ul className={styles.list}>
