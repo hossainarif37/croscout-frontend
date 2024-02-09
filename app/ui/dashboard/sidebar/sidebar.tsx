@@ -18,7 +18,7 @@ import {
 
 import Image from 'next/image';
 import { useModalContext } from '@/providers/ModalProvider';
-import MenuLink from './menuLink/menuLink';
+import MenuLink from './MenuLink/MenuLink';
 
 
 export default function Sidebar() {
@@ -108,8 +108,8 @@ export default function Sidebar() {
             </div>
 
             {/*//* ------Mobile Version-------*/}
-            <div className={`z-10 block lg:hidden fixed h-full bg-white  p-5  text-center shadow-lg origin-left rounded-md ${!sidebarToggle ? 'scale-x-0 ' : 'scale-x-100 w-64'} duration-300 rounded-md`}>
-                <ul className="space-y-3 text-gray-500">
+            <div className={`z-10 block lg:hidden fixed h-full bg-[#151c2c]  p-5 shadow-lg origin-left rounded-md ${!sidebarToggle ? 'scale-x-0 ' : 'scale-x-100 w-64'} duration-300 rounded-md`}>
+                <ul className="space-y-3 text-[#b7bac1]">
                     <ul className={styles.list}>
                         {menuItems.map((cat) => (
                             <li key={cat.title} className='mb-4'>
