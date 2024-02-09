@@ -1,21 +1,29 @@
 'use client';
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const NavLogo = () => {
     const router = useRouter();
-
+    const pathname = usePathname();
+    const isDashboard = pathname.includes('/dashboard')
     return (
         <div className="h-[24px] md:h-[48px] md:w-[336px] w-[200px] relative">
-            <Image
+            {!isDashboard ? <Image
                 onClick={() => router.push("/")}
                 className="cursor-pointer"
                 src="/images/navLogo.svg"
                 alt="Logo"
                 height={24}
                 width={336}
-            />
+            /> : <Image
+                onClick={() => router.push("/")}
+                className="cursor-pointer"
+                src="/images/navlogo_transparent.png"
+                alt="Logo"
+                height={24}
+                width={336}
+            />}
         </div>
     );
 }

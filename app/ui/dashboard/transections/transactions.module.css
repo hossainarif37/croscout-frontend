@@ -1,6 +1,6 @@
 
 .container {
-  @apply bg-[#182237] lg:p-5 rounded-lg lg:text-base text-sm;
+  @apply bg-[#182237] lg:p-5 p-2 rounded-lg lg:text-base text-sm;
 }
 
 .title {
@@ -14,11 +14,21 @@
 }
 
 .table td {
-  @apply p-3;
+  @apply p-3 flex-1 justify-start;
+}
+.thead tr {
+  @apply flex justify-between items-center gap-8
+}
+.thead td{
+  @apply flex-1 justify-start
+}
+
+.table tr {
+  @apply flex justify-between items-center gap-8;
 }
 
 .user {
-  @apply flex items-center gap-3;
+  @apply flex items-center mr-4 gap-2 lg:gap-3;
 }
 
 .userImage {
@@ -26,7 +36,7 @@
 }
 
 .status {
-  @apply rounded px-2 py-1 text-sm;
+  @apply rounded px-1 py-1 text-sm;
 }
 
 .pending {

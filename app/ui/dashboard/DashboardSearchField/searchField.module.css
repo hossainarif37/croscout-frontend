@@ -1,6 +1,6 @@
 
 .container {
-  @apply p-5 rounded-lg bg-[#182237] flex items-center justify-between text-[#b7bac1];
+  @apply lg:p-5 rounded-lg bg-[#182237] flex items-center justify-between text-[#b7bac1];
 }
 
 .title {
@@ -8,11 +8,11 @@
 }
 
 .menu {
-  @apply flex items-center gap-5;
+  @apply flex items-center lg:gap-5 gap-3;
 }
 
 .search {
-  @apply flex items-center gap-3 bg-[#2e374a] p-3 rounded-lg;
+  @apply flex items-center lg:gap-3 bg-[#2e374a] lg:p-3 p-2 rounded-lg w-2/3 lg:w-full;
 }
 
 .input {
@@ -20,5 +20,5 @@
 }
 
 .icons {
-  @apply flex gap-5;
+  @apply flex lg:gap-5 gap-2;
 }

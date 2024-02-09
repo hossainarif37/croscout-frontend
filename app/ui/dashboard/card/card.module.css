@@ -1,6 +1,6 @@
 
 .container {
-  @apply bg-[#182237] p-5 rounded-lg lg:flex gap-5 cursor-pointer w-full;
+  @apply bg-[#182237] lg:p-5 p-4 rounded-lg lg:flex lg:gap-5 cursor-pointer w-full;
   width: 100%;
 }
 
@@ -9,7 +9,7 @@
 }
 
 .texts {
-  @apply flex flex-col gap-5;
+  @apply flex flex-col lg:gap-5 gap-3;
 }
 
 .number {
