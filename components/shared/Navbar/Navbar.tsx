@@ -11,9 +11,10 @@ import { useAuthContext } from "@/providers/AuthProvider";
 import { logoutUser } from "@/lib/database/authUser";
 import toast from "react-hot-toast";
 import { clearToken } from "@/utils/tokenStorage";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { HiMenuAlt1 } from "react-icons/hi";
 import { CgMenuGridR } from "react-icons/cg";
+import { setCookie } from "cookies-next";
 
 const Navbar = () => {
     const { navUserToggle, setNavUserToggle } = useToggleContext();
@@ -24,16 +25,20 @@ const Navbar = () => {
     // navbar will be hidden if them pathname matches the include pathname
     const pathname = usePathname();
     const isResetPassword = /\/reset-password\/[^/]+$/.test(pathname);
-    const isDashboard = pathname.includes('/dashboard')
+    const isDashboard = pathname.includes('/dashboard');
+    const router = useRouter();
 
     const handleLogout = async () => {
         try {
             // const dbResponse = await logoutUser();
             // if(dbResponse.isLogout){
             toast.success("Successfully Logout")
-            setUser(null)
+            setUser(null);
+            setCookie('logged', 'false');
             clearToken();
             // }
+            router.push('/')
+
         } catch (error) {
             console.log(error);
         }

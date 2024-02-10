@@ -6,6 +6,7 @@ export function storeToken(token: string): void {
 
 export function getStoredToken(): string | null {
     if (typeof window !== 'undefined') {
+        console.log('Hit the url');
         return localStorage.getItem('Token');
     }
     return null;

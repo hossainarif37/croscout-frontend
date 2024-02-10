@@ -4,6 +4,7 @@ import { useModalContext } from '@/providers/ModalProvider';
 import Sidebar from './components/Sidebar/Sidebar';
 import DashboardSearchFeild from './components/DashboardSearchField/DashboardSearchFeild';
 import styles from "@/app/dashboard/components/dashboard.module.css"
+import { useAuthContext } from '@/providers/AuthProvider';
 
 interface DashboardLayoutProps {
     children: ReactNode;
@@ -16,6 +17,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     const handleToggleSidebar = () => {
         setSidebarToggle(false);
     }
+
 
     return (
         <div className={styles.container}>
