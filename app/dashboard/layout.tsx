@@ -4,7 +4,7 @@ import { useModalContext } from '@/providers/ModalProvider';
 import Sidebar from './components/Sidebar/Sidebar';
 import DashboardSearchFeild from './components/DashboardSearchField/DashboardSearchFeild';
 import styles from "@/app/dashboard/components/dashboard.module.css"
-import { useAuthContext } from '@/providers/AuthProvider';
+import { usePathname } from 'next/navigation';
 
 interface DashboardLayoutProps {
     children: ReactNode;
@@ -24,9 +24,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             <div className={styles.menu}>
                 <Sidebar />
             </div>
-            <div onClick={handleToggleSidebar} className={`${styles.contain} overflow-hidden ${sidebarToggle && "blur-md pointer-events-auto"}`}>
+            <div onClick={handleToggleSidebar} className={` ${styles.contain} overflow-hidden ${sidebarToggle && "blur-md pointer-events-auto"}`}>
                 <div className='mb-4'>
-                    <DashboardSearchFeild />
+                    {/* <DashboardSearchFeild /> */}
                 </div>
                 {children}
             </div>

@@ -1,11 +1,12 @@
-import AddProperty from "./components/AddProperty";
+import React from 'react';
+import AddPropertyForm from '../components/AddPropertyForm/AddPropertyForm';
 
-const page = () => {
+const AddProperty = () => {
     return (
         <div>
-            <AddProperty />
+            <AddPropertyForm />
         </div>
     );
 };
 
-export default page;
+export default AddProperty;
