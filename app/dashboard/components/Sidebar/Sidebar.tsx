@@ -19,11 +19,14 @@ import { IoIosCloseCircle } from 'react-icons/io';
 import { useModalContext } from '@/providers/ModalProvider';
 import { useAuthContext } from '@/providers/AuthProvider';
 import MenuLink from './MenuLink/MenuLink';
+import Loading from '@/components/ui/Loading/Loading';
 
 
 export default function Sidebar() {
     const { sidebarToggle, setSidebarToggle } = useModalContext();
     const { user } = useAuthContext();
+
+
     const menuItems = [
         {
             title: "Pages",
@@ -39,8 +42,8 @@ export default function Sidebar() {
                     icon: <MdSupervisedUserCircle />,
                 },
                 {
-                    title: "Products",
-                    path: "/dashboard/products",
+                    title: "My Properties",
+                    path: "/dashboard/my-properties",
                     icon: <MdShoppingBag />,
                 },
                 {

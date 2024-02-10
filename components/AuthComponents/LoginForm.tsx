@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { ImSpinner9 } from "react-icons/im";
 import { getStoredToken, storeToken } from "@/utils/tokenStorage";
 import { useAuthContext } from "@/providers/AuthProvider";
+import { setCookie } from "cookies-next";
 
 type Inputs = {
     email: string
@@ -41,8 +42,10 @@ const LoginForm = () => {
                 if (dbResponse?.success) {
                     toast.success(dbResponse?.message);
                     await storeToken(dbResponse.token);
+
                     setUser(dbResponse.user);
                     setLoginModal(false);
+                    setCookie('logged', 'true');
                 }
                 else {
                     toast.error(dbResponse.error);

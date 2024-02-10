@@ -3,6 +3,7 @@ import FilterButton from "@/components/Home/FilterButton";
 import Hero from "@/components/Home/Hero";
 import MultiCategory from "@/components/Home/MultiCategory";
 import PropertyList from "@/components/Home/Property/PropertyList";
+import { useAuthContext } from "@/providers/AuthProvider";
 
 export default function Home() {
 
