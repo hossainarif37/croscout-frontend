@@ -34,8 +34,8 @@ export default function Sidebar() {
                     icon: <MdDashboard />,
                 },
                 {
-                    title: "Users",
-                    path: "/dashboard/users",
+                    title: "Add Property",
+                    path: "/dashboard/add-property",
                     icon: <MdSupervisedUserCircle />,
                 },
                 {
