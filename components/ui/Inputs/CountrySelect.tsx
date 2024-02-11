@@ -14,11 +14,12 @@ export type CountrySelectValue = {
 
 interface CountrySelectProps {
     value?: CountrySelectValue;
+    isAddProperty: boolean;
     onChange: (value: CountrySelectValue | undefined) => void;
 }
 
 
-const CountrySelect: React.FC<CountrySelectProps> = ({ value, onChange }) => {
+const CountrySelect: React.FC<CountrySelectProps> = ({ value, onChange, isAddProperty }) => {
     const { getAll } = useCountries();
 
 
@@ -33,18 +34,18 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ value, onChange }) => {
 
                 onChange={(value) => onChange(value as CountrySelectValue)}
                 formatOptionLabel={(option: any) => (
-                    <div className='flex flex-row items-center gap-3 '>
+                    <div className='flex flex-row  items-center gap-3'>
                         <div>{option.flag}</div>
                         <div>
                             {option.label},
-                            <span className='text-neutral-500 ml-1'>
+                            <span className={'text-neutral-500 ml-1'}>
                                 {option.region}
                             </span>
                         </div>
                     </div>
                 )}
                 classNames={{
-                    control: () => 'p-3 border-2 hover:cursor-pointer',
+                    control: () => `${isAddProperty ? 'p-[2px]' : 'p-3'} border-2 hover:cursor-pointer`,
                     input: () => 'text-lg',
                     option: () => 'text-lg',
                 }}
@@ -55,7 +56,7 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ value, onChange }) => {
                     colors: {
                         ...theme.colors,
                         primary: '#666',
-                        primary25: '#ffe4e6'
+                        primary25: '#ffe4e6',
                     }
                 })}
             />

@@ -1,14 +1,18 @@
 'use client';
 
+import { useToggleContext } from "@/providers/ToggleProvider";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 
 const NavLogo = () => {
     const router = useRouter();
+    const { setNavUserToggle } = useToggleContext();
     const pathname = usePathname();
     const isDashboard = pathname.includes('/dashboard')
     return (
-        <div className="h-[24px] md:h-[48px] md:w-[336px] w-[200px] relative">
+        <div
+            onClick={() => setNavUserToggle(false)}
+            className="h-[24px] md:h-[48px] md:w-[336px] w-[200px] relative">
             {!isDashboard ? <Image
                 onClick={() => router.push("/")}
                 className="cursor-pointer"

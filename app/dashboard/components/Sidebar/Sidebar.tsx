@@ -42,13 +42,13 @@ export default function Sidebar() {
                     icon: <MdSupervisedUserCircle />,
                 },
                 {
-                    title: "My Properties",
+                    title: "Properties",
                     path: "/dashboard/my-properties",
                     icon: <MdShoppingBag />,
                 },
                 {
                     title: "Transactions",
-                    path: "/dashboard/transactions",
+                    path: "#",
                     icon: <MdAttachMoney />,
                 },
             ],
@@ -58,34 +58,19 @@ export default function Sidebar() {
             list: [
                 {
                     title: "Revenue",
-                    path: "/dashboard/revenue",
+                    path: "#",
                     icon: <MdWork />,
-                },
-                {
-                    title: "Reports",
-                    path: "/dashboard/reports",
-                    icon: <MdAnalytics />,
-                },
-                {
-                    title: "Teams",
-                    path: "/dashboard/teams",
-                    icon: <MdPeople />,
-                },
+                }
             ],
         },
         {
             title: "User",
             list: [
                 {
-                    title: "Settings",
-                    path: "/dashboard/settings",
+                    title: "Profile Settings",
+                    path: "#",
                     icon: <MdOutlineSettings />,
-                },
-                {
-                    title: "Help",
-                    path: "/dashboard/help",
-                    icon: <MdHelpCenter />,
-                },
+                }
             ],
         },
     ];
