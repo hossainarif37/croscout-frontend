@@ -1,12 +1,9 @@
 "use client"
 import { SubmitHandler, useForm } from "react-hook-form";
 import styles from "./addProperty.module.css"
-import CountrySelect from "@/components/ui/Inputs/CountrySelect";
 import { useState } from "react";
-import { useCountries } from "@/hooks/useCountries";
 import ImageUploader from "../../add-property/components/ImageUploader";
 import { categoryList } from "@/constant";
-import { Country, State, City } from 'country-state-city';
 
 
 type Inputs = {
@@ -25,8 +22,6 @@ type Inputs = {
 const AddPropertyForm = () => {
     const { register, handleSubmit, reset, formState: { errors }, } = useForm<Inputs>();
     const [imagesArr, setImagesArr] = useState<string[]>([]);
-
-    const { getAll } = useCountries();
 
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
@@ -164,11 +159,9 @@ const AddPropertyForm = () => {
                                             {...register("location", { required: true })}
                                         >
                                             <option value="" disabled>Select an option</option>
-                                            {
-                                                getAll().map((country) => <option>
-                                                    {country.label}
-                                                </option>)
-                                            }
+                                            <option value="Bangladesh">Bangladesh</option>
+                                            <option value="Bangladesh">Germany</option>
+                                            <option value="Bangladesh">Croatia</option>
                                         </select>
 
 
@@ -189,11 +182,9 @@ const AddPropertyForm = () => {
                                             {...register("state", { required: true })}
                                         >
                                             <option value="" disabled>Select an option</option>
-                                            {
-                                                State.getAllStates().map(state => <option value={state.name}>
-                                                    {state.name}
-                                                </option>)
-                                            }
+                                            <option value="Dhaka City">Dhaka City</option>
+                                            <option value="Dhaka City">Melbourne City</option>
+                                            <option value="Dhaka City">California</option>
                                         </select>
 
                                         {/*//! Error */}
