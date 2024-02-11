@@ -98,7 +98,7 @@ const AddPropertyForm = () => {
                                     />
 
                                     {/*//! Error */}
-                                    {errors?.name && <p className="text-red-600 mt-1 lg:text-base text-sm">Property name is requeard!</p>}
+                                    {errors?.name && <p className="text-red-600 mt-1 lg:text-base text-sm">Property name is required!</p>}
                                 </div>
 
 
@@ -116,7 +116,7 @@ const AddPropertyForm = () => {
                                     ></textarea>
 
                                     {/*//! Error */}
-                                    {errors?.description && <p className="text-red-600 mt-1 lg:text-base text-sm">Description name is requeard!</p>}
+                                    {errors?.description && <p className="text-red-600 mt-1 lg:text-base text-sm">Description name is required!</p>}
                                 </div>
                             </div>
                             {/* <div data-orientation="horizontal" role="none" className="shrink-0 bg-gray-100 h-[1px] w-full"></div> */}
@@ -136,7 +136,7 @@ const AddPropertyForm = () => {
                                     />
 
                                     {/*//! Error */}
-                                    {errors?.amenities && <p className="text-red-600 mt-1 lg:text-base text-sm">Amenities is requeard!</p>}
+                                    {errors?.amenities && <p className="text-red-600 mt-1 lg:text-base text-sm">Amenities is required!</p>}
                                 </div>
 
                                 <div className="grid md:grid-cols-2 gap-4">
@@ -157,7 +157,7 @@ const AddPropertyForm = () => {
                                         />
 
                                         {/*//! Error */}
-                                        {errors?.pricePerNight && <p className="text-red-600 mt-1 lg:text-base text-sm">Price is requeard!</p>}
+                                        {errors?.pricePerNight && <p className="text-red-600 mt-1 lg:text-base text-sm">Price is required!</p>}
                                     </div>
 
                                     {/* Property Type */}
@@ -180,7 +180,7 @@ const AddPropertyForm = () => {
                                         </select>
 
                                         {/*//! Error */}
-                                        {errors?.propertyType && <p className="text-red-600 mt-1 lg:text-base text-sm">Property type name is requeard!</p>}
+                                        {errors?.propertyType && <p className="text-red-600 mt-1 lg:text-base text-sm">Property type name is required!</p>}
                                     </div>
                                 </div>
 
@@ -204,7 +204,7 @@ const AddPropertyForm = () => {
 
 
                                         {/*//! Error */}
-                                        {errors?.location && <p className="text-red-600 mt-1 lg:text-base text-sm">Location is requeard!</p>}
+                                        {errors?.location && <p className="text-red-600 mt-1 lg:text-base text-sm">Location is required!</p>}
                                     </div>
 
                                     {/* State */}
@@ -226,7 +226,7 @@ const AddPropertyForm = () => {
                                         </select>
 
                                         {/*//! Error */}
-                                        {errors?.state && <p className="text-red-600 mt-1 lg:text-base text-sm">State name is requeard!</p>}
+                                        {errors?.state && <p className="text-red-600 mt-1 lg:text-base text-sm">State name is required!</p>}
                                     </div>
                                 </div>
 
@@ -247,7 +247,7 @@ const AddPropertyForm = () => {
                                     />
 
                                     {/*//! Error */}
-                                    {errors?.guests && <p className="text-red-600 mt-1 lg:text-base text-sm">Guest is requeard!</p>}
+                                    {errors?.guests && <p className="text-red-600 mt-1 lg:text-base text-sm">Guest is required!</p>}
                                 </div>
 
                                 {/* --------------Upload Images Area End----------------*/}
