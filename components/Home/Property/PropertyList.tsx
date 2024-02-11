@@ -7,9 +7,13 @@ import { useSearchContext } from "@/providers/SearchProvider";
 import { IoMdClose } from "react-icons/io";
 import ClearSearchButton from "@/components/ui/buttons/ClearSearchButton";
 import { clearSearchInputValue } from "@/utils/filterProperties";
+import { getAllProperty } from "@/lib/database/getProperties";
+import Loading from "@/components/ui/Loading/Loading";
 
-const PropertyList = () => {
+const PropertyList = async () => {
     const { filteredProperty, setFilteredProperty, isSearchBtnClicked, setIsSearchBtnClicked, setActiveCat, catergoryInputValue, setCatergoryInputValue, setLocation, setLocationObject } = useSearchContext();
+
+    const properties = await getAllProperty();
 
     if (isSearchBtnClicked && filteredProperty.length < 1) {
         return <div className="flex flex-col lg:pb-60 lg:pt-20 pt-10 pb-20 items-center">
@@ -27,7 +31,9 @@ const PropertyList = () => {
     }
 
     // console.log(catergoryInputValue);
-
+    if (properties.length < 1) {
+        return <Loading></Loading>
+    }
     return (
         <>
             {/* Clear Search Button */}
@@ -46,7 +52,7 @@ const PropertyList = () => {
             }
 
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-5">
-                {(filteredProperty.length > 0 && filteredProperty || propertyList).map((property: Property, index: number) => (
+                {(filteredProperty.length > 0 && filteredProperty || properties).map((property: Property, index: number) => (
                     // <Link
                     //     href={`/property-details/${index + 1}`}
                     //     key={index}

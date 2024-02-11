@@ -42,7 +42,7 @@ export default function PropertyCard({ property }: Property & any) {
 
     const router = useRouter();
 
-
+    console.log(property);
 
     return (
         <div
@@ -65,13 +65,16 @@ export default function PropertyCard({ property }: Property & any) {
                     <h1 className="text-xl font-bold">
                         {`${location.substring(0, 10)}, ${state.substring(0, 13)}`}
                     </h1>
-
+                    {/* Location and State */}
+                    <h1 className="text-xl font-bold">
+                        {`${name}`}
+                    </h1>
 
                     {/* Property Type */}
                     <p className="mt-[10px]">{propertyType}</p>
 
                     {/* StartDate and End Date */}
-                    <div className="">{startDate.split(',')[0]} - {endDate.split(',')[0]}</div>
+                    <div className="">{startDate?.split(',')[0]} - {endDate?.split(',')[0]}</div>
 
                     {/* Price and Ratings */}
                     <div className="flex justify-between mt-[10px]">
@@ -87,8 +90,6 @@ export default function PropertyCard({ property }: Property & any) {
                                     property.ratings.reduce((sum: any, rating: any) => sum + rating, 0) / property.ratings.length || 0
                                 ).toFixed(1)}
                             </div>
-
-
                         </div>
                     </div>
                 </div>
