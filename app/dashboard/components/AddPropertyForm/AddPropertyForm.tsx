@@ -1,6 +1,12 @@
 "use client"
 import { SubmitHandler, useForm } from "react-hook-form";
 import styles from "./addProperty.module.css"
+import CountrySelect from "@/components/ui/Inputs/CountrySelect";
+import { useState } from "react";
+import { useCountries } from "@/hooks/useCountries";
+import ImageUploader from "../../add-property/components/ImageUploader";
+import { categoryList } from "@/constant";
+import { Country, State, City } from 'country-state-city';
 
 
 type Inputs = {
@@ -18,6 +24,11 @@ type Inputs = {
 }
 const AddPropertyForm = () => {
     const { register, handleSubmit, reset, formState: { errors }, } = useForm<Inputs>();
+    const [imagesArr, setImagesArr] = useState<string[]>([]);
+
+    const { getAll } = useCountries();
+
+
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         // Convert the amenities string into an array
         const amenitiesArray = data.amenities.split(',').map(amenity => amenity.trim());
@@ -25,7 +36,8 @@ const AddPropertyForm = () => {
         // Construct the final object with the amenities array
         const finalData = {
             ...data,
-            amenities: amenitiesArray
+            amenities: amenitiesArray,
+            images: [...imagesArr]
         };
 
         console.log(finalData);
@@ -34,10 +46,12 @@ const AddPropertyForm = () => {
     return (
         <div>
             <main className="overflow-auto">
-                <div className="mx-auto max-w-[900px] space-y-8 lg:p-4 text-secondary-50">
+                <div className="mx-auto max-w-6xl space-y-8 lg:p-4 text-secondary-50">
                     <div className="rounded-lg bg-primary-50 text-card-foreground shadow-lg" data-v0-t="card">
                         <form onSubmit={handleSubmit(onSubmit)} className={`${styles.formInput} px-2 py-4 lg:p-12 space-y-4`}>
                             <div className={` grid gap-4`}>
+
+                                {/* Property Name */}
                                 <div className="flex flex-col gap-1.5">
                                     <label
                                         htmlFor="property-name"
@@ -50,11 +64,13 @@ const AddPropertyForm = () => {
                                         placeholder="Property name"
                                         {...register("name", { required: true })}
                                     />
+
+                                    {/*//! Error */}
                                     {errors?.name && <p className="text-red-600 mt-1 lg:text-base text-sm">Property name is requeard!</p>}
                                 </div>
 
 
-
+                                {/* Description */}
                                 <div className="flex flex-col gap-1.5">
                                     <label
                                         htmlFor="description"
@@ -66,11 +82,15 @@ const AddPropertyForm = () => {
                                         placeholder="Description"
                                         {...register("description", { required: true })}
                                     ></textarea>
+
+                                    {/*//! Error */}
                                     {errors?.description && <p className="text-red-600 mt-1 lg:text-base text-sm">Description name is requeard!</p>}
                                 </div>
                             </div>
                             {/* <div data-orientation="horizontal" role="none" className="shrink-0 bg-gray-100 h-[1px] w-full"></div> */}
                             <div className="grid gap-4">
+
+                                {/*Amenities  */}
                                 <div className="flex flex-col gap-1.5">
                                     <label
                                         htmlFor="amenities"
@@ -79,15 +99,17 @@ const AddPropertyForm = () => {
                                     </label>
                                     <input
                                         id="amenities"
-                                        placeholder="Amenities"
+                                        placeholder="Enter amenities separated by commas (e.g. Wifi, Pool, Kitchen)"
                                         {...register("amenities", { required: true })}
                                     />
-                                    <div className="text-sm text-gray-500 dark:text-gray-400">
-                                        Enter amenities separated by commas (e.g. Wifi, Pool, Kitchen)
-                                    </div>
+
+                                    {/*//! Error */}
                                     {errors?.amenities && <p className="text-red-600 mt-1 lg:text-base text-sm">Amenities is requeard!</p>}
                                 </div>
+
                                 <div className="grid md:grid-cols-2 gap-4">
+
+                                    {/* Price Per Night */}
                                     <div className="flex flex-col gap-1.5">
                                         <label
                                             htmlFor="price"
@@ -101,10 +123,12 @@ const AddPropertyForm = () => {
                                             min="1"
                                             {...register("price", { required: true })}
                                         />
+
+                                        {/*//! Error */}
                                         {errors?.price && <p className="text-red-600 mt-1 lg:text-base text-sm">Price is requeard!</p>}
                                     </div>
 
-
+                                    {/* Property Type */}
                                     <div className={`flex flex-col gap-1.5 `}>
                                         <label
                                             htmlFor="property-type"
@@ -115,15 +139,21 @@ const AddPropertyForm = () => {
                                             {...register("propertyType", { required: true })}
                                         >
                                             <option value="" selected disabled>Select an option</option>
-                                            <option value="Option  1">Option  5</option>
-                                            <option value="Option  2">Option  2</option>
-                                            <option value="Option  3">Option  3</option>
+                                            {
+                                                categoryList.map((category) => <option value={category.name}>
+                                                    {category.name}
+                                                </option>)
+                                            }
                                         </select>
+
+                                        {/*//! Error */}
                                         {errors?.propertyType && <p className="text-red-600 mt-1 lg:text-base text-sm">Property type name is requeard!</p>}
                                     </div>
                                 </div>
+
                                 <div className={`grid md:grid-cols-2 gap-4 ${styles.state}`}>
 
+                                    {/* Location */}
                                     <div className="flex flex-col gap-1.5">
                                         <label
                                             htmlFor="location"
@@ -133,14 +163,20 @@ const AddPropertyForm = () => {
                                         <select id="input-field" className="form-select"
                                             {...register("location", { required: true })}
                                         >
-                                            <option value="" selected disabled>Select an option</option>
-                                            <option value="Option  1">Option  5</option>
-                                            <option value="Option  2">Option  2</option>
-                                            <option value="Option  3">Option  3</option>
+                                            <option value="" disabled>Select an option</option>
+                                            {
+                                                getAll().map((country) => <option>
+                                                    {country.label}
+                                                </option>)
+                                            }
                                         </select>
+
+
+                                        {/*//! Error */}
                                         {errors?.location && <p className="text-red-600 mt-1 lg:text-base text-sm">Location is requeard!</p>}
                                     </div>
 
+                                    {/* State */}
                                     <div className="flex flex-col gap-1.5">
                                         <label
                                             htmlFor="state"
@@ -152,48 +188,44 @@ const AddPropertyForm = () => {
                                             className="form-select"
                                             {...register("state", { required: true })}
                                         >
-                                            <option value="" selected disabled>Select an option</option>
-                                            <option value="Option   1">Option 1</option>
-                                            <option value="Option   2">Option 2</option>
-                                            <option value="Option   3">Option 3</option>
+                                            <option value="" disabled>Select an option</option>
+                                            {
+                                                State.getAllStates().map(state => <option value={state.name}>
+                                                    {state.name}
+                                                </option>)
+                                            }
                                         </select>
+
+                                        {/*//! Error */}
                                         {errors?.state && <p className="text-red-600 mt-1 lg:text-base text-sm">State name is requeard!</p>}
                                     </div>
                                 </div>
-                                <div className="grid md:grid-cols-2 gap-4">
-                                    <div className="flex flex-col gap-1.5">
-                                        <label
-                                            htmlFor="guests"
-                                        >
-                                            Number of guests
-                                        </label>
-                                        <input
-                                            type="number"
-                                            className=""
-                                            id="guests"
-                                            placeholder="Enter number"
-                                            {...register("guests", { required: true })}
-                                        />
-                                        {errors?.guests && <p className="text-red-600 mt-1 lg:text-base text-sm">Guest is requeard!</p>}
-                                    </div>
-                                    <div className="flex flex-col gap-1.5">
-                                        <label
-                                            htmlFor="guests"
-                                        >
-                                            Owner ID
-                                        </label>
-                                        <input
-                                            type="text"
-                                            className=""
-                                            id="guests"
-                                            placeholder="Enter ID"
-                                            {...register("owner", { required: true })}
-                                        />
-                                        {errors?.owner && <p className="text-red-600 mt-1 lg:text-base text-sm">Provide owner ID!</p>}
-                                    </div>
+
+
+                                {/* Guests */}
+                                <div className="flex flex-col gap-1.5">
+                                    <label
+                                        htmlFor="guests"
+                                    >
+                                        Number of guests
+                                    </label>
+                                    <input
+                                        type="number"
+                                        className=""
+                                        id="guests"
+                                        placeholder="Enter number"
+                                        {...register("guests", { required: true })}
+                                    />
+
+                                    {/*//! Error */}
+                                    {errors?.guests && <p className="text-red-600 mt-1 lg:text-base text-sm">Guest is requeard!</p>}
                                 </div>
 
-                                <div className="flex flex-col gap-1.5">
+                                {/* Upload Images */}
+                                <ImageUploader
+                                    setImagesArr={setImagesArr}
+                                />
+                                {/* <div className="flex flex-col gap-1.5">
                                     <label
                                         htmlFor="images"
                                     >
@@ -207,11 +239,14 @@ const AddPropertyForm = () => {
                                         {...register("image", { required: true })}
                                     />
                                     <div className="text-xs text-gray-500 dark:text-gray-400">Upload your images here</div>
+
                                     {errors?.image && <p className="text-red-600 mt-1 lg:text-base text-sm">Property images is requeart!</p>}
-                                </div>
+                                </div> */}
                             </div>
-                            <div className="flex justify-end py-2">
-                                <button type="submit" className=" bg-blue-500 rounded-md h-10 px-4 py-2 cursor-pointer"  >Save</button>
+
+                            {/* Save Button */}
+                            <div className="flex">
+                                <button type="submit" className=" w-full bg-blue-500  rounded-md text-white px-4 py-3 cursor-pointer">Save</button>
                             </div>
                         </form>
                     </div>

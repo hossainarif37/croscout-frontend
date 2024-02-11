@@ -89,7 +89,7 @@ const Navbar = () => {
                             <>
                                 <button className={navbarStyles.dashboardBtn}>{user?.name}</button>
 
-                                <Link className={navbarStyles.dashboardBtn} href={"/dashboard"}>Dashboard</Link>
+                                <Link onClick={() => setNavUserToggle(false)} className={navbarStyles.dashboardBtn} href={"/dashboard"}>Dashboard</Link>
 
                                 <button
 

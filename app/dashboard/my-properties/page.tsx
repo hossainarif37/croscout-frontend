@@ -1,5 +1,6 @@
 "use client"
 
+import Loading from "@/components/ui/Loading/Loading";
 import { getPropertiesByUser } from "@/lib/database/getProperties";
 import { useAuthContext } from "@/providers/AuthProvider";
 import { getStoredToken } from "@/utils/tokenStorage";
@@ -9,15 +10,20 @@ const MyProperties = () => {
     const token = getStoredToken();
     const [myProperties, setMyProperties] = useState([]);
     const { user } = useAuthContext();
+    const [loading, setLoading] = useState(true);
+
+
     useEffect(() => {
         let isMounted = true;
         const fetchMyProperties = async () => {
             if (token && isMounted) {
                 const result = await getPropertiesByUser({ token, email: user?.email });
                 setMyProperties(result.properties);
+                setLoading(false);
             }
             else {
-                setMyProperties([])
+                setMyProperties([]);
+                setLoading(false);
             }
         };
         fetchMyProperties();
@@ -26,7 +32,9 @@ const MyProperties = () => {
         };
     }, [token, user]);
 
-    console.log(29, myProperties);
+    if (loading) {
+        return <Loading />
+    }
 
     return (
         <div className="h-screen text-white-50">
