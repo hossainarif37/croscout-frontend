@@ -2,15 +2,19 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import styles from "./addProperty.module.css"
 import { useState } from "react";
-import ImageUploader from "../../add-property/components/ImageUploader";
+import ImageUploader from "./ImageUploader";
 import { categoryList } from "@/constant";
+import Image from "next/image";
+import { IoIosCloseCircle, IoMdClose } from "react-icons/io";
+import { useAuthContext } from "@/providers/AuthProvider";
+import toast from "react-hot-toast";
 
 
 type Inputs = {
     name: string
     description: string
     amenities: string
-    price: number
+    pricePerNight: number
     location: string
     state: string
     propertyType: string
@@ -22,9 +26,18 @@ type Inputs = {
 const AddPropertyForm = () => {
     const { register, handleSubmit, reset, formState: { errors }, } = useForm<Inputs>();
     const [imagesArr, setImagesArr] = useState<string[]>([]);
-
+    const [imagesArrError, setImagesArrError] = useState('');
+    const { user } = useAuthContext();
+    const removeImage = (index: number) => {
+        setImagesArr(prevImages => prevImages.filter((_, i) => i !== index));
+        console.log(imagesArr);
+    };
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
+        if (imagesArr.length < 1) {
+            return setImagesArrError('Image is required!');
+        }
+        setImagesArrError('')
         // Convert the amenities string into an array
         const amenitiesArray = data.amenities.split(',').map(amenity => amenity.trim());
 
@@ -32,10 +45,34 @@ const AddPropertyForm = () => {
         const finalData = {
             ...data,
             amenities: amenitiesArray,
-            images: [...imagesArr]
+            propertyImages: [...imagesArr],
+            owner: user?._id
         };
 
         console.log(finalData);
+        console.log(process.env.NEXT_PUBLIC_SERVER_URL);
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/properties`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(finalData),
+            });
+
+            console.log(57, response);
+
+
+            const result = await response.json();
+            if (result.success) {
+                toast.success(result.message)
+            } else {
+                toast.error(result.error)
+            }
+        } catch (error) {
+            console.error('Failed to submit property:', error);
+        }
+
     };
 
     return (
@@ -107,20 +144,20 @@ const AddPropertyForm = () => {
                                     {/* Price Per Night */}
                                     <div className="flex flex-col gap-1.5">
                                         <label
-                                            htmlFor="price"
+                                            htmlFor="pricePerNight"
                                         >
                                             Price per night
                                         </label>
                                         <input
                                             type="number"
-                                            id="price"
-                                            placeholder="Price"
+                                            id="pricePerNight"
+                                            placeholder="PricePerNight"
                                             min="1"
-                                            {...register("price", { required: true })}
+                                            {...register("pricePerNight", { required: true })}
                                         />
 
                                         {/*//! Error */}
-                                        {errors?.price && <p className="text-red-600 mt-1 lg:text-base text-sm">Price is requeard!</p>}
+                                        {errors?.pricePerNight && <p className="text-red-600 mt-1 lg:text-base text-sm">Price is requeard!</p>}
                                     </div>
 
                                     {/* Property Type */}
@@ -135,7 +172,8 @@ const AddPropertyForm = () => {
                                         >
                                             <option value="" selected disabled>Select an option</option>
                                             {
-                                                categoryList.map((category) => <option value={category.name}>
+                                                categoryList.map((category, i) => <option
+                                                    key={i} value={category.name}>
                                                     {category.name}
                                                 </option>)
                                             }
@@ -212,10 +250,43 @@ const AddPropertyForm = () => {
                                     {errors?.guests && <p className="text-red-600 mt-1 lg:text-base text-sm">Guest is requeard!</p>}
                                 </div>
 
-                                {/* Upload Images */}
+                                {/* --------------Upload Images Area End----------------*/}
+                                {
+                                    imagesArr.length > 0 &&
+                                    <div className="flex gap-x-4 w-80">
+                                        {
+                                            imagesArr.map((imageLink, index) => <button
+                                                type="button"
+
+                                                className="relative"
+                                            >
+                                                <Image src={imageLink} alt="" className="rounded-sm h-full" width={70} height={70} />
+
+                                                <div
+                                                    className="absolute text-white top-0 right-0 bg-black rounded-full bg-opacity-70"
+                                                    onClick={() => {
+                                                        removeImage(index);
+                                                    }}>
+                                                    <IoMdClose />
+                                                </div>
+                                            </button>
+
+                                            )
+                                        }
+                                    </div>
+                                }
+                                {/* Image Uploader Component */}
                                 <ImageUploader
                                     setImagesArr={setImagesArr}
                                 />
+
+                                {/*//! Error */}
+                                {
+                                    imagesArrError && <p className="">{imagesArrError}</p>
+                                }
+                                {/* --------------Upload Images Area End----------------*/}
+
+
                                 {/* <div className="flex flex-col gap-1.5">
                                     <label
                                         htmlFor="images"
@@ -236,8 +307,8 @@ const AddPropertyForm = () => {
                             </div>
 
                             {/* Save Button */}
-                            <div className="flex">
-                                <button type="submit" className=" w-full bg-blue-500  rounded-md text-white px-4 py-3 cursor-pointer">Save</button>
+                            <div className="flex-center py-3">
+                                <button type="submit" className="  bg-blue-500  rounded-md text-white lg:w-1/2 w-full px-5 py-3 cursor-pointer">Save</button>
                             </div>
                         </form>
                     </div>

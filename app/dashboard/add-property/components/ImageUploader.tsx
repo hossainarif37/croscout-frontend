@@ -36,7 +36,7 @@ export default function ImageUploader({ setImagesArr }: ImageUploaderProps) {
             >
                 {({ open }) => {
                     return (
-                        <button type='button' className=' text-white bg-gradient-to-l from-cyan-400 to-cyan-500 py-3 rounded-md  px-10 flex-center gap-x-2 md:w-1/2 w-full' onClick={() => open()}>
+                        <button type='button' className=' text-white bg-gradient-to-l from-cyan-400 to-cyan-500 py-3 rounded-md  px-10 flex-center gap-x-2  w-full' onClick={() => open()}>
                             <span className='text-2xl'><LuImagePlus /></span>
                             <span>Upload Images</span>
                         </button>

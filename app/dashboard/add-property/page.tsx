@@ -1,6 +1,6 @@
 
 import React from 'react';
-import AddPropertyForm from '../components/AddPropertyForm/AddPropertyForm';
+import AddPropertyForm from './components/AddPropertyForm';
 
 const AddProperty = () => {
     return (
