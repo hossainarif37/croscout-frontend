@@ -44,7 +44,7 @@ const MyProperties = () => {
                     myProperties?.length > 0 ? (
                         myProperties.map((property, id) => <PropertiesCard key={id} property={property}></PropertiesCard>)
                     ) : (
-                        <h2 className="text-2xl">No properties available.</h2>
+                        <h2 className="lg:text-2xl text-xl">No properties available.</h2>
                     )
                 }
             </div>

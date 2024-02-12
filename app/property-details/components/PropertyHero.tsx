@@ -95,7 +95,7 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
                         {singlePropertyDetails?.propertyImages.slice(0, 1).map((imageUrl: string, index: number) => (
                             <img
                                 key={index}
-                                className="w-full h-full border-accent border-[2px] rounded-[10px]"
+                                className="w-full h-full object-cover border-accent border-[2px] rounded-[10px]"
                                 src={imageUrl}
                                 alt={`Property Image ${index + 1}`}
                             />
