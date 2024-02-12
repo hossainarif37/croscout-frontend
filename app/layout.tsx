@@ -18,6 +18,7 @@ import { LocalizationProvider } from "@/providers/LocalizationContext";
 import { usePathname } from "next/navigation";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "@/providers/AuthProvider";
+import Main from "./Main";
 
 const onest = Onest({
   subsets: ["latin"],
@@ -40,6 +41,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
 
   return (
     <html lang="en">
@@ -65,7 +67,9 @@ export default function RootLayout({
                   <div className="flex h-screen flex-col ">
                     <Navbar />
                     <main className="flex-1">
-                      {children}
+                      <Main>
+                        {children}
+                      </Main>
                     </main>
                     <Footer />
                   </div>

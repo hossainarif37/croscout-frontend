@@ -19,11 +19,14 @@ import { IoIosCloseCircle } from 'react-icons/io';
 import { useModalContext } from '@/providers/ModalProvider';
 import { useAuthContext } from '@/providers/AuthProvider';
 import MenuLink from './MenuLink/MenuLink';
+import Loading from '@/components/ui/Loading/Loading';
 
 
 export default function Sidebar() {
     const { sidebarToggle, setSidebarToggle } = useModalContext();
     const { user } = useAuthContext();
+
+
     const menuItems = [
         {
             title: "Pages",
@@ -34,18 +37,18 @@ export default function Sidebar() {
                     icon: <MdDashboard />,
                 },
                 {
-                    title: "Users",
-                    path: "/dashboard/users",
+                    title: "Add Property",
+                    path: "/dashboard/add-property",
                     icon: <MdSupervisedUserCircle />,
                 },
                 {
-                    title: "Products",
-                    path: "/dashboard/products",
+                    title: "Properties",
+                    path: "/dashboard/my-properties",
                     icon: <MdShoppingBag />,
                 },
                 {
                     title: "Transactions",
-                    path: "/dashboard/transactions",
+                    path: "#",
                     icon: <MdAttachMoney />,
                 },
             ],
@@ -55,34 +58,19 @@ export default function Sidebar() {
             list: [
                 {
                     title: "Revenue",
-                    path: "/dashboard/revenue",
+                    path: "#",
                     icon: <MdWork />,
-                },
-                {
-                    title: "Reports",
-                    path: "/dashboard/reports",
-                    icon: <MdAnalytics />,
-                },
-                {
-                    title: "Teams",
-                    path: "/dashboard/teams",
-                    icon: <MdPeople />,
-                },
+                }
             ],
         },
         {
             title: "User",
             list: [
                 {
-                    title: "Settings",
-                    path: "/dashboard/settings",
+                    title: "Profile Settings",
+                    path: "#",
                     icon: <MdOutlineSettings />,
-                },
-                {
-                    title: "Help",
-                    path: "/dashboard/help",
-                    icon: <MdHelpCenter />,
-                },
+                }
             ],
         },
     ];
@@ -116,7 +104,7 @@ export default function Sidebar() {
             </div>}
 
             {/*//* ------Mobile Version-------*/}
-            <div className={`z-40 pt-14 block lg:hidden fixed h-full bg-[#151c2c]  p-5 shadow-lg origin-left top-0 rounded-md ${!sidebarToggle ? 'scale-x-0' : 'scale-x-100 w-72'} duration-300 rounded-md`}>
+            <div className={`z-40 pt-14 block lg:hidden md:hidden fixed h-full bg-[#151c2c]  p-5 shadow-lg origin-left top-0 rounded-md ${!sidebarToggle ? 'scale-x-0' : 'scale-x-100 w-72'} duration-300 rounded-md`}>
                 <ul className="space-y-3 text-[#b7bac1]">
                     <ul className={styles.list}>
                         {menuItems.map((cat) => (

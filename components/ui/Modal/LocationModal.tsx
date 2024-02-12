@@ -43,6 +43,7 @@ const LocationModal = () => {
                         }
                         setLocationObject(value)
                     }}
+                    isAddProperty={false}
                 />
                 <hr className="my-5" />
                 <Map

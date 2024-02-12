@@ -30,14 +30,14 @@ const GuestModal = () => {
                             onChange={(value) => setAdultsCount(value)}
                             value={adultsCount}
                             title="Adults"
-                            subtitle="Ages 13 or above"
+                            subtitle="Ages 18 or above"
                         />
                         {/* <hr /> */}
                         <GuestCounter
                             onChange={(value) => setChildrenCount(value)}
                             value={childrenCount}
                             title="Children"
-                            subtitle="Ages 2-12"
+                            subtitle="Ages 0-17"
                         />
                     </div>
                 </div>

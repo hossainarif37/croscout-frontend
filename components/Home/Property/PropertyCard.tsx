@@ -9,13 +9,14 @@ import ImageCarousel from "./ImageCarousel";
 import { useRouter } from "next/navigation";
 import { Property } from "@/constant";
 import propertyStyles from "./property.module.css"
+import { getPropertyById } from "@/lib/database/getProperties";
 
 
-export default function PropertyCard({ property }: Property & any) {
+export default function PropertyCard({ property }: Property & any,) {
     const [isActive, setIsActive] = useState(false);
     const [isFav, setIsFav] = useState(true);
     const {
-        id,
+        _id,
         name,
         description,
         amenities,
@@ -31,7 +32,6 @@ export default function PropertyCard({ property }: Property & any) {
     } = property;
 
 
-
     const handleHover = () => {
         setIsActive(true);
     };
@@ -42,7 +42,7 @@ export default function PropertyCard({ property }: Property & any) {
 
     const router = useRouter();
 
-
+    // console.log(property);
 
     return (
         <div
@@ -52,11 +52,11 @@ export default function PropertyCard({ property }: Property & any) {
             className={`cursor-pointer relative border border-accent p-[5px] bg-secondary rounded-[8px] text-white `}
         >
             <div className="h-[15rem] w-full relative rounded-t-[4px] overflow-hidden">
-                <ImageCarousel propertyId={id} propertyImages={propertyImages} />
+                <ImageCarousel propertyId={_id} propertyImages={propertyImages} />
             </div>
             <div
                 className="p-2 "
-                onClick={() => router.push(`/property-details/${id}`)}
+                onClick={() => router.push(`/property-details/${_id}`)}
             >
                 <div
                     className={"mt-5"}>
@@ -65,18 +65,21 @@ export default function PropertyCard({ property }: Property & any) {
                     <h1 className="text-xl font-bold">
                         {`${location.substring(0, 10)}, ${state.substring(0, 13)}`}
                     </h1>
-
+                    {/* Location and State */}
+                    <h1 className="text-xl font-bold">
+                        {`${name}`}
+                    </h1>
 
                     {/* Property Type */}
                     <p className="mt-[10px]">{propertyType}</p>
 
                     {/* StartDate and End Date */}
-                    <div className="">{startDate.split(',')[0]} - {endDate.split(',')[0]}</div>
+                    <div className="">{startDate?.split(',')[0]} - {endDate?.split(',')[0]}</div>
 
                     {/* Price and Ratings */}
                     <div className="flex justify-between mt-[10px]">
                         {/* Price */}
-                        <div className="text-accent font-semibold">${pricePerNight} night</div>
+                        <div className="text-accent font-semibold">€{pricePerNight} night</div>
                         <div className="flex items-center gap-1.5 border-b border-b-accent">
                             <div className="">
                                 <Image src={StartIcon} height={14} width={14} alt="img" />
@@ -87,8 +90,6 @@ export default function PropertyCard({ property }: Property & any) {
                                     property.ratings.reduce((sum: any, rating: any) => sum + rating, 0) / property.ratings.length || 0
                                 ).toFixed(1)}
                             </div>
-
-
                         </div>
                     </div>
                 </div>
