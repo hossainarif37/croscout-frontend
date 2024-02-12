@@ -58,6 +58,7 @@ const EditProperties = () => {
     };
 
     const { id } = useParams();
+    console.log(id);
     useEffect(() => {
         const fetchData = async () => {
             if (typeof id === 'string') {
@@ -94,6 +95,7 @@ const EditProperties = () => {
         console.log(finalData);
         console.log(process.env.NEXT_PUBLIC_SERVER_URL);
         try {
+
             const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/properties/${id}`, {
                 method: 'PUT',
                 headers: {
@@ -103,8 +105,6 @@ const EditProperties = () => {
             });
 
             console.log(57, response);
-
-
             const result = await response.json();
             if (result.success) {
                 toast.success(result.message);
@@ -112,6 +112,7 @@ const EditProperties = () => {
             } else {
                 toast.error(result.error)
             }
+
         } catch (error) {
             console.error('Failed to submit property:', error);
         }
@@ -119,11 +120,14 @@ const EditProperties = () => {
     };
 
 
+
     if (!propertiesData?.property.name) {
         return <Loading />
     }
 
     console.log(propertiesData.property.propertyImages);
+
+
 
     return (
         <div>

@@ -27,6 +27,7 @@
     "react-slick": "^0.30.1",
     "recharts": "^2.11.0",
     "slick-carousel": "^1.8.1",
+    "sweetalert2": "^11.10.5",
     "world-countries": "^5.0.0"
   },
   "devDependencies": {

@@ -8,16 +8,17 @@ import heroStyles from "./hero.module.css"
 import { TextInput } from 'flowbite-react';
 import { useSearchContext } from "@/providers/SearchProvider";
 import { format } from "date-fns";
-import { searchProperties } from "@/utils/filterProperties";
+// import { searchProperties } from "@/utils/filterProperties";
 import { goToSpecificSection } from "@/utils/goToSpecificSection";
 import { calculateDuration } from "@/utils/calculateDuration";
 import AddSearchValueBtn from "../ui/buttons/AddSearchValueBtn";
 import '../ui/buttons/addSearchValueBtn.css'
 import { MdLocationOn } from "react-icons/md";
+import { setSearchQuery } from "@/utils/searchQuery";
 
 const HeroSearchForm = () => {
     const { setCalenderModal, setGuestModal, setLocationModal } = useModalContext();
-    const { childrenCount, adultsCount, searchCalDate, location, setLocation, setFilteredProperty, isSearchBtnClicked, setIsSearchBtnClicked } = useSearchContext();
+    const { childrenCount, adultsCount, searchCalDate, location, setLocation, isSearchBtnClicked, setIsSearchBtnClicked } = useSearchContext();
 
     // Selection Date formatted
     // const formattedStartDate = format(searchCalDate[0].startDate, "MMM dd, yyyy");
@@ -51,24 +52,24 @@ const HeroSearchForm = () => {
     let guests = childrenCount + adultsCount;
 
 
+    const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        goToSpecificSection('filter-section')
+        setIsSearchBtnClicked(true);
+        if (location) {
+            setSearchQuery("location", location);
+        }
+        if (guests > 0) {
+            setSearchQuery("guest", guests.toString());
+        }
 
+    }
 
 
     return (
 
         // Search Submission 
-        <form onSubmit={(e) => {
-            e.preventDefault();
-            goToSpecificSection('filter-section')
-
-            setIsSearchBtnClicked(true);
-            setFilteredProperty(searchProperties({
-                location,
-                startDate: formattedStartDate,
-                guests,
-                endDate: formattedEndDate
-            }));
-        }}>
+        <form onSubmit={handleSearch}>
             {/* Search Label */}
             <div className="flex select-none  justify-center absolute left-0 right-0 md:-top-10 -top-14">
                 <div
