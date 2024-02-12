@@ -9,13 +9,14 @@ import ImageCarousel from "./ImageCarousel";
 import { useRouter } from "next/navigation";
 import { Property } from "@/constant";
 import propertyStyles from "./property.module.css"
+import { getPropertyById } from "@/lib/database/getProperties";
 
 
-export default function PropertyCard({ property }: Property & any) {
+export default function PropertyCard({ property }: Property & any,) {
     const [isActive, setIsActive] = useState(false);
     const [isFav, setIsFav] = useState(true);
     const {
-        id,
+        _id,
         name,
         description,
         amenities,
@@ -29,7 +30,6 @@ export default function PropertyCard({ property }: Property & any) {
         propertyImages,
         ratings,
     } = property;
-
 
 
     const handleHover = () => {
@@ -52,11 +52,11 @@ export default function PropertyCard({ property }: Property & any) {
             className={`cursor-pointer relative border border-accent p-[5px] bg-secondary rounded-[8px] text-white `}
         >
             <div className="h-[15rem] w-full relative rounded-t-[4px] overflow-hidden">
-                <ImageCarousel propertyId={id} propertyImages={propertyImages} />
+                <ImageCarousel propertyId={_id} propertyImages={propertyImages} />
             </div>
             <div
                 className="p-2 "
-                onClick={() => router.push(`/property-details/${id}`)}
+                onClick={() => router.push(`/property-details/${_id}`)}
             >
                 <div
                     className={"mt-5"}>

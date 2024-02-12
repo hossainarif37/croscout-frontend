@@ -1,7 +1,31 @@
-import React from 'react'
-import CheckmarkText from './CheckmarkText';
+import { Property } from "@/constant";
+import CheckmarkText from "./CheckmarkText";
+import { useState } from "react";
+import { IPropertyData } from "../[id]/page";
 
-export default function PropertyAbout() {
+interface PropertyAboutProps {
+    singlePropertyDetails?: IPropertyData['property'];
+    amenities?: string[];
+    propertyImages?: string[];// Add this line to include the amenities property
+}
+
+export default function PropertyAbout({ aboutDetails }: { aboutDetails?: PropertyAboutProps }) {
+    const [showAll, setShowAll] = useState(false);
+
+    const maxDisplayedAmenities = 6;
+    const amenitiesPerRow = 5;
+    const showAllButton = (aboutDetails?.amenities?.length ?? 0) > maxDisplayedAmenities;
+
+    const displayedAmenities = showAll
+        ? aboutDetails?.amenities
+        : (aboutDetails?.amenities || []).slice(0, maxDisplayedAmenities);
+
+    const handleShowAllClick = () => {
+        setShowAll(!showAll);
+    };
+
+
+
     return (
         <section className="bg-secondary py-[6.875rem] mt-[6.875rem] text-white text-center">
             <div className='wrapper'>
@@ -10,35 +34,33 @@ export default function PropertyAbout() {
                     You won&apos;t want to leave this charming, one-of-a-kind place.
                 </p>
                 <div className="mt-[3.75rem] grid grid-cols-2 gap-[5.25rem]">
-                    <div className="col-span-2 lg:col-span-1 flex flex-col lg:flex-row items-center">
-                        <div className="grid grid-cols-2 gap-[3.125rem]">
+                    <div className="col-span-2 lg:col-span-1 flex flex-col items-center">
+                        <div className="">
                             <div className="col-span-2 lg:col-span-1">
-                                <CheckmarkText>Lock on bedroom door</CheckmarkText>
-                                <CheckmarkText>Garden view</CheckmarkText>
-                                <CheckmarkText>Valley view</CheckmarkText>
-                                <CheckmarkText>Wifi &ndash; 21 Mbps</CheckmarkText>
-                                <CheckmarkText>Dedicated workspace</CheckmarkText>
-                            </div>
-                            <div className="col-span-2 lg:col-span-1 p-0">
-                                <CheckmarkText>Free parking</CheckmarkText>
-                                <CheckmarkText>Pets allowed</CheckmarkText>
-                                <CheckmarkText>Carbon monoxide alarm</CheckmarkText>
-                                <CheckmarkText>Carbon monoxide alarm</CheckmarkText>
-                                <CheckmarkText>Smoke alarmSmoke alar</CheckmarkText>
-                            </div>
-                            <div className="col-span-2 lg:col-span-1 flex items-start m-0 p-0">
-                                <button className="w-full lg:w-auto btn-shadow text-white bg-accent py-4 px-[14px] rounded-[5px] font-bold text-[1.25rem]">
-                                    Show all 51 amenities
-                                </button>
+                                {displayedAmenities && displayedAmenities.map((amenity: string, index: number) => (
+                                    <CheckmarkText key={index}>{amenity}</CheckmarkText>
+                                ))}
                             </div>
                         </div>
+                        {showAllButton && (
+                            <div className="col-span-2 lg:col-span-1 flex items-start m-0 p-0 mt-5">
+                                <button
+                                    onClick={handleShowAllClick}
+                                    className={`${showAll && "px-12"} w-full lg:w-auto btn-shadow text-white bg-accent py-3 px-[14px] rounded-[5px] font-bold text-[1.25rem]`}>
+                                    {showAll ? 'Show less' : 'Show all amenities'}
+                                </button>
+                            </div>
+                        )}
                     </div>
                     <div className="hidden lg:block">
-                        <img
-                            className="w-full h-full rounded-[10px]"
-                            src="/images/propertyImage_1.png"
-                            alt=""
-                        />
+                        {(aboutDetails?.propertyImages || []).slice(0, 1).map((imageUrl: string, index: number) => (
+                            <img
+                                key={index}
+                                className="w-full h-full border-accent border-[2px] rounded-[10px]"
+                                src={imageUrl}
+                                alt={`Property Image ${index + 1}`}
+                            />
+                        ))}
                     </div>
                 </div>
             </div>

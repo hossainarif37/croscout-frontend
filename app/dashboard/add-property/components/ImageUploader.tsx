@@ -12,9 +12,14 @@ interface UploadResult {
 interface ImageUploaderProps {
     setImagesArr: React.Dispatch<React.SetStateAction<string[]>>;
 }
+interface ImageUploaderProps {
+    setImagesArr: React.Dispatch<React.SetStateAction<string[]>>;
+    defaultImages?: string[]; // Add this line to define the defaultImages property
+}
 
-export default function ImageUploader({ setImagesArr }: ImageUploaderProps) {
+export default function ImageUploader({ setImagesArr, defaultImages }: ImageUploaderProps) {
 
+    const [images, setImages] = useState(defaultImages || []);
 
 
     function handleUploadSuccess(result: UploadResult) {
