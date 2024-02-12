@@ -1,8 +1,7 @@
 "use client"
-
+import React, { createContext, ReactNode, useContext, useState, Dispatch, SetStateAction } from "react";
 import { CountrySelectValue } from "@/components/ui/Inputs/CountrySelect";
 import { Property } from "@/constant";
-import { createContext, ReactNode, useContext, useState, Dispatch, SetStateAction } from "react";
 
 // DateRange Interface
 export interface DateRange {
@@ -11,11 +10,8 @@ export interface DateRange {
     key: string;
 }
 
-
+// FilteredProperty Type
 type FilteredProperty = Property[] | [];
-
-
-
 
 // SearchContextProps Interface
 export interface SearchContextProps {
@@ -25,18 +21,17 @@ export interface SearchContextProps {
     setLocation: Dispatch<SetStateAction<string>>;
     adultsCount: number;
     setAdultsCount: Dispatch<SetStateAction<number>>;
-    locationObject?: CountrySelectValue;
+    locationObject: CountrySelectValue;
     setLocationObject: Dispatch<SetStateAction<CountrySelectValue>>;
     childrenCount: number;
     setChildrenCount: Dispatch<SetStateAction<number>>;
     isSearchBtnClicked: boolean;
     setIsSearchBtnClicked: Dispatch<SetStateAction<boolean>>;
-    filteredProperty: FilteredProperty;
-    setFilteredProperty: Dispatch<SetStateAction<FilteredProperty>>;
+    // filteredProperty: FilteredProperty;
+    // setFilteredProperty: Dispatch<SetStateAction<FilteredProperty>>;
     searchDisable: boolean;
-    setSearchDisable: Dispatch<SetStateAction<boolean>>,
-    catergoryInputValue: string;
-    setCatergoryInputValue: Dispatch<SetStateAction<string>>;
+    setSearchDisable: Dispatch<SetStateAction<boolean>>;
+    // categoryInputValue: string;
     activeCat: string;
     setActiveCat: Dispatch<SetStateAction<string>>;
 }
@@ -48,32 +43,30 @@ interface SearchProviderProps {
 }
 
 const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
-
-    //*--------- States Start -------------//
-    const [searchCalDate, setSearchCalDate] = useState<DateRange[] | any>([
-        // {
-        //     startDate: "",
-        //     endDate: "",
-        //     key: 'selection'
-        // }
+    // States
+    const [searchCalDate, setSearchCalDate] = useState<DateRange[]>([
         {
             startDate: new Date(),
             endDate: new Date(),
             key: 'selection'
         }
-
     ]);
 
-    const [locationObject, setLocationObject] = useState<CountrySelectValue | undefined>(undefined);
+    const [locationObject, setLocationObject] = useState<CountrySelectValue>({
+        flag: '',
+        label: '',
+        latlng: [0,0],
+        region: '',
+        value: ''
+    });
+
     const [location, setLocation] = useState<string>("");
-    const [activeCat, setActiveCat] = useState("");
-    const [catergoryInputValue, setCatergoryInputValue] = useState<string>("");
+    // const [categoryInputValue, setCategoryInputValue] = useState<string>("");
     const [adultsCount, setAdultsCount] = useState<number>(0);
     const [childrenCount, setChildrenCount] = useState<number>(0);
     const [isSearchBtnClicked, setIsSearchBtnClicked] = useState<boolean>(false);
     const [searchDisable, setSearchDisable] = useState<boolean>(true);
-    const [filteredProperty, setFilteredProperty] = useState<FilteredProperty>([]);
-    //*--------- States End -------------//
+    // const [filteredProperty, setFilteredProperty] = useState<FilteredProperty>([]);
 
     const contextValue: SearchContextProps = {
         searchCalDate,
@@ -84,20 +77,18 @@ const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
         setAdultsCount,
         childrenCount,
         setChildrenCount,
-        filteredProperty,
-        setFilteredProperty,
+        // filteredProperty,
+        // setFilteredProperty,
         isSearchBtnClicked,
         setIsSearchBtnClicked,
         searchDisable,
         setSearchDisable,
-        catergoryInputValue,
-        setCatergoryInputValue,
+        // categoryInputValue,
         locationObject,
         setLocationObject,
-        activeCat,
-        setActiveCat
+        activeCat: '',
+        setActiveCat: () => { }
     };
-
 
     return (
         <SearchContext.Provider value={contextValue}>

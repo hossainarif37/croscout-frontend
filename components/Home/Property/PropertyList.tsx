@@ -6,53 +6,84 @@ import { Property, propertyList } from "@/constant";
 import { useSearchContext } from "@/providers/SearchProvider";
 import { IoMdClose } from "react-icons/io";
 import ClearSearchButton from "@/components/ui/buttons/ClearSearchButton";
-import { clearSearchInputValue } from "@/utils/filterProperties";
+// import { clearSearchInputValue } from "@/utils/filterProperties";
 import { getAllProperty } from "@/lib/database/getProperties";
 import Loading from "@/components/ui/Loading/Loading";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { removeSearchQuery } from "@/utils/searchQuery";
 
-const PropertyList = async () => {
-    const { filteredProperty, setFilteredProperty, isSearchBtnClicked, setIsSearchBtnClicked, setActiveCat, catergoryInputValue, setCatergoryInputValue, setLocation, setLocationObject } = useSearchContext();
+const PropertyList = () => {
+    const [properties, setProperties] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
+    const { isSearchBtnClicked, setIsSearchBtnClicked, setActiveCat, setLocation, setLocationObject } = useSearchContext();
 
-    const properties = await getAllProperty();
+    const searchParams = useSearchParams();
+    const queryString = `?${searchParams.toString()}`;
+    const locationQuery = searchParams.get("location");
+    const guestQuery = searchParams.get("guest");
+    const categoryQuery = searchParams.get("category");
 
-    if (isSearchBtnClicked && filteredProperty.length < 1) {
+    const searchKey = locationQuery || guestQuery || categoryQuery;
+
+
+    useEffect(() => {
+        const getProperty = async () => {
+            try {
+                setIsLoading(true)
+                const data = await getAllProperty(queryString);
+                setProperties(data || []);
+                setIsLoading(false)
+            } catch (error) {
+                setIsLoading(false)
+                console.log(error);
+            }
+        };
+        getProperty();
+    }, [queryString]);
+
+    if (isLoading) {
+        return <Loading></Loading>
+    }
+
+    if (properties.length < 1) {
         return <div className="flex flex-col lg:pb-60 lg:pt-20 pt-10 pb-20 items-center">
             <h1 className="text-4xl font-bold text-white">Not Matched</h1>
             <ClearSearchButton onClick={() => {
                 setIsSearchBtnClicked(false);
-                clearSearchInputValue();
-                setCatergoryInputValue('');
+                // clearSearchInputValue();
                 setActiveCat('');
                 setLocation('');
-                setLocationObject(undefined)
-
+                setLocationObject(undefined);
+                removeSearchQuery();
             }} />
         </div>
     }
 
+
+
     // console.log(catergoryInputValue);
-    if (properties.length < 1) {
-        return <Loading></Loading>
-    }
+
     return (
         <>
             {/* Clear Search Button */}
             {
-                ((isSearchBtnClicked || catergoryInputValue) && filteredProperty.length > 0)
+                ((searchKey) && properties.length > 0)
                 && <div className="mb-5"><ClearSearchButton
                     onClick={() => {
                         setIsSearchBtnClicked(false);
-                        setFilteredProperty([]);
-                        setCatergoryInputValue('');
+                        // setFilteredProperty([]);
                         setActiveCat('');
                         setLocation('');
                         setLocationObject(undefined)
+                        removeSearchQuery();
+
                     }}
                 /></div>
             }
 
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-5">
-                {(filteredProperty.length > 0 && filteredProperty || properties).map((property: Property, index: number) => (
+                {properties?.map((property: Property, index: number) => (
                     // <Link
                     //     href={`/property-details/${index + 1}`}
                     //     key={index}

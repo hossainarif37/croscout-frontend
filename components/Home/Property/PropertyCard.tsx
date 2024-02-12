@@ -42,7 +42,7 @@ export default function PropertyCard({ property }: Property & any) {
 
     const router = useRouter();
 
-    console.log(property);
+    // console.log(property);
 
     return (
         <div

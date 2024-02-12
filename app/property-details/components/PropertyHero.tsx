@@ -14,7 +14,7 @@ import { Property } from '@/constant';
 export default function PropertyHero({ singlePropertyDetails }: { singlePropertyDetails?: Property }) {
 
     const { setCalenderModal, setGuestModal, setLocationModal } = useModalContext();
-    const { childrenCount, adultsCount, searchCalDate, location, setLocation, setFilteredProperty, isSearchBtnClicked, setIsSearchBtnClicked } = useSearchContext();
+    const { childrenCount, adultsCount, searchCalDate, location, setLocation, isSearchBtnClicked, setIsSearchBtnClicked } = useSearchContext();
 
 
 

@@ -10,6 +10,7 @@ type IProps = {
 
 export default function CategoryCard({ category, activeCat }: IProps) {
     const [isHovered, setIsHovered] = useState(false);
+    // console.log(activeCat);
     const handleHover = () => {
         setIsHovered(true);
     };
