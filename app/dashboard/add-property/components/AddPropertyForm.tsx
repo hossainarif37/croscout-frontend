@@ -8,7 +8,7 @@ import Image from "next/image";
 import { IoIosCloseCircle, IoMdClose } from "react-icons/io";
 import { useAuthContext } from "@/providers/AuthProvider";
 import toast from "react-hot-toast";
-
+import { useRouter } from 'next/navigation';
 
 type Inputs = {
     name: string
@@ -28,6 +28,7 @@ const AddPropertyForm = () => {
     const [imagesArr, setImagesArr] = useState<string[]>([]);
     const [imagesArrError, setImagesArrError] = useState('');
     const { user } = useAuthContext();
+    const router = useRouter();
     const removeImage = (index: number) => {
         setImagesArr(prevImages => prevImages.filter((_, i) => i !== index));
         console.log(imagesArr);
@@ -65,7 +66,8 @@ const AddPropertyForm = () => {
 
             const result = await response.json();
             if (result.success) {
-                toast.success(result.message)
+                toast.success(result.message);
+                router.push('/dashboard/my-properties');
             } else {
                 toast.error(result.error)
             }

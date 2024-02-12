@@ -1,3 +1,5 @@
+"use client"
+
 import React from 'react'
 // import AccentInput from '../inputs/AccentInput';
 import Image from 'next/image';
@@ -8,15 +10,24 @@ import { useModalContext } from '@/providers/ModalProvider';
 import { useSearchContext } from '@/providers/SearchProvider';
 import { differenceInDays, format } from "date-fns";
 import { calculateDuration } from '@/utils/calculateDuration';
-import { Property } from '@/constant';
+import { IPropertyData } from '../[id]/page';
+
+interface PropertyHeroProps {
+    singlePropertyDetails?: IPropertyData['property'];
+}
 
 
-export default function PropertyHero({ singlePropertyDetails }: { singlePropertyDetails?: Property }) {
-
+export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProps) {
     const { setCalenderModal, setGuestModal, setLocationModal } = useModalContext();
     const { childrenCount, adultsCount, searchCalDate, location, setLocation, setFilteredProperty, isSearchBtnClicked, setIsSearchBtnClicked } = useSearchContext();
 
+    console.log(singlePropertyDetails?.propertyImages);
 
+    if (singlePropertyDetails) {
+        console.log(singlePropertyDetails?.name);
+    } else {
+        console.log('singlePropertyDetails is undefined');
+    }
 
     let formattedStartDate: any;
 
@@ -79,12 +90,16 @@ export default function PropertyHero({ singlePropertyDetails }: { singleProperty
 
             {/* Form Section */}
             <div className="pt-[3.75rem]">
-                <div className="flex lg:flex-row flex-col gap-6">
-                    <div className="flex-grow block">
-                        <img
-                            className="w-full h-full border-accent border-[2px] rounded-[10px]"
-                            src="/images/propertyImage_1.png"
-                        />
+                <div className=" flex lg:flex-row flex-col gap-6">
+                    <div className="flex-1 flex-grow block">
+                        {singlePropertyDetails?.propertyImages.slice(0, 1).map((imageUrl: string, index: number) => (
+                            <img
+                                key={index}
+                                className="w-full h-full border-accent border-[2px] rounded-[10px]"
+                                src={imageUrl}
+                                alt={`Property Image ${index + 1}`}
+                            />
+                        ))}
                     </div>
                     <div className="text-white">
                         <div
@@ -263,22 +278,14 @@ export default function PropertyHero({ singlePropertyDetails }: { singleProperty
 
             {/* Multi Images Section */}
             <div className="lg:grid grid-cols-4 gap-6 mt-6 hidden">
-                <img
-                    src="/images/propertyImage_1.png"
-                    className="h-[13rem] rounded-[0.625rem] overflow-hidden border-[2px] border-primary hover-card-shadow transition-all cursor-pointer"
-                />
-                <img
-                    src="/images/propertyImage_1.png"
-                    className="h-[13rem] rounded-[0.625rem] overflow-hidden border-[2px] border-primary hover-card-shadow transition-all cursor-pointer"
-                />
-                <img
-                    src="/images/propertyImage_1.png"
-                    className="h-[13rem] rounded-[0.625rem] overflow-hidden border-[2px] border-primary hover-card-shadow transition-all cursor-pointer"
-                />
-                <img
-                    src="/images/propertyImage_1.png"
-                    className="h-[13rem] rounded-[0.625rem] overflow-hidden border-[2px] border-primary hover-card-shadow transition-all cursor-pointer"
-                />
+                {singlePropertyDetails?.propertyImages.slice(1, 5).map((imageUrl: string, index: number) => (
+                    <img
+                        key={index}
+                        className="w-full h-full border-accent border-[2px] rounded-[10px]"
+                        src={imageUrl}
+                        alt={`Property Image ${index + 1}`}
+                    />
+                ))}
             </div>
 
             <div className="lg:flex justify-center mt-[3.75rem] hidden">
