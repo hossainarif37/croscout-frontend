@@ -37,13 +37,16 @@ const MyProperties = () => {
     }
 
     return (
-        <div className="h-full">
+        <div className="h-screen">
             <div className="text-white-50 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 xl:grid-cols-4 gap-11">
                 {/* MyProperties: {myProperties?.length} */}
                 {
                     myProperties?.map((property, id) => <PropertiesCard key={id} property={property}></PropertiesCard>)
                 }
             </div>
+            {
+                myProperties.length < 1 && <div className="text-center mt-20 text-white"><h1 className="text-4xl text-center">You haven't any Properties. Please Add Property</h1></div>
+            }
         </div>
     );
 };
