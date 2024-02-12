@@ -5,10 +5,12 @@ import CategoryCard from "./CategoryCard";
 import { useState } from "react";
 import { categoryList } from "@/constant";
 import { useSearchContext } from "@/providers/SearchProvider";
-import { searchProperties } from "@/utils/filterProperties";
+// import { searchProperties } from "@/utils/filterProperties";
+import { setSearchQuery } from "@/utils/searchQuery";
 
 export default function CategoryList() {
-    const { setCatergoryInputValue, location, activeCat, setActiveCat, setFilteredProperty } = useSearchContext();
+    const [activeCategory, setActiveCategory] = useState("");
+    const { location, activeCat, setActiveCat } = useSearchContext();
 
     const CustomPrevArrow = (props: any) => (
         <div
@@ -68,7 +70,12 @@ export default function CategoryList() {
         ],
     };
 
+    const handleCategoryChange = (catName: string) => {
+        setSearchQuery("category", catName)
+        setActiveCategory(catName);
+    };
 
+    console.log(activeCategory);
     return (
         <div id="categoryTypeList" className="py-10  w-full px-6 placeholder-cyan-100">
             <Slider {...settings}>
@@ -76,18 +83,18 @@ export default function CategoryList() {
                     <div
                         key={index}
                         onClick={() => {
-                            setActiveCat(item.name);
-                            setCatergoryInputValue(item.name)
-                            const categoryClick = setFilteredProperty(searchProperties({
-                                location,
-                                propertyType: item.name
-                            }))
+                            handleCategoryChange(item.name)
+                            // setCatergoryInputValue(item.name)
+                            // const categoryClick = setFilteredProperty(searchProperties({
+                            //     location,
+                            //     propertyType: item.name
+                            // }))
 
 
                         }}
                         className="px-2"
                     >
-                        <CategoryCard key={index} category={item} activeCat={activeCat} />
+                        <CategoryCard key={index} category={item} activeCat={activeCategory} />
                     </div>
                 ))}
             </Slider>
