@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
 import Loading from '@/components/ui/Loading/Loading';
 
 
-const PropertiesCard = ({ property }: Property & any) => {
+const PropertiesCard = ({ property, setDelete }: Property & any) => {
     const {
         _id,
         pricePerNight,
@@ -32,10 +32,10 @@ const PropertiesCard = ({ property }: Property & any) => {
                 text: "You won't be able to revert this!",
                 icon: "warning",
                 showCancelButton: true,
-                confirmButtonColor: "#3085d6",
+                confirmButtonColor: "#d33",
                 background: "#182237",
                 color: "#F9ECE4",
-                cancelButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
                 confirmButtonText: "Yes, delete it!"
             }).then(async (result) => {
                 if (result.isConfirmed) {
@@ -46,6 +46,7 @@ const PropertiesCard = ({ property }: Property & any) => {
                     if (response.ok) {
                         toast.success('Property deleted successfully');
                         <Loading />
+                        setDelete(true);
                         // Optionally, you might want to close the modal here
                         Swal.close();
                     } else {
