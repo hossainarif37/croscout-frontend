@@ -8,6 +8,10 @@ import styles from "./properties.module.css"
 import FavOutline from "@/public/icons/love-outline.svg";
 import FavFilled from "@/public/icons/love-filled.svg";
 import { Property } from '@/constant';
+import toast from 'react-hot-toast';
+import Swal from 'sweetalert2';
+import Loading from '@/components/ui/Loading/Loading';
+
 
 const PropertiesCard = ({ property }: Property & any) => {
     const {
@@ -20,6 +24,40 @@ const PropertiesCard = ({ property }: Property & any) => {
     } = property;
 
     const router = useRouter();
+
+    const handleDelete = async () => {
+        try {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                background: "#182237",
+                color: "#F9ECE4",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/properties/${_id}`, {
+                        method: 'DELETE',
+                    });
+
+                    if (response.ok) {
+                        toast.success('Property deleted successfully');
+                        <Loading />
+                        // Optionally, you might want to close the modal here
+                        Swal.close();
+                    } else {
+                        toast.error('Failed to delete property');
+                    }
+                }
+            });
+        } catch (error) {
+            console.error('Error deleting property:', error);
+            toast.error('An error occurred while deleting the property');
+        }
+    };
 
     return (
         <div
@@ -65,7 +103,7 @@ const PropertiesCard = ({ property }: Property & any) => {
                     </div>
                     <div className={`flex gap-3 mt-4 ${styles.propertiesButton}`}>
                         <button onClick={() => router.push(`/dashboard/edit-properties/${_id}`)} className='hover:bg-green-500  border border-green-500'>Edit</button>
-                        <button className='hover:bg-red-400 border border-red-500'>Delete</button>
+                        <button onClick={handleDelete} className='hover:bg-[#d33] border border-red-500'>Delete</button>
                     </div>
                 </div>
             </div>

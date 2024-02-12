@@ -33,4 +33,3 @@ export const getPropertyById = async (id: string) => {
     const result = await response.json();
     return result;
 }
-
