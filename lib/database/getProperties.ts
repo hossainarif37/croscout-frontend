@@ -12,8 +12,8 @@ export const getPropertiesByUser = async ({ token, email }: { token: string, ema
     return responseData;
 }
 
-export const getAllProperty = async () => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/properties`, {
+export const getAllProperty = async (searchKey: string) => {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/properties${searchKey}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

@@ -19,7 +19,7 @@ interface PropertyHeroProps {
 
 export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProps) {
     const { setCalenderModal, setGuestModal, setLocationModal } = useModalContext();
-    const { childrenCount, adultsCount, searchCalDate, location, setLocation, setFilteredProperty, isSearchBtnClicked, setIsSearchBtnClicked } = useSearchContext();
+    const { childrenCount, adultsCount, searchCalDate, location, setLocation, isSearchBtnClicked, setIsSearchBtnClicked } = useSearchContext();
 
     console.log(singlePropertyDetails?.propertyImages);
 
