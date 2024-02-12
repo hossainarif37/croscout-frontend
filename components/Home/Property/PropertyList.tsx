@@ -7,9 +7,30 @@ import { useSearchContext } from "@/providers/SearchProvider";
 import { IoMdClose } from "react-icons/io";
 import ClearSearchButton from "@/components/ui/buttons/ClearSearchButton";
 import { clearSearchInputValue } from "@/utils/filterProperties";
+import { getAllProperty } from "@/lib/database/getProperties";
+import Loading from "@/components/ui/Loading/Loading";
+import { useEffect, useState } from "react";
 
 const PropertyList = () => {
     const { filteredProperty, setFilteredProperty, isSearchBtnClicked, setIsSearchBtnClicked, setActiveCat, catergoryInputValue, setCatergoryInputValue, setLocation, setLocationObject } = useSearchContext();
+
+    const [properties, setProperties] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchProperties = async () => {
+            try {
+                const fetchedProperties = await getAllProperty();
+                setProperties(fetchedProperties);
+            } catch (error) {
+                console.error('Error fetching properties:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProperties();
+    }, []);
 
     if (isSearchBtnClicked && filteredProperty.length < 1) {
         return <div className="flex flex-col lg:pb-60 lg:pt-20 pt-10 pb-20 items-center">
@@ -26,7 +47,9 @@ const PropertyList = () => {
         </div>
     }
 
-    // console.log(catergoryInputValue);
+    if (loading) {
+        return <Loading />;
+    }
 
     return (
         <>
@@ -46,7 +69,7 @@ const PropertyList = () => {
             }
 
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-5">
-                {(filteredProperty.length > 0 && filteredProperty || propertyList).map((property: Property, index: number) => (
+                {(filteredProperty.length > 0 && filteredProperty || properties).map((property: Property, index: number) => (
                     // <Link
                     //     href={`/property-details/${index + 1}`}
                     //     key={index}
