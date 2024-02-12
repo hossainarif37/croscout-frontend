@@ -23,7 +23,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
     return (
         <div className={`${styles.container}`}>
-            <div className={`${styles.menu} sticky top-0`}>
+            <div className={`${styles.menu}`}>
                 <Sidebar />
             </div>
             <div onClick={handleToggleSidebar} className={` ${styles.contain} overflow-hidden ${sidebarToggle && "blur-md pointer-events-auto"}`}>
