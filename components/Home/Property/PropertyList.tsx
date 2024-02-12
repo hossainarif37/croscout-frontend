@@ -16,7 +16,7 @@ import { removeSearchQuery } from "@/utils/searchQuery";
 const PropertyList = () => {
     const [properties, setProperties] = useState([])
     const [isLoading, setIsLoading] = useState(true)
-    const { isSearchBtnClicked, setIsSearchBtnClicked, setActiveCat, setLocation, setLocationObject } = useSearchContext();
+    const { isSearchBtnClicked, setIsSearchBtnClicked, setActiveCat, setLocation, setLocationObject, setAdultsCount, setChildrenCount } = useSearchContext();
 
     const searchParams = useSearchParams();
     const queryString = `?${searchParams.toString()}`;
@@ -56,6 +56,8 @@ const PropertyList = () => {
                 setLocation('');
                 setLocationObject(undefined);
                 removeSearchQuery();
+                setChildrenCount(0);
+                setAdultsCount(0);
             }} />
         </div>
     }
@@ -77,7 +79,8 @@ const PropertyList = () => {
                         setLocation('');
                         setLocationObject(undefined)
                         removeSearchQuery();
-
+                        setChildrenCount(0);
+                        setAdultsCount(0);
                     }}
                 /></div>
             }

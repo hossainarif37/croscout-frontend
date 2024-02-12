@@ -11,6 +11,7 @@ const MyProperties = () => {
     const [myProperties, setMyProperties] = useState([]);
     const { user } = useAuthContext();
     const [loading, setLoading] = useState(true);
+    const [isDelete, setDelete] = useState(false);
 
 
     useEffect(() => {
@@ -30,7 +31,7 @@ const MyProperties = () => {
         return () => {
             isMounted = false;
         };
-    }, [token, user]);
+    }, [token, user, isDelete]);
 
     if (loading) {
         return <Loading />
@@ -41,15 +42,15 @@ const MyProperties = () => {
             <div className="text-white-50 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 xl:grid-cols-4 gap-11">
                 {/* MyProperties: {myProperties?.length} */}
                 {
-                    myProperties?.length > 0 ? (
-                        myProperties.map((property, id) => <PropertiesCard key={id} property={property}></PropertiesCard>)
-                    ) : (
-                        <h2 className="text-2xl">No properties available.</h2>
+                    myProperties?.length > 0 && (
+                        myProperties.map((property, id) => <PropertiesCard key={id} property={property}
+                            setDelete={setDelete}
+                        ></PropertiesCard>)
                     )
                 }
             </div>
             {
-                myProperties.length < 1 && <div className="text-center mt-20 text-white"><h1 className="text-4xl text-center">You haven't any Properties. Please Add Property</h1></div>
+                myProperties?.length < 1 && <div className="text-center mt-20 text-white"><h1 className="text-4xl text-center">You haven't any Properties. Please Add Property</h1></div>
             }
         </div>
     );
