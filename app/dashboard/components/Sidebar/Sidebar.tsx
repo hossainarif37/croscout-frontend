@@ -51,6 +51,16 @@ export default function Sidebar() {
                     path: "#",
                     icon: <MdAttachMoney />,
                 },
+                {
+                    title: "Customers",
+                    path: "/dashboard/customers",
+                    icon: <MdAttachMoney />,
+                },
+                {
+                    title: "Bookings",
+                    path: "/dashboard/bookings",
+                    icon: <MdShoppingBag />,
+                },
             ],
         },
         {
