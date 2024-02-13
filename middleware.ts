@@ -21,7 +21,6 @@ export function middleware(req: NextRequest) {
     const adminRoutes = [
         "/dashboard/admin/profile",
         "/dashboard/admin/change-password",
-        "/dashboard"
     ];
 
     if (token) {
