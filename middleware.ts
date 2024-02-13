@@ -4,25 +4,43 @@ import type { NextRequest } from 'next/server';
 
 
 export function middleware(req: NextRequest) {
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YzU4NzFmM2I3NzljOWZhMDZmNzNlNiIsImVtYWlsIjoicmlkb3lhaG1lZDkwMDNAZ21haWwuY29tIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3MDc4NDY4NjMsImV4cCI6MTcwNzkzMzI2M30.aED9GHxqvQpRr-ehZxNrxVhibhGEIv--Bx83zJ8Fhxs"
+    const token = req.cookies.get("authToken")?.value;
     const url = req.url;
+    const { pathname } = req.nextUrl;
+
+    const userRoutes = [
+        "/dashboard/user/profile",
+        "/dashboard/user/change-password",
+    ];
+
+    const agentRoutes = [
+        "/dashboard/agent/profile",
+        "/dashboard/agent/change-password",
+    ];
+
+    const adminRoutes = [
+        "/dashboard/admin/profile",
+        "/dashboard/admin/change-password",
+        "/dashboard"
+    ];
 
     if (token) {
         const decodedToken: any = jwtDecode(token);
         const role = decodedToken['role'];
 
-        if (role === "user" && url.includes("/dashboard/admin") || url.includes("/dashboard/agent")) {
+        if (role === "user" && (adminRoutes.includes(pathname) || agentRoutes.includes(pathname))) {
             return NextResponse.redirect(new URL("/", url));
         }
 
-        if (role === "agent" && url.includes("/dashboard/user") || url.includes("/dashboard/admin")) {
+        if (role === "agent" && (userRoutes.includes(pathname) || adminRoutes.includes(pathname))) {
             return NextResponse.redirect(new URL("/", url));
         }
 
-        if (role === "admin" && url.includes("/dashboard/user") || url.includes("/dashboard/agent")) {
+        if (role === "admin" && (userRoutes.includes(pathname) || agentRoutes.includes(pathname))) {
             return NextResponse.redirect(new URL("/", url));
         }
 
+        return NextResponse.next();
     } else if (!token && url.includes("/dashboard")) {
         return NextResponse.redirect(new URL("/", url));
     }
