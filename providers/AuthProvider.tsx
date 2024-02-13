@@ -1,5 +1,6 @@
 "use client"
 import { getUser } from "@/lib/database/authUser";
+import { setCookie } from "@/utils/authCookie";
 import { getStoredToken } from "@/utils/tokenStorage";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 
@@ -48,8 +49,11 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             if (token && isMounted) {
                 const { user } = await getUser({ token });
                 setUser(user);
+                // console.log(user);
+                setCookie("logged", user._id, 545)
+                setCookie("role", user.role, 545)
             }
-            else{
+            else {
                 setUser(null)
             }
         };

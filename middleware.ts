@@ -2,10 +2,13 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export function middleware(req: NextRequest) {
-    const verify = req.cookies.get("logged")
+    const loginStatus = req.cookies.get("logged")?.value;
+    const userRole = req.cookies.get("role")?.value;
     const url = req.url;
-    if (!verify && url.includes("/dashboard")) {
-        return NextResponse.redirect("http://localhost:3000")
+
+    // if users login status is undefined or false then he will redirect to home
+    if (!loginStatus && url.includes("/dashboard")) {
+        return NextResponse.redirect(new URL("/", url))
     }
 
     // if(verify && )

@@ -15,6 +15,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { HiMenuAlt1 } from "react-icons/hi";
 import { CgMenuGridR } from "react-icons/cg";
 import { setCookie } from "cookies-next";
+import { removeCookie } from "@/utils/authCookie";
 
 const Navbar = () => {
     const { navUserToggle, setNavUserToggle } = useToggleContext();
@@ -36,6 +37,8 @@ const Navbar = () => {
             setUser(null);
             setCookie('logged', 'false');
             clearToken();
+            removeCookie("logged")
+            removeCookie("role")
             // }
             router.push('/')
 
