@@ -11,6 +11,7 @@ import { useSearchContext } from '@/providers/SearchProvider';
 import { differenceInDays, format } from "date-fns";
 import { calculateDuration } from '@/utils/calculateDuration';
 import { IPropertyData } from '../[id]/page';
+import { useAuthContext } from '@/providers/AuthProvider';
 
 interface PropertyHeroProps {
     singlePropertyDetails?: IPropertyData['property'];
@@ -48,20 +49,47 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
     }
 
     const crouscouteServiceFee = 30;
+    const { user } = useAuthContext();
+    console.log(user);
+    const handleBooking = async () => {
 
+        // Assuming you have the guestId and propertyId available
+        const guestId = user?._id; // Replace with the actual guestId if it's different
+        const propertyId = singlePropertyDetails;
+
+        // Check if guestId and propertyId are available
+        if (!guestId || !propertyId) {
+            console.error('Guest ID or property ID is not available for booking');
+            return;
+        }
+
+        // Create the booking data object
+        const bookingData = {
+            guestId,
+            propertyId,
+            startDate: formattedStartDate,
+            endDate: formattedEndDate,
+        };
+
+        // Make the POST request with the booking data 
+        // Make the POST request with the booking data
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/bookings`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(bookingData),
+        });
+
+        const responseData = await response.json();
+        console.log('Booking successful:', responseData);
+        // Handle the successful booking, e.g., show a success message or redirect the user
+    };
 
     // duration = calculateDuration(searchCalDate[0].startDate, searchCalDate[0].endDate);
 
-
-
-
-
     // const formattedStartDate = format(new Date(searchCalDate[0].startDate), "MMM dd, yyyy");
     // const formattedEndDate = format(new Date(searchCalDate[0].endDate), "MMM dd, yyyy");
-
-
-
-
 
 
     // Guest Calculation
@@ -95,7 +123,7 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
                         {singlePropertyDetails?.propertyImages.slice(0, 1).map((imageUrl: string, index: number) => (
                             <img
                                 key={index}
-                                className="w-full h-full border-accent border-[2px] rounded-[10px]"
+                                className="w-full h-full object-cover border-accent border-[2px] rounded-[10px]"
                                 src={imageUrl}
                                 alt={`Property Image ${index + 1}`}
                             />
@@ -261,6 +289,7 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
                                     </div>
                                     <div className="flex justify-center">
                                         <button
+                                            onClick={handleBooking}
                                             style={{
                                                 boxShadow: "0px 4px 13px 0px rgba(0, 0, 0, 0.25)",
                                             }}
