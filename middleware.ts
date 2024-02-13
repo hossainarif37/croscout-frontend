@@ -4,7 +4,7 @@ import type { NextRequest } from 'next/server';
 
 
 export function middleware(req: NextRequest) {
-    const token = req.cookies.get("token")?.value;
+    const token = req.cookies.get("authToken")?.value;
     const url = req.url;
 
     if (token) {
