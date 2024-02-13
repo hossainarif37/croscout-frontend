@@ -42,7 +42,7 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
     formattedEndDate = format(endDate, "MMM dd, yyyy");
 
     const daysDifference = differenceInDays(endDate, startDate);
-    let nightFeeCalculation;
+    let nightFeeCalculation: any;
     if (singlePropertyDetails) {
 
         nightFeeCalculation = daysDifference * singlePropertyDetails.pricePerNight;
@@ -54,9 +54,10 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
     const handleBooking = async () => {
 
         // Assuming you have the guestId and propertyId available
-        const guestId = user?._id; // Replace with the actual guestId if it's different
+        const guestId = user?._id;
         const propertyId = singlePropertyDetails;
-
+        const price = nightFeeCalculation + crouscouteServiceFee;
+        console.log(price);
         // Check if guestId and propertyId are available
         if (!guestId || !propertyId) {
             console.error('Guest ID or property ID is not available for booking');
@@ -65,10 +66,11 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
 
         // Create the booking data object
         const bookingData = {
+            price,
             guestId,
             propertyId,
-            startDate: formattedStartDate,
-            endDate: formattedEndDate,
+            startDate: format(new Date(searchCalDate[0].startDate), "MMM dd, yyyy EEEE"),
+            endDate: format(new Date(searchCalDate[0].endDate), "MMM dd, yyyy EEEE"),
         };
 
         // Make the POST request with the booking data 
@@ -123,7 +125,7 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
                         {singlePropertyDetails?.propertyImages.slice(0, 1).map((imageUrl: string, index: number) => (
                             <img
                                 key={index}
-                                className="w-full h-full object-cover border-accent border-[2px] rounded-[10px]"
+                                className="w-full h-full object-cover object-center border-accent border-[2px] rounded-[10px]"
                                 src={imageUrl}
                                 alt={`Property Image ${index + 1}`}
                             />

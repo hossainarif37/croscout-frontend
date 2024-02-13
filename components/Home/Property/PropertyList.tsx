@@ -15,7 +15,7 @@ import { removeSearchQuery } from "@/utils/searchQuery";
 
 const PropertyList = () => {
     const [properties, setProperties] = useState([])
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(true);
     const { isSearchBtnClicked, setIsSearchBtnClicked, setActiveCat, setLocation, setLocationObject, setAdultsCount, setChildrenCount } = useSearchContext();
 
     const searchParams = useSearchParams();
@@ -33,7 +33,7 @@ const PropertyList = () => {
                 setIsLoading(true)
                 const data = await getAllProperty(queryString);
                 setProperties(data || []);
-                setIsLoading(false)
+                setIsLoading(false);
             } catch (error) {
                 setIsLoading(false)
                 console.log(error);
