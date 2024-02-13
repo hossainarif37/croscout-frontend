@@ -1,7 +1,7 @@
 "use client"
 import { getUser } from "@/lib/database/authUser";
 import { setCookie } from "@/utils/authCookie";
-import { getStoredToken } from "@/utils/tokenStorage";
+// import { getStoredToken } from "@/utils/tokenStorage";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 
 
@@ -42,16 +42,13 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // }
 
     // Fetches user data on component mount, sets user state
-    const token = getStoredToken();
+    // const token = getStoredToken();
     useEffect(() => {
         let isMounted = true;
         const fetchUser = async () => {
-            if (token && isMounted) {
-                const { user } = await getUser({ token });
+            if (isMounted) {
+                const { user } = await getUser();
                 setUser(user);
-                // console.log(user);
-                setCookie("logged", user._id, 545)
-                setCookie("role", user.role, 545)
             }
             else {
                 setUser(null)
@@ -61,7 +58,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return () => {
             isMounted = false;
         };
-    }, [token]);
+    }, []);
 
     // Context Values
     const contextValue: AuthContextProps = {

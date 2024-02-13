@@ -25,17 +25,23 @@ export const registerUser = async ({ data }: { data: RegistrationData }) => {
 }
 
 
-export const loginUser = async ({ data }: { data: LoginData }) => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/login`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    });
-    const responseData = await response.json();
-    return responseData;
-}
+export const loginUser = async ({ data }: { data: LoginData }): Promise<any> => {
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+            body: JSON.stringify(data),
+        });
+        const responseData = await response.json();
+        return responseData;
+    } catch (error) {
+        console.error('Error during login:', error);
+        throw error;
+    }
+};
 
 
 export const logoutUser = async () => {
@@ -44,18 +50,19 @@ export const logoutUser = async () => {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials: "include",
     });
     const responseData = await response.json();
     return responseData;
 }
 
-export const getUser = async ({ token }: { token: string }) => {
+export const getUser = async () => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/current-user`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': token
         },
+        credentials: "include",
     });
     const responseData = await response.json();
     return responseData;
