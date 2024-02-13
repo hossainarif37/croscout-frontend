@@ -23,11 +23,15 @@ const Bookings = () => {
     console.log(bookings);
 
 
-    const timeSince = (dateString: any) => {
+    // const timeSince = (dateString: any) => {
+    //     const date = new Date(dateString);
+    //     return formatDistanceToNow(date, { addSuffix: true });
+    // };
+    const timeSinceWithoutAbout = (dateString: any) => {
         const date = new Date(dateString);
-        return formatDistanceToNow(date, { addSuffix: true });
+        const distance = formatDistanceToNow(date, { addSuffix: true });
+        return distance.replace(/^about /, '');
     };
-
 
     useEffect(() => {
         const fetchBookings = async () => {
@@ -65,7 +69,7 @@ const Bookings = () => {
                         <span className='hidden sm:grid'>Check in - Check out</span>
                     </div>
                     <ul>
-                        {bookings.map((booking: booking, id: number) => (
+                        {bookings.slice().reverse().map((booking: booking, id: number) => (
                             <li
                                 key={id}
                                 className=' hover:bg-[#2E374A] bg-primary-50 rounded-lg my-3 p-2 grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 items-center justify-between cursor-pointer'
@@ -98,7 +102,7 @@ const Bookings = () => {
                                         {booking.status}
                                     </span>
                                 </button>
-                                <p className='hidden md:flex'>{timeSince(booking?.updatedAt)}</p>
+                                <p className='hidden md:flex'>{timeSinceWithoutAbout(booking?.updatedAt)}</p>
                                 <div className='sm:flex hidden justify-between items-center'>
                                     <p>
                                         {format(new Date(booking.startDate), "MMM dd, yyyy EEEE")} -
