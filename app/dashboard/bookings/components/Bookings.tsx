@@ -5,8 +5,9 @@ import { format } from 'date-fns';
 import React, { useEffect, useState } from 'react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { FaShoppingBag } from 'react-icons/fa';
+import { formatDistanceToNow } from 'date-fns';
 
-const Bookings = async () => {
+const Bookings = () => {
     type booking = {
         id: number;
         price: string;
@@ -15,10 +16,18 @@ const Bookings = async () => {
         method: string;
         startDate: string;
         endDate: string;
+        updatedAt: string;
     };
     const [bookings, setBookings] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     console.log(bookings);
+
+
+    const timeSince = (dateString: any) => {
+        const date = new Date(dateString);
+        return formatDistanceToNow(date, { addSuffix: true });
+    };
+
 
     useEffect(() => {
         const fetchBookings = async () => {
@@ -26,7 +35,7 @@ const Bookings = async () => {
                 // console.log('Setting isLoading to true');
                 setIsLoading(true);
                 const data = await getAllBookings();
-                setBookings(data || []);
+                setBookings(data);
                 // console.log('Setting isLoading to false');
                 setIsLoading(false);
             } catch (error) {
@@ -89,7 +98,7 @@ const Bookings = async () => {
                                         {booking.status}
                                     </span>
                                 </button>
-                                <p className='hidden md:flex'>Last booking</p>
+                                <p className='hidden md:flex'>{timeSince(booking?.updatedAt)}</p>
                                 <div className='sm:flex hidden justify-between items-center'>
                                     <p>
                                         {format(new Date(booking.startDate), "MMM dd, yyyy EEEE")} -

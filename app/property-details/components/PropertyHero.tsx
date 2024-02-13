@@ -10,12 +10,29 @@ import { useModalContext } from '@/providers/ModalProvider';
 import { useSearchContext } from '@/providers/SearchProvider';
 import { differenceInDays, format } from "date-fns";
 import { calculateDuration } from '@/utils/calculateDuration';
-import { IPropertyData } from '../[id]/page';
+// import { IPropertyData } from '../[id]/page';
 import { useAuthContext } from '@/providers/AuthProvider';
+import { IPropertyData } from '../[id]/page';
 
 interface PropertyHeroProps {
     singlePropertyDetails?: IPropertyData['property'];
 }
+
+// interface IPropertyData {
+//     property: {
+//         _id: string | {};
+//         owner: {
+//             _id: string;
+//         };
+//         propertyImages: string[];
+//         pricePerNight: number;
+//         name: string; // Add this line
+//         state: string; // Add this line
+//         location: string; // Add this line
+//         // ... other properties
+//     };
+//     // ... other interfaces
+// }
 
 
 export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProps) {
@@ -24,11 +41,6 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
 
     console.log(singlePropertyDetails?.propertyImages);
 
-    if (singlePropertyDetails) {
-        console.log(singlePropertyDetails?.name);
-    } else {
-        console.log('singlePropertyDetails is undefined');
-    }
 
     let formattedStartDate: any;
 
@@ -55,7 +67,10 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
 
         // Assuming you have the guestId and propertyId available
         const guestId = user?._id;
-        const propertyId = singlePropertyDetails;
+        // const owner = singlePropertyDetails?.owner;
+        // console.log("owner", owner);
+        const propertyId = singlePropertyDetails?._id;
+        console.log(propertyId);
         const price = nightFeeCalculation + crouscouteServiceFee;
         console.log(price);
         // Check if guestId and propertyId are available
@@ -66,11 +81,12 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
 
         // Create the booking data object
         const bookingData = {
+            ownerId: typeof singlePropertyDetails?.owner === 'object' ? singlePropertyDetails.owner._id : undefined,
             price,
             guestId,
             propertyId,
-            startDate: format(new Date(searchCalDate[0].startDate), "MMM dd, yyyy EEEE"),
-            endDate: format(new Date(searchCalDate[0].endDate), "MMM dd, yyyy EEEE"),
+            startDate: new Date(searchCalDate[0].startDate),
+            endDate: new Date(searchCalDate[0].endDate),
         };
 
         // Make the POST request with the booking data 
@@ -312,7 +328,7 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
                 {singlePropertyDetails?.propertyImages.slice(1, 5).map((imageUrl: string, index: number) => (
                     <img
                         key={index}
-                        className="w-full h-full border-accent border-[2px] rounded-[10px]"
+                        className="w-full h-full object-cover object-center border-accent border-[2px] rounded-[10px]"
                         src={imageUrl}
                         alt={`Property Image ${index + 1}`}
                     />
