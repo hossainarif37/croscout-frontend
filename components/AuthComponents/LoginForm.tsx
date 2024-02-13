@@ -7,7 +7,7 @@ import { forgotRequest, getUser, loginUser } from "@/lib/database/authUser";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 import { ImSpinner9 } from "react-icons/im";
-import { getStoredToken, storeToken } from "@/utils/tokenStorage";
+// import { getStoredToken, storeToken } from "@/utils/tokenStorage";
 import { useAuthContext } from "@/providers/AuthProvider";
 import { setCookie } from "cookies-next";
 
@@ -41,11 +41,9 @@ const LoginForm = () => {
                 const dbResponse = await loginUser({ data })
                 if (dbResponse?.success) {
                     toast.success(dbResponse?.message);
-                    await storeToken(dbResponse.token);
-
+                    // storeToken(dbResponse.token);
                     setUser(dbResponse.user);
                     setLoginModal(false);
-                    setCookie('logged', 'true');
                 }
                 else {
                     toast.error(dbResponse.error);

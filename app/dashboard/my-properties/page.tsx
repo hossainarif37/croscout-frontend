@@ -3,11 +3,11 @@
 import Loading from "@/components/ui/Loading/Loading";
 import { getPropertiesByUser } from "@/lib/database/getProperties";
 import { useAuthContext } from "@/providers/AuthProvider";
-import { getStoredToken } from "@/utils/tokenStorage";
+// import { getStoredToken } from "@/utils/tokenStorage";
 import { useEffect, useState } from "react";
 import PropertiesCard from "./PropertiesCard"
 const MyProperties = () => {
-    const token = getStoredToken();
+    // const token = getStoredToken();
     const [myProperties, setMyProperties] = useState([]);
     const { user } = useAuthContext();
     const [loading, setLoading] = useState(true);
@@ -17,8 +17,8 @@ const MyProperties = () => {
     useEffect(() => {
         let isMounted = true;
         const fetchMyProperties = async () => {
-            if (token && isMounted) {
-                const result = await getPropertiesByUser({ token, email: user?.email });
+            if (isMounted) {
+                const result = await getPropertiesByUser({ email: user?.email });
                 setMyProperties(result.properties);
                 setLoading(false);
             }
@@ -31,7 +31,7 @@ const MyProperties = () => {
         return () => {
             isMounted = false;
         };
-    }, [token, user, isDelete]);
+    }, [user, isDelete]);
 
     if (loading) {
         return <Loading />
