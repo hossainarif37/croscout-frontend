@@ -10,7 +10,7 @@ import Link from "next/link";
 import { useAuthContext } from "@/providers/AuthProvider";
 import { logoutUser } from "@/lib/database/authUser";
 import toast from "react-hot-toast";
-// import { clearToken } from "@/utils/tokenStorage";
+import { clearToken } from "@/utils/tokenStorage";
 import { usePathname, useRouter } from "next/navigation";
 import { HiMenuAlt1 } from "react-icons/hi";
 import { CgMenuGridR } from "react-icons/cg";
@@ -31,12 +31,13 @@ const Navbar = () => {
 
     const handleLogout = async () => {
         try {
-            const dbResponse = await logoutUser();
-            if (dbResponse.isLogout) {
-                toast.success("Successfully Logout")
-                setUser(null);
-                // clearToken();
-            }
+            // const dbResponse = await logoutUser();
+            // if(dbResponse.isLogout){
+            toast.success("Successfully Logout")
+            setUser(null);
+            clearToken();
+            removeCookie("authToken")
+            // }
             router.push('/')
         } catch (error) {
             console.log(error);
