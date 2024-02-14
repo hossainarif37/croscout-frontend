@@ -67,6 +67,13 @@ const Bookings = () => {
     if (isLoading) {
         return <Loading />
     }
+
+    if (!bookings || bookings.length === 0) {
+        return <div className='h-screen flex-center'>
+            <h1 className='text-4xl font-bold text-white-50'>No bookings found. Please book a property.</h1>
+        </div>
+    }
+
     return (
         <div className='bg-primary-50 text-secondary-50 min-h-screen'>
             <div className='flex justify-between px-4 pt-4'>

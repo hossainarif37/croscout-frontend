@@ -11,6 +11,7 @@ export function middleware(req: NextRequest) {
     const userRoutes = [
         "/dashboard/user/profile",
         "/dashboard/user/my-bookings",
+        "/dashboard/user/favorites"
     ];
 
     const agentRoutes = [

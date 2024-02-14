@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState } from "react";
-import StartIcon from "@/public/icons/start.svg";
+import React, { useEffect, useState } from "react";
+import StarIcon from "@/public/icons/start.svg";
 import FavOutline from "@/public/icons/love-outline.svg";
 import FavFilled from "@/public/icons/love-filled.svg";
 import ImageCarousel from "./ImageCarousel";
@@ -10,11 +10,18 @@ import { useRouter } from "next/navigation";
 import { Property } from "@/constant";
 import propertyStyles from "./property.module.css"
 import { getPropertyById } from "@/lib/database/getProperties";
+import { useAuthContext } from "@/providers/AuthProvider";
+import { checkFavoriteProperty } from "@/lib/database/checkFavoriteProperty";
+import toast from "react-hot-toast";
 
 
 export default function PropertyCard({ property }: Property & any,) {
+    const { user } = useAuthContext();
     const [isActive, setIsActive] = useState(false);
-    const [isFav, setIsFav] = useState(true);
+    const [isFav, setIsFav] = useState(false);
+
+
+
     const {
         _id,
         name,
@@ -30,6 +37,61 @@ export default function PropertyCard({ property }: Property & any,) {
         propertyImages,
         ratings,
     } = property;
+
+
+
+    let isExist;
+
+    useEffect(() => {
+        isExist = user?.favoriteList?.find(propId => propId === _id);
+
+        // Check iffavoriteList is an array
+        if (isExist) {
+            setIsFav(true);
+        } else {
+            setIsFav(false);
+        }
+    }, [user?._id]);
+
+    const handleFavorite = async () => {
+        try {
+            // Toggle the favorite state
+
+            // Call the API to toggle the favorite status
+            const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/favorites/${user?._id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Include the user's authentication token if needed
+                },
+                // Include the user's ID in the request body if needed
+                body: JSON.stringify({ propertyId: _id }),
+            });
+            console.log(56, response);
+
+            // check response status
+            if (!response.ok) {
+                throw new Error('Failed to toggle favorite status');
+            }
+
+            // Result
+            const result = await response.json();
+
+            // Set the favorite status
+            setIsFav(result.isAdd);
+
+            // toast message
+            if (result.isAdd) {
+                toast.success(result.message);
+            } else {
+                toast.success(result.message);
+            }
+
+        } catch (error) {
+            console.error('Error toggling favorite status:', error);
+        }
+    };
+
 
 
     const handleHover = () => {
@@ -82,7 +144,7 @@ export default function PropertyCard({ property }: Property & any,) {
                         <div className="text-accent font-semibold">€{pricePerNight} night</div>
                         <div className="flex items-center gap-1.5 border-b border-b-accent">
                             <div className="">
-                                <Image src={StartIcon} height={14} width={14} alt="img" />
+                                <Image src={StarIcon} height={14} width={14} alt="img" />
                             </div>
                             {/* Ratings */}
                             <div className="font-semibold text-accent leading-[100%]">
@@ -94,10 +156,13 @@ export default function PropertyCard({ property }: Property & any,) {
                     </div>
                 </div>
             </div>
-            <div className="absolute z-10 top-5 right-5 cursor-pointer" onClick={() => setIsFav(!isFav)}>
-                <Image src={isFav ? FavFilled : FavOutline} alt="" />
+            <button
+                type="button"
 
-            </div>
+                className="absolute z-10 top-5 right-5 cursor-pointer"
+                onClick={handleFavorite}>
+                <Image src={isFav ? FavFilled : FavOutline} alt="" />
+            </button>
         </div>
     );
 }
