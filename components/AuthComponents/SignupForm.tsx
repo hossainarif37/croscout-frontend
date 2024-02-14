@@ -7,6 +7,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { ImSpinner9 } from "react-icons/im";
 import { registerUser } from "@/lib/database/authUser";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 
 type Inputs = {
@@ -21,6 +22,13 @@ const SignupForm = () => {
     const { register, unregister, handleSubmit, watch, formState: { errors }, } = useForm<Inputs>()
     const [isAgent, setIsAgent] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [isShow, setIsShow] = useState(false);
+
+
+    // handler for toggle password show option
+    const handleShowPassword = () => {
+        setIsShow(!isShow)
+    }
 
     const adminRequestToggle = (checked: boolean) => {
         if (checked) {
@@ -82,11 +90,18 @@ const SignupForm = () => {
 
                 </div>
                 <div className="space-y-2 text-sm">
-                    <label htmlFor="password" className="block ">
-                        Password
-                    </label>
-                    <input {...register("password", { required: true })} type="password" name="password" id="password" placeholder="Password" className="w-full px-4 py-3 rounded-md border border-indigo-300 focus:outline-none  " />
-                    {errors.password && <p className="error">Enter a password.</p>}
+                    <div className="relative">
+                        <input  {...register("password", { required: true })} type={isShow ? "text" : "password"} name="password" id="password" placeholder="Password" className="w-full px-4 pt-3 rounded-md border border-indigo-300 focus:outline-none" />
+                        {errors.password && <p className="error">Enter your password</p>}
+                        <span onClick={handleShowPassword} className="text-2xl absolute top-3 right-2 cursor-pointer">
+                            {
+                                isShow ?
+                                    <FaEyeSlash></FaEyeSlash>
+                                    :
+                                    <FaEye></FaEye>
+                            }
+                        </span>
+                    </div>
                 </div>
                 {
                     isAgent &&
