@@ -85,6 +85,7 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
             price,
             guestId,
             propertyId,
+            totalGuests: adultsCount + childrenCount,
             startDate: new Date(searchCalDate[0].startDate),
             endDate: new Date(searchCalDate[0].endDate),
         };
