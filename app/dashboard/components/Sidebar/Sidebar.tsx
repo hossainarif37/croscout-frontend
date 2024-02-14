@@ -25,9 +25,10 @@ import Loading from '@/components/ui/Loading/Loading';
 export default function Sidebar() {
     const { sidebarToggle, setSidebarToggle } = useModalContext();
     const { user } = useAuthContext();
+    const role = user?.role;
 
-
-    const menuItems = [
+    // menu links for users
+    const userMenuItems = [
         {
             title: "Pages",
             list: [
@@ -36,29 +37,14 @@ export default function Sidebar() {
                     path: "/dashboard",
                     icon: <MdDashboard />,
                 },
-                {
-                    title: "Add Property",
-                    path: "/dashboard/add-property",
-                    icon: <MdSupervisedUserCircle />,
-                },
-                {
-                    title: "Properties",
-                    path: "/dashboard/my-properties",
-                    icon: <MdShoppingBag />,
-                },
-                {
-                    title: "Transactions",
-                    path: "#",
-                    icon: <MdAttachMoney />,
-                },
-                {
-                    title: "Customers",
-                    path: "/dashboard/customers",
-                    icon: <MdAttachMoney />,
-                },
+                // {
+                //     title: "Transactions",
+                //     path: "#",
+                //     icon: <MdAttachMoney />,
+                // },
                 {
                     title: "Bookings",
-                    path: "/dashboard/bookings",
+                    path: "/dashboard/user/my-bookings",
                     icon: <MdShoppingBag />,
                 },
             ],
@@ -85,6 +71,172 @@ export default function Sidebar() {
         },
     ];
 
+    // menu links for agent
+    const agentMenuItems = [
+        {
+            title: "Pages",
+            list: [
+                {
+                    title: "Dashboard",
+                    path: "/dashboard",
+                    icon: <MdDashboard />,
+                },
+                {
+                    title: "Add Property",
+                    path: "/dashboard/agent/add-property",
+                    icon: <MdSupervisedUserCircle />,
+                },
+                {
+                    title: "Properties",
+                    path: "/dashboard/agent/my-properties",
+                    icon: <MdShoppingBag />,
+                },
+                // {
+                //     title: "Transactions",
+                //     path: "#",
+                //     icon: <MdAttachMoney />,
+                // },
+                {
+                    title: "Bookings",
+                    path: "/dashboard/agent/bookings",
+                    icon: <MdShoppingBag />,
+                },
+            ],
+        },
+        {
+            title: "Analytics",
+            list: [
+                {
+                    title: "Revenue",
+                    path: "#",
+                    icon: <MdWork />,
+                }
+            ],
+        },
+        {
+            title: "User",
+            list: [
+                {
+                    title: "Profile Settings",
+                    path: "#",
+                    icon: <MdOutlineSettings />,
+                }
+            ],
+        },
+    ];
+
+    // menu links for admin
+    const adminMenuItems = [
+        {
+            title: "Pages",
+            list: [
+                {
+                    title: "Dashboard",
+                    path: "/dashboard",
+                    icon: <MdDashboard />,
+                },
+                {
+                    title: "Properties",
+                    path: "/dashboard/admin/all-properties",
+                    icon: <MdShoppingBag />,
+                },
+                // {
+                //     title: "Transactions",
+                //     path: "#",
+                //     icon: <MdAttachMoney />,
+                // },
+                {
+                    title: "Users",
+                    path: "/dashboard/admin/all-users",
+                    icon: <MdAttachMoney />,
+                },
+                {
+                    title: "Bookings",
+                    path: "/dashboard/admin/all-bookings",
+                    icon: <MdShoppingBag />,
+                },
+            ],
+        },
+        {
+            title: "Analytics",
+            list: [
+                {
+                    title: "Revenue",
+                    path: "#",
+                    icon: <MdWork />,
+                }
+            ],
+        },
+        {
+            title: "User",
+            list: [
+                {
+                    title: "Profile Settings",
+                    path: "#",
+                    icon: <MdOutlineSettings />,
+                }
+            ],
+        },
+    ];
+
+    // const menuItems = [
+    //     {
+    //         title: "Pages",
+    //         list: [
+    //             {
+    //                 title: "Dashboard",
+    //                 path: "/dashboard",
+    //                 icon: <MdDashboard />,
+    //             },
+    //             {
+    //                 title: "Add Property",
+    //                 path: "/dashboard/add-property",
+    //                 icon: <MdSupervisedUserCircle />,
+    //             },
+    //             {
+    //                 title: "Properties",
+    //                 path: "/dashboard/my-properties",
+    //                 icon: <MdShoppingBag />,
+    //             },
+    //             {
+    //                 title: "Transactions",
+    //                 path: "#",
+    //                 icon: <MdAttachMoney />,
+    //             },
+    //             {
+    //                 title: "Customers",
+    //                 path: "/dashboard/customers",
+    //                 icon: <MdAttachMoney />,
+    //             },
+    //             {
+    //                 title: "Bookings",
+    //                 path: "/dashboard/bookings",
+    //                 icon: <MdShoppingBag />,
+    //             },
+    //         ],
+    //     },
+    //     {
+    //         title: "Analytics",
+    //         list: [
+    //             {
+    //                 title: "Revenue",
+    //                 path: "#",
+    //                 icon: <MdWork />,
+    //             }
+    //         ],
+    //     },
+    //     {
+    //         title: "User",
+    //         list: [
+    //             {
+    //                 title: "Profile Settings",
+    //                 path: "#",
+    //                 icon: <MdOutlineSettings />,
+    //             }
+    //         ],
+    //     },
+    // ];
+
     return (
         <div>
             <div className={styles.container}>
@@ -96,14 +248,33 @@ export default function Sidebar() {
                     </div>
                 </div>
                 <ul className={styles.list}>
-                    {menuItems.map((cat) => (
-                        <li key={cat.title} className='mb-4'>
-                            <span className={styles.cat}>{cat.title}</span>
-                            {cat.list.map((item) => (
-                                <MenuLink item={item} key={item.title} />
-                            ))}
-                        </li>
-                    ))}
+                    {role === "user" &&
+                        userMenuItems.map((cat) => (
+                            <li key={cat.title} className='mb-4'>
+                                <span className={styles.cat}>{cat.title}</span>
+                                {cat.list.map((item) => (
+                                    <MenuLink item={item} key={item.title} />
+                                ))}
+                            </li>
+                        ))}
+                    {role === "agent" &&
+                        agentMenuItems.map((cat) => (
+                            <li key={cat.title} className='mb-4'>
+                                <span className={styles.cat}>{cat.title}</span>
+                                {cat.list.map((item) => (
+                                    <MenuLink item={item} key={item.title} />
+                                ))}
+                            </li>
+                        ))}
+                    {role === "admin" &&
+                        adminMenuItems.map((cat) => (
+                            <li key={cat.title} className='mb-4'>
+                                <span className={styles.cat}>{cat.title}</span>
+                                {cat.list.map((item) => (
+                                    <MenuLink item={item} key={item.title} />
+                                ))}
+                            </li>
+                        ))}
                 </ul>
             </div>
 
@@ -117,14 +288,33 @@ export default function Sidebar() {
             <div className={`z-40 pt-14 block lg:hidden md:hidden fixed h-full bg-[#151c2c]  p-5 shadow-lg origin-left top-0 rounded-md ${!sidebarToggle ? 'scale-x-0' : 'scale-x-100 w-72'} duration-300 rounded-md`}>
                 <ul className="space-y-3 text-[#b7bac1]">
                     <ul className={styles.list}>
-                        {menuItems.map((cat) => (
-                            <li key={cat.title} className='mb-4'>
-                                <span className={styles.cat}>{cat.title}</span>
-                                {cat.list.map((item) => (
-                                    <MenuLink item={item} key={item.title} />
-                                ))}
-                            </li>
-                        ))}
+                        {role === "user" &&
+                            userMenuItems.map((cat) => (
+                                <li key={cat.title} className='mb-4'>
+                                    <span className={styles.cat}>{cat.title}</span>
+                                    {cat.list.map((item) => (
+                                        <MenuLink item={item} key={item.title} />
+                                    ))}
+                                </li>
+                            ))}
+                        {role === "agent" &&
+                            agentMenuItems.map((cat) => (
+                                <li key={cat.title} className='mb-4'>
+                                    <span className={styles.cat}>{cat.title}</span>
+                                    {cat.list.map((item) => (
+                                        <MenuLink item={item} key={item.title} />
+                                    ))}
+                                </li>
+                            ))}
+                        {role === "admin" &&
+                            adminMenuItems.map((cat) => (
+                                <li key={cat.title} className='mb-4'>
+                                    <span className={styles.cat}>{cat.title}</span>
+                                    {cat.list.map((item) => (
+                                        <MenuLink item={item} key={item.title} />
+                                    ))}
+                                </li>
+                            ))}
                     </ul>
                 </ul>
             </div>
