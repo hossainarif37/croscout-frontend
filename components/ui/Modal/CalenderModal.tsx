@@ -16,6 +16,8 @@ const CalenderModal = () => {
 
     // console.log(searchCalDate);
 
+
+
     return (
         <div className={`lg:fixed absolute z-50 w-full h-full bg-black bg-opacity-30 flex justify-center items-center top-0 right-0 ${calenderModal ? 'scale-100' : 'scale-0'}`}>
             <div className={`lg:w-[470px]  bg-white rounded-lg text-black relative py-5 px-10 duration-300 ${calenderModal ? 'scale-100' : 'scale-0'}`}>

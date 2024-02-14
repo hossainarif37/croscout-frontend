@@ -8,9 +8,10 @@ import { FaShoppingBag } from 'react-icons/fa';
 import { formatDistanceToNow } from 'date-fns';
 import { getBookingsById } from '@/lib/database/getUserBooking';
 import { useParams } from 'next/navigation';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { getAllUsers } from '@/lib/database/getUsers';
 import { useAuthContext } from '@/providers/AuthProvider';
+import Link from 'next/link';
 
 
 interface BookingsProps {
@@ -18,6 +19,7 @@ interface BookingsProps {
 }
 const Bookings = () => {
     type booking = {
+        _id: string;
         id: number;
         price: string;
         total: number;
@@ -27,42 +29,12 @@ const Bookings = () => {
         endDate: string;
         updatedAt: string;
     };
-    // const [bookings, setBookings] = useState([]);
-    // const [isLoading, setIsLoading] = useState(true);
-    // console.log(bookings);
 
-
-    // // const timeSince = (dateString: any) => {
-    // //     const date = new Date(dateString);
-    // //     return formatDistanceToNow(date, { addSuffix: true });
-    // // };
     const timeSinceWithoutAbout = (dateString: any) => {
         const date = new Date(dateString);
         const distance = formatDistanceToNow(date, { addSuffix: true });
         return distance.replace(/^about /, '');
     };
-
-    // useEffect(() => {
-    //     const fetchBookings = async () => {
-    //         try {
-    //             // console.log('Setting isLoading to true');
-    //             setIsLoading(true);
-    //             const data = await getBookingsById(String(id));
-    //             setBookings(data);
-    //             // console.log('Setting isLoading to false');
-    //             setIsLoading(false);
-    //         } catch (error) {
-    //             console.log('Error occurred, setting isLoading to false', error);
-    //             setIsLoading(false);
-    //         }
-    //     };
-
-    //     fetchBookings();
-    // }, [id]);
-
-    // if (isLoading) {
-    //     return <Loading />
-    // }
 
     const { user } = useAuthContext();
     const userId = (user?._id);
@@ -91,7 +63,7 @@ const Bookings = () => {
         fetchBookings();
     }, [userId]); // Depend on userId instead of selectedUserId
 
-
+    const router = useRouter();
     if (isLoading) {
         return <Loading />
     }
@@ -107,19 +79,20 @@ const Bookings = () => {
             <div className='flex justify-between px-4 pt-4'>
                 <h2>bookings</h2>
             </div>
-            <div className='p-4'>
+            {bookings?.length > 0 && <div className='p-4'>
                 <div className='w-full  m-auto p-4 rounded-lg overflow-y-auto overflow-x-auto'>
-                    <div className='my-3 bg-[#2E374A] p-5 rounded-t-xl grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 items-center justify-between cursor-pointer font-semibold'>
-                        <span>booking</span>
+                    <div className='my-3 bg-[#2E374A] p-5 rounded-t-xl grid md:grid-cols-5 sm:grid-cols-3 grid-cols-2 items-center justify-between cursor-pointer font-semibold'>
+                        <span>Name</span>
                         <span className='sm:text-left text-right'>Status</span>
                         <span className='hidden md:grid'>Last booking</span>
-                        <span className='hidden sm:flex'>Check in <span className='px-8 inline-block'>-</span> Check out</span>
+                        <span className='hidden sm:flex'>Check in <span className='px-6 inline-block'>-</span> Check out</span>
+                        <span className='hidden md:grid'>Total Price</span>
                     </div>
                     <ul>
-                        {bookings?.slice().reverse()?.map((booking: booking, id: number | string) => (
+                        {bookings?.slice()?.reverse()?.map((booking: booking, id: number | string) => (
                             <li
                                 key={id}
-                                className=' hover:bg-[#2E374A] bg-primary-50 rounded-lg my-3 p-2 grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 items-center justify-between cursor-pointer'
+                                className=' hover:bg-[#2E374A] bg-primary-50 rounded-lg my-3 p-2 grid md:grid-cols-5 sm:grid-cols-3 grid-cols-2 items-center justify-between cursor-pointer'
                             >
                                 <div className='flex'>
                                     <div className='bg-purple-100 p-3 rounded-lg'>
@@ -155,13 +128,29 @@ const Bookings = () => {
                                         {format(new Date(booking.startDate), "MMM dd, yyyy")} <span className='px-2 inline-block'>-</span>
                                         {format(new Date(booking.endDate), "MMM dd, yyyy")}
                                     </p>
-                                    <BsThreeDotsVertical />
+                                    {/* <BsThreeDotsVertical /> */}
+                                </div>
+                                <div className=' font-semibold relative flex justify-end mr-5' >
+                                    <p className='text-left absolute left-3'>$ {booking.price}</p>
+                                    <button onClick={() => router.push(`/dashboard/user/booking-details/${booking?._id}`)}>
+                                        <button className=' sm:text-left text-right md:text-sm text-xs'>
+                                            <span
+                                                className={'bg-secondary-50 text-primary-50 px-2 py-1 rounded-md underline'}
+                                            >
+                                                Details
+                                            </span>
+                                        </button>
+                                    </button>
                                 </div>
                             </li>
                         ))}
                     </ul>
                 </div>
-            </div>
+            </div>}
+
+            {
+                bookings?.length < 1 && <div className="text-center mt-20 text-white"><h1 className="text-4xl text-center">You haven't any Booking yet. Please booking Property</h1></div>
+            }
         </div>
     );
 };

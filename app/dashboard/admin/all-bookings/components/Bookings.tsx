@@ -6,11 +6,12 @@ import React, { useEffect, useState } from 'react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { FaShoppingBag } from 'react-icons/fa';
 import { formatDistanceToNow } from 'date-fns';
+import Link from 'next/link';
 import { useAuthContext } from '@/providers/AuthProvider';
 
 const Bookings = () => {
     type booking = {
-        id: number;
+        _id: number;
         price: string;
         total: number;
         status: string;
@@ -21,12 +22,15 @@ const Bookings = () => {
     };
     const [bookings, setBookings] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    // console.log(bookings);
+
     const { user } = useAuthContext();
 
     // const timeSince = (dateString: any) => {
     //     const date = new Date(dateString);
     //     return formatDistanceToNow(date, { addSuffix: true });
     // };
+
     const timeSinceWithoutAbout = (dateString: any) => {
         const date = new Date(dateString);
         const distance = formatDistanceToNow(date, { addSuffix: true });
@@ -107,7 +111,16 @@ const Bookings = () => {
                                         {format(new Date(booking.startDate), "MMM dd, yyyy")} <span className='px-2 inline-block'>-</span>
                                         {format(new Date(booking.endDate), "MMM dd, yyyy")}
                                     </p>
-                                    <BsThreeDotsVertical />
+                                    {/* <BsThreeDotsVertical /> */}
+                                    <Link href={`/dashboard/admin/booking-details/${booking._id}`}>
+                                        <button className=' sm:text-left text-right md:text-sm text-xs'>
+                                            <span
+                                                className={'bg-secondary-50 text-primary-50 p-2 rounded-md underline'}
+                                            >
+                                                Details
+                                            </span>
+                                        </button>
+                                    </Link>
                                 </div>
                             </li>
                         ))}

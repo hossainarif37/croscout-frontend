@@ -1,7 +1,7 @@
 "use client"
 import React, { createContext, ReactNode, useContext, useState, Dispatch, SetStateAction } from "react";
 import { CountrySelectValue } from "@/components/ui/Inputs/CountrySelect";
-import { Property } from "@/constant";
+// import { Property } from "@/constant";
 
 // DateRange Interface
 export interface DateRange {
@@ -11,7 +11,7 @@ export interface DateRange {
 }
 
 // FilteredProperty Type
-type FilteredProperty = Property[] | [];
+// type FilteredProperty = Property[] | [];
 
 // SearchContextProps Interface
 export interface SearchContextProps {

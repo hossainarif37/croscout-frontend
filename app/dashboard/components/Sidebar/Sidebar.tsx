@@ -93,8 +93,8 @@ export default function Sidebar() {
                     icon: <MdSupervisedUserCircle />,
                 },
                 {
-                    title: "Properties",
-                    path: "/dashboard/agent/my-properties",
+                    title: "Manage Properties",
+                    path: "/dashboard/agent/manage-properties",
                     icon: <MdShoppingBag />,
                 },
                 // {

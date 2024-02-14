@@ -22,6 +22,8 @@ interface User {
 interface AuthContextProps {
     user: User | null;
     setUser: React.Dispatch<React.SetStateAction<User | null>>;
+    loading: boolean;
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 // Created Context
@@ -34,6 +36,7 @@ interface AuthProviderProps {
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // State for user
     const [user, setUser] = useState<User | null>(null);
+    const [loading, setLoading] = useState(true);
 
     // console.log(user);
     // if(user){
@@ -48,13 +51,16 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     useEffect(() => {
         let isMounted = true;
         const fetchUser = async () => {
+            setLoading(true);
             if (token && isMounted) {
                 const { user } = await getUser({ token });
                 setUser(user);
                 setCookie("authToken", token.split(" ")[1], 24)
+                setLoading(false);
             }
             else {
                 setUser(null)
+                setLoading(false);
             }
         };
         fetchUser();
@@ -66,7 +72,9 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Context Values
     const contextValue: AuthContextProps = {
         user,
-        setUser
+        setUser,
+        loading,
+        setLoading
     };
 
     return (
