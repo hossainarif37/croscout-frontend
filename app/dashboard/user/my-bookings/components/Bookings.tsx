@@ -6,7 +6,16 @@ import React, { useEffect, useState } from 'react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { FaShoppingBag } from 'react-icons/fa';
 import { formatDistanceToNow } from 'date-fns';
+import { getBookingsById } from '@/lib/database/getUserBooking';
+import { useParams } from 'next/navigation';
+import { useRouter } from 'next/router';
+import { getAllUsers } from '@/lib/database/getUsers';
+import { useAuthContext } from '@/providers/AuthProvider';
 
+
+interface BookingsProps {
+    id: number | string; // or string, depending on what type of ID you expect
+}
 const Bookings = () => {
     type booking = {
         id: number;
@@ -18,38 +27,70 @@ const Bookings = () => {
         endDate: string;
         updatedAt: string;
     };
-    const [bookings, setBookings] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    console.log(bookings);
+    // const [bookings, setBookings] = useState([]);
+    // const [isLoading, setIsLoading] = useState(true);
+    // console.log(bookings);
 
 
-    // const timeSince = (dateString: any) => {
-    //     const date = new Date(dateString);
-    //     return formatDistanceToNow(date, { addSuffix: true });
-    // };
+    // // const timeSince = (dateString: any) => {
+    // //     const date = new Date(dateString);
+    // //     return formatDistanceToNow(date, { addSuffix: true });
+    // // };
     const timeSinceWithoutAbout = (dateString: any) => {
         const date = new Date(dateString);
         const distance = formatDistanceToNow(date, { addSuffix: true });
         return distance.replace(/^about /, '');
     };
 
+    // useEffect(() => {
+    //     const fetchBookings = async () => {
+    //         try {
+    //             // console.log('Setting isLoading to true');
+    //             setIsLoading(true);
+    //             const data = await getBookingsById(String(id));
+    //             setBookings(data);
+    //             // console.log('Setting isLoading to false');
+    //             setIsLoading(false);
+    //         } catch (error) {
+    //             console.log('Error occurred, setting isLoading to false', error);
+    //             setIsLoading(false);
+    //         }
+    //     };
+
+    //     fetchBookings();
+    // }, [id]);
+
+    // if (isLoading) {
+    //     return <Loading />
+    // }
+
+    const { user } = useAuthContext();
+    const userId = (user?._id);
+
+    const [bookings, setBookings] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    console.log(bookings);
+
     useEffect(() => {
         const fetchBookings = async () => {
+            if (!userId) {
+                console.log('User ID is undefined, skipping fetch');
+                return;
+            }
             try {
-                // console.log('Setting isLoading to true');
                 setIsLoading(true);
-                const data = await getAllBookings();
-                setBookings(data);
-                // console.log('Setting isLoading to false');
+                const bookingsData = await getBookingsById(userId);
+                setBookings(bookingsData.bookings);
                 setIsLoading(false);
             } catch (error) {
-                console.log('Error occurred, setting isLoading to false', error);
+                console.error('Failed to fetch bookings:', error);
                 setIsLoading(false);
             }
         };
 
         fetchBookings();
-    }, []);
+    }, [userId]); // Depend on userId instead of selectedUserId
+
 
     if (isLoading) {
         return <Loading />
@@ -68,7 +109,7 @@ const Bookings = () => {
                         <span className='hidden sm:flex'>Check in <span className='px-8 inline-block'>-</span> Check out</span>
                     </div>
                     <ul>
-                        {bookings.slice().reverse().map((booking: booking, id: number) => (
+                        {bookings.slice().reverse()?.map((booking: booking, id: number | string) => (
                             <li
                                 key={id}
                                 className=' hover:bg-[#2E374A] bg-primary-50 rounded-lg my-3 p-2 grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 items-center justify-between cursor-pointer'
@@ -81,7 +122,7 @@ const Bookings = () => {
                                         <p className=' font-bold'>
                                             ${booking.price}
                                         </p>
-                                        <p className=' text-sm'>guestName</p>
+                                        <p className=' text-sm'>{user?.name}</p>
                                     </div>
                                 </div>
                                 <button className=' sm:text-left text-right md:text-sm text-xs'>
