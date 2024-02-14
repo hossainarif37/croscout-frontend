@@ -20,6 +20,7 @@ import { useModalContext } from '@/providers/ModalProvider';
 import { useAuthContext } from '@/providers/AuthProvider';
 import MenuLink from './MenuLink/MenuLink';
 import Loading from '@/components/ui/Loading/Loading';
+import { FaStar } from 'react-icons/fa';
 
 
 export default function Sidebar() {
@@ -46,6 +47,11 @@ export default function Sidebar() {
                     title: "Bookings",
                     path: "/dashboard/user/my-bookings",
                     icon: <MdShoppingBag />,
+                },
+                {
+                    title: "Favorites",
+                    path: "/dashboard/user/favorites",
+                    icon: <FaStar />,
                 },
             ],
         },

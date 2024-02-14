@@ -11,9 +11,11 @@ interface User {
     name: string;
     password: string;
     role: string;
+    favoriteList?: string[]; // Represented as an array of strings
     __v: number;
     _id: string;
 }
+
 
 
 // Interface of Auth Context Props
