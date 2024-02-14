@@ -8,9 +8,10 @@ import { FaShoppingBag } from 'react-icons/fa';
 import { formatDistanceToNow } from 'date-fns';
 import { getBookingsById } from '@/lib/database/getUserBooking';
 import { useParams } from 'next/navigation';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { getAllUsers } from '@/lib/database/getUsers';
 import { useAuthContext } from '@/providers/AuthProvider';
+import Link from 'next/link';
 
 
 interface BookingsProps {
@@ -18,6 +19,7 @@ interface BookingsProps {
 }
 const Bookings = () => {
     type booking = {
+        _id: string;
         id: number;
         price: string;
         total: number;
@@ -61,7 +63,7 @@ const Bookings = () => {
         fetchBookings();
     }, [userId]); // Depend on userId instead of selectedUserId
 
-
+    const router = useRouter();
     if (isLoading) {
         return <Loading />
     }
@@ -77,7 +79,7 @@ const Bookings = () => {
                         <span className='sm:text-left text-right'>Status</span>
                         <span className='hidden md:grid'>Last booking</span>
                         <span className='hidden sm:flex'>Check in <span className='px-6 inline-block'>-</span> Check out</span>
-                        <span className='hidden md:grid text-center'>Total Price</span>
+                        <span className='hidden md:grid'>Total Price</span>
                     </div>
                     <ul>
                         {bookings?.slice()?.reverse()?.map((booking: booking, id: number | string) => (
@@ -121,9 +123,18 @@ const Bookings = () => {
                                     </p>
                                     {/* <BsThreeDotsVertical /> */}
                                 </div>
-                                <p className='text-center font-semibold'>
-                                    $ {booking.price}
-                                </p>
+                                <div className=' font-semibold relative flex justify-end mr-5' >
+                                    <p className='text-left absolute left-3'>$ {booking.price}</p>
+                                    <button onClick={() => router.push(`/dashboard/user/booking-details/${booking?._id}`)}>
+                                        <button className=' sm:text-left text-right md:text-sm text-xs'>
+                                            <span
+                                                className={'bg-secondary-50 text-primary-50 px-2 py-1 rounded-md underline'}
+                                            >
+                                                Details
+                                            </span>
+                                        </button>
+                                    </button>
+                                </div>
                             </li>
                         ))}
                     </ul>
