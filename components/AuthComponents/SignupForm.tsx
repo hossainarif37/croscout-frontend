@@ -109,7 +109,7 @@ const SignupForm = () => {
                         <label htmlFor="taxNumber" className="block ">
                             Tax Number
                         </label>
-                        <input {...register("taxNumber", { required: true })} type="text" name="taxNumber" id="taxNumber" placeholder="Tax Number" className="w-full px-4 py-3 rounded-md border border-indigo-300 focus:outline-none  " />
+                        <input {...register("taxNumber", { required: true })} maxLength={11} type="text" name="taxNumber" id="taxNumber" placeholder="Tax Number" className="w-full px-4 py-3 rounded-md border border-indigo-300 focus:outline-none  " />
                         {errors.taxNumber && <p className="error">Enter a Tax Number.</p>}
 
                     </div>
