@@ -1,18 +1,36 @@
 "use client"
 
-import React from 'react'
+interface IDateRange {
+    startDate: Date;
+    endDate: Date;
+    key?: string;
+}
+
+// interface IDateRangee {
+//     startDate: string;
+//     endDate: string;
+// }
+
+
+import React, { useState } from 'react'
 // import AccentInput from '../inputs/AccentInput';
 import Image from 'next/image';
 import ShareActive from "@/public/icons/share-active.svg";
 import FavActive from "@/public/icons/fav-active.svg";
 import { FaChevronDown } from 'react-icons/fa';
-import { useModalContext } from '@/providers/ModalProvider';
-import { useSearchContext } from '@/providers/SearchProvider';
+// import { useModalContext } from '@/providers/ModalProvider';
+// import { useSearchContext } from '@/providers/SearchProvider';
 import { differenceInDays, format } from "date-fns";
-import { calculateDuration } from '@/utils/calculateDuration';
+// import { calculateDuration } from '@/utils/calculateDuration';
 // import { IPropertyData } from '../[id]/page';
 import { useAuthContext } from '@/providers/AuthProvider';
 import { IPropertyData } from '../[id]/page';
+import { IoIosCloseCircle } from 'react-icons/io';
+import { DateRange } from 'react-date-range';
+import toast from 'react-hot-toast';
+import GuestCounter from './GuestCounter';
+import { Tooltip } from 'flowbite-react';
+
 
 interface PropertyHeroProps {
     singlePropertyDetails?: IPropertyData['property'];
@@ -36,20 +54,33 @@ interface PropertyHeroProps {
 
 
 export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProps) {
-    const { setCalenderModal, setGuestModal, setLocationModal } = useModalContext();
-    const { childrenCount, adultsCount, searchCalDate, location, setLocation, isSearchBtnClicked, setIsSearchBtnClicked } = useSearchContext();
+    const [calendarModal, setCalenderModal] = useState(false);
+    const [guestModal, setGuestModal] = useState(false);
+    const [isSelectDate, setIsSelectDate] = useState(false);
+    const [selectedDate, setSelectedDate] = useState<IDateRange[]>([
+        {
+            startDate: new Date(),
+            endDate: new Date(),
+            key: 'selection'
+        }
+    ]);
+    const [adultsCount, setAdultsCount] = useState<number>(0);
+    const [childrenCount, setChildrenCount] = useState<number>(0);
+    // const { setGuestModal, setLocationModal } = useModalContext();
+    // const { childrenCount, adultsCount, location, setLocation, isSearchBtnClicked, setIsSearchBtnClicked } = useSearchContext();
 
-    console.log(singlePropertyDetails?.propertyImages);
+    // console.log(singlePropertyDetails?.propertyImages);
 
 
     let formattedStartDate: any;
 
     let formattedEndDate: any;
 
+
     // let duration: any = "Any week";
 
-    const startDate = new Date(searchCalDate[0].startDate);
-    const endDate = new Date(searchCalDate[0].endDate);
+    const startDate = new Date(selectedDate[0].startDate);
+    const endDate = new Date(selectedDate[0].endDate);
     formattedStartDate = format(startDate, "MMM dd, yyyy");
     formattedEndDate = format(endDate, "MMM dd, yyyy");
 
@@ -62,17 +93,31 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
 
     const crouscouteServiceFee = 30;
     const { user } = useAuthContext();
-    console.log(user);
-    const handleBooking = async () => {
 
+    let totalGuests = childrenCount + adultsCount;
+
+    const adminOrAgent = user?.role !== "user";
+
+    // console.log(user);
+    const handleBooking = async () => {
         // Assuming you have the guestId and propertyId available
         const guestId = user?._id;
         // const owner = singlePropertyDetails?.owner;
         // console.log("owner", owner);
         const propertyId = singlePropertyDetails?._id;
-        console.log(propertyId);
+        // console.log(propertyId);
         const price = nightFeeCalculation + crouscouteServiceFee;
-        console.log(price);
+        // console.log(price);
+
+
+        if (!isSelectDate) {
+            return toast.error("Date is required")
+        }
+
+        if (totalGuests <= 0) {
+            return toast.error("Guest is required")
+        }
+
         // Check if guestId and propertyId are available
         if (!guestId || !propertyId) {
             console.error('Guest ID or property ID is not available for booking');
@@ -85,9 +130,9 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
             price,
             guestId,
             propertyId,
-            totalGuests: adultsCount + childrenCount,
-            startDate: new Date(searchCalDate[0].startDate),
-            endDate: new Date(searchCalDate[0].endDate),
+            totalGuests,
+            startDate: new Date(selectedDate[0].startDate),
+            endDate: new Date(selectedDate[0].endDate),
         };
 
         // Make the POST request with the booking data 
@@ -101,18 +146,39 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
         });
 
         const responseData = await response.json();
-        console.log('Booking successful:', responseData);
+        if (responseData.success) {
+            toast.success(responseData?.message)
+        }
+        else {
+            toast.error(responseData?.error)
+        }
+        // console.log('Booking successful:', responseData);
         // Handle the successful booking, e.g., show a success message or redirect the user
     };
 
-    // duration = calculateDuration(searchCalDate[0].startDate, searchCalDate[0].endDate);
+    // duration = calculateDuration(selectedDate[0].startDate, selectedDate[0].endDate);
 
-    // const formattedStartDate = format(new Date(searchCalDate[0].startDate), "MMM dd, yyyy");
-    // const formattedEndDate = format(new Date(searchCalDate[0].endDate), "MMM dd, yyyy");
+    // const formattedStartDate = format(new Date(selectedDate[0].startDate), "MMM dd, yyyy");
+    // const formattedEndDate = format(new Date(selectedDate[0].endDate), "MMM dd, yyyy");
+
+    // function for get all dates and this dates will be disable
+    const disabledDates = singlePropertyDetails?.bookedDates.flatMap((date: any) => {
+        const { startDate, endDate } = date;
+        const datesArray = [];
+        let currentDate = new Date(startDate);
+        const endDateTime = new Date(endDate);
+
+        while (currentDate <= endDateTime) {
+            datesArray.push(new Date(currentDate));
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+        return datesArray;
+    });
+
+    const maximumGuest = singlePropertyDetails?.guests || 0;
 
 
     // Guest Calculation
-    let guests = childrenCount + adultsCount;
     return (
         <section className='wrapper'>
             {/* Top section */}
@@ -190,10 +256,10 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
                                                     formattedStartDate !== formattedEndDate ? (
                                                         <>
                                                             <div className="text-sm lg:text-base lg:leading-5">
-                                                                {format(new Date(searchCalDate[0].startDate), "MMM dd, yyyy")}
+                                                                {format(new Date(selectedDate[0].startDate), "MMM dd, yyyy")}
                                                             </div>
                                                             <div className="text-sm lg:text-base lg:leading-5">
-                                                                {format(new Date(searchCalDate[0].startDate), "EEEE")}
+                                                                {format(new Date(selectedDate[0].startDate), "EEEE")}
                                                             </div>
                                                         </>
                                                     ) : (
@@ -215,10 +281,10 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
                                                     formattedStartDate !== formattedEndDate ? (
                                                         <>
                                                             <div className="text-sm lg:text-base lg:leading-5">
-                                                                {format(new Date(searchCalDate[0].endDate), "MMM dd, yyyy")}
+                                                                {format(new Date(selectedDate[0].endDate), "MMM dd, yyyy")}
                                                             </div>
                                                             <div className="text-sm lg:text-base lg:leading-5">
-                                                                {format(new Date(searchCalDate[0].endDate), "EEEE")}
+                                                                {format(new Date(selectedDate[0].endDate), "EEEE")}
                                                             </div>
                                                         </>
                                                     ) : (
@@ -238,6 +304,37 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
                                     </div>
                                     {/*//? Check in and check out input section End */}
 
+                                    {/* calendar modal start */}
+                                    <div className={`lg:fixed absolute z-50 w-full h-full bg-black bg-opacity-30 flex justify-center items-center top-0 right-0 ${calendarModal ? 'scale-100' : 'scale-0'}`}>
+                                        <div className={`lg:w-[470px]  bg-white rounded-lg text-black relative py-5 px-10 duration-300 ${calendarModal ? 'scale-100' : 'scale-0'}`}>
+                                            <div className="flex-between mb-5">
+                                                <h1 className="text-center flex-1 text-xl font-semibold text-secondary ">Calendar</h1>
+                                                <button
+                                                    onClick={() => setCalenderModal(false)}
+                                                    type="button" className="text-3xl text-primary">
+                                                    <IoIosCloseCircle />
+                                                </button>
+                                            </div>
+                                            <hr className="my-5" />
+
+
+                                            <div className="full-width-date-range flex flex-col items-center w-full">
+                                                <DateRange
+                                                    disabledDates={disabledDates}
+                                                    editableDateInputs={true}
+                                                    onChange={(item: any) => { setSelectedDate([item.selection]); setIsSelectDate(true) }}
+                                                    moveRangeOnFirstSelection={false}
+                                                    ranges={selectedDate}
+                                                    direction="vertical"
+                                                />
+                                            </div>
+
+                                            {/* Close Modal */}
+                                            <button className="w-full bg-rose-500 py-3 rounded-full text-white hover:bg-rose-400 duration-100" onClick={() => setCalenderModal(false)}>Continue</button>
+
+                                        </div>
+                                    </div>
+                                    {/* calendar modal end */}
 
                                     {/*//? Guest label */}
                                     <div className='mb-3'>
@@ -251,7 +348,6 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
 
                                     {/*//? Guest input section start */}
                                     <div
-
                                         onClick={() => setGuestModal(true)}
                                         className={' border-accent duration-100 mb-8 lg:mb-0 col-span-2 lg:col-span-1 divide-x-2 py-3 bg-transparent border rounded-[5px] cursor-pointer grid grid-cols-2 relative'}>
 
@@ -278,8 +374,47 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
                                         {/* Down Arrow Button */}
 
                                     </div>
-
                                     {/*//? Guest input section End */}
+
+                                    {/* guest modal start */}
+                                    <div className={`fixed z-50 w-full h-full bg-black bg-opacity-30 flex justify-center items-center top-0 right-0 ${guestModal ? 'scale-100' : 'scale-0'}`}>
+                                        <div className={`lg:w-[450px] bg-white rounded-lg text-black relative p-5 duration-300 ${guestModal ? 'scale-100' : 'scale-0'}`}>
+                                            <div className="flex flex-col">
+                                                <div className="flex-between ">
+                                                    <h1 className="text-center flex-1 text-xl font-semibold text-secondary ">Guests</h1>
+                                                    <button
+                                                        onClick={() => setGuestModal(false)}
+                                                        type="button" className="text-3xl text-primary">
+                                                        <IoIosCloseCircle />
+                                                    </button>
+
+                                                </div>
+                                                <hr className="my-5" />
+                                                <div className="space-y-10">
+                                                    <GuestCounter
+                                                        onChange={(value) => setAdultsCount(value)}
+                                                        value={adultsCount}
+                                                        title="Adults"
+                                                        subtitle="Ages 18 or above"
+                                                        maximumGuest={maximumGuest}
+                                                        totalGuests={totalGuests}
+                                                    />
+                                                    {/* <hr /> */}
+                                                    <GuestCounter
+                                                        onChange={(value) => setChildrenCount(value)}
+                                                        value={childrenCount}
+                                                        title="Children"
+                                                        subtitle="Ages 0-17"
+                                                        totalGuests={totalGuests}
+                                                        maximumGuest={maximumGuest}
+                                                    />
+                                                </div>
+                                            </div>
+                                            {/* Close Modal */}
+                                            <button className="w-full bg-rose-500 select-none py-3 mt-10 rounded-full text-white hover:bg-rose-400 duration-100" onClick={() => setGuestModal(false)}>Continue</button>
+                                        </div>
+                                    </div>
+                                    {/* guest modal end */}
 
                                     {/* Amount Section */}
                                     <div className="text-[1.25rem] font-semibold col-span-2 mt-6">
@@ -307,15 +442,34 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
                                         </div>
                                     </div>
                                     <div className="flex justify-center">
-                                        <button
-                                            onClick={handleBooking}
-                                            style={{
-                                                boxShadow: "0px 4px 13px 0px rgba(0, 0, 0, 0.25)",
-                                            }}
-                                            className="bg-accent mt-9 w-full lg:w-auto text-[1.25rem] font-bold py-4 px-[6.25rem] rounded-[5px]"
-                                        >
-                                            Reserve
-                                        </button>
+                                        {
+                                            adminOrAgent ?
+                                                <div className='mt-9'>
+                                                    <Tooltip content="Admin or Agent can't reserve any property">
+                                                        <button
+                                                            disabled={adminOrAgent}
+                                                            onClick={handleBooking}
+                                                            style={{
+                                                                boxShadow: "0px 4px 13px 0px rgba(0, 0, 0, 0.25)",
+                                                            }}
+                                                            className="bg-accent w-full lg:w-auto text-[1.25rem] font-bold py-4 px-[6.25rem] rounded-[5px]"
+                                                        >
+                                                            Reserve
+                                                        </button>
+                                                    </Tooltip>
+                                                </div>
+                                                :
+                                                <button
+                                                    onClick={handleBooking}
+                                                    style={{
+                                                        boxShadow: "0px 4px 13px 0px rgba(0, 0, 0, 0.25)",
+                                                    }}
+                                                    className="bg-accent mt-9 w-full lg:w-auto text-[1.25rem] font-bold py-4 px-[6.25rem] rounded-[5px]"
+                                                >
+                                                    Reserve
+                                                </button>
+                                        }
+
                                     </div>
                                 </div>
                             </div>
