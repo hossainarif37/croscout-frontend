@@ -142,7 +142,7 @@ const Bookings = () => {
             </div>}
 
             {
-                bookings?.length < 1 && <div className="text-center mt-20 text-white"><h1 className="text-4xl text-center">You haven't any Booking yet. Please booking Property</h1></div>
+                bookings === undefined && <div className="text-center mt-20 text-white"><h1 className="text-4xl text-center">You haven't any Booking yet. Please book Property</h1></div>
             }
         </div>
     );
