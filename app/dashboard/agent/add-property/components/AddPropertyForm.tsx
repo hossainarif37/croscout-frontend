@@ -67,7 +67,7 @@ const AddPropertyForm = () => {
             const result = await response.json();
             if (result.success) {
                 toast.success(result.message);
-                router.push('my-properties');
+                router.push('manage-properties');
             } else {
                 toast.error(result.error)
             }
