@@ -10,17 +10,19 @@ export function middleware(req: NextRequest) {
 
     const userRoutes = [
         "/dashboard/user/profile",
-        "/dashboard/user/change-password",
+        "/dashboard/user/my-bookings",
     ];
 
     const agentRoutes = [
-        "/dashboard/agent/profile",
-        "/dashboard/agent/change-password",
+        "/dashboard/agent/add-property",
+        "/dashboard/agent/my-properties",
+        "/dashboard/agent/bookings",
     ];
 
     const adminRoutes = [
-        "/dashboard/admin/profile",
-        "/dashboard/admin/change-password",
+        "/dashboard/admin/all-users",
+        "/dashboard/admin/all-properties",
+        "/dashboard/admin/all-bookings",
     ];
 
     if (token) {
