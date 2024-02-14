@@ -17,6 +17,7 @@ export interface IPropertyData {
         description: string;
         amenities: string[];
         pricePerNight: number;
+        bookedDates: object[];
         location: string;
         state: string;
         propertyType: string;
@@ -81,7 +82,7 @@ export default function PropertyDetails() {
     if (loading) {
         return <Loading />
     }
-
+    // console.log(singlePropertyDetails);
     return (
         <div className="">
             <PropertyHero singlePropertyDetails={singlePropertyDetails?.property} />
