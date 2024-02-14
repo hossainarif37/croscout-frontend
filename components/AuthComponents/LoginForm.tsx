@@ -10,6 +10,7 @@ import { ImSpinner9 } from "react-icons/im";
 import { getStoredToken, storeToken } from "@/utils/tokenStorage";
 import { useAuthContext } from "@/providers/AuthProvider";
 import { setCookie } from "cookies-next";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 type Inputs = {
     email: string
@@ -17,11 +18,19 @@ type Inputs = {
 }
 
 const LoginForm = () => {
+    const [isShow, setIsShow] = useState(false);
+
     const { setLoginModal, setSignupModal } = useModalContext();
     const { register, handleSubmit, watch, formState: { errors }, } = useForm<Inputs>()
     const [isLoading, setIsLoading] = useState(false);
     const [isForgotMode, setIsForgotMode] = useState(false);
     const { setUser } = useAuthContext();
+
+    // handler for toggle password show option
+    const handleShowPassword = () => {
+        setIsShow(!isShow)
+    }
+
     // handle login login
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         try {
@@ -80,8 +89,18 @@ const LoginForm = () => {
                     <label htmlFor="password" className="block ">
                         Password
                     </label>
-                    <input  {...register("password", { required: !isForgotMode })} type="password" name="password" id="password" placeholder="Password" className="w-full px-4 pt-3 rounded-md border border-indigo-300 focus:outline-none" />
-                    {errors.password && <p className="error">Enter your password</p>}
+                    <div className="relative">
+                        <input  {...register("password", { required: !isForgotMode })} type={isShow ? "text" : "password"} name="password" id="password" placeholder="Password" className="w-full px-4 pt-3 rounded-md border border-indigo-300 focus:outline-none" />
+                        {errors.password && <p className="error">Enter your password</p>}
+                        <span onClick={handleShowPassword} className="text-2xl absolute top-3 right-2 cursor-pointer">
+                            {
+                                isShow ?
+                                    <FaEyeSlash></FaEyeSlash>
+                                    :
+                                    <FaEye></FaEye>
+                            }
+                        </span>
+                    </div>
                 </div>
                 <div className="flex justify-end text-xs my-0">
                     <span onClick={handleForgotMode} className="hover:underline cursor-pointer">
