@@ -7,6 +7,7 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 import { FaShoppingBag } from 'react-icons/fa';
 import { formatDistanceToNow } from 'date-fns';
 import Link from 'next/link';
+import { useAuthContext } from '@/providers/AuthProvider';
 
 const Bookings = () => {
     type booking = {
@@ -23,6 +24,7 @@ const Bookings = () => {
     const [isLoading, setIsLoading] = useState(true);
     // console.log(bookings);
 
+    const { user } = useAuthContext();
 
     // const timeSince = (dateString: any) => {
     //     const date = new Date(dateString);
@@ -83,7 +85,7 @@ const Bookings = () => {
                                         <p className=' font-bold'>
                                             ${booking.price}
                                         </p>
-                                        <p className=' text-sm'>guestName</p>
+                                        <p className=' text-sm'>{user?.name}</p>
                                     </div>
                                 </div>
                                 <button className=' sm:text-left text-right md:text-sm text-xs'>
