@@ -1,3 +1,4 @@
+import { useAuthContext } from '@/providers/AuthProvider';
 import Bookings from './components/Bookings';
 
 const page = () => {

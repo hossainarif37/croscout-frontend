@@ -95,6 +95,13 @@ const Bookings = () => {
     if (isLoading) {
         return <Loading />
     }
+
+    if (!bookings || bookings.length === 0) {
+        return <div className='h-screen flex-center'>
+            <h1 className='text-4xl font-bold text-white-50'>No bookings found. Please book a property.</h1>
+        </div>
+    }
+
     return (
         <div className='bg-primary-50 text-secondary-50 min-h-screen'>
             <div className='flex justify-between px-4 pt-4'>
@@ -109,7 +116,7 @@ const Bookings = () => {
                         <span className='hidden sm:flex'>Check in <span className='px-8 inline-block'>-</span> Check out</span>
                     </div>
                     <ul>
-                        {bookings.slice().reverse()?.map((booking: booking, id: number | string) => (
+                        {bookings?.slice().reverse()?.map((booking: booking, id: number | string) => (
                             <li
                                 key={id}
                                 className=' hover:bg-[#2E374A] bg-primary-50 rounded-lg my-3 p-2 grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 items-center justify-between cursor-pointer'

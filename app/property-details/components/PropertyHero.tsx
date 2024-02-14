@@ -100,7 +100,8 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
         });
 
         const responseData = await response.json();
-        console.log('Booking successful:', responseData);
+
+        console.log('Booking Response:', responseData);
         // Handle the successful booking, e.g., show a success message or redirect the user
     };
 
