@@ -6,6 +6,7 @@ import DashboardSearchFeild from './components/DashboardSearchField/DashboardSea
 import styles from "@/app/dashboard/components/dashboard.module.css"
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuthContext } from '@/providers/AuthProvider';
+import Loading from '@/components/ui/Loading/Loading';
 
 interface DashboardLayoutProps {
     children: ReactNode;
@@ -15,6 +16,10 @@ interface DashboardLayoutProps {
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
     const { setSidebarToggle, sidebarToggle } = useModalContext();
+    const { loading } = useAuthContext();
+    if (loading) {
+        return <Loading />
+    }
     const handleToggleSidebar = () => {
         setSidebarToggle(false);
     }
