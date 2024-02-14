@@ -23,11 +23,15 @@ const Bookings = () => {
     console.log(bookings);
 
 
-    const timeSince = (dateString: any) => {
+    // const timeSince = (dateString: any) => {
+    //     const date = new Date(dateString);
+    //     return formatDistanceToNow(date, { addSuffix: true });
+    // };
+    const timeSinceWithoutAbout = (dateString: any) => {
         const date = new Date(dateString);
-        return formatDistanceToNow(date, { addSuffix: true });
+        const distance = formatDistanceToNow(date, { addSuffix: true });
+        return distance.replace(/^about /, '');
     };
-
 
     useEffect(() => {
         const fetchBookings = async () => {
@@ -54,18 +58,17 @@ const Bookings = () => {
         <div className='bg-primary-50 text-secondary-50 min-h-screen'>
             <div className='flex justify-between px-4 pt-4'>
                 <h2>bookings</h2>
-                <h2>Welcome Back, Clint</h2>
             </div>
             <div className='p-4'>
                 <div className='w-full  m-auto p-4 rounded-lg overflow-y-auto overflow-x-auto'>
-                    <div className='my-3 bg-[#2E374A] p-5 rounded-t-xl grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 items-center justify-between cursor-pointer'>
+                    <div className='my-3 bg-[#2E374A] p-5 rounded-t-xl grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 items-center justify-between cursor-pointer font-semibold'>
                         <span>booking</span>
                         <span className='sm:text-left text-right'>Status</span>
                         <span className='hidden md:grid'>Last booking</span>
-                        <span className='hidden sm:grid'>Check in - Check out</span>
+                        <span className='hidden sm:flex'>Check in <span className='px-8 inline-block'>-</span> Check out</span>
                     </div>
                     <ul>
-                        {bookings.map((booking: booking, id: number) => (
+                        {bookings.slice().reverse().map((booking: booking, id: number) => (
                             <li
                                 key={id}
                                 className=' hover:bg-[#2E374A] bg-primary-50 rounded-lg my-3 p-2 grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 items-center justify-between cursor-pointer'
@@ -98,11 +101,11 @@ const Bookings = () => {
                                         {booking.status}
                                     </span>
                                 </button>
-                                <p className='hidden md:flex'>{timeSince(booking?.updatedAt)}</p>
+                                <p className='hidden md:flex'>{timeSinceWithoutAbout(booking?.updatedAt)}</p>
                                 <div className='sm:flex hidden justify-between items-center'>
-                                    <p>
-                                        {format(new Date(booking.startDate), "MMM dd, yyyy EEEE")} -
-                                        {format(new Date(booking.endDate), "MMM dd, yyyy EEEE")}
+                                    <p className='flex justify-between'>
+                                        {format(new Date(booking.startDate), "MMM dd, yyyy")} <span className='px-2 inline-block'>-</span>
+                                        {format(new Date(booking.endDate), "MMM dd, yyyy")}
                                     </p>
                                     <BsThreeDotsVertical />
                                 </div>
