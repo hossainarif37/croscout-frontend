@@ -14,6 +14,10 @@ import { useAuthContext } from "@/providers/AuthProvider";
 import { checkFavoriteProperty } from "@/lib/database/checkFavoriteProperty";
 import toast from "react-hot-toast";
 
+// interface DateRange {
+//     dateRange: string;
+//     occurrences: number;
+// }
 
 export default function PropertyCard({ property }: Property & any,) {
     const { user } = useAuthContext();
@@ -35,6 +39,7 @@ export default function PropertyCard({ property }: Property & any,) {
         endDate,
         guests,
         propertyImages,
+        bookedDates,
         ratings,
     } = property;
 
@@ -52,6 +57,57 @@ export default function PropertyCard({ property }: Property & any,) {
             setIsFav(false);
         }
     }, [user?._id]);
+
+
+
+    // function getNext3DaysDateRanges(datesArray: string[]): DateRange[] {
+    //     const occurrencesMap: { [key: string]: number } = {};
+
+    //     datesArray.forEach((date) => {
+    //         if (date) {
+    //             const formattedDate = new Date(date).toISOString().split('T')[0];
+    //             occurrencesMap[formattedDate] = (occurrencesMap[formattedDate] || 0) + 1;
+    //         } else {
+    //             console.warn('Invalid date encountered:', date);
+    //         }
+    //     });
+
+    //     const currentDate = new Date().toISOString().split('T')[0];
+
+    //     const next3DaysDateRanges: DateRange[] = [];
+
+    //     for (let i = 0; i < 3; i++) {
+    //         const nextDate = new Date(currentDate);
+    //         nextDate.setDate(nextDate.getDate() + i);
+
+    //         const formattedNextDate = nextDate.toISOString().split('T')[0];
+    //         const occurrencesCount = occurrencesMap[formattedNextDate] || 0;
+
+    //         // Format date as "DD MMM"
+    //         const formattedDateString = nextDate.toLocaleDateString('en-US', {
+    //             day: 'numeric',
+    //             month: 'short',
+    //         });
+
+    //         next3DaysDateRanges.push({
+    //             dateRange: formattedDateString,
+    //             occurrences: occurrencesCount,
+    //         });
+    //     }
+
+    //     return next3DaysDateRanges;
+    // }
+
+    // // Example usage
+    // const datesArray: string[] = ["2024-02-07T18:00:00.000Z", "2024-02-05T18:00:00.000Z"];
+    // const result: DateRange[] = getNext3DaysDateRanges(datesArray);
+    // const dat: DateRange[] = getNext3DaysDateRanges(property.bookedDates);
+    // console.log(dat);
+
+    // console.log(result);
+
+
+    // console.log(bookedDates);
 
     const handleFavorite = async () => {
         try {
@@ -106,6 +162,7 @@ export default function PropertyCard({ property }: Property & any,) {
 
     // console.log(property);
 
+
     return (
         <div
             // onMouseEnter={handleHover}
@@ -128,9 +185,9 @@ export default function PropertyCard({ property }: Property & any,) {
                         {`${location.substring(0, 10)}, ${state.substring(0, 13)}`}
                     </h1>
                     {/* Location and State */}
-                    <h1 className="text-xl font-bold">
+                    {/* <h1 className="text-xl font-bold">
                         {`${name}`}
-                    </h1>
+                    </h1> */}
 
                     {/* Property Type */}
                     <p className="mt-[10px]">{propertyType}</p>

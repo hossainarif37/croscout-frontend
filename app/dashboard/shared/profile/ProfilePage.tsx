@@ -8,8 +8,10 @@ import ImageUploader from "./components/ImageUploader";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { getStoredToken } from "@/utils/tokenStorage";
-import { IChangePassword, IUserInfo, changePassword, updateUserInfo } from "@/lib/database/authUser";
+import { IChangePassword, IUserInfo, changePassword, getUser, updateUserInfo } from "@/lib/database/authUser";
 import toast from "react-hot-toast";
+import { ImSpinner9 } from "react-icons/im";
+import { setCookie } from "@/utils/authCookie";
 
 type IPersonalInfo = {
     name: string;
@@ -32,8 +34,11 @@ const ProfilePage = () => {
     const [currentImage, setCurrentImage] = useState('');
     const [isAgent, setIsAgent] = useState(false);
 
-    const { user } = useAuthContext();
+    const { user, setUser } = useAuthContext();
     const [isShow, setIsShow] = useState(false);
+
+    const [isInfoLoading, setInfoIsLoading] = useState(false);
+    const [isPassLoading, setPassIsLoading] = useState(false);
 
 
     const personalInfoForm = createFormInstance<IPersonalInfo>();
@@ -49,7 +54,6 @@ const ProfilePage = () => {
 
     // handler for swich role to agent toggle
     const switchAgentToggle = () => {
-        const role = document.getElementById("role");
         // console.log(role);
         if (!isAgent) {
             setIsAgent(true);
@@ -68,6 +72,7 @@ const ProfilePage = () => {
     };
 
     const handlePersonalInfoSave: SubmitHandler<IPersonalInfo> = async (data) => {
+        setInfoIsLoading(true);
         const name = data.name;
         const image = currentImage;
         const role = data.role;
@@ -78,16 +83,21 @@ const ProfilePage = () => {
         if (user && user._id) {
             const dbResponse = await updateUserInfo(reqData)
             if (dbResponse.success) {
+                setInfoIsLoading(false);
                 return toast.success(dbResponse?.message)
             } else {
+                setInfoIsLoading(false);
                 return toast.error(dbResponse?.error);
             }
         } else {
+            setInfoIsLoading(false);
             console.error('User ID is not available');
         }
+        setInfoIsLoading(false);
     };
 
     const handleChangePassword: SubmitHandler<IPasswordInfo> = async (data) => {
+        setPassIsLoading(true);
         const newPassword = data.newPassword;
         const oldPassword = data.oldPassword;
         const updateData = { newPassword, oldPassword };
@@ -96,16 +106,31 @@ const ProfilePage = () => {
             const reqData: IChangePassword = { updateData, token, id: user._id };
             const dbResponse = await changePassword(reqData);
             if (dbResponse.success) {
+                setPassIsLoading(false);
+                const fetchUser = async () => {
+                    if (token) {
+                        const { user } = await getUser({ token });
+                        setUser(user);
+                        setCookie("authToken", token.split(" ")[1], 24)
+                    }
+                    else {
+                        setUser(null)
+                    }
+                };
+                fetchUser();
                 return toast.success(dbResponse?.message)
             } else {
+                setPassIsLoading(false);
                 return toast.error(dbResponse?.error);
             }
         } else {
+            setPassIsLoading(false);
             // Handle the case where user._id is undefined
             console.error('User ID is not available');
         }
+        setPassIsLoading(false);
     };
-    
+
     return (
         <div className='min-h-screen'>
             <div>
@@ -148,7 +173,12 @@ const ProfilePage = () => {
                             </div>
                         }
 
-                        <button className="bg-green-500 hover:bg-transparent border border-transparent hover:border-green-500 text-white font-semibold px-2 py-2 rounded w-full">Save Changes</button>
+                        <button disabled={isInfoLoading} className="bg-green-500 hover:bg-transparent border border-transparent hover:border-green-500 text-white font-semibold px-2 py-2 rounded w-full flex items-center justify-center h-12"> {
+                            isInfoLoading ?
+                                <ImSpinner9 className="animate-spin text-[26px]"></ImSpinner9>
+                                :
+                                "Save Changes"
+                        }</button>
                     </form>
 
                     <form onSubmit={passwordForm.handleSubmit(handleChangePassword)} className="max-w-lg mx-auto space-y-3 my-6">
@@ -169,7 +199,14 @@ const ProfilePage = () => {
                                 }
                             </span>
                         </div>
-                        <button className="bg-green-500 hover:bg-transparent border border-transparent hover:border-green-500 text-white font-semibold px-2 py-2 rounded w-full">Change Password</button>
+                        <button className="bg-green-500 hover:bg-transparent border border-transparent hover:border-green-500 text-white font-semibold px-2 py-2 rounded w-full flex items-center justify-center h-12">
+                            {
+                                isPassLoading ?
+                                    <ImSpinner9 className="animate-spin text-[26px]"></ImSpinner9>
+                                    :
+                                    "Change Password"
+                            }
+                        </button>
                     </form>
                 </div>
             </div>

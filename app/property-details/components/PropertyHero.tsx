@@ -30,6 +30,8 @@ import { DateRange } from 'react-date-range';
 import toast from 'react-hot-toast';
 import GuestCounter from './GuestCounter';
 import { Tooltip } from 'flowbite-react';
+import { ImSpinner9 } from 'react-icons/im';
+import { useRouter } from 'next/navigation';
 
 
 interface PropertyHeroProps {
@@ -66,6 +68,9 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
     ]);
     const [adultsCount, setAdultsCount] = useState<number>(0);
     const [childrenCount, setChildrenCount] = useState<number>(0);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const router = useRouter();
     // const { setGuestModal, setLocationModal } = useModalContext();
     // const { childrenCount, adultsCount, location, setLocation, isSearchBtnClicked, setIsSearchBtnClicked } = useSearchContext();
 
@@ -87,8 +92,7 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
     const daysDifference = differenceInDays(endDate, startDate);
     let nightFeeCalculation: any;
     if (singlePropertyDetails) {
-
-        nightFeeCalculation = daysDifference * singlePropertyDetails.pricePerNight;
+        nightFeeCalculation = daysDifference * singlePropertyDetails?.pricePerNight;
     }
 
     const crouscouteServiceFee = 30;
@@ -100,6 +104,8 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
 
     // console.log(user);
     const handleBooking = async () => {
+        setIsLoading(true);
+
         // Assuming you have the guestId and propertyId available
         const guestId = user?._id;
         // const owner = singlePropertyDetails?.owner;
@@ -111,28 +117,31 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
 
 
         if (!isSelectDate) {
+            setIsLoading(false);
             return toast.error("Date is required")
         }
 
         if (totalGuests <= 0) {
+            setIsLoading(false);
             return toast.error("Guest is required")
         }
 
         // Check if guestId and propertyId are available
         if (!guestId || !propertyId) {
             console.error('Guest ID or property ID is not available for booking');
+            setIsLoading(false);
             return;
         }
 
         // Create the booking data object
         const bookingData = {
-            ownerId: typeof singlePropertyDetails?.owner === 'object' ? singlePropertyDetails.owner._id : undefined,
+            ownerId: typeof singlePropertyDetails?.owner === 'object' ? singlePropertyDetails?.owner?._id : undefined,
             price,
             guestId,
             propertyId,
             totalGuests,
-            startDate: new Date(selectedDate[0].startDate),
-            endDate: new Date(selectedDate[0].endDate),
+            startDate: new Date(selectedDate[0]?.startDate),
+            endDate: new Date(selectedDate[0]?.endDate),
         };
 
         // Make the POST request with the booking data 
@@ -147,10 +156,13 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
 
         const responseData = await response.json();
         if (responseData.success) {
-            toast.success(responseData?.message)
+            setIsLoading(false);
+            router.push("/dashboard/user/my-bookings")
+            return toast.success(responseData?.message)
         }
         else {
-            toast.error(responseData?.error)
+            setIsLoading(false);
+            return toast.error(responseData?.error)
         }
         // console.log('Booking successful:', responseData);
         // Handle the successful booking, e.g., show a success message or redirect the user
@@ -162,7 +174,7 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
     // const formattedEndDate = format(new Date(selectedDate[0].endDate), "MMM dd, yyyy");
 
     // function for get all dates and this dates will be disable
-    const disabledDates = singlePropertyDetails?.bookedDates.flatMap((date: any) => {
+    const alreadBookingDates = singlePropertyDetails?.bookedDates.flatMap((date: any) => {
         const { startDate, endDate } = date;
         const datesArray = [];
         let currentDate = new Date(startDate);
@@ -173,9 +185,21 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
             currentDate.setDate(currentDate.getDate() + 1);
         }
         return datesArray;
-    });
+    }) ?? []; // Provide an empty array as a fallback
+
 
     const maximumGuest = singlePropertyDetails?.guests || 0;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const previousDates = Array.from({ length: 365 }, (_, i) => {
+        const date = new Date(today);
+        date.setDate(today.getDate() - i);
+        return date;
+    });
+
+    const allDisabledDates = [...previousDates, ...alreadBookingDates];
 
 
     // Guest Calculation
@@ -320,7 +344,7 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
 
                                             <div className="full-width-date-range flex flex-col items-center w-full">
                                                 <DateRange
-                                                    disabledDates={disabledDates}
+                                                    disabledDates={allDisabledDates}
                                                     editableDateInputs={true}
                                                     onChange={(item: any) => { setSelectedDate([item.selection]); setIsSelectDate(true) }}
                                                     moveRangeOnFirstSelection={false}
@@ -461,12 +485,19 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
                                                 :
                                                 <button
                                                     onClick={handleBooking}
+                                                    disabled={isLoading}
                                                     style={{
                                                         boxShadow: "0px 4px 13px 0px rgba(0, 0, 0, 0.25)",
                                                     }}
                                                     className="bg-accent mt-9 w-full lg:w-auto text-[1.25rem] font-bold py-4 px-[6.25rem] rounded-[5px]"
                                                 >
-                                                    Reserve
+                                                    {
+                                                        isLoading ?
+                                                            <ImSpinner9 className="animate-spin text-[26px]"></ImSpinner9>
+                                                            :
+                                                            "Reserve"
+                                                    }
+
                                                 </button>
                                         }
 
