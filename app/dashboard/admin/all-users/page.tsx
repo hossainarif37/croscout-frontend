@@ -4,6 +4,7 @@ import { getAllUsers } from '@/lib/database/getUsers';
 import React, { useEffect, useState } from 'react';
 import { BsPersonFill, BsThreeDotsVertical } from 'react-icons/bs';
 import DashboardSearchFeild from '../../components/DashboardSearchField/DashboardSearchFeild';
+import { useAuthContext } from '@/providers/AuthProvider';
 
 const page = () => {
     type user = {
@@ -13,6 +14,7 @@ const page = () => {
     };
     const [users, setUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const { user } = useAuthContext();
 
 
     useEffect(() => {
@@ -37,13 +39,13 @@ const page = () => {
     }
     return (
         <div>
-            <div className='mb-5'>
+            {/* <div className='mb-5'>
                 <DashboardSearchFeild />
-            </div>
+            </div> */}
             <div className='bg-primary-50 text-secondary-50 min-h-screen'>
                 <div className='flex justify-between p-4'>
-                    <h2>Customers</h2>
-                    <h2>Welcome Back, Clint</h2>
+                    <h2>Users</h2>
+                    <h2>Welcome Back, {user?.name} </h2>
                 </div>
                 <div className='p-4'>
                     <div className='w-full m-auto p-4 rounded-lg  overflow-y-auto'>
@@ -51,7 +53,7 @@ const page = () => {
                             <span>Name</span>
                             <span className='sm:text-left text-right'>Email</span>
                             <span className='hidden md:grid'>Role</span>
-                            <span className='hidden sm:grid'>Tex Number</span>
+                            <span className='hidden sm:grid'>Tax Number</span>
                         </div>
                         <ul>
                             {users.map((user: user, id: number) => (

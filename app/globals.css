@@ -23,6 +23,18 @@ input:focus{
   @apply focus:ring-0
 }
 
+.empty-state{
+  @apply flex items-center justify-center h-screen flex-col text-white-50;
+}
+.empty-state h1{
+  @apply text-4xl font-bold
+}
+
+.empty-state p{
+  @apply text-2xl mt-3
+}
+
+
 
 
 /* Map Styles */

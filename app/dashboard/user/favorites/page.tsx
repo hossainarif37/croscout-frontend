@@ -27,6 +27,7 @@ const Favorites = () => {
     const { user } = useAuthContext();
     const [loading, setLoading] = useState(false);
     const [favorites, setFavorites] = useState<FavoriteItem[]>([]);
+    const [remove, setRemove] = useState(false);
 
     useEffect(() => {
         const fetchBookings = async () => {
@@ -53,28 +54,40 @@ const Favorites = () => {
         };
 
         fetchBookings();
-    }, [user?._id]);
+    }, [user?._id, remove]);
 
-    console.log(favorites)
+
+
 
     if (loading) {
         return <Loading />
     }
 
 
+
+
     return (
-        <div className="min-h-screen">
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-5">
-                {favorites?.map((favorite: FavoriteItem, index: number) => (
-                    // <Link
-                    //     href={`/property-details/${index + 1}`}
-                    //     key={index}
-                    //     className="col-span-4 md:col-span-1"
-                    // >
-                    <FavoriteCard key={index} favorite={favorite} />
-                    // </Link>
-                ))}
-            </div>
+        <div className="h-screen">
+            {
+
+                favorites.length < 1 ?
+                    <div className="empty-state">
+                        <h1>No favorites yet.</h1>
+                        <p>Find and add some places to your favorites list.</p>
+                    </div>
+                    :
+                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-5">
+                        {favorites.map((favorite: FavoriteItem, index: number) => (
+                            // <Link
+                            //     href={`/property-details/${index + 1}`}
+                            //     key={index}
+                            //     className="col-span-4 md:col-span-1"
+                            // >
+                            <FavoriteCard setRemove={setRemove} key={index} favorite={favorite} />
+                            // </Link>
+                        ))}
+                    </div>
+            }
         </div>
     );
 };

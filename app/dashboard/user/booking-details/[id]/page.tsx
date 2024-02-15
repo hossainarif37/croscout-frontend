@@ -54,6 +54,7 @@ const page = () => {
 
         fetchData();
     }, []);
+
     return (
         <div className='min-h-screen'>
             {bookingDetails && (
@@ -77,7 +78,7 @@ const page = () => {
                                     {bookingDetails?.property?.propertyImages.slice(0, 4).map((imgSrc, index) => (
                                         <Image
                                             key={index}
-                                            className='rounded-md'
+                                            className='rounded-md mx-auto'
                                             src={imgSrc}
                                             alt={`Property ${index + 1}`}
                                             width={300} // Adjust the width as needed
