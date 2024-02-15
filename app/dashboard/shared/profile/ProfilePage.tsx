@@ -105,6 +105,7 @@ const ProfilePage = () => {
             console.error('User ID is not available');
         }
     };
+    
     return (
         <div className='min-h-screen'>
             <div>
