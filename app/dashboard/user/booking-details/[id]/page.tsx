@@ -78,7 +78,7 @@ const page = () => {
                                     {bookingDetails.property.propertyImages.slice(0, 4).map((imgSrc, index) => (
                                         <Image
                                             key={index}
-                                            className='rounded-md'
+                                            className='rounded-md mx-auto'
                                             src={imgSrc}
                                             alt={`Property ${index + 1}`}
                                             width={300} // Adjust the width as needed
@@ -113,19 +113,19 @@ const page = () => {
                             </div>
                             <div className="grid gap-1">
                                 <div className="font-semibold text-gray-300 text-xl">Location</div>
-                                <div>{bookingDetails.property.location}</div>
+                                <div>{bookingDetails?.property?.location}</div>
                             </div>
                             <div className="grid gap-1">
                                 <div className="font-semibold text-gray-300 text-xl">Room type</div>
-                                <div>{bookingDetails.property.propertyType}</div>
+                                <div>{bookingDetails?.property?.propertyType}</div>
                             </div>
                             <div className="grid gap-1">
                                 <div className="font-semibold text-gray-300 text-xl">Number of guests</div>
-                                <div>Guests: {bookingDetails.property?.guests}</div>
+                                <div>Guests: {bookingDetails?.property?.guests}</div>
                             </div>
                             <div className="grid gap-1">
                                 <div className="font-semibold text-gray-300 text-xl">Total price</div>
-                                <div>$ {bookingDetails.price}</div>
+                                <div>$ {bookingDetails?.price}</div>
                             </div>
                             <div className="grid gap-1">
                                 <div className="font-semibold text-gray-300 text-xl">Special requests</div>
@@ -133,7 +133,7 @@ const page = () => {
                             </div>
                         </div>
                         <div className=' lg:w-2/3 md:p-6'>
-                            <p className=' w-full'>{bookingDetails.property.description}</p>
+                            <p className=' w-full'>{bookingDetails?.property?.description}</p>
                         </div>
                     </div>
                 </div>
