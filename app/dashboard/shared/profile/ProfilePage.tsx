@@ -7,12 +7,15 @@ import { useState } from "react";
 import ImageUploader from "./components/ImageUploader";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { getStoredToken } from "@/utils/tokenStorage";
+import { IChangePassword, IUserInfo, changePassword, updateUserInfo } from "@/lib/database/authUser";
+import toast from "react-hot-toast";
 
 type IPersonalInfo = {
     name: string;
+    image: string;
     role: string;
     email: string;
-    password: string;
     taxNumber: string;
 };
 
@@ -64,19 +67,49 @@ const ProfilePage = () => {
         setCurrentImage("");
     };
 
-    const handlePersonalInfoSave: SubmitHandler<IPersonalInfo> = (data) => {
-        console.log(data);
+    const handlePersonalInfoSave: SubmitHandler<IPersonalInfo> = async (data) => {
+        const name = data.name;
+        const image = currentImage;
+        const role = data.role;
+        const taxNumber = data.taxNumber;
+        const token = getStoredToken();
+        const allData = { name, image, role, taxNumber };
+        const reqData = { allData, token, id: user?._id }
+        if (user && user._id) {
+            const dbResponse = await updateUserInfo(reqData)
+            if (dbResponse.success) {
+                return toast.success(dbResponse?.message)
+            } else {
+                return toast.error(dbResponse?.error);
+            }
+        } else {
+            console.error('User ID is not available');
+        }
     };
 
-    const handleChangePassword: SubmitHandler<IPasswordInfo> = (data) => {
-        console.log(data);
+    const handleChangePassword: SubmitHandler<IPasswordInfo> = async (data) => {
+        const newPassword = data.newPassword;
+        const oldPassword = data.oldPassword;
+        const updateData = { newPassword, oldPassword };
+        const token = getStoredToken();
+        if (user && user._id) {
+            const reqData: IChangePassword = { updateData, token, id: user._id };
+            const dbResponse = await changePassword(reqData);
+            if (dbResponse.success) {
+                return toast.success(dbResponse?.message)
+            } else {
+                return toast.error(dbResponse?.error);
+            }
+        } else {
+            // Handle the case where user._id is undefined
+            console.error('User ID is not available');
+        }
     };
-
     return (
         <div className='min-h-screen'>
             <div>
                 <div className="flex flex-col md:flex-row items-center justify-center gap-3">
-                    <Image className="max-w-52 max-h-52 object-cover rounded-full" alt="user image" width={208} height={208} src={currentImage || userImg} />
+                    <Image className="w-52 h-52 object-cover rounded-full" alt="user image" src={currentImage || user?.image || userImg} />
                     <div className="flex justify-start items-center flex-col gap-3">
                         <ImageUploader setCurrentImage={setCurrentImage} />
                         <button onClick={handleDeleteImage} className="bg-red-500 hover:bg-transparent border border-transparent hover:border-red-500 text-white font-semibold px-2 py-2 rounded w-full">Remove Picture</button>

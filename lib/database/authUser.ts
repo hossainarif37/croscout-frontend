@@ -1,3 +1,5 @@
+import { getStoredToken } from "@/utils/tokenStorage";
+
 interface RegistrationData {
     name: string;
     email: string;
@@ -8,6 +10,24 @@ interface RegistrationData {
 interface LoginData {
     email: string;
     password: string;
+}
+
+export interface IChangePassword {
+    id: string | null;
+    updateData: object
+    token: string | null
+    // token: string; 
+}
+
+export interface IUserInfo {
+    allData: {
+        name: string;
+        image: string;
+        role: string;
+        taxNumber: string;
+    };
+    token: string | null;
+    id: string | undefined;
 }
 
 
@@ -51,7 +71,7 @@ export const logoutUser = async () => {
 }
 
 export const getUser = async ({ token }: { token: string }) => {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/current-user`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/current-user`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -87,4 +107,42 @@ export const resetPassword = async ({ token, newPassword }: { token: string; new
     });
     const responseData = await response.json();
     return responseData;
+}
+
+
+export const changePassword = async (data: IChangePassword) => {
+    const update = data.updateData;
+    // console.log(data);
+    if (!data.token) {
+        throw new Error('Token is required for authorization');
+    }
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/update-password/${data.id}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': data.token
+        },
+        body: JSON.stringify({ update }),
+    });
+    const res = await response.json();
+    // console.log(res);
+    return res;
+}
+
+export const updateUserInfo = async (data: IUserInfo) => {
+    const update = data.allData;
+    // console.log(data);
+    if (!data.token) {
+        throw new Error('Token is required for authorization');
+    }
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/${data.id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': data.token
+        },
+        body: JSON.stringify({ update }),
+    });
+    const res = await response.json();
+    return res;
 }

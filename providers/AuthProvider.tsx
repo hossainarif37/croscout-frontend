@@ -10,6 +10,7 @@ interface User {
     email: string;
     name: string;
     password: string;
+    image: string;
     role: string;
     favoriteList?: string[]; // Represented as an array of strings
     __v: number;
