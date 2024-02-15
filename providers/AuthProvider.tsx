@@ -14,6 +14,7 @@ interface User {
     favoriteList?: string[]; // Represented as an array of strings
     __v: number;
     _id: string;
+    taxNumber: string;
 }
 
 
@@ -27,7 +28,7 @@ interface AuthContextProps {
 }
 
 // Created Context
-const AuthContext = createContext<AuthContextProps | null>(null);
+export const AuthContext = createContext<AuthContextProps | null>(null);
 
 interface AuthProviderProps {
     children: ReactNode;

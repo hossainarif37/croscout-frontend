@@ -88,8 +88,6 @@ const Favorites = () => {
                         ))}
                     </div>
             }
-
-
         </div>
     );
 };
