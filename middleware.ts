@@ -15,12 +15,14 @@ export function middleware(req: NextRequest) {
     ];
 
     const agentRoutes = [
+        "/dashboard/agent/profile",
         "/dashboard/agent/add-property",
         "/dashboard/agent/my-properties",
         "/dashboard/agent/bookings",
     ];
 
     const adminRoutes = [
+        "/dashboard/admin/profile",
         "/dashboard/admin/all-users",
         "/dashboard/admin/all-properties",
         "/dashboard/admin/all-bookings",
