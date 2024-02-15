@@ -50,7 +50,7 @@ const ProfilePage = () => {
     // handler for swich role to agent toggle
     const switchAgentToggle = () => {
         const role = document.getElementById("role");
-        console.log(role);
+        // console.log(role);
         if (!isAgent) {
             setIsAgent(true);
             personalInfoForm.setValue("role", "agent");
@@ -110,7 +110,7 @@ const ProfilePage = () => {
         <div className='min-h-screen'>
             <div>
                 <div className="flex flex-col md:flex-row items-center justify-center gap-3">
-                    <Image className="w-52 h-52 object-cover rounded-full" alt="user image" src={currentImage || user?.image || userImg} />
+                    <Image className="w-52 h-52 object-cover rounded-full" alt="user image" width={208} height={208} src={currentImage || user?.image || userImg} />
                     <div className="flex justify-start items-center flex-col gap-3">
                         <ImageUploader setCurrentImage={setCurrentImage} />
                         <button onClick={handleDeleteImage} className="bg-red-500 hover:bg-transparent border border-transparent hover:border-red-500 text-white font-semibold px-2 py-2 rounded w-full">Remove Picture</button>

@@ -182,7 +182,7 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
     return (
         <section className='wrapper'>
             {/* Top section */}
-            <div className="text-white mt-[3rem] lg:mt-[6.875rem]">
+            <div className="text-white mt-6 lg:mt-10">
                 <h1 className="text-[2.625rem] font-bold">
                     {singlePropertyDetails?.name}
                 </h1>

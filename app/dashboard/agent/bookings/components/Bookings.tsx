@@ -52,6 +52,10 @@ const Bookings = () => {
             try {
                 setIsLoading(true);
                 const bookingsData = await getBookingsById(userId);
+                const optionSelect = document.getElementById("status") as HTMLInputElement
+                if (optionSelect) {
+                    optionSelect.value = "pending";
+                }
                 setBookings(bookingsData.bookings);
                 // console.log(bookingsData);
                 setIsLoading(false);

@@ -133,6 +133,7 @@ const page = () => {
                             </div>
                         </div>
                         <div className=' lg:w-2/3 md:p-6'>
+                            <div className="font-semibold text-gray-300 text-xl">Description</div>
                             <p className=' w-full'>{bookingDetails?.property?.description}</p>
                         </div>
                     </div>
