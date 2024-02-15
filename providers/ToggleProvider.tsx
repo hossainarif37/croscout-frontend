@@ -7,6 +7,8 @@ interface ToggleContextProps {
     setNavUserToggle: React.Dispatch<React.SetStateAction<boolean>>;
     taxToggle: boolean;
     setTaxToggle: React.Dispatch<React.SetStateAction<boolean>>;
+    showSelectedOption: boolean;
+    setShowSelectedOption: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ToggleContext = createContext<ToggleContextProps | null>(null);
@@ -18,13 +20,15 @@ interface ToggleProviderProps {
 const ToggleProvider: React.FC<ToggleProviderProps> = ({ children }) => {
     const [navUserToggle, setNavUserToggle] = useState(false);
     const [taxToggle, setTaxToggle] = useState(false);
+    const [showSelectedOption, setShowSelectedOption] = useState(false);
 
     const contextValue: ToggleContextProps = {
         navUserToggle,
         setNavUserToggle,
         taxToggle,
-        setTaxToggle
-
+        setTaxToggle,
+        showSelectedOption, // Add this line
+        setShowSelectedOption,
     };
 
     return (

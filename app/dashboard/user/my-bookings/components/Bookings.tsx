@@ -188,6 +188,11 @@ const Bookings = () => {
                                             </span>
                                         </button>
                                     </button>
+                                    <div className='flex flex-col'>
+                                        <button onClick={() => router.push(`/dashboard/user/payment-confirmation-message/${booking._id}`)}>Payment</button>
+                                        <button onClick={() => router.push(`/dashboard/user/payment-details/${booking._id}`)}>Payment Details</button>
+                                        <button onClick={() => router.push(`/dashboard/user/payment-confirmation-message/${booking._id}`)}>Payment</button>
+                                    </div>
                                 </div>
                             </li>
                         ))}
