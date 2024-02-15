@@ -46,7 +46,7 @@ const PropertiesCard = ({ property, setDelete }: Property & any) => {
                     if (response.ok) {
                         toast.success('Property deleted successfully');
                         <Loading />
-                        setDelete(true);
+                        setDelete((prev: boolean) => !prev);
                         // Optionally, you might want to close the modal here
                         Swal.close();
                     } else {
