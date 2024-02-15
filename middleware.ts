@@ -9,18 +9,20 @@ export function middleware(req: NextRequest) {
     const { pathname } = req.nextUrl;
 
     const userRoutes = [
-        // "/dashboard/user/profile",
+        "/dashboard/user/profile",
         "/dashboard/user/my-bookings",
         "/dashboard/user/favorites"
     ];
 
     const agentRoutes = [
+        "/dashboard/agent/profile",
         "/dashboard/agent/add-property",
         "/dashboard/agent/my-properties",
         "/dashboard/agent/bookings",
     ];
 
     const adminRoutes = [
+        "/dashboard/admin/profile",
         "/dashboard/admin/all-users",
         "/dashboard/admin/all-properties",
         "/dashboard/admin/all-bookings",

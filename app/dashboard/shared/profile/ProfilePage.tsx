@@ -87,16 +87,16 @@ const ProfilePage = () => {
                         <h4 className="text-white-50 text-xl">Update Personal Info:</h4>
                         <div className="flex justify-between gap-3 items-center">
                             <label className="text-white-50" htmlFor="name">Name</label>
-                            <input {...personalInfoForm.register("name", { required: true })} className="rounded w-60 md:w-96" type="text" defaultValue={user?.name} name="name" id="name" placeholder={errors.name ? "Please Enter Your Name" : "Your Name"} />
+                            <input {...personalInfoForm.register("name", { required: true })} className="rounded w-52 md:w-96" type="text" defaultValue={user?.name} name="name" id="name" placeholder={errors.name ? "Please Enter Your Name" : "Your Name"} />
                         </div>
                         {/* {<p className="error absolute">Enter your email</p>} */}
                         <div className="flex justify-between gap-3 items-center">
                             <label className="text-white-50" htmlFor="email"  >Email</label>
-                            <input {...personalInfoForm.register("email", { required: true })} className="rounded w-60 md:w-96" type="email" name="email" id="email" defaultValue={user?.email} readOnly placeholder={errors.email ? "Please Enter Your Email" : "Your Email"} />
+                            <input {...personalInfoForm.register("email", { required: true })} className="rounded w-52 md:w-96" type="email" name="email" id="email" defaultValue={user?.email} readOnly placeholder={errors.email ? "Please Enter Your Email" : "Your Email"} />
                         </div>
                         <div className="flex justify-between gap-3 items-center relative">
                             <label className="text-white-50" htmlFor="role" defaultValue={user?.role}>Role</label>
-                            <input {...personalInfoForm.register("role", { required: true })} className="rounded w-60 md:w-96" type="text" name="role" id="role" defaultValue={user?.role} readOnly placeholder={errors.role ? "Please Enter Your Role" : "Your Role"} />
+                            <input {...personalInfoForm.register("role", { required: true })} className="rounded w-52 md:w-96" type="text" name="role" id="role" defaultValue={user?.role} readOnly placeholder={errors.role ? "Please Enter Your Role" : "Your Role"} />
                             {
                                 user?.role === "user" &&
                                 <span onClick={switchAgentToggle} className="text-sm absolute top-2 border py-0.5 px-0.5 rounded right-2 cursor-pointer">
@@ -110,7 +110,7 @@ const ProfilePage = () => {
                             (isAgent || user?.role === "agent") &&
                             <div {...personalInfoForm.register("taxNumber", { required: true })} className="flex justify-between gap-3 items-center" defaultValue={user?.taxNumber}>
                                 <label className="text-white-50" htmlFor="taxNumber">Tax ID</label>
-                                <input className="rounded w-60 md:w-96" type="text" name="taxNumber" id="taxNumber" maxLength={11} placeholder={errors.taxNumber ? "Please Enter Your Tax Number" : "Your Tax Number"} />
+                                <input className="rounded w-52 md:w-96" type="text" name="taxNumber" id="taxNumber" defaultValue={user?.taxNumber} maxLength={11} placeholder={errors.taxNumber ? "Please Enter Your Tax Number" : "Your Tax Number"} />
                             </div>
                         }
 
@@ -121,11 +121,11 @@ const ProfilePage = () => {
                         <h4 className="text-white-50 text-xl">Update Password:</h4>
                         <div className="flex justify-between gap-3 items-center">
                             <label className="text-white-50" htmlFor="oldPassword">Old Password</label>
-                            <input {...passwordForm.register("oldPassword", { required: true })} className="rounded w-60 md:w-96" type="password" name="oldPassword" id="oldPassword" placeholder={passwordForm.formState.errors.oldPassword ? "Please Enter Your Old Password" : "Your Old Password"} />
+                            <input {...passwordForm.register("oldPassword", { required: true })} className="rounded w-52 md:w-96" type="password" name="oldPassword" id="oldPassword" placeholder={passwordForm.formState.errors.oldPassword ? "Please Enter Your Old Password" : "Your Old Password"} />
                         </div>
                         <div className="flex justify-between gap-3 items-center relative">
                             <label className="text-white-50" htmlFor="newPassword">New Password</label>
-                            <input {...passwordForm.register("newPassword", { required: true })} className="rounded w-60 md:w-96" type={isShow ? "text" : "password"} name="newPassword" id="newPassword" placeholder={passwordForm.formState.errors.newPassword ? "Please Enter Your New Password" : "Your New Password"} />
+                            <input {...passwordForm.register("newPassword", { required: true })} className="rounded w-52 md:w-96" type={isShow ? "text" : "password"} name="newPassword" id="newPassword" placeholder={passwordForm.formState.errors.newPassword ? "Please Enter Your New Password" : "Your New Password"} />
                             <span onClick={handleShowPassword} className="text-xl absolute top-3 right-2 cursor-pointer">
                                 {
                                     isShow ?
