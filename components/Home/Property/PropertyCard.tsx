@@ -14,10 +14,13 @@ import { useAuthContext } from "@/providers/AuthProvider";
 import { checkFavoriteProperty } from "@/lib/database/checkFavoriteProperty";
 import toast from "react-hot-toast";
 
-// interface DateRange {
-//     dateRange: string;
-//     occurrences: number;
-// }
+
+
+interface Event {
+    startDate: string;
+    endDate: string;
+    _id: string;
+}
 
 export default function PropertyCard({ property }: Property & any,) {
     const { user } = useAuthContext();
@@ -59,55 +62,43 @@ export default function PropertyCard({ property }: Property & any,) {
     }, [user?._id]);
 
 
+    function findNextFreeDays(bookingDates: Event[]): string {
+        const currentDate = new Date();
+        currentDate.setHours(0, 0, 0, 0);
 
-    // function getNext3DaysDateRanges(datesArray: string[]): DateRange[] {
-    //     const occurrencesMap: { [key: string]: number } = {};
+        let freeDaysCount = 0;
+        let startDate: Date, endDate: Date;
 
-    //     datesArray.forEach((date) => {
-    //         if (date) {
-    //             const formattedDate = new Date(date).toISOString().split('T')[0];
-    //             occurrencesMap[formattedDate] = (occurrencesMap[formattedDate] || 0) + 1;
-    //         } else {
-    //             console.warn('Invalid date encountered:', date);
-    //         }
-    //     });
+        for (const booking of bookingDates) {
+            const bookingStartDate = new Date(booking.startDate);
+            const bookingEndDate = new Date(booking.endDate);
+            if (currentDate < bookingStartDate) {
+                const daysDifference = Math.ceil((bookingStartDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24));
 
-    //     const currentDate = new Date().toISOString().split('T')[0];
+                if (freeDaysCount + daysDifference >= 3) {
+                    endDate = new Date(currentDate.getTime() + (3 - freeDaysCount - 1) * 24 * 60 * 60 * 1000);
+                    break;
+                }
 
-    //     const next3DaysDateRanges: DateRange[] = [];
+                freeDaysCount += daysDifference;
+                currentDate.setTime(bookingEndDate.getTime() + 24 * 60 * 60 * 1000);
+            } else {
+                currentDate.setTime(bookingEndDate.getTime() + 24 * 60 * 60 * 1000);
+            }
+        }
 
-    //     for (let i = 0; i < 3; i++) {
-    //         const nextDate = new Date(currentDate);
-    //         nextDate.setDate(nextDate.getDate() + i);
+        startDate = new Date(currentDate.getTime());
+        endDate = new Date(currentDate.getTime() + (3 - freeDaysCount) * 24 * 60 * 60 * 1000);
 
-    //         const formattedNextDate = nextDate.toISOString().split('T')[0];
-    //         const occurrencesCount = occurrencesMap[formattedNextDate] || 0;
+        const options: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' };
+        const formattedStartDate = startDate.toLocaleDateString('en-US', options);
+        const formattedEndDate = endDate.toLocaleDateString('en-US', options);
 
-    //         // Format date as "DD MMM"
-    //         const formattedDateString = nextDate.toLocaleDateString('en-US', {
-    //             day: 'numeric',
-    //             month: 'short',
-    //         });
+        return `${formattedStartDate} - ${formattedEndDate}`;
+    }
 
-    //         next3DaysDateRanges.push({
-    //             dateRange: formattedDateString,
-    //             occurrences: occurrencesCount,
-    //         });
-    //     }
+    const nextFreeDays: string = findNextFreeDays(property?.bookedDates);
 
-    //     return next3DaysDateRanges;
-    // }
-
-    // // Example usage
-    // const datesArray: string[] = ["2024-02-07T18:00:00.000Z", "2024-02-05T18:00:00.000Z"];
-    // const result: DateRange[] = getNext3DaysDateRanges(datesArray);
-    // const dat: DateRange[] = getNext3DaysDateRanges(property.bookedDates);
-    // console.log(dat);
-
-    // console.log(result);
-
-
-    // console.log(bookedDates);
 
     const handleFavorite = async () => {
         try {
@@ -193,7 +184,7 @@ export default function PropertyCard({ property }: Property & any,) {
                     <p className="mt-[10px]">{propertyType}</p>
 
                     {/* StartDate and End Date */}
-                    <div className="">{startDate?.split(',')[0]} - {endDate?.split(',')[0]}</div>
+                    <div>{nextFreeDays}</div>
 
                     {/* Price and Ratings */}
                     <div className="flex justify-between mt-[10px]">
