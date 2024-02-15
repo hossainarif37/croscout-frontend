@@ -16,6 +16,7 @@ export interface User {
     __v: number;
     _id: string;
     taxNumber: string;
+    createdAt: string;
 }
 
 
