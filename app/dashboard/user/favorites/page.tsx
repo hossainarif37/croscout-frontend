@@ -63,7 +63,7 @@ const Favorites = () => {
 
 
     return (
-        <div className="h-screen">
+        <div className="min-h-screen">
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-5">
                 {favorites?.map((favorite: FavoriteItem, index: number) => (
                     // <Link

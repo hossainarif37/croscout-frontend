@@ -64,7 +64,7 @@ const page = () => {
                         </button>
                         <h1 className="font-semibold text-gray-300 text-lg md:text-xl">
                             Reservation details
-                            <span className="font-normal text-gray-500 dark:text-gray-400">- Confirmation {bookingDetails.status}</span>
+                            <span className="font-normal text-gray-500 dark:text-gray-400">- Confirmation {bookingDetails?.status}</span>
                         </h1>
                     </div>
                     <div className="rounded-lg border border-gray-600 lg:p-6 bg-card text-card-foreground shadow-sm" data-v0-t="card">
@@ -72,9 +72,9 @@ const page = () => {
                             <h3 className="text-2xl font-semibold text-gray-300 whitespace-nowrap leading-none tracking-tight">Reservation details</h3>
                         </div>
                         <div className='lg:p-6 flex md:flex-row flex-col md:gap-6 gap-3'>
-                            {bookingDetails?.property?.propertyImages && bookingDetails.property.propertyImages.length > 0 ? (
+                            {bookingDetails?.property?.propertyImages && bookingDetails?.property?.propertyImages?.length > 0 ? (
                                 <>
-                                    {bookingDetails.property.propertyImages.slice(0, 4).map((imgSrc, index) => (
+                                    {bookingDetails?.property?.propertyImages.slice(0, 4).map((imgSrc, index) => (
                                         <Image
                                             key={index}
                                             className='rounded-md'
@@ -112,19 +112,19 @@ const page = () => {
                             </div>
                             <div className="grid gap-1">
                                 <div className="font-semibold text-gray-300 text-xl">Location</div>
-                                <div>{bookingDetails.property.location}</div>
+                                <div>{bookingDetails?.property?.location}</div>
                             </div>
                             <div className="grid gap-1">
                                 <div className="font-semibold text-gray-300 text-xl">Room type</div>
-                                <div>{bookingDetails.property.propertyType}</div>
+                                <div>{bookingDetails?.property?.propertyType}</div>
                             </div>
                             <div className="grid gap-1">
                                 <div className="font-semibold text-gray-300 text-xl">Number of guests</div>
-                                <div>Guests: {bookingDetails.property?.guests}</div>
+                                <div>Guests: {bookingDetails?.property?.guests}</div>
                             </div>
                             <div className="grid gap-1">
                                 <div className="font-semibold text-gray-300 text-xl">Total price</div>
-                                <div>$ {bookingDetails.price}</div>
+                                <div>$ {bookingDetails?.price}</div>
                             </div>
                             <div className="grid gap-1">
                                 <div className="font-semibold text-gray-300 text-xl">Special requests</div>
@@ -132,7 +132,7 @@ const page = () => {
                             </div>
                         </div>
                         <div className=' lg:w-2/3 md:p-6'>
-                            <p className=' w-full'>{bookingDetails.property.description}</p>
+                            <p className=' w-full'>{bookingDetails?.property?.description}</p>
                         </div>
                     </div>
                 </div>

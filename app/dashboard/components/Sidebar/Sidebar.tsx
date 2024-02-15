@@ -70,7 +70,7 @@ export default function Sidebar() {
             list: [
                 {
                     title: "Profile Settings",
-                    path: "#",
+                    path: "/dashboard/user/profile",
                     icon: <MdOutlineSettings />,
                 }
             ],
@@ -185,64 +185,7 @@ export default function Sidebar() {
         },
     ];
 
-    // const menuItems = [
-    //     {
-    //         title: "Pages",
-    //         list: [
-    //             {
-    //                 title: "Dashboard",
-    //                 path: "/dashboard",
-    //                 icon: <MdDashboard />,
-    //             },
-    //             {
-    //                 title: "Add Property",
-    //                 path: "/dashboard/add-property",
-    //                 icon: <MdSupervisedUserCircle />,
-    //             },
-    //             {
-    //                 title: "Properties",
-    //                 path: "/dashboard/my-properties",
-    //                 icon: <MdShoppingBag />,
-    //             },
-    //             {
-    //                 title: "Transactions",
-    //                 path: "#",
-    //                 icon: <MdAttachMoney />,
-    //             },
-    //             {
-    //                 title: "Customers",
-    //                 path: "/dashboard/customers",
-    //                 icon: <MdAttachMoney />,
-    //             },
-    //             {
-    //                 title: "Bookings",
-    //                 path: "/dashboard/bookings",
-    //                 icon: <MdShoppingBag />,
-    //             },
-    //         ],
-    //     },
-    //     {
-    //         title: "Analytics",
-    //         list: [
-    //             {
-    //                 title: "Revenue",
-    //                 path: "#",
-    //                 icon: <MdWork />,
-    //             }
-    //         ],
-    //     },
-    //     {
-    //         title: "User",
-    //         list: [
-    //             {
-    //                 title: "Profile Settings",
-    //                 path: "#",
-    //                 icon: <MdOutlineSettings />,
-    //             }
-    //         ],
-    //     },
-    // ];
-
+    
     return (
         <div>
             <div className={styles.container}>
