@@ -5,8 +5,11 @@ import { FavoriteItem } from "../page";
 import ImageCarousel from "@/components/Home/Property/ImageCarousel";
 import { useRouter } from "next/navigation";
 import favoritesButton from "./favorite.module.css"
+import { useAuthContext } from "@/providers/AuthProvider";
+import toast from "react-hot-toast";
 
-const FavoriteCard = ({ favorite }: any) => {
+const FavoriteCard = ({ favorite, setRemove }: any) => {
+    const { user } = useAuthContext();
     const {
         _id,
         pricePerNight,
@@ -16,6 +19,32 @@ const FavoriteCard = ({ favorite }: any) => {
         propertyImages,
     } = favorite;
     const router = useRouter();
+
+    const handleRemove = async () => {
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/favorites/${user?._id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Include any authorization headers if needed
+                },
+                body: JSON.stringify({ propertyId: _id }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to remove favorite');
+            }
+            setRemove((prev: boolean) => !prev);
+            toast.success('Favorite successfully removed');
+
+            // Handle successful removal (e.g., update the UI)
+            // You might want to call a function passed down from the parent component
+            // to refresh the list of favorites without a full page reload
+
+        } catch (error) {
+            console.error('Error removing favorite:', error);
+        }
+    };
 
     return (
         <div
@@ -59,11 +88,14 @@ const FavoriteCard = ({ favorite }: any) => {
                         </div>
                     </div>
                     <div className={`flex gap-3 mt-4 ${favoritesButton.favoritesButton}`}>
+
                         {/* View Details Button */}
                         <button onClick={() => router.push(`/property-details/${_id}`)} className='hover:bg-green-500  border border-green-500'>View Details</button>
 
                         {/* Remove Button */}
-                        <button className='hover:bg-[#d33] border border-red-500'>Remove</button>
+                        <button
+                            onClick={handleRemove}
+                            className='hover:bg-[#d33] border border-red-500'>Remove</button>
                     </div>
                 </div>
             </div>

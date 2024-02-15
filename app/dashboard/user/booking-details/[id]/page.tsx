@@ -54,6 +54,7 @@ const page = () => {
 
         fetchData();
     }, []);
+
     return (
         <div className='min-h-screen'>
             {bookingDetails && (
