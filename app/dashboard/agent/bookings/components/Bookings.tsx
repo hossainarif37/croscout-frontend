@@ -32,7 +32,7 @@ const Bookings = () => {
         setShowSelectedOption(pre => !pre);
     };
     type booking = {
-        _id: number;
+        _id: string;
         price: string;
         total: number;
         status: string;
@@ -59,7 +59,6 @@ const Bookings = () => {
     // console.log(userId);
 
     const [bookings, setBookings] = useState([]);
-    console.log(bookings);
     const [isLoading, setIsLoading] = useState(true);
     const [name, setName] = useState<userName[]>([]);
     console.log(name);
