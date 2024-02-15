@@ -50,7 +50,7 @@ const MyProperties = () => {
                 }
             </div>
             {
-                myProperties?.length < 1 && <div className="text-center mt-20 text-white"><h1 className="text-4xl text-center">You haven't any Properties. Please Add Property</h1></div>
+                myProperties?.length < 1 && <div className="empty-state"><h1>Property list is empty.</h1></div>
             }
         </div>
     );
