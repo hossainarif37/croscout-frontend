@@ -38,7 +38,7 @@ export interface IBooking {
     // ... other fields that belong to a booking
 }
 
-const page = () => {
+const BookingDetailsPage = () => {
     const [bookingDetails, setBookingDetails] = useState<IPropertyDetailsData>();
     console.log(bookingDetails);
     const { id } = useParams();
@@ -143,4 +143,4 @@ const page = () => {
     );
 };
 
-export default page;
+export default BookingDetailsPage;

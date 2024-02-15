@@ -52,6 +52,10 @@ const Bookings = () => {
             try {
                 setIsLoading(true);
                 const bookingsData = await getBookingsById(userId);
+                const optionSelect = document.getElementById("status") as HTMLInputElement
+                if (optionSelect) {
+                    optionSelect.value = "pending";
+                }
                 setBookings(bookingsData.bookings);
                 // console.log(bookingsData);
                 setIsLoading(false);
@@ -156,7 +160,7 @@ const Bookings = () => {
                             {bookings?.slice().reverse().map((booking: booking, id: number) => (
                                 <li
                                     key={id}
-                                    className=' hover:bg-[#2E374A] bg-primary-50 rounded-lg my-3 p-2 grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 items-center justify-between cursor-pointer'
+                                    className='hover:bg-[#2E374A] bg-primary-50 rounded-lg my-3 p-2 grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 items-center justify-between cursor-pointer'
                                 >
                                     <div className='flex'>
                                         <div className='bg-purple-100 p-3 rounded-lg'>

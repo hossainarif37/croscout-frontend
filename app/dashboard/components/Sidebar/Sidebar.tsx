@@ -97,11 +97,11 @@ export default function Sidebar() {
                     path: "/dashboard/agent/manage-properties",
                     icon: <MdShoppingBag />,
                 },
-                // {
-                //     title: "Transactions",
-                //     path: "#",
-                //     icon: <MdAttachMoney />,
-                // },
+                {
+                    title: "Transactions",
+                    path: "/dashboard/agent/transactions",
+                    icon: <MdAttachMoney />,
+                },
                 {
                     title: "Bookings",
                     path: "/dashboard/agent/bookings",
@@ -185,7 +185,7 @@ export default function Sidebar() {
         },
     ];
 
-    
+
     return (
         <div>
             <div className={styles.container}>
