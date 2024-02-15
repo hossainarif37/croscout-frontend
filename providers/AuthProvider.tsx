@@ -6,16 +6,17 @@ import { createContext, ReactNode, useContext, useEffect, useState } from "react
 
 
 // Define the User interface
-interface User {
+export interface User {
     email: string;
     name: string;
     password: string;
     image: string;
     role: string;
-    favoriteList?: string[]; // Represented as an array of strings
+    favoriteList?: string[];
     __v: number;
     _id: string;
     taxNumber: string;
+    createdAt: string;
 }
 
 
