@@ -14,7 +14,7 @@ interface User {
     favoriteList?: string[]; // Represented as an array of strings
     __v: number;
     _id: string;
-    taxID: string;
+    taxNumber: string;
 }
 
 

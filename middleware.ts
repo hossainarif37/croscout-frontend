@@ -9,7 +9,7 @@ export function middleware(req: NextRequest) {
     const { pathname } = req.nextUrl;
 
     const userRoutes = [
-        "/dashboard/user/profile",
+        // "/dashboard/user/profile",
         "/dashboard/user/my-bookings",
         "/dashboard/user/favorites"
     ];

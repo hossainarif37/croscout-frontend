@@ -124,7 +124,7 @@ export default function Sidebar() {
             list: [
                 {
                     title: "Profile Settings",
-                    path: "#",
+                    path: "/dashboard/agent/profile",
                     icon: <MdOutlineSettings />,
                 }
             ],
@@ -178,7 +178,7 @@ export default function Sidebar() {
             list: [
                 {
                     title: "Profile Settings",
-                    path: "#",
+                    path: "/dashboard/admin/profile",
                     icon: <MdOutlineSettings />,
                 }
             ],
