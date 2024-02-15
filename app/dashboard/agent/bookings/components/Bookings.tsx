@@ -13,6 +13,7 @@ import Link from 'next/link';
 import { manageBookingStatus } from '@/lib/database/manageBookings';
 import toast from 'react-hot-toast';
 import Swal from 'sweetalert2';
+import { useRouter } from 'next/navigation';
 
 
 interface BookingsProps {
@@ -38,6 +39,7 @@ const Bookings = () => {
 
     const { user } = useAuthContext();
     const userId = (user?._id);
+    const router = useRouter();
     // console.log(userId);
 
     const [bookings, setBookings] = useState([]);
@@ -198,7 +200,7 @@ const Bookings = () => {
                                             {format(new Date(booking.endDate), "MMM dd, yyyy")}
                                         </p>
                                         {/* <BsThreeDotsVertical /> */}
-                                        <Link href={`/dashboard/agent/booking-details/${booking?._id}`}>
+                                        {/* <Link href={`/dashboard/agent/booking-details/${booking?._id}`}>
                                             <button className=' sm:text-left text-right md:text-sm text-xs'>
                                                 <span
                                                     className={'bg-secondary-50 text-primary-50 p-2 rounded-md underline'}
@@ -206,7 +208,12 @@ const Bookings = () => {
                                                     Details
                                                 </span>
                                             </button>
-                                        </Link>
+                                        </Link> */}
+
+                                        <div className='bg-primary-50 border-none'>
+                                            <option onClick={() => router.push(`/dashboard/agent/booking-details/${booking?._id}`)} value="details">details</option>
+                                            <option onClick={() => router.push("/dashboard/agent/payment")} value="payment">payment</option>
+                                        </div>
                                     </div>
                                 </li>
                             ))}
