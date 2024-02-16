@@ -7,7 +7,6 @@ export const getAllUsers = async () => {
         },
     });
     const jsonResponse = await response.json();
-    console.log('Raw JSON response:', jsonResponse);
     const users = jsonResponse;
     return users;
 };
@@ -22,7 +21,6 @@ export const getUsersByRole = async ({ role, token }: { role: string, token: str
         },
     });
     const jsonResponse = await response.json();
-    console.log('Raw JSON response:', jsonResponse);
     const users = jsonResponse;
     return users;
 };

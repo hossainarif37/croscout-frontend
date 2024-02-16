@@ -29,7 +29,7 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
     const date: string | undefined = user?.createdAt;
     // const formattedDate = date ? format(new Date(date), "yyyy-MM-dd HH:mm:ss") : "N/A";
     // console.log(formattedDate);
-    // const handleConfirmAgent = ({}) => {
+    // const handleConfirmAgent = () => {
     //     Swal.fire({
     //         title: "Are you sure?",
     //         text: "This user will get all this agent access!",
@@ -43,7 +43,7 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
     //         confirmButtonText: "Yes, confirm it!"
     //     }).then(async (result) => {
     //         if (result.isConfirmed) {
-    //             const dbResponse = await manageBookingStatus(data)
+    //             const dbResponse = await manageBookingStatus({ id, action: value })
     //             if (dbResponse.success) {
     //                 {
     //                     toast.success(dbResponse.message);
@@ -103,10 +103,10 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
                                 #
                             </th>
                             <th className="p-5 font-semibold">
-                                Email
+                                Name
                             </th>
                             <th className="p-5 font-semibold">
-                                Name
+                                Email
                             </th>
                             <th className="p-5 font-semibold">
                                 User ID
@@ -114,7 +114,7 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
                             <th className="p-5 font-semibold">
                                 Joined At
                             </th>
-                            {
+                            {/* {
                                 tableFor === "agent" &&
                                 <>
                                     <th className="p-5 font-semibold">
@@ -124,7 +124,7 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
                                         Actions
                                     </th>
                                 </>
-                            }
+                            } */}
                         </tr>
                     </thead>
                     <tbody className='h-[90vh] overflow-hidden'>
@@ -145,7 +145,7 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
                                 <td className="px-6 py-4 m-5">
                                     {format(new Date(user?.createdAt || ''), "MMM dd, yyyy")}
                                 </td>
-                                {
+                                {/* {
                                     tableFor === "agent" &&
                                     <>
                                         <td className="px-6 py-4 m-5">
@@ -160,7 +160,7 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
                                             </button>
                                         </td>
                                     </>
-                                }
+                                } */}
                             </tr>)
                         }
                     </tbody>

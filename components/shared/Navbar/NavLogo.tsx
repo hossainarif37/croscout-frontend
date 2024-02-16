@@ -2,6 +2,7 @@
 
 import { useToggleContext } from "@/providers/ToggleProvider";
 import Image from "next/image";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
 const NavLogo = () => {
@@ -10,11 +11,11 @@ const NavLogo = () => {
     const pathname = usePathname();
     const isDashboard = pathname.includes('/dashboard')
     return (
-        <div
+        <Link
+            href={'/'}
             onClick={() => setNavUserToggle(false)}
             className="h-[24px] md:h-[48px] md:w-[336px] w-[200px] relative">
             {!isDashboard ? <Image
-                onClick={() => router.push("/")}
                 className="cursor-pointer"
                 src="/images/navLogo.svg"
                 alt="Logo"
@@ -28,7 +29,7 @@ const NavLogo = () => {
                 height={24}
                 width={336}
             />}
-        </div>
+        </Link>
     );
 }
 
