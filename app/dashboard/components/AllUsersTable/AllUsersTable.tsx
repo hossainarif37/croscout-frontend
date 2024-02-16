@@ -106,7 +106,7 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
 
                         </tr>
                     </thead>
-                    <tbody className='h-[90vh] overflow-hidden'>
+                    <tbody className=' overflow-hidden'>
                         {
                             data?.map((user, indx) => <tr key={indx} className="hover:bg-[#2E374A] hover:rounded-lg bg-primary-50 my-3 p-2">
                                 <td className="px-6 py-4 m-5 font-medium">
