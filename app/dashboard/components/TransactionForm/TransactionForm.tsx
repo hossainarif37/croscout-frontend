@@ -60,7 +60,7 @@ const TransactionForm: React.FC<TransactionFormProps> = ({ transaction }) => {
                                         {format(new Date(item?.createdAt || ''), "MMM dd, yyyy")}
                                     </td>
                                     <td className="px-6 py-4 m-5">
-                                        {item?.amount}
+                                        <span className='font-semibold mr-.5'>€</span>{item?.amount}
                                     </td>
                                 </tr>
                             ))

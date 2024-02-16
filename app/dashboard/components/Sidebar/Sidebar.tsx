@@ -193,7 +193,7 @@ export default function Sidebar() {
 
     return (
         <div>
-            <div className={styles.container}>
+            <div className={`${styles.container}`}>
                 <div className='flex gap-4 items-center mb-4'>
                     <Image src={user?.image || userImg} alt='userImage' width={50} height={50} className='rounded-full border-white border' />
                     <div className='flex flex-col'>
