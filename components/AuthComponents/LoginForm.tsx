@@ -9,8 +9,9 @@ import { useEffect, useState } from "react";
 import { ImSpinner9 } from "react-icons/im";
 import { getStoredToken, storeToken } from "@/utils/tokenStorage";
 import { useAuthContext } from "@/providers/AuthProvider";
-import { setCookie } from "cookies-next";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useRouter } from "next/navigation";
+import { setCookie } from "@/utils/authCookie";
 
 type Inputs = {
     email: string
@@ -25,6 +26,9 @@ const LoginForm = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [isForgotMode, setIsForgotMode] = useState(false);
     const { setUser } = useAuthContext();
+
+    const router = useRouter();
+
 
     // handler for toggle password show option
     const handleShowPassword = () => {
@@ -53,6 +57,11 @@ const LoginForm = () => {
                     storeToken(dbResponse.token);
                     setUser(dbResponse.user);
                     setLoginModal(false);
+                    const token = getStoredToken();
+                    if (token) {
+                        setCookie("authToken", token.split(" ")[1], 24)
+                        router.push('/dashboard')
+                    }
                 }
                 else {
                     toast.error(dbResponse.error);

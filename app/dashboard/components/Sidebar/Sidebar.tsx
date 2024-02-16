@@ -97,11 +97,11 @@ export default function Sidebar() {
                     path: "/dashboard/agent/manage-properties",
                     icon: <MdShoppingBag />,
                 },
-                // {
-                //     title: "Transactions",
-                //     path: "#",
-                //     icon: <MdAttachMoney />,
-                // },
+                {
+                    title: "Transactions",
+                    path: "/dashboard/agent/transactions",
+                    icon: <MdAttachMoney />,
+                },
                 {
                     title: "Bookings",
                     path: "/dashboard/agent/bookings",
@@ -146,14 +146,19 @@ export default function Sidebar() {
                     path: "/dashboard/admin/all-properties",
                     icon: <MdShoppingBag />,
                 },
-                // {
-                //     title: "Transactions",
-                //     path: "#",
-                //     icon: <MdAttachMoney />,
-                // },
+                {
+                    title: "Transactions",
+                    path: "#",
+                    icon: <MdAttachMoney />,
+                },
                 {
                     title: "Users",
                     path: "/dashboard/admin/all-users",
+                    icon: <MdAttachMoney />,
+                },
+                {
+                    title: "Agents",
+                    path: "/dashboard/admin/all-agents",
                     icon: <MdAttachMoney />,
                 },
                 {
@@ -161,6 +166,11 @@ export default function Sidebar() {
                     path: "/dashboard/admin/all-bookings",
                     icon: <MdShoppingBag />,
                 },
+                // {
+                //     title: "Bookings",
+                //     path: "/dashboard/all-agents",
+                //     icon: <MdShoppingBag />,
+                // },
             ],
         },
         {
@@ -185,7 +195,7 @@ export default function Sidebar() {
         },
     ];
 
-    
+
     return (
         <div>
             <div className={styles.container}>

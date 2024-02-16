@@ -105,7 +105,16 @@ const Bookings = () => {
                     if (dbResponse.success) {
                         {
                             toast.success(dbResponse.message);
-                            <Loading />
+                            const optionSelect = document.getElementById("status") as HTMLInputElement
+                            if (optionSelect) {
+                                optionSelect.value = "pending";
+                            }
+                            const bookingsData = await getBookingsById(userId);
+                            setBookings(bookingsData.bookings);
+
+                            // register.setValue("role", "agent");
+
+                            // <Loading />
                             Swal.close();
                         }
                     }

@@ -294,8 +294,7 @@ const EditProperties = () => {
                                             {errors?.state && <p className="text-red-600 mt-1 lg:text-base text-sm">State name is required!</p>}
                                         </div>
                                     </div>
-
-
+                                    
                                     {/* Guests */}
                                     <div className="flex flex-col gap-1.5">
                                         <label
@@ -307,11 +306,16 @@ const EditProperties = () => {
                                             type="number"
                                             className=""
                                             id="guests"
-                                            max={10}
+                                            max={15}
                                             min={1}
                                             placeholder="Enter number"
-                                            defaultValue={propertiesData?.property.guests}
-                                            {...register("guests", { required: true })}
+                                            onInput={(e) => {
+                                                const inputValue = +(e.target as HTMLInputElement).value;
+                                                if (inputValue > 15) {
+                                                    (e.target as HTMLInputElement).value = '15';
+                                                }
+                                            }}
+                                            {...register("guests", { required: true, max: 15 })}
                                         />
 
                                         {/*//! Error */}
