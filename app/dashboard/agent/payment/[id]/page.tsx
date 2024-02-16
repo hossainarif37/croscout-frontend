@@ -43,7 +43,7 @@ const page = () => {
             <form onSubmit={handleSubmit(onSubmit)} className="rounded-lg bg-card text-card-foreground shadow-sm w-full max-w-2xl lg:p-5 bg-primary-50 text-secondary-50 mx-auto">
                 <div className="flex flex-col space-y-1.5 p-6">
                     <h3 className="text-2xl font-semibold whitespace-nowrap leading-none tracking-tight">Payment Details</h3>
-                    <p className="text-sm text-muted-foreground">Enter your payment information.To send the client.</p>
+                    <p className="text-sm text-muted-foreground">Enter your payment information.To send the customer.</p>
                 </div>
                 <div className="p-6 space-y-4">
                     <div className="space-y-2">
@@ -51,12 +51,12 @@ const page = () => {
                             className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                             htmlFor="email"
                         >
-                            Email
+                            Paypal Email
                         </label>
                         <input
                             className="flex w-full rounded-md border-none outline-none bg-[#2E374A] px-3 py-3 text-sm lg:text-base placeholder:text-secondary-50 placeholder:text-sm;"
                             id="email"
-                            placeholder="Enter your email"
+                            placeholder="Enter your paypal email"
                             type="email"
                             {...register("agentPaypalEmail", { required: true })}
                         />
@@ -79,12 +79,12 @@ const page = () => {
                         {errors?.paymentInstruction && <p className="text-red-600 mt-1 lg:text-base text-sm">Descriptoin is required!</p>}
                     </div>
                 </div>
-                <div className="flex items-center justify-end p-6 w-full">
+                <div className="flex items-center justify-center p-6 w-full">
                     <button
-                        className="rounded-md border-none outline-none bg-[#2E374A] px-3 py-3 text-sm lg:text-base placeholder:text-secondary-50 placeholder:text-sm"
+                        className="rounded-md hover:border-white active:scale-95 duration-150 outline-none border border-accent px-3 py-3 text-sm lg:text-base placeholder:text-secondary-50 placeholder:text-sm"
                         type="submit"
                     >
-                        Send Payment Requirement
+                        Sent Payment Request with Payment Details
                     </button>
                 </div>
             </form>

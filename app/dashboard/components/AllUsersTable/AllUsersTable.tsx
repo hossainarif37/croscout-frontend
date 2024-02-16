@@ -88,28 +88,27 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
                             <th className="p-5 font-semibold">
                                 Email
                             </th>
+                            {
+                                tableFor === "agent" &&
+                                <>
+                                    <th className="p-5 font-semibold">
+                                        Tax ID
+                                    </th>
+
+                                </>
+                            }
                             <th className="p-5 font-semibold">
                                 User ID
                             </th>
                             <th className="p-5 font-semibold">
                                 Joined At
                             </th>
-                            {/* {
-                                tableFor === "agent" &&
-                                <>
-                                    <th className="p-5 font-semibold">
-                                        Tax ID
-                                    </th>
-                                    <th className="p-5 font-semibold">
-                                        Actions
-                                    </th>
-                                </>
-                            } */}
+
                         </tr>
                     </thead>
                     <tbody className='h-[90vh] overflow-hidden'>
                         {
-                            data?.map((user, indx) => <tr key={indx} className="hover:bg-[#2E374A] hover:rounded-lg bg-primary-50 my-3 p-2 cursor-pointer">
+                            data?.map((user, indx) => <tr key={indx} className="hover:bg-[#2E374A] hover:rounded-lg bg-primary-50 my-3 p-2">
                                 <td className="px-6 py-4 m-5 font-medium">
                                     {indx + 1}
                                 </td>
@@ -119,12 +118,21 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
                                 <td className="px-6 py-4 m-5 font-medium">
                                     {user?.email}
                                 </td>
+                                {
+                                    tableFor === "agent" &&
+
+                                    <td className="px-6 py-4 m-5">
+                                        {user?.taxNumber}
+                                    </td>
+                                }
                                 <td className="px-6 py-4">
                                     {user?._id}
                                 </td>
                                 <td className="px-6 py-4 m-5">
-                                    {format(new Date(user?.createdAt || ''), "MMM dd, yyyy")}
+                                    {format(new Date(user?.createdAt), "MMM dd, yyyy")}
                                 </td>
+
+
                                 {/* {
                                     tableFor === "agent" &&
                                     <>

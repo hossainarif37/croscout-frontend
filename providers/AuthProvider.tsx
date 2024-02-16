@@ -1,4 +1,5 @@
 "use client"
+import Loading from "@/components/ui/Loading/Loading";
 import { getUser } from "@/lib/database/authUser";
 import { setCookie } from "@/utils/authCookie";
 import { getStoredToken } from "@/utils/tokenStorage";
@@ -75,6 +76,10 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         };
     }, [token]);
 
+    if (loading) {
+        return <Loading />
+    }
+
     // Context Values
     const contextValue: AuthContextProps = {
         user,
@@ -82,6 +87,8 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         loading,
         setLoading
     };
+
+
 
     return (
         <AuthContext.Provider value={contextValue}>
