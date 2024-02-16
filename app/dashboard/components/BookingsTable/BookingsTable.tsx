@@ -150,21 +150,18 @@ const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBooking
                     </thead>
                     <tbody className='relative'>
                         {
-                            data?.map((booking, indx) => (
+                            data?.slice()?.reverse().map((booking, indx) => (
                                 <tr key={indx} className="hover:bg-[#2E374A] hover:rounded-lg bg-primary-50 my-3 p-2 cursor-pointer">
                                     <td className="px-6 py-4 m-5 font-medium">
                                         {indx + 1}
                                     </td>
                                     <td className="px-6 py-4 m-5 font-medium">
                                         <div className='flex'>
-                                            <div className='bg-purple-100 p-3 rounded-lg'>
+                                            {/* <div className='bg-purple-100 p-3 rounded-lg'>
                                                 <FaShoppingBag className='text-purple-800' />
-                                            </div>
-                                            <div className='pl-4'>
-                                                <p className='font-bold'>
-                                                    ${booking.price}
-                                                </p>
-                                                <p className=' text-sm'>{booking.guest?.name}</p>
+                                            </div> */}
+                                            <div className='flex items-center'>
+                                                <p className='font-semibold'>{booking.guest?.name}</p>
                                             </div>
                                         </div>
                                     </td>

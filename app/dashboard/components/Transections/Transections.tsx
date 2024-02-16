@@ -3,7 +3,8 @@ import Image from "next/image";
 import styles from "./transactions.module.css";
 
 
-const Transactions = () => {
+const Transactions = ({ dashboardStats }: any) => {
+  console.log(dashboardStats);
   return (
     <div className={` ${styles.container}`}>
       <h2 className={styles.title}>Latest Transactions</h2>
