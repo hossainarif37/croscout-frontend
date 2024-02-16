@@ -11,3 +11,19 @@ export const getAllUsers = async () => {
     const users = jsonResponse;
     return users;
 };
+
+
+export const getUsersByRole = async ({ role, token }: { role: string, token: string }) => {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/users/by-role?role=${role}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+        },
+    });
+    const jsonResponse = await response.json();
+    console.log('Raw JSON response:', jsonResponse);
+    const users = jsonResponse;
+    return users;
+};
+

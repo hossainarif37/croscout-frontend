@@ -9,7 +9,6 @@ import { ImSpinner9 } from "react-icons/im";
 import { registerUser } from "@/lib/database/authUser";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-
 type Inputs = {
     name: string
     email: string
@@ -23,7 +22,6 @@ const SignupForm = () => {
     const [isAgent, setIsAgent] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isShow, setIsShow] = useState(false);
-
 
     // handler for toggle password show option
     const handleShowPassword = () => {

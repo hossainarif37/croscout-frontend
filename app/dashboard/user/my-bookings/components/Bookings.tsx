@@ -12,6 +12,9 @@ import { useRouter } from 'next/navigation';
 import { getAllUsers } from '@/lib/database/getUsers';
 import { useAuthContext } from '@/providers/AuthProvider';
 import Link from 'next/link';
+import Swal from 'sweetalert2';
+import toast from 'react-hot-toast';
+import { manageBookingStatus } from '@/lib/database/manageBookings';
 
 
 interface BookingsProps {
@@ -74,6 +77,47 @@ const Bookings = () => {
         </div>
     }
 
+    const handleStatusChanged = (value: string, id: string) => {
+        if (value === "cancel") {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "This booking will remove from everywhere!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                background: "#182237",
+                color: "#F9ECE4",
+                cancelButtonColor: "#3085d6",
+                cancelButtonText: "Close",
+                confirmButtonText: "Yes, cancel it!"
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    const dbResponse = await manageBookingStatus({ id, action: value })
+                    console.log(dbResponse);
+                    if (dbResponse.success) {
+                        {
+                            toast.success(dbResponse.message);
+                            const optionSelect = document.getElementById("status") as HTMLInputElement
+                            if (optionSelect) {
+                                optionSelect.value = "pending";
+                            }
+                            const bookingsData = await getBookingsById(userId);
+                            setBookings(bookingsData.bookings);
+
+                            // register.setValue("role", "agent");
+
+                            // <Loading />
+                            Swal.close();
+                        }
+                    }
+                    else {
+                        toast.error(dbResponse.error)
+                    }
+                }
+            });
+        }
+    }
+
     return (
         <div className='bg-primary-50 text-secondary-50 min-h-screen'>
             <div className='flex justify-between px-4 pt-4'>
@@ -81,7 +125,7 @@ const Bookings = () => {
             </div>
             {bookings?.length > 0 && <div className='p-4'>
                 <div className='w-full  m-auto p-4 rounded-lg overflow-y-auto overflow-x-auto'>
-                    <div className='my-3 bg-[#2E374A] p-5 rounded-t-xl grid md:grid-cols-5 sm:grid-cols-3 grid-cols-2 items-center justify-between cursor-pointer font-semibold'>
+                    <div className='my-3 bg-[#2E374A] p-5 rounded-t-xl grid overflow-x-auto md:grid-cols-5 sm:grid-cols-3 grid-cols-2 items-center justify-between cursor-pointer font-semibold'>
                         <span>Name</span>
                         <span className='sm:text-left text-right'>Status</span>
                         <span className='hidden md:grid'>Last booking</span>
@@ -92,7 +136,7 @@ const Bookings = () => {
                         {bookings?.slice()?.reverse()?.map((booking: booking, id: number | string) => (
                             <li
                                 key={id}
-                                className=' hover:bg-[#2E374A] bg-primary-50 rounded-lg my-3 p-2 grid md:grid-cols-5 sm:grid-cols-3 grid-cols-2 items-center justify-between cursor-pointer'
+                                className=' hover:bg-[#2E374A] bg-primary-50 rounded-lg my-3 p-2 grid md:grid-cols-5 sm:grid-cols-3 grid-cols-2 items-center justify-between cursor-pointer overflow-x-auto'
                             >
                                 <div className='flex'>
                                     <div className='bg-purple-100 p-3 rounded-lg'>
@@ -105,23 +149,28 @@ const Bookings = () => {
                                         <p className=' text-sm'>{user?.name}</p>
                                     </div>
                                 </div>
-                                <button className=' sm:text-left text-right md:text-sm text-xs'>
-                                    <span
-                                        className={
-                                            booking.status === 'pending'
-                                                ? 'bg-green-300 text-gray-600 p-2 rounded-md'
-                                                : booking.status === 'Completed'
-                                                    ? 'bg-[#afcfee83] text-white-50 p-2 rounded-md'
-                                                    : booking.status === 'Cancelled'
-                                                        ? 'bg-[#f773737e] text-white p-2 rounded-md'
-                                                        : booking.status === 'Hold' || booking.status == "On Hold"
-                                                            ? 'bg-[#f7cb7383] text-white-50 p-2 rounded-md'
-                                                            : ''
-                                        }
-                                    >
-                                        {booking.status}
-                                    </span>
-                                </button>
+                                {
+                                    booking.status === "confirmed" ?
+                                        <button className='sm:text-left text-right md:text-sm text-xs'>
+                                            <span
+                                                className="bg-[#afcfee83] text-white-50 p-2 rounded-md">
+                                                Confirmed
+                                            </span>
+                                        </button>
+                                        :
+                                        <select
+                                            defaultValue="pending"
+                                            onChange={(e) => { handleStatusChanged(e.target.value, booking._id) }}
+                                            className='sm:text-left text-right md:text-sm text-xs w-32 bg-primary-50 text-white outline-none p-2 rounded-md' name="status" id="status">
+                                            <option value="pending" disabled>Pending</option>
+                                            <option value="cancel">Cancel</option>
+                                            {
+                                                user?.role === "agent" &&
+                                                <option value="confirm">Confirm</option>
+                                            }
+                                        </select>
+                                }
+
                                 <p className='hidden md:flex'>{timeSinceWithoutAbout(booking?.updatedAt)}</p>
                                 <div className='sm:flex hidden justify-between items-center'>
                                     <p className='flex justify-between'>
@@ -135,7 +184,7 @@ const Bookings = () => {
                                     <button onClick={() => router.push(`/dashboard/user/booking-details/${booking?._id}`)}>
                                         <button className=' sm:text-left text-right md:text-sm text-xs'>
                                             <span
-                                                className={'bg-secondary-50 text-primary-50 px-2 py-1 rounded-md underline'}
+                                                className={'bg-primary-50 border-accent border text-white-50 px-2 py-1 rounded-md'}
                                             >
                                                 Details
                                             </span>

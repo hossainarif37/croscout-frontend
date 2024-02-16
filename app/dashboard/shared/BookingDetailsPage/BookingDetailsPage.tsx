@@ -38,7 +38,7 @@ export interface IBooking {
     // ... other fields that belong to a booking
 }
 
-const page = () => {
+const BookingDetailsPage = () => {
     const [bookingDetails, setBookingDetails] = useState<IPropertyDetailsData>();
     console.log(bookingDetails);
     const { id } = useParams();
@@ -54,7 +54,6 @@ const page = () => {
 
         fetchData();
     }, []);
-
     return (
         <div className='min-h-screen'>
             {bookingDetails && (
@@ -78,7 +77,7 @@ const page = () => {
                                     {bookingDetails?.property?.propertyImages.slice(0, 4).map((imgSrc, index) => (
                                         <Image
                                             key={index}
-                                            className='rounded-md mx-auto'
+                                            className='rounded-md'
                                             src={imgSrc}
                                             alt={`Property ${index + 1}`}
                                             width={300} // Adjust the width as needed
@@ -132,7 +131,7 @@ const page = () => {
                                 <div>No smoking room</div>
                             </div>
                         </div>
-                        <div className=' lg:w-2/3 md:p-6'>
+                        <div className='lg:w-2/3 md:p-6'>
                             <div className="font-semibold text-gray-300 text-xl">Description</div>
                             <p className=' w-full'>{bookingDetails?.property?.description}</p>
                         </div>
@@ -144,4 +143,4 @@ const page = () => {
     );
 };
 
-export default page;
+export default BookingDetailsPage;

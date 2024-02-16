@@ -70,7 +70,7 @@ export default function Sidebar() {
             list: [
                 {
                     title: "Profile Settings",
-                    path: "#",
+                    path: "/dashboard/user/profile",
                     icon: <MdOutlineSettings />,
                 }
             ],
@@ -97,11 +97,11 @@ export default function Sidebar() {
                     path: "/dashboard/agent/manage-properties",
                     icon: <MdShoppingBag />,
                 },
-                // {
-                //     title: "Transactions",
-                //     path: "#",
-                //     icon: <MdAttachMoney />,
-                // },
+                {
+                    title: "Transactions",
+                    path: "/dashboard/agent/transactions",
+                    icon: <MdAttachMoney />,
+                },
                 {
                     title: "Bookings",
                     path: "/dashboard/agent/bookings",
@@ -124,7 +124,7 @@ export default function Sidebar() {
             list: [
                 {
                     title: "Profile Settings",
-                    path: "#",
+                    path: "/dashboard/agent/profile",
                     icon: <MdOutlineSettings />,
                 }
             ],
@@ -146,14 +146,19 @@ export default function Sidebar() {
                     path: "/dashboard/admin/all-properties",
                     icon: <MdShoppingBag />,
                 },
-                // {
-                //     title: "Transactions",
-                //     path: "#",
-                //     icon: <MdAttachMoney />,
-                // },
+                {
+                    title: "Transactions",
+                    path: "#",
+                    icon: <MdAttachMoney />,
+                },
                 {
                     title: "Users",
                     path: "/dashboard/admin/all-users",
+                    icon: <MdAttachMoney />,
+                },
+                {
+                    title: "Agents",
+                    path: "/dashboard/admin/all-agents",
                     icon: <MdAttachMoney />,
                 },
                 {
@@ -161,6 +166,11 @@ export default function Sidebar() {
                     path: "/dashboard/admin/all-bookings",
                     icon: <MdShoppingBag />,
                 },
+                // {
+                //     title: "Bookings",
+                //     path: "/dashboard/all-agents",
+                //     icon: <MdShoppingBag />,
+                // },
             ],
         },
         {
@@ -178,76 +188,19 @@ export default function Sidebar() {
             list: [
                 {
                     title: "Profile Settings",
-                    path: "#",
+                    path: "/dashboard/admin/profile",
                     icon: <MdOutlineSettings />,
                 }
             ],
         },
     ];
 
-    // const menuItems = [
-    //     {
-    //         title: "Pages",
-    //         list: [
-    //             {
-    //                 title: "Dashboard",
-    //                 path: "/dashboard",
-    //                 icon: <MdDashboard />,
-    //             },
-    //             {
-    //                 title: "Add Property",
-    //                 path: "/dashboard/add-property",
-    //                 icon: <MdSupervisedUserCircle />,
-    //             },
-    //             {
-    //                 title: "Properties",
-    //                 path: "/dashboard/my-properties",
-    //                 icon: <MdShoppingBag />,
-    //             },
-    //             {
-    //                 title: "Transactions",
-    //                 path: "#",
-    //                 icon: <MdAttachMoney />,
-    //             },
-    //             {
-    //                 title: "Customers",
-    //                 path: "/dashboard/customers",
-    //                 icon: <MdAttachMoney />,
-    //             },
-    //             {
-    //                 title: "Bookings",
-    //                 path: "/dashboard/bookings",
-    //                 icon: <MdShoppingBag />,
-    //             },
-    //         ],
-    //     },
-    //     {
-    //         title: "Analytics",
-    //         list: [
-    //             {
-    //                 title: "Revenue",
-    //                 path: "#",
-    //                 icon: <MdWork />,
-    //             }
-    //         ],
-    //     },
-    //     {
-    //         title: "User",
-    //         list: [
-    //             {
-    //                 title: "Profile Settings",
-    //                 path: "#",
-    //                 icon: <MdOutlineSettings />,
-    //             }
-    //         ],
-    //     },
-    // ];
 
     return (
         <div>
             <div className={styles.container}>
                 <div className='flex gap-4 items-center mb-4'>
-                    <Image src={userImg} alt='userImage' width={50} height={50} className='rounded-full' />
+                    <Image src={user?.image || userImg} alt='userImage' width={50} height={50} className='rounded-full border-white border' />
                     <div className='flex flex-col'>
                         <span>{user?.name}</span>
                         <span className='text-sm text-gray-300'>{user?.role}</span>

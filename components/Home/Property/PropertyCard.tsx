@@ -15,6 +15,13 @@ import { checkFavoriteProperty } from "@/lib/database/checkFavoriteProperty";
 import toast from "react-hot-toast";
 
 
+
+interface Event {
+    startDate: string;
+    endDate: string;
+    _id: string;
+}
+
 export default function PropertyCard({ property }: Property & any,) {
     const { user } = useAuthContext();
     const [isActive, setIsActive] = useState(false);
@@ -35,6 +42,7 @@ export default function PropertyCard({ property }: Property & any,) {
         endDate,
         guests,
         propertyImages,
+        bookedDates,
         ratings,
     } = property;
 
@@ -52,6 +60,45 @@ export default function PropertyCard({ property }: Property & any,) {
             setIsFav(false);
         }
     }, [user?._id]);
+
+
+    function findNextFreeDays(bookingDates: Event[]): string {
+        const currentDate = new Date();
+        currentDate.setHours(0, 0, 0, 0);
+
+        let freeDaysCount = 0;
+        let startDate: Date, endDate: Date;
+
+        for (const booking of bookingDates) {
+            const bookingStartDate = new Date(booking.startDate);
+            const bookingEndDate = new Date(booking.endDate);
+            if (currentDate < bookingStartDate) {
+                const daysDifference = Math.ceil((bookingStartDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24));
+
+                if (freeDaysCount + daysDifference >= 3) {
+                    endDate = new Date(currentDate.getTime() + (3 - freeDaysCount - 1) * 24 * 60 * 60 * 1000);
+                    break;
+                }
+
+                freeDaysCount += daysDifference;
+                currentDate.setTime(bookingEndDate.getTime() + 24 * 60 * 60 * 1000);
+            } else {
+                currentDate.setTime(bookingEndDate.getTime() + 24 * 60 * 60 * 1000);
+            }
+        }
+
+        startDate = new Date(currentDate.getTime());
+        endDate = new Date(currentDate.getTime() + (3 - freeDaysCount) * 24 * 60 * 60 * 1000);
+
+        const options: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' };
+        const formattedStartDate = startDate.toLocaleDateString('en-US', options);
+        const formattedEndDate = endDate.toLocaleDateString('en-US', options);
+
+        return `${formattedStartDate} - ${formattedEndDate}`;
+    }
+
+    const nextFreeDays: string = findNextFreeDays(property?.bookedDates);
+
 
     const handleFavorite = async () => {
         try {
@@ -106,6 +153,7 @@ export default function PropertyCard({ property }: Property & any,) {
 
     // console.log(property);
 
+
     return (
         <div
             // onMouseEnter={handleHover}
@@ -128,15 +176,15 @@ export default function PropertyCard({ property }: Property & any,) {
                         {`${location.substring(0, 10)}, ${state.substring(0, 13)}`}
                     </h1>
                     {/* Location and State */}
-                    <h1 className="text-xl font-bold">
+                    {/* <h1 className="text-xl font-bold">
                         {`${name}`}
-                    </h1>
+                    </h1> */}
 
                     {/* Property Type */}
                     <p className="mt-[10px]">{propertyType}</p>
 
                     {/* StartDate and End Date */}
-                    <div className="">{startDate?.split(',')[0]} - {endDate?.split(',')[0]}</div>
+                    <div>{nextFreeDays}</div>
 
                     {/* Price and Ratings */}
                     <div className="flex justify-between mt-[10px]">
