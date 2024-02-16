@@ -15,7 +15,7 @@ import { removeSearchQuery } from "@/utils/searchQuery";
 
 const PropertyList = () => {
     const [properties, setProperties] = useState([])
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(true);
     const { isSearchBtnClicked, setIsSearchBtnClicked, setActiveCat, setLocation, setLocationObject, setAdultsCount, setChildrenCount } = useSearchContext();
 
     const searchParams = useSearchParams();
@@ -33,7 +33,7 @@ const PropertyList = () => {
                 setIsLoading(true)
                 const data = await getAllProperty(queryString);
                 setProperties(data || []);
-                setIsLoading(false)
+                setIsLoading(false);
             } catch (error) {
                 setIsLoading(false)
                 console.log(error);
@@ -85,7 +85,7 @@ const PropertyList = () => {
                 /></div>
             }
 
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
                 {properties?.map((property: Property, index: number) => (
                     // <Link
                     //     href={`/property-details/${index + 1}`}

@@ -75,7 +75,7 @@ export default function CategoryList() {
         setActiveCategory(catName);
     };
 
-    console.log(activeCategory);
+    // console.log(activeCategory);
     return (
         <div id="categoryTypeList" className="py-10  w-full px-6 placeholder-cyan-100">
             <Slider {...settings}>

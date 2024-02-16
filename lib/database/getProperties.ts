@@ -7,6 +7,7 @@ export const getPropertiesByUser = async ({ token, email }: { token: string, ema
             'Content-Type': 'application/json',
             'Authorization': token
         },
+        // credentials: 'include',
     });
     const responseData = await response.json();
     return responseData;

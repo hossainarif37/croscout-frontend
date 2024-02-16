@@ -44,10 +44,13 @@ export interface IPropertyData {
     };
 }
 
+
+
 const EditProperties = () => {
 
     const { register, handleSubmit, reset, formState: { errors }, } = useForm<Inputs>();
     const [imagesArr, setImagesArr] = useState<string[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
     const [imagesArrError, setImagesArrError] = useState('');
     const [propertiesData, setPropertiesData] = useState<IPropertyData>()
     const { user } = useAuthContext();
@@ -58,21 +61,25 @@ const EditProperties = () => {
     };
 
     const { id } = useParams();
-    console.log(id);
-    useEffect(() => {
-        const fetchData = async () => {
+
+    const fetchData = async () => {
+        setLoading(true);
+        try {
             if (typeof id === 'string') {
                 const propertiesData = await getPropertyById(id);
-
                 setPropertiesData(propertiesData);
-                // Set the state with the fetched data
-                // ...
                 setImagesArr(propertiesData?.property.propertyImages);
             }
-        };
+        } catch (error) {
+            console.error('Failed to fetch property data:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
+    useEffect(() => {
         fetchData();
-    }, []);
+    }, [id]);
 
 
 
@@ -108,7 +115,7 @@ const EditProperties = () => {
             const result = await response.json();
             if (result.success) {
                 toast.success(result.message);
-                router.push('/dashboard/my-properties');
+                router.push('/dashboard/agent/manage-properties');
             } else {
                 toast.error(result.error)
             }
@@ -121,11 +128,10 @@ const EditProperties = () => {
 
 
 
-    if (!propertiesData?.property.name) {
+    if (loading) {
         return <Loading />
     }
 
-    console.log(propertiesData.property.propertyImages);
 
 
 
@@ -168,7 +174,7 @@ const EditProperties = () => {
                                         <textarea
                                             id="description"
                                             placeholder="Description"
-                                            defaultValue={propertiesData?.property.description}
+                                            defaultValue={propertiesData?.property?.description}
                                             {...register("description", { required: true })}
                                         ></textarea>
 
@@ -211,7 +217,7 @@ const EditProperties = () => {
                                                 id="pricePerNight"
                                                 placeholder="PricePerNight"
                                                 min="1"
-                                                defaultValue={propertiesData?.property.pricePerNight}
+                                                defaultValue={propertiesData?.property?.pricePerNight}
                                                 {...register("pricePerNight", { required: true })}
                                             />
 
@@ -228,7 +234,7 @@ const EditProperties = () => {
                                             </label>
                                             <select id="input-field" className="form-select"
                                                 {...register("propertyType", { required: true })}
-                                                defaultValue={propertiesData?.property.propertyType}
+                                                defaultValue={propertiesData?.property?.propertyType}
                                             >
                                                 {/* <option value="" selected disabled>Select an option</option> */}
                                                 {
@@ -256,7 +262,7 @@ const EditProperties = () => {
                                             <select
                                                 id="input-field"
                                                 className="form-select"
-                                                defaultValue={propertiesData?.property.location}
+                                                defaultValue={propertiesData?.property?.location}
                                                 {...register("location", { required: true })
                                                 }
                                             >
@@ -281,7 +287,7 @@ const EditProperties = () => {
                                             <select
                                                 id="state"
                                                 className="form-select"
-                                                defaultValue={propertiesData?.property.state}
+                                                defaultValue={propertiesData?.property?.state}
                                                 {...register("state", { required: true })}
                                             >
                                                 <option value="" disabled>Select an option</option>
@@ -295,7 +301,6 @@ const EditProperties = () => {
                                         </div>
                                     </div>
 
-
                                     {/* Guests */}
                                     <div className="flex flex-col gap-1.5">
                                         <label
@@ -307,11 +312,17 @@ const EditProperties = () => {
                                             type="number"
                                             className=""
                                             id="guests"
-                                            max={10}
+                                            max={15}
                                             min={1}
                                             placeholder="Enter number"
-                                            defaultValue={propertiesData?.property.guests}
-                                            {...register("guests", { required: true })}
+                                            defaultValue={propertiesData?.property?.guests}
+                                            onInput={(e) => {
+                                                const inputValue = +(e.target as HTMLInputElement).value;
+                                                if (inputValue > 15) {
+                                                    (e.target as HTMLInputElement).value = '15';
+                                                }
+                                            }}
+                                            {...register("guests", { required: true, max: 15 })}
                                         />
 
                                         {/*//! Error */}
@@ -321,7 +332,7 @@ const EditProperties = () => {
                                     {/* --------------Upload Images Area End----------------*/}
                                     {
 
-                                        propertiesData.property.propertyImages.length > 0 &&
+                                        (propertiesData?.property?.propertyImages?.length ?? 0) > 0 &&
                                         <div className="flex gap-x-4 w-80">
                                             {
                                                 imagesArr.map((imageLink, index) => <button

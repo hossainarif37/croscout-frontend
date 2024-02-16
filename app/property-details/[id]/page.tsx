@@ -17,15 +17,21 @@ export interface IPropertyData {
         description: string;
         amenities: string[];
         pricePerNight: number;
+        bookedDates: object[];
         location: string;
         state: string;
         propertyType: string;
         propertyImages: string[];
-        owner: string;
+        owner: string | { _id: string };
         ratings: number;
         guests: number;
+        _id: string;
+    };
+    owner: {
+        _id: string;
     };
 }
+
 
 export default function PropertyDetails() {
 
@@ -43,22 +49,40 @@ export default function PropertyDetails() {
     const { id } = useParams();
     useEffect(() => {
         const fetchData = async () => {
+            // if (typeof id === 'string') {
+            //     const propertiesData = await getPropertyById(id);
+            //     setLoading(false);
+            //     setSinglePropertyDetails(propertiesData);
+            //     // Set the state with the fetched data
+            //     // ...
+            // }
+
             if (typeof id === 'string') {
                 const propertiesData = await getPropertyById(id);
+                // Transform the owner property if necessary
+                if (typeof propertiesData.property.owner === 'string') {
+                    propertiesData.property.owner = { _id: propertiesData.property.owner } as IPropertyData['property']['owner'];
+                }
                 setLoading(false);
-                setSinglePropertyDetails(propertiesData);
-                // Set the state with the fetched data
-                // ...
+                setSinglePropertyDetails({
+                    ...propertiesData,
+                    property: {
+                        ...propertiesData.property,
+                        owner: propertiesData.property.owner as IPropertyData['property']['owner'],
+                    },
+                });
             }
+
         };
 
         fetchData();
     }, []);
 
+
     if (loading) {
         return <Loading />
     }
-
+    // console.log(singlePropertyDetails);
     return (
         <div className="">
             <PropertyHero singlePropertyDetails={singlePropertyDetails?.property} />

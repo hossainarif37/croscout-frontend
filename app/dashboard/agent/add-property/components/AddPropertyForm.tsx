@@ -67,7 +67,7 @@ const AddPropertyForm = () => {
             const result = await response.json();
             if (result.success) {
                 toast.success(result.message);
-                router.push('/dashboard/my-properties');
+                router.push('manage-properties');
             } else {
                 toast.error(result.error)
             }
@@ -244,10 +244,17 @@ const AddPropertyForm = () => {
                                         type="number"
                                         className=""
                                         id="guests"
+                                        max={15}
+                                        min={1}
                                         placeholder="Enter number"
-                                        {...register("guests", { required: true })}
+                                        onInput={(e) => {
+                                            const inputValue = +(e.target as HTMLInputElement).value;
+                                            if (inputValue >  15) {
+                                                (e.target as HTMLInputElement).value = '15';
+                                            }
+                                        }}
+                                        {...register("guests", { required: true, max: 15 })}
                                     />
-
                                     {/*//! Error */}
                                     {errors?.guests && <p className="text-red-600 mt-1 lg:text-base text-sm">Guest is required!</p>}
                                 </div>
