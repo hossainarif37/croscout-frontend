@@ -40,7 +40,7 @@ const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBooking
     const [dropdownOpen, setDropdownOpen] = useState("");
     const toggleDropdown = (id: string) => {
         if (dropdownOpen) {
-           return setDropdownOpen("")
+            return setDropdownOpen("")
         }
         setDropdownOpen(id);
     };
@@ -118,7 +118,7 @@ const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBooking
         }
     }
 
-    
+
     return (
         <div className=''>
             <div className="relative min-h-screen overflow-x-auto rounded-lg ">
@@ -206,21 +206,38 @@ const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBooking
                                         <p className='text-left left-3'>$ {booking.price}</p>
                                     </td>
                                     <td className="px-6 py-4 m-5">
-                                        <button onClick={() => toggleDropdown(booking?._id)}>
+                                        {/* <button onClick={() => toggleDropdown(booking?._id)}>
                                             <BsThreeDotsVertical />
-                                        </button>
-                                        <div className={`${("65ce1fb10ae0b8b33f7f015c" === booking._id) ? "flex" : "hidden"} flex-col absolute bottom-0 right-3 gap-2 font-semibol`}>
-                                            <Link href={`/dashboard/user/booking-details/${booking?._id}`}>
-                                                <button className='bg-primary-50 hover:border-white duration-200 w-full border-accent border text-white-50 px-2 py-1 rounded-md text-xs'>
-                                                    Booking Details
-                                                </button>
-                                            </Link>
-                                            <Link href={`/dashboard/user/payment-details/${booking._id}`}>
-                                                <button className='bg-primary-50 text-xs hover:border-white duration-200 w-full border-accent border text-white-50 px-2 py-1 rounded-md'>Payment Details</button>
-                                            </Link>
-                                            <Link href={`/dashboard/user/payment-confirmation-message/${booking._id}`}>
-                                                <button className='bg-primary-50 text-xs hover:border-white duration-200 w-full border-accent border text-white-50 px-2 py-1 rounded-md'>Confirm Payment</button>
-                                            </Link>
+                                        </button> */}
+                                        <div className={`flex flex-col bottom-0 right-3 gap-2 font-semibol`}>
+                                            {
+                                                user?.role === "user" ?
+                                                    <>
+                                                        <Link href={`/dashboard/user/booking-details/${booking?._id}`}>
+                                                            <button className='bg-primary-50 hover:border-white duration-200 w-full border-accent border text-white-50 px-2 py-1 rounded-md text-xs'>
+                                                                Booking Details
+                                                            </button>
+                                                        </Link>
+                                                        <Link href={`/dashboard/user/payment-details/${booking._id}`}>
+                                                            <button className='bg-primary-50 text-xs hover:border-white duration-200 w-full border-accent border text-white-50 px-2 py-1 rounded-md'>Payment Details</button>
+                                                        </Link>
+                                                        <Link href={`/dashboard/user/payment-confirmation-message/${booking._id}`}>
+                                                            <button className='bg-primary-50 text-xs hover:border-white duration-200 w-full border-accent border text-white-50 px-2 py-1 rounded-md'>Confirm Payment</button>
+                                                        </Link>
+                                                    </>
+                                                    :
+                                                    <>
+                                                        <Link href={`/dashboard/agent/booking-details/${booking?._id}`}>
+                                                            <button className='bg-primary-50 hover:border-white duration-200 w-full border-accent border text-white-50 px-2 py-1 rounded-md text-xs'>
+                                                                Booking Details
+                                                            </button>
+                                                        </Link>
+                                                        <Link href={`/dashboard/agent/payment/${booking._id}`}>
+                                                            <button className='bg-primary-50 text-xs hover:border-white duration-200 w-full border-accent border text-white-50 px-2 py-1 rounded-md'>Payment Details</button>
+                                                        </Link>
+                                                    </>
+                                            }
+
                                         </div>
                                     </td>
                                 </tr>
@@ -229,7 +246,7 @@ const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBooking
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div >
     );
 };
 
