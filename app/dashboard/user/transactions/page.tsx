@@ -36,7 +36,7 @@ const TransactionPage = () => {
         };
 
         fetchTransactions();
-    }, [user?._id]);
+    }, []);
 
     if (isLoading) {
         return <Loading />

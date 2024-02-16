@@ -7,7 +7,7 @@
   @apply mb-5 font-light text-[#182237];
 }
 .tbody{
-  @apply text-center lg:text-left
+  @apply text-center lg:text-left lg:mt-4
 }
 .table {
   @apply w-full;
@@ -17,7 +17,7 @@
   @apply p-3 flex-1 justify-start;
 }
 .thead tr {
-  @apply flex justify-between items-center gap-8
+  @apply flex justify-between items-center gap-8 rounded-t-xl
 }
 .thead td{
   @apply flex-1 justify-start

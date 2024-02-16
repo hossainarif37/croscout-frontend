@@ -11,7 +11,8 @@ export function middleware(req: NextRequest) {
     const userRoutes = [
         "/dashboard/user/profile",
         "/dashboard/user/my-bookings",
-        "/dashboard/user/favorites"
+        "/dashboard/user/favorites",
+        "/dashboard/user/transactions"
     ];
 
     const agentRoutes = [
@@ -19,11 +20,13 @@ export function middleware(req: NextRequest) {
         "/dashboard/agent/add-property",
         "/dashboard/agent/my-properties",
         "/dashboard/agent/bookings",
+        "/dashboard/agend/transactions",
     ];
 
     const adminRoutes = [
         "/dashboard/admin/profile",
         "/dashboard/admin/all-users",
+        "/dashboard/admin/transactions",
         "/dashboard/admin/all-properties",
         "/dashboard/admin/all-bookings",
     ];

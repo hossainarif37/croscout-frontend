@@ -148,7 +148,7 @@ export default function Sidebar() {
                 },
                 {
                     title: "Transactions",
-                    path: "#",
+                    path: "/dashboard/admin/transactions",
                     icon: <MdAttachMoney />,
                 },
                 {

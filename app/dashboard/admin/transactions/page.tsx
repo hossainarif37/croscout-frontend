@@ -1,9 +1,9 @@
 "use client"
 import { useEffect, useState } from "react";
 import TransactionForm from "../../components/TransactionForm/TransactionForm";
-import { User, useAuthContext } from "@/providers/AuthProvider";
-import { getAllTrasaction, getTransactionById } from "@/lib/database/getTransactions";
+import { getAllTrasaction } from "@/lib/database/getTransactions";
 import Loading from "@/components/ui/Loading/Loading";
+
 
 interface TransactionData {
     success: boolean;
@@ -11,23 +11,18 @@ interface TransactionData {
 }
 const TransactionPage = () => {
     const [transaction, setTransaction] = useState<TransactionData | null>(null);
-    const { user } = useAuthContext();
-    console.log(user?._id);
     console.log(transaction);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchTransactions = async () => {
             try {
+                // console.log('Setting isLoading to true');
                 setIsLoading(true);
-                if (user && user._id) {
-                    const data = await getTransactionById(user?._id);
-                    console.log(data);
-                    setTransaction(data);
-                } else {
-                    // Handle the case where user or user._id is undefined
-                    console.error('User ID is not available');
-                }
+                const data = await getAllTrasaction();
+                console.log(data);
+                setTransaction(data);
+                // console.log('Setting isLoading to false');
                 setIsLoading(false);
             } catch (error) {
                 console.log('Error occurred, setting isLoading to false', error);
@@ -36,8 +31,7 @@ const TransactionPage = () => {
         };
 
         fetchTransactions();
-    }, [user?._id]);
-
+    }, []);
     if (isLoading) {
         return <Loading />
     }

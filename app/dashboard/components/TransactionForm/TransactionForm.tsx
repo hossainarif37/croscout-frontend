@@ -1,7 +1,19 @@
+"use client"
 import React from 'react';
-
-const TransactionForm = () => {
-    const data = [4545, 4545, 45, 454, 54, 54];
+import { format } from 'date-fns';
+interface TransactionFormProps {
+    transaction?: any; // Replace 'any' with the actual type of the transaction
+    agentTransaction?: any
+}
+interface TransactionItem {
+    transactionId?: string;
+    booking?: string;
+    createdAt?: string;
+    amount?: number;
+    paymentMethod: string;
+}
+const TransactionForm: React.FC<TransactionFormProps> = ({ transaction }) => {
+    console.log(transaction);
     return (
         <div className=''>
             <div className="relative overflow-x-auto rounded-lg ">
@@ -18,44 +30,40 @@ const TransactionForm = () => {
                                 Booking ID
                             </th>
                             <th className="p-5 font-semibold">
-                                Customar Name
+                                Payment Method
                             </th>
                             <th className="p-5 font-semibold">
-                                Payment Date
+                                Transaction Date
                             </th>
                             <th className="p-5 font-semibold">
-                                Booking Duration
-                            </th>
-                            <th className="p-5 font-semibold">
-                                Payment Amount
+                                Amount
                             </th>
                         </tr>
                     </thead>
                     <tbody>
                         {
-                            data.map((item, indx) => <tr key={indx} className="hover:bg-[#2E374A] hover:rounded-lg bg-primary-50 my-3 p-2 cursor-pointer">
-                                <td className="px-6 py-4 m-5 font-medium">
-                                    {indx+1}
-                                </td>
-                                <td className="px-6 py-4 m-5 font-medium">
-                                    4556454s5a6d465ass
-                                </td>
-                                <td className="px-6 py-4 m-5">
-                                    4556454s5a6d465ass
-                                </td>
-                                <td className="px-6 py-4">
-                                    Turan
-                                </td>
-                                <td className="px-6 py-4 m-5">
-                                    225442024
-                                </td>
-                                <td className="px-6 py-4 m-5">
-                                    3 Days
-                                </td>
-                                <td className="px-6 py-4 m-5">
-                                    $454
-                                </td>
-                            </tr>)
+                            transaction?.transactions?.map((item: TransactionItem, indx: number) => (
+                                <tr key={indx} className="hover:bg-[#2E374A] hover:rounded-lg bg-primary-50 my-3 p-2 cursor-pointer">
+                                    <td className="px-6 py-4 m-5 font-medium">
+                                        {indx + 1}
+                                    </td>
+                                    <td className="px-6 py-4 m-5 font-medium">
+                                        {item?.transactionId}
+                                    </td>
+                                    <td className="px-6 py-4 m-5">
+                                        {item?.booking}
+                                    </td>
+                                    <td className="px-6 py-4 m-5">
+                                        {item?.paymentMethod}
+                                    </td>
+                                    <td className="px-6 py-4 m-5">
+                                        {format(new Date(item?.createdAt || ''), "MMM dd, yyyy")}
+                                    </td>
+                                    <td className="px-6 py-4 m-5">
+                                        {item?.amount}
+                                    </td>
+                                </tr>
+                            ))
                         }
                     </tbody>
                 </table>
