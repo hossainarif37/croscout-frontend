@@ -9,23 +9,52 @@ import { useEffect, useState } from "react";
 import { getAllUsers } from "@/lib/database/getUsers";
 import loading from "../loading";
 import Loading from "@/components/ui/Loading/Loading";
+import { getDashboardStats } from "@/lib/database/getDashboardStats";
+
+export interface IBooking {
+    guest: string;
+    property: string;
+    owner: string;
+    price: string;
+    totalGuests: string;
+    startDate: string; // Assuming you want to keep it as a string for frontend
+    endDate: string; // Assuming you want to keep it as a string for frontend
+    status: 'pending' | 'confirmed' | 'cancelled';
+    createdAt: string; // Assuming you want to keep it as a string for frontend
+    updatedAt: string; // Assuming you want to keep it as a string for frontend
+    agentPaypalEmail?: string;
+    paymentInstruction?: string;
+    userTransactionId?: string;
+}
+
+interface DashboardStats {
+    userCount?: number;
+    propertyCount?: number;
+    totalRevenue?: number;
+    latestBookings?: IBooking[];
+    agentProperties?: number;
+    agentRevenue?: number;
+    agentBookings?: number;
+    latestAgentBookings?: IBooking[];
+}
 
 const Dashboard = () => {
-    const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [totalBookings, setTotalBookings] = useState([]);
-
+    const { user } = useAuthContext();
+    const [dashboardStats, setDashboardStats] = useState<DashboardStats>();
 
 
     useEffect(() => {
+        if (!user?._id) {
+            return;
+        }
         const fetchUsers = async () => {
             try {
                 setLoading(true);
 
-                const data = await getAllUsers();
+                const data = await getDashboardStats(user?._id);
 
-                console.log(data);
-                setUsers(data);
+                setDashboardStats(data.stats);
                 setLoading(false);
             } catch (error) {
                 console.error('Error occurred while fetching users:', error);
@@ -34,32 +63,31 @@ const Dashboard = () => {
         };
 
         fetchUsers();
-    }, []);
+    }, [user?._id]);
 
     if (loading) {
         <Loading />
     }
 
-    console.log(users)
 
 
     const cards = [
         {
             id: 1,
-            title: "Total Users",
-            number: users?.length,
+            title: user?.role === 'admin' ? "Total Users" : 'Total Properties',
+            number: user?.role === 'admin' ? dashboardStats?.userCount : dashboardStats?.agentProperties,
             change: 12,
         },
         {
             id: 2,
-            title: "Stock",
-            number: 8.236,
+            title: user?.role === 'admin' ? "Total Properties" : "Total Bookings",
+            number: user?.role === 'admin' ? dashboardStats?.propertyCount : dashboardStats?.agentBookings,
             change: -2,
         },
         {
             id: 3,
-            title: "Revenue",
-            number: 6.642,
+            title: user?.role === 'admin' ? "Total Revenue" : "Revenue",
+            number: user?.role === 'admin' ? dashboardStats?.totalRevenue : dashboardStats?.agentRevenue,
             change: 18,
         },
     ];

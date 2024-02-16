@@ -1,4 +1,4 @@
-export const getDashboardStats = async ({ id }: { id: string }) => {
+export const getDashboardStats = async (id: string) => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/dashboard/stats/${id}`, {
         method: 'GET',
         headers: {

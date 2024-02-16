@@ -129,7 +129,7 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
                                     {user?._id}
                                 </td>
                                 <td className="px-6 py-4 m-5">
-                                    {format(new Date(user?.createdAt || ''), "MMM dd, yyyy")}
+                                    {format(new Date(user?.createdAt), "MMM dd, yyyy")}
                                 </td>
 
 

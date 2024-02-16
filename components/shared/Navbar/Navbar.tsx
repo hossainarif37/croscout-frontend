@@ -33,12 +33,12 @@ const Navbar = () => {
         try {
             // const dbResponse = await logoutUser();
             // if(dbResponse.isLogout){
-            toast.success("Successfully Logout")
             setUser(null);
             clearToken();
             removeCookie("authToken")
             // }
             router.push('/')
+            toast.success("Successfully Logout")
         } catch (error) {
             console.log(error);
         }
