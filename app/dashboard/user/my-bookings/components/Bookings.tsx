@@ -25,6 +25,9 @@ const Bookings = () => {
         _id: string;
         id: number;
         price: string;
+        guest: {
+            name: string
+        },
         total: number;
         status: string;
         method: string;
@@ -125,7 +128,7 @@ const Bookings = () => {
             </div>
             {bookings?.length > 0 && <div className='p-4'>
                 <div className='w-full  m-auto p-4 rounded-lg overflow-y-auto overflow-x-auto'>
-                    <div className='my-3 bg-[#2E374A] p-5 rounded-t-xl grid overflow-x-auto md:grid-cols-5 sm:grid-cols-3 grid-cols-2 items-center justify-between cursor-pointer font-semibold'>
+                    <div className='my-3 bg-[#2E374A] p-5 rounded-t-xl grid overflow-x-auto md:grid-cols-5 sm:grid-cols-3 grid-cols-2 items-center justify-between font-semibold'>
                         <span>Name</span>
                         <span className='sm:text-left text-right'>Status</span>
                         <span className='hidden md:grid'>Last booking</span>
@@ -136,7 +139,7 @@ const Bookings = () => {
                         {bookings?.slice()?.reverse()?.map((booking: booking, id: number | string) => (
                             <li
                                 key={id}
-                                className=' hover:bg-[#2E374A] bg-primary-50 rounded-lg my-3 p-2 grid md:grid-cols-5 sm:grid-cols-3 grid-cols-2 items-center justify-between cursor-pointer overflow-x-auto'
+                                className=' bg-primary-50 rounded-lg my-3 p-2 grid md:grid-cols-5 sm:grid-cols-3 grid-cols-2 items-center justify-between overflow-x-auto'
                             >
                                 <div className='flex'>
                                     <div className='bg-purple-100 p-3 rounded-lg'>
@@ -146,12 +149,12 @@ const Bookings = () => {
                                         <p className=' font-bold'>
                                             ${booking.price}
                                         </p>
-                                        <p className=' text-sm'>{user?.name}</p>
+                                        <p className=' text-sm'>{booking.guest?.name}</p>
                                     </div>
                                 </div>
                                 {
                                     booking.status === "confirmed" ?
-                                        <button className='sm:text-left text-right md:text-sm text-xs'>
+                                        <button className='sm:text-left cursor-auto text-right md:text-sm text-xs'>
                                             <span
                                                 className="bg-[#afcfee83] text-white-50 p-2 rounded-md">
                                                 Confirmed
@@ -184,7 +187,7 @@ const Bookings = () => {
                                     <button onClick={() => router.push(`/dashboard/user/booking-details/${booking?._id}`)}>
                                         <button className=' sm:text-left text-right md:text-sm text-xs'>
                                             <span
-                                                className={'bg-primary-50 border-accent border text-white-50 px-2 py-1 rounded-md'}
+                                                className={'bg-primary-50 hover:border-white duration-200 border-accent border text-white-50 px-2 py-1 rounded-md'}
                                             >
                                                 Details
                                             </span>

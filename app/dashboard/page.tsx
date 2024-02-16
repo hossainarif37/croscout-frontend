@@ -1,14 +1,53 @@
+"use client"
+
 import StatisticsCard from "./components/StatisticsCard/StatisticsCard";
 import Transactions from "./components/Transections/Transections";
 import Chart from "./components/Chart/Chart";
 import styles from "@/app/dashboard/components/dashboard.module.css"
+import { useAuthContext } from "@/providers/AuthProvider";
+import { useEffect, useState } from "react";
+import { getAllUsers } from "@/lib/database/getUsers";
+import loading from "../loading";
+import Loading from "@/components/ui/Loading/Loading";
 
 const Dashboard = () => {
+    const [users, setUsers] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [totalBookings, setTotalBookings] = useState([]);
+
+
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                setLoading(true);
+
+                const data = await getAllUsers();
+
+                console.log(data);
+                setUsers(data);
+                setLoading(false);
+            } catch (error) {
+                console.error('Error occurred while fetching users:', error);
+                setLoading(false);
+            }
+        };
+
+        fetchUsers();
+    }, []);
+
+    if (loading) {
+        <Loading />
+    }
+
+    console.log(users)
+
+
     const cards = [
         {
             id: 1,
             title: "Total Users",
-            number: 10.928,
+            number: users?.length,
             change: 12,
         },
         {

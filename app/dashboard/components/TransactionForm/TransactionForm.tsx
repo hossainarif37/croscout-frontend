@@ -33,9 +33,9 @@ const TransactionForm = () => {
                     </thead>
                     <tbody>
                         {
-                            data.map((item, indx) => <tr key={indx} className="hover:bg-[#2E374A] hover:rounded-lg bg-primary-50 my-3 p-2 cursor-pointer">
+                            data.map((item, indx) => <tr key={indx} className="hover:bg-[#2E374A] hover:rounded-lg bg-primary-50 my-3 p-2 ">
                                 <td className="px-6 py-4 m-5 font-medium">
-                                    {indx+1}
+                                    {indx + 1}
                                 </td>
                                 <td className="px-6 py-4 m-5 font-medium">
                                     4556454s5a6d465ass

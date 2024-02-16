@@ -26,6 +26,7 @@ export interface IPropertyDetailsData {
     owner: {
         name: string;
     };
+    totalGuests: string;
     startDate: string;
     endDate: string;
     status: string;
@@ -120,7 +121,7 @@ const BookingDetailsPage = () => {
                             </div>
                             <div className="grid gap-1">
                                 <div className="font-semibold text-gray-300 text-xl">Number of guests</div>
-                                <div>Guests: {bookingDetails?.property?.guests}</div>
+                                <div>Guests: {bookingDetails?.totalGuests}</div>
                             </div>
                             <div className="grid gap-1">
                                 <div className="font-semibold text-gray-300 text-xl">Total price</div>
