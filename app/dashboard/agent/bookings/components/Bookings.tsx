@@ -13,12 +13,24 @@ import Link from 'next/link';
 import { manageBookingStatus } from '@/lib/database/manageBookings';
 import toast from 'react-hot-toast';
 import Swal from 'sweetalert2';
+import { useRouter } from 'next/navigation';
+import navbarStyles from "@/components/shared/Navbar/navbar.module.css"
+import { useToggleContext } from '@/providers/ToggleProvider';
+import { AiOutlineMenu } from 'react-icons/ai';
+import { IoIosCloseCircle } from 'react-icons/io';
 
 
 interface BookingsProps {
     id: number | string; // or string, depending on what type of ID you expect
 }
 const Bookings = () => {
+
+    const { showSelectedOption, setShowSelectedOption } = useToggleContext();
+    console.log(showSelectedOption);
+
+    const handleMenuToggle = () => {
+        setShowSelectedOption(pre => !pre);
+    };
     type booking = {
         _id: number;
         guest: {
@@ -33,6 +45,10 @@ const Bookings = () => {
         updatedAt: string;
     };
 
+    type userName = {
+        name: string
+    }
+
     const timeSinceWithoutAbout = (dateString: any) => {
         const date = new Date(dateString);
         const distance = formatDistanceToNow(date, { addSuffix: true });
@@ -41,10 +57,13 @@ const Bookings = () => {
 
     const { user } = useAuthContext();
     const userId = (user?._id);
+    const router = useRouter();
     // console.log(userId);
 
     const [bookings, setBookings] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [name, setName] = useState<userName[]>([]);
+    console.log(name);
 
     useEffect(() => {
         const fetchBookings = async () => {
@@ -208,7 +227,7 @@ const Bookings = () => {
                                             {format(new Date(booking.endDate), "MMM dd, yyyy")}
                                         </p>
                                         {/* <BsThreeDotsVertical /> */}
-                                        <Link href={`/dashboard/agent/booking-details/${booking._id}`}>
+                                        {/* <Link href={`/dashboard/agent/booking-details/${booking?._id}`}>
                                             <button className=' sm:text-left text-right md:text-sm text-xs'>
                                                 <span
                                                     className={'text-white border hover:border-white duration-200 border-accent p-2 rounded-md'}
@@ -216,16 +235,32 @@ const Bookings = () => {
                                                     Details
                                                 </span>
                                             </button>
-                                        </Link>
+                                        </Link> */}
+
+                                        <ul className={`bg-white w-[400px] ${showSelectedOption ? "scale-y-100" : "scale-y-0"}`}>
+                                            <li>Hello</li>
+                                            <li>Hi </li>
+                                            <li>ghgh</li>
+                                        </ul>
+
+                                        <div className='bg-primary-50 border-none'>
+                                            <option onClick={() => router.push(`/dashboard/agent/booking-details/${booking?._id}`)} value="details">details</option>
+                                            <option onClick={() => router.push(`/dashboard/agent/payment/${booking._id}`)} value="payment">payment</option>
+                                        </div>
+                                        <button
+                                            onClick={handleMenuToggle}
+                                            className="block text-white select-none text-2xl">
+                                            <AiOutlineMenu color="white" />
+                                        </button>
                                     </div>
-                                </li>
+                                </li >
                             ))}
-                        </ul>
-                    </div>
-                </div>
+                        </ul >
+                    </div >
+                </div >
             }
 
-        </div>
+        </div >
     );
 };
 
