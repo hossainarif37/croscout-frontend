@@ -26,72 +26,52 @@ interface AllUsersTableProps {
 
 const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
     const { user } = useAuthContext();
-    const date: string | undefined = user?.createdAt;
-    // const formattedDate = date ? format(new Date(date), "yyyy-MM-dd HH:mm:ss") : "N/A";
-    // console.log(formattedDate);
-    // const handleConfirmAgent = () => {
-    //     Swal.fire({
-    //         title: "Are you sure?",
-    //         text: "This user will get all this agent access!",
-    //         icon: "warning",
-    //         showCancelButton: true,
-    //         confirmButtonColor: "#d33",
-    //         background: "#182237",
-    //         color: "#F9ECE4",
-    //         cancelButtonColor: "#3085d6",
-    //         cancelButtonText: "Close",
-    //         confirmButtonText: "Yes, confirm it!"
-    //     }).then(async (result) => {
-    //         if (result.isConfirmed) {
-    //             const dbResponse = await manageBookingStatus({ id, action: value })
-    //             if (dbResponse.success) {
-    //                 {
-    //                     toast.success(dbResponse.message);
-    //                     // const bookingsData = await getBookingsById(userId);
-    //                     // setBookings(bookingsData.bookings);
-    //                     Swal.close();
-    //                 }
-    //             }
-    //             else {
-    //                 toast.error(dbResponse.error)
-    //             }
-    //         }
-    //     });
-    // }
+    // const date: string | undefined = user?.createdAt;
 
-    // const formattedDate = format(new Date(date), "yyyy-MM-dd");
-    // console.log(formattedDate);
+    const handleConfirmAgent = () => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "This user will get all this agent access!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            background: "#182237",
+            color: "#F9ECE4",
+            cancelButtonColor: "#3085d6",
+            cancelButtonText: "Close",
+            confirmButtonText: "Yes, confirm it!"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                toast.success('message');
+                // const bookingsData = await getBookingsById(userId);
+                // setBookings(bookingsData.bookings);
+                Swal.close();
+            }
+        });
+    }
 
 
-    // const handleCancelAgent = () => {
-    //     Swal.fire({
-    //         title: "Are you sure?",
-    //         text: "This user will get all this agent access!",
-    //         icon: "warning",
-    //         showCancelButton: true,
-    //         confirmButtonColor: "#d33",
-    //         background: "#182237",
-    //         color: "#F9ECE4",
-    //         cancelButtonColor: "#3085d6",
-    //         cancelButtonText: "Close",
-    //         confirmButtonText: "Yes, confirm it!"
-    //     }).then(async (result) => {
-    //         if (result.isConfirmed) {
-    //             const dbResponse = await manageBookingStatus({ id, action: value })
-    //             if (dbResponse.success) {
-    //                 {
-    //                     toast.success(dbResponse.message);
-    //                     // const bookingsData = await getBookingsById(userId);
-    //                     // setBookings(bookingsData.bookings);
-    //                     Swal.close();
-    //                 }
-    //             }
-    //             else {
-    //                 toast.error(dbResponse.error)
-    //             }
-    //         }
-    //     });
-    // }
+    const handleCancelAgent = () => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "This user will get all this agent access!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            background: "#182237",
+            color: "#F9ECE4",
+            cancelButtonColor: "#3085d6",
+            cancelButtonText: "Close",
+            confirmButtonText: "Yes, confirm it!"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                toast.success("dasdsa");
+                // const bookingsData = await getBookingsById(userId);
+                // setBookings(bookingsData.bookings);
+                Swal.close();
+            }
+        });
+    }
 
     return (
         <div className=''>
@@ -152,10 +132,10 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
                                             {user?.taxNumber}
                                         </td>
                                         <td className="px-6 py-4 m-5 space-x-2">
-                                            <button onClick={() => { }} className='sm:text-left text-right md:text-sm text-xs bg-accent text-primary-50 p-2 rounded-md'>
+                                            <button onClick={() => {handleConfirmAgent()}} className='sm:text-left text-right md:text-sm text-xs bg-accent text-primary-50 p-2 rounded-md'>
                                                 Confirm
                                             </button>
-                                            <button onClick={() => { }} className='sm:text-left text-right md:text-sm text-xs bg-secondary-50 text-primary-50 p-2 rounded-md'>
+                                            <button onClick={() => {handleCancelAgent()}} className='sm:text-left text-right md:text-sm text-xs bg-secondary-50 text-primary-50 p-2 rounded-md'>
                                                 Cancel
                                             </button>
                                         </td>
