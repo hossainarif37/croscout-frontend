@@ -4,7 +4,7 @@ import { getAllBookings } from '@/lib/database/getBookings';
 import { format } from 'date-fns';
 import React, { useEffect, useState } from 'react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
-import { FaShoppingBag } from 'react-icons/fa';
+import { FaEllipsisV, FaShoppingBag } from 'react-icons/fa';
 import { formatDistanceToNow } from 'date-fns';
 import { getBookingsById } from '@/lib/database/getUserBooking';
 import { useParams } from 'next/navigation';
@@ -15,12 +15,20 @@ import Link from 'next/link';
 import Swal from 'sweetalert2';
 import toast from 'react-hot-toast';
 import { manageBookingStatus } from '@/lib/database/manageBookings';
+import { PiDotsThreeOutlineVerticalFill } from 'react-icons/pi';
+
+import styles from "@/app/dashboard/components/Transections/transactions.module.css"
 
 
 interface BookingsProps {
     id: number | string; // or string, depending on what type of ID you expect
 }
 const Bookings = () => {
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const toggleDropdown = () => {
+        setDropdownOpen(!dropdownOpen);
+    };
+
     type booking = {
         _id: string;
         id: number;
@@ -117,7 +125,6 @@ const Bookings = () => {
             });
         }
     }
-
     return (
         <div className='bg-primary-50 text-secondary-50 min-h-screen'>
             <div className='flex justify-between px-4 pt-4'>
@@ -190,6 +197,11 @@ const Bookings = () => {
                                             </span>
                                         </button>
                                     </button>
+                                    <div className='flex flex-col'>
+                                        <button onClick={() => router.push(`/dashboard/user/payment-confirmation-message/${booking._id}`)}>Payment</button>
+                                        <button onClick={() => router.push(`/dashboard/user/payment-details/${booking._id}`)}>Payment Details</button>
+                                        <button onClick={() => router.push(`/dashboard/user/payment-confirmation-message/${booking._id}`)}>Payment</button>
+                                    </div>
                                 </div>
                             </li>
                         ))}
@@ -200,6 +212,92 @@ const Bookings = () => {
             {
                 bookings === undefined && <div className="text-center mt-20 text-white"><h1 className="text-4xl text-center">You haven't any Booking yet. Please book Property</h1></div>
             }
+
+
+
+
+
+            {/*//? Mobile version*/}
+
+            {/* <div className={` ${styles.container}`}>
+                <h2 className={styles.title}>Latest Transactions</h2>
+                <div className="overflow-x-auto">
+                    <table className={styles.table}>
+                        <thead className={' flex justify-between bg-[#2E374A] rounded-t-xl lg:p-3 p-2'}>
+                            <tr className="flex-1">
+                                <td>Name</td>
+                                <td>Status</td>
+                                <td>Last Booking</td>
+                                <td><span className='flex lg:text-base text-sm'>Check in <span className='px-6 inline-block'>-</span> Check out</span></td>
+                                <td>Total Price</td>
+                            </tr>
+                        </thead>
+
+                        <tbody className={styles.tbody}>
+                            {bookings?.slice()?.reverse()?.map((booking: booking, id: number | string) => (
+                                <tr>
+                                    <td>
+                                        <div className={styles.user}>
+                                            <FaShoppingBag className='text-purple-800 bg-white p-2 lg:text-4xl text-3xl rounded-md' />
+                                            Hridoy
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {
+                                            booking.status === "confirmed" ?
+                                                <button className='sm:text-left text-right md:text-sm text-xs'>
+                                                    <span
+                                                        className="bg-[#afcfee83] text-white-50 p-2 rounded-md">
+                                                        Confirmed
+                                                    </span>
+                                                </button>
+                                                :
+                                                <select
+                                                    defaultValue="pending"
+                                                    onChange={(e) => { handleStatusChanged(e.target.value, booking._id) }}
+                                                    className='sm:text-left text-right md:text-sm text-xs w-32 bg-primary-50 text-white outline-none p-2 rounded-md' name="status" id="status">
+                                                    <option value="pending" disabled>Pending</option>
+                                                    <option value="cancel">Cancel</option>
+                                                    {
+                                                        user?.role === "agent" &&
+                                                        <option value="confirm">Confirm</option>
+                                                    }
+                                                </select>
+                                        }
+                                    </td>
+                                    <td>
+                                        <p className='flex'>{timeSinceWithoutAbout(booking?.updatedAt)}</p>
+                                    </td>
+                                    <td>
+                                        <p className='flex justify-between'>
+                                            {format(new Date(booking.startDate), "MMM dd, yyyy")} <span className='px-2 inline-block'>-</span>
+                                            {format(new Date(booking.endDate), "MMM dd, yyyy")}
+                                        </p>
+
+                                    </td>
+                                    <td>
+                                        <div className=' font-semibold relative flex justify-end mr-5' >
+                                            <p className='text-left absolute left-3'>$ {booking.price}</p>
+                                            <button onClick={() => router.push(`/dashboard/user/booking-details/${booking?._id}`)}>
+                                                <button className=' sm:text-left text-right md:text-sm text-xs'>
+                                                    <span
+                                                        className={'bg-primary-50 border-accent border text-white-50 px-2 py-1 rounded-md'}
+                                                    >
+                                                        Details
+                                                    </span>
+                                                </button>
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <p className='text-left absolute left-3'>$ {booking.price}</p>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div> */}
         </div>
     );
 };
