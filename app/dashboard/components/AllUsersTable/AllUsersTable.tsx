@@ -26,9 +26,8 @@ interface AllUsersTableProps {
 
 const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
     const { user } = useAuthContext();
-    const date: string | undefined = user?.createdAt;
-    // const formattedDate = date ? format(new Date(date), "yyyy-MM-dd HH:mm:ss") : "N/A";
-    // console.log(formattedDate);
+    // const date: string | undefined = user?.createdAt;
+
     const handleConfirmAgent = () => {
         Swal.fire({
             title: "Are you sure?",
@@ -43,25 +42,14 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
             confirmButtonText: "Yes, confirm it!"
         }).then(async (result) => {
             if (result.isConfirmed) {
-                const dbResponse = await manageBookingStatus({ id, action: value })
-                if (dbResponse.success) {
-                    {
-                        toast.success(dbResponse.message);
-                        // const bookingsData = await getBookingsById(userId);
-                        // setBookings(bookingsData.bookings);
-                        Swal.close();
-                    }
-                }
-                else {
-                    toast.error(dbResponse.error)
-                }
+                toast.success('message');
+                // const bookingsData = await getBookingsById(userId);
+                // setBookings(bookingsData.bookings);
+                Swal.close();
             }
         });
     }
 
-    const formattedDate = format(new Date(date), "yyyy-MM-dd");
-    console.log(formattedDate);
-    
 
     const handleCancelAgent = () => {
         Swal.fire({
@@ -77,18 +65,10 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
             confirmButtonText: "Yes, confirm it!"
         }).then(async (result) => {
             if (result.isConfirmed) {
-                const dbResponse = await manageBookingStatus({ id, action: value })
-                if (dbResponse.success) {
-                    {
-                        toast.success(dbResponse.message);
-                        // const bookingsData = await getBookingsById(userId);
-                        // setBookings(bookingsData.bookings);
-                        Swal.close();
-                    }
-                }
-                else {
-                    toast.error(dbResponse.error)
-                }
+                toast.success("dasdsa");
+                // const bookingsData = await getBookingsById(userId);
+                // setBookings(bookingsData.bookings);
+                Swal.close();
             }
         });
     }
