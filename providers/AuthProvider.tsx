@@ -52,6 +52,9 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Fetches user data on component mount, sets user state
     const token = getStoredToken();
     useEffect(() => {
+        if (!token) {
+            return;
+        }
         let isMounted = true;
         const fetchUser = async () => {
             setLoading(true);

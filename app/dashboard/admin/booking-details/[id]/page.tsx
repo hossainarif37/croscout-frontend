@@ -18,7 +18,8 @@ export interface IPropertyDetailsData {
         propertyImages: string[];
         owner: string;
         status: string;
-        guests: string
+        guests: string;
+
     };
     guest: {
         name: string;
@@ -26,6 +27,7 @@ export interface IPropertyDetailsData {
     owner: {
         name: string;
     };
+    totalGuests: string;
     startDate: string;
     endDate: string;
     status: string;
@@ -59,17 +61,13 @@ const page = () => {
             {bookingDetails && (
                 <div className="flex flex-col gap-4 p-4 lg:p-16 bg-primary-50 text-secondary-50">
                     <div className="flex items-center gap-4 mb-2">
-                        <button onClick={() => router.push("/dashboard/user/my-bookings")} className="text-secondary-50 border rounded-md px-2 py-1">
-                            <IoArrowBack />
-                        </button>
                         <h1 className="font-semibold text-gray-300 text-lg md:text-xl">
                             Reservation details
-                            <span className="font-normal text-gray-500 dark:text-gray-400">- Confirmation {bookingDetails?.status}</span>
                         </h1>
                     </div>
                     <div className="rounded-lg border border-gray-600 lg:p-6 bg-card text-card-foreground shadow-sm" data-v0-t="card">
                         <div className="flex flex-col space-y-1.5 p-6">
-                            <h3 className="text-2xl font-semibold text-gray-300 whitespace-nowrap leading-none tracking-tight">Reservation details</h3>
+                            <span className="font-normal text-gray-500 dark:text-gray-400 capitalize">Booking Status - <span className='font-semibold italic'>({bookingDetails?.status})</span></span>
                         </div>
                         <div className='lg:p-6 flex md:flex-row flex-col md:gap-6 gap-3'>
                             {bookingDetails?.property?.propertyImages && bookingDetails?.property?.propertyImages?.length > 0 ? (
@@ -92,11 +90,11 @@ const page = () => {
                         <div className="p-6 grid gap-4 md:grid-cols-3">
                             <div className="grid gap-1">
                                 <div className="font-semibold text-gray-300 text-xl">Guest's name</div>
-                                <div>{bookingDetails?.guest.name}</div>
+                                <div>{bookingDetails?.guest?.name}</div>
                             </div>
                             <div className="grid gap-1">
                                 <div className="font-semibold text-gray-300 text-xl">Owner Name</div>
-                                <div>{bookingDetails?.owner.name}</div>
+                                <div>{bookingDetails?.owner?.name}</div>
                             </div>
                             <div className="grid gap-1">
                                 <div className="font-semibold text-gray-300 text-xl">Confirmation status</div>
@@ -120,7 +118,7 @@ const page = () => {
                             </div>
                             <div className="grid gap-1">
                                 <div className="font-semibold text-gray-300 text-xl">Number of guests</div>
-                                <div>Guests: {bookingDetails?.property?.guests}</div>
+                                <div>Guests: {bookingDetails?.totalGuests}</div>
                             </div>
                             <div className="grid gap-1">
                                 <div className="font-semibold text-gray-300 text-xl">Total price</div>

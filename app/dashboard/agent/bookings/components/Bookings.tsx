@@ -32,7 +32,10 @@ const Bookings = () => {
         setShowSelectedOption(pre => !pre);
     };
     type booking = {
-        _id: string;
+        _id: number;
+        guest: {
+            name: string;
+        }
         price: string;
         total: number;
         status: string;
@@ -40,7 +43,6 @@ const Bookings = () => {
         startDate: string;
         endDate: string;
         updatedAt: string;
-        guest: any
     };
 
     type userName = {
@@ -87,6 +89,8 @@ const Bookings = () => {
 
         fetchBookings();
     }, [userId]); // Depend on userId instead of selectedUserId
+
+    console.log(bookings);
 
 
     const handleStatusChanged = (value: string, id: any) => {
@@ -170,8 +174,9 @@ const Bookings = () => {
                 bookings?.length > 0 &&
                 <div className='p-4'>
                     <div className='w-full  m-auto p-4 rounded-lg overflow-y-auto overflow-x-auto'>
-                        <div className='my-3 bg-[#2E374A] p-5 rounded-t-xl grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 items-center justify-between cursor-pointer font-semibold'>
-                            <span>booking</span>
+                        <div className='my-3 bg-[#2E374A] p-5 rounded-t-xl grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 items-center justify-between font-semibold'>
+                            <span>Name</span>
+                            <span>Amount</span>
                             <span className='sm:text-left text-right'>Status</span>
                             <span className='hidden md:grid'>Last booking</span>
                             <span className='hidden sm:flex'>Check in <span className='px-8 inline-block'>-</span> Check out</span>
@@ -180,21 +185,22 @@ const Bookings = () => {
                             {bookings?.slice().reverse().map((booking: booking, id: number) => (
                                 <li
                                     key={id}
-                                    className='hover:bg-[#2E374A] bg-primary-50 rounded-lg my-3 p-2 grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 items-center justify-between cursor-pointer'
+                                    className=' bg-primary-50 rounded-lg my-3 p-2 grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 items-center justify-between'
                                 >
                                     <div className='flex'>
                                         <div className='bg-purple-100 p-3 rounded-lg'>
                                             <FaShoppingBag className='text-purple-800' />
                                         </div>
-                                        <div className='pl-4 flex items-center'>
-                                            <div>
-                                                <p className='text-sm'>{user?.name}</p>
-                                            </div>
+                                        <div className='pl-4'>
+                                            <p className=' font-bold'>
+                                                <p className=' text-sm'>{booking?.guest?.name}</p>
+                                                ${booking?.price}
+                                            </p>
                                         </div>
                                     </div>
                                     {
                                         booking.status === "confirmed" ?
-                                            <button className='sm:text-left text-right md:text-sm text-xs'>
+                                            <button className='sm:text-left cursor-auto text-right md:text-sm text-xs'>
                                                 <span
                                                     className="bg-[#afcfee83] text-white-50 p-2 rounded-md">
                                                     Confirmed
@@ -224,7 +230,7 @@ const Bookings = () => {
                                         {/* <Link href={`/dashboard/agent/booking-details/${booking?._id}`}>
                                             <button className=' sm:text-left text-right md:text-sm text-xs'>
                                                 <span
-                                                    className={'bg-secondary-50 text-primary-50 p-2 rounded-md underline'}
+                                                    className={'text-white border hover:border-white duration-200 border-accent p-2 rounded-md'}
                                                 >
                                                     Details
                                                 </span>
@@ -247,14 +253,14 @@ const Bookings = () => {
                                             <AiOutlineMenu color="white" />
                                         </button>
                                     </div>
-                                </li>
+                                </li >
                             ))}
-                        </ul>
-                    </div>
-                </div>
+                        </ul >
+                    </div >
+                </div >
             }
 
-        </div>
+        </div >
     );
 };
 

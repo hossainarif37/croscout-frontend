@@ -83,10 +83,10 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
                                 #
                             </th>
                             <th className="p-5 font-semibold">
-                                Email
+                                Name
                             </th>
                             <th className="p-5 font-semibold">
-                                Name
+                                Email
                             </th>
                             <th className="p-5 font-semibold">
                                 User ID
@@ -94,7 +94,7 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
                             <th className="p-5 font-semibold">
                                 Joined At
                             </th>
-                            {
+                            {/* {
                                 tableFor === "agent" &&
                                 <>
                                     <th className="p-5 font-semibold">
@@ -104,7 +104,7 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
                                         Actions
                                     </th>
                                 </>
-                            }
+                            } */}
                         </tr>
                     </thead>
                     <tbody className='h-[90vh] overflow-hidden'>
@@ -125,7 +125,7 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
                                 <td className="px-6 py-4 m-5">
                                     {format(new Date(user?.createdAt || ''), "MMM dd, yyyy")}
                                 </td>
-                                {
+                                {/* {
                                     tableFor === "agent" &&
                                     <>
                                         <td className="px-6 py-4 m-5">
@@ -140,7 +140,7 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
                                             </button>
                                         </td>
                                     </>
-                                }
+                                } */}
                             </tr>)
                         }
                     </tbody>

@@ -14,6 +14,9 @@ const Bookings = () => {
         _id: number;
         price: string;
         total: number;
+        guest: {
+            name: string;
+        },
         status: string;
         method: string;
         startDate: string;
@@ -65,7 +68,7 @@ const Bookings = () => {
             </div>
             <div className='p-4'>
                 <div className='w-full  m-auto p-4 rounded-lg overflow-y-auto overflow-x-auto'>
-                    <div className='my-3 bg-[#2E374A] p-5 rounded-t-xl grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 items-center justify-between cursor-pointer font-semibold'>
+                    <div className='my-3 bg-[#2E374A] p-5 rounded-t-xl grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 items-center justify-between font-semibold'>
                         <span>booking</span>
                         <span className='sm:text-left text-right'>Status</span>
                         <span className='hidden md:grid'>Last booking</span>
@@ -75,7 +78,7 @@ const Bookings = () => {
                         {bookings.slice().reverse().map((booking: booking, id: number) => (
                             <li
                                 key={id}
-                                className=' hover:bg-[#2E374A] bg-primary-50 rounded-lg my-3 p-2 grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 items-center justify-between cursor-pointer'
+                                className=' bg-primary-50 rounded-lg my-3 p-2 grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 items-center justify-between'
                             >
                                 <div className='flex'>
                                     <div className='bg-purple-100 p-3 rounded-lg'>
@@ -85,10 +88,10 @@ const Bookings = () => {
                                         <p className=' font-bold'>
                                             ${booking.price}
                                         </p>
-                                        <p className=' text-sm'>{user?.name}</p>
+                                        <p className=' text-sm'>{booking.guest?.name}</p>
                                     </div>
                                 </div>
-                                <button className=' sm:text-left text-right md:text-sm text-xs'>
+                                <div className=' sm:text-left text-right md:text-sm text-xs'>
                                     <span
                                         className={
                                             booking.status === 'pending'
@@ -99,12 +102,12 @@ const Bookings = () => {
                                                         ? 'bg-[#f773737e] text-white p-2 rounded-md'
                                                         : booking.status === 'Hold' || booking.status == "On Hold"
                                                             ? 'bg-[#f7cb7383] text-white-50 p-2 rounded-md'
-                                                            : ''
+                                                            : 'capitalize font-semibold text-accent'
                                         }
                                     >
                                         {booking.status}
                                     </span>
-                                </button>
+                                </div>
                                 <p className='hidden md:flex'>{timeSinceWithoutAbout(booking?.updatedAt)}</p>
                                 <div className='sm:flex hidden justify-between items-center'>
                                     <p className='flex justify-between'>
@@ -115,7 +118,7 @@ const Bookings = () => {
                                     <Link href={`/dashboard/admin/booking-details/${booking._id}`}>
                                         <button className=' sm:text-left text-right md:text-sm text-xs'>
                                             <span
-                                                className={'bg-secondary-50 text-primary-50 p-2 rounded-md underline'}
+                                                className={'text-white border hover:border-white duration-200 border-accent p-2 rounded-md'}
                                             >
                                                 Details
                                             </span>

@@ -28,7 +28,7 @@ export default function Sidebar() {
     const { user } = useAuthContext();
     const role = user?.role;
 
-    // menu links for users
+    // User Dashboard Menu Items
     const userMenuItems = [
         {
             title: "Pages",
@@ -44,7 +44,7 @@ export default function Sidebar() {
                 //     icon: <MdAttachMoney />,
                 // },
                 {
-                    title: "Bookings",
+                    title: "My Bookings",
                     path: "/dashboard/user/my-bookings",
                     icon: <MdShoppingBag />,
                 },
@@ -77,7 +77,7 @@ export default function Sidebar() {
         },
     ];
 
-    // menu links for agent
+    // Agent Dashboard Menu Items
     const agentMenuItems = [
         {
             title: "Pages",
@@ -98,14 +98,14 @@ export default function Sidebar() {
                     icon: <MdShoppingBag />,
                 },
                 {
+                    title: "Customer Bookings",
+                    path: "/dashboard/agent/bookings",
+                    icon: <MdShoppingBag />,
+                },
+                {
                     title: "Transactions",
                     path: "/dashboard/agent/transactions",
                     icon: <MdAttachMoney />,
-                },
-                {
-                    title: "Bookings",
-                    path: "/dashboard/agent/bookings",
-                    icon: <MdShoppingBag />,
                 },
             ],
         },
@@ -131,7 +131,7 @@ export default function Sidebar() {
         },
     ];
 
-    // menu links for admin
+    // Admin Dashboard Menu Items
     const adminMenuItems = [
         {
             title: "Pages",
@@ -140,11 +140,6 @@ export default function Sidebar() {
                     title: "Dashboard",
                     path: "/dashboard",
                     icon: <MdDashboard />,
-                },
-                {
-                    title: "Properties",
-                    path: "/dashboard/admin/all-properties",
-                    icon: <MdShoppingBag />,
                 },
                 {
                     title: "Transactions",
@@ -162,7 +157,7 @@ export default function Sidebar() {
                     icon: <MdAttachMoney />,
                 },
                 {
-                    title: "Bookings",
+                    title: "All Bookings",
                     path: "/dashboard/admin/all-bookings",
                     icon: <MdShoppingBag />,
                 },
