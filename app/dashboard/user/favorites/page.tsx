@@ -76,7 +76,7 @@ const Favorites = () => {
                         <p>Find and add some places to your favorites list.</p>
                     </div>
                     :
-                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-5">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
                         {favorites.map((favorite: FavoriteItem, index: number) => (
                             // <Link
                             //     href={`/property-details/${index + 1}`}

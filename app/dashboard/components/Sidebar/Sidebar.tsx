@@ -239,7 +239,7 @@ export default function Sidebar() {
             </div>}
 
             {/*//* ------Mobile Version-------*/}
-            <div className={`z-40 pt-14 block lg:hidden md:hidden fixed h-full bg-[#151c2c]  p-5 shadow-lg origin-left top-0 rounded-md ${!sidebarToggle ? 'scale-x-0' : 'scale-x-100 w-72'} duration-300 rounded-md`}>
+            <div className={`z-40 pt-14 block lg:hidden fixed h-full bg-[#151c2c]  p-5 shadow-lg origin-left top-0 rounded-md ${!sidebarToggle ? 'scale-x-0' : 'scale-x-100 w-72'} duration-300 rounded-md`}>
                 <ul className="space-y-3 text-[#b7bac1]">
                     <ul className={styles.list}>
                         {role === "user" &&

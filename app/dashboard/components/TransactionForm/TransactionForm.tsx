@@ -13,7 +13,7 @@ interface TransactionItem {
     paymentMethod: string;
 }
 const TransactionForm: React.FC<TransactionFormProps> = ({ transaction }) => {
-    console.log(transaction);
+    // console.log(transaction);
     return (
         <div className=''>
             <div className="relative overflow-x-auto rounded-lg ">
