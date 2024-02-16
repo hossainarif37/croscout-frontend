@@ -32,6 +32,7 @@ import GuestCounter from './GuestCounter';
 import { Tooltip } from 'flowbite-react';
 import { ImSpinner9 } from 'react-icons/im';
 import { useRouter } from 'next/navigation';
+import { useModalContext } from '@/providers/ModalProvider';
 
 
 interface PropertyHeroProps {
@@ -97,14 +98,15 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
 
     const crouscouteServiceFee = 30;
     const { user } = useAuthContext();
-
+    const { setLoginModal } = useModalContext();
     let totalGuests = childrenCount + adultsCount;
 
-    const adminOrAgent = user?.role !== "user";
+    const adminOrAgent = user?.role === "admin" || user?.role === "agent";
 
     // console.log(user);
     const handleBooking = async () => {
         setIsLoading(true);
+
 
         // Assuming you have the guestId and propertyId available
         const guestId = user?._id;
@@ -114,6 +116,11 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
         // console.log(propertyId);
         const price = nightFeeCalculation + crouscouteServiceFee;
         // console.log(price);
+        if (!user) {
+            setIsLoading(false)
+            toast.error("Login first")
+            return setLoginModal(true);
+        }
 
 
         if (!isSelectDate) {
@@ -201,7 +208,7 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
 
     const allDisabledDates = [...previousDates, ...alreadBookingDates];
 
-
+    console.log(adminOrAgent);
     // Guest Calculation
     return (
         <section className='wrapper'>
