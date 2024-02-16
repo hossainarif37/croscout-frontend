@@ -26,7 +26,7 @@ interface BookingsProps {
 const Bookings = () => {
 
     const { showSelectedOption, setShowSelectedOption } = useToggleContext();
-    console.log(showSelectedOption);
+    // console.log(showSelectedOption);
 
     const handleMenuToggle = () => {
         setShowSelectedOption(pre => !pre);
@@ -63,7 +63,7 @@ const Bookings = () => {
     const [bookings, setBookings] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [name, setName] = useState<userName[]>([]);
-    console.log(name);
+    // console.log(name);
 
     useEffect(() => {
         const fetchBookings = async () => {
@@ -89,8 +89,6 @@ const Bookings = () => {
 
         fetchBookings();
     }, [userId]); // Depend on userId instead of selectedUserId
-
-    console.log(bookings);
 
 
     const handleStatusChanged = (value: string, id: any) => {
