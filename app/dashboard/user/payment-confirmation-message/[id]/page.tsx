@@ -37,6 +37,7 @@ const page = () => {
         }
     }
 
+
     return (
         <div className='min-h-screen lg:mt-32 mt-20'>
             <form onSubmit={handleSubmit(onSubmit)} className="rounded-lg bg-card text-card-foreground shadow-sm w-full max-w-2xl lg:p-8 p-2 py-4 lg:py-10 bg-primary-50 text-secondary-50 mx-auto">

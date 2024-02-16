@@ -3,7 +3,7 @@ import { useAuthContext } from '@/providers/AuthProvider';
 import React from 'react';
 import toast from 'react-hot-toast';
 import Swal from 'sweetalert2';
-import { format } from 'util';
+import { format } from 'date-fns';
 
 interface User {
     email: string;
@@ -143,7 +143,7 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
                                     {user?._id}
                                 </td>
                                 <td className="px-6 py-4 m-5">
-                                    {user?.createdAt}
+                                    {format(new Date(user?.createdAt || ''), "MMM dd, yyyy")}
                                 </td>
                                 {
                                     tableFor === "agent" &&
