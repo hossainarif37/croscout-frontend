@@ -313,7 +313,7 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
 
                             {showInput ? (
                                 <div className='flex gap-3 transition-all ease-in-out duration-300'>
-                                    <input type="text" value={urlToCopy} readOnly className='bg-white-50 text-black rounded-md border-none opacity-100 scale-100' />
+                                    <input type="text" value={urlToCopy} className='bg-white-50 text-black rounded-md border-none opacity-100 scale-100' />
                                     <button onClick={handleCopyClick} className={`text-xl ${isCopied ? 'text-green-500' : 'text-[#25F299]'}`}>
                                         <FaRegCopy />
                                     </button>

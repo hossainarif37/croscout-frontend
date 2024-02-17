@@ -197,28 +197,6 @@ export default function Sidebar() {
         handleToggleSidebar();
     };
 
-
-
-    const [showInput, setShowInput] = useState(false);
-    const [urlToCopy, setUrlToCopy] = useState('');
-
-    const handleShareClick = () => {
-        setUrlToCopy(window.location.href);
-        setShowInput(true);
-    };
-
-    const handleCopyClick = async () => {
-        try {
-            await navigator.clipboard.writeText(urlToCopy);
-            alert('URL copied to clipboard!');
-        } catch (err) {
-            console.error('Failed to copy text: ', err);
-        }
-    };
-
-    const handleCloseClick = () => {
-        setShowInput(false);
-    };
     return (
         <div>
             <div className={`${styles.container}`}>
@@ -229,22 +207,6 @@ export default function Sidebar() {
                         <span className='text-sm text-gray-300'>{user?.role}</span>
                     </div>
                 </div>
-
-
-                <div>
-                    {showInput ? (
-                        <div>
-                            <input type="text" value={urlToCopy} readOnly />
-                            <button onClick={handleCopyClick}>
-                                <img src="/path-to-copy-icon.png" alt="Copy" />
-                            </button>
-                            <button onClick={handleCloseClick}>Close</button>
-                        </div>
-                    ) : (
-                        <button onClick={handleShareClick}>Share</button>
-                    )}
-                </div>
-
 
                 <ul className={styles.list} >
                     {role === "user" &&
