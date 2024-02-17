@@ -97,6 +97,7 @@ const AddPropertyForm = () => {
         const amenity = amenityInput.value;
         if (amenity.length <= 0) return
         setAmenities([...amenities, amenity]);
+        setAmenitiesError(false)
         amenityInput.value = "";
     }
 
