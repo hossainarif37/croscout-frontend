@@ -1,7 +1,7 @@
 "use client"
 
 import Loading from "@/components/ui/Loading/Loading";
-import { getPropertiesByUser } from "@/lib/database/getProperties";
+import { getAllProperty, getPropertiesByUser } from "@/lib/database/getProperties";
 import { useAuthContext } from "@/providers/AuthProvider";
 import { getStoredToken } from "@/utils/tokenStorage";
 import { useEffect, useState } from "react";
@@ -18,8 +18,9 @@ const MyProperties = () => {
         let isMounted = true;
         const fetchMyProperties = async () => {
             if (token && isMounted) {
-                const result = await getPropertiesByUser({ token, email: user?.email });
-                setMyProperties(result.properties);
+                const result = await getAllProperty('/');
+                console.log(result);
+                setMyProperties(result);
                 setLoading(false);
             }
             else {

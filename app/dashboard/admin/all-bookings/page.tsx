@@ -36,8 +36,6 @@ const page = () => {
     if (isLoading) {
         return <Loading />
     }
-    console.log(bookings);
-
     if (!bookings || bookings.length === 0) {
         return <div className='min-h-screen flex-center'>
             <h1 className='text-4xl font-bold text-white-50'>No bookings found. Please book a property.</h1>
