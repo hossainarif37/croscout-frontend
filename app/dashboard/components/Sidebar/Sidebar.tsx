@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { useState } from 'react'
 import styles from "./sidebar.module.css"
 import userImg from "@/public/noavatar.png"
 import {
@@ -196,6 +196,29 @@ export default function Sidebar() {
         router.replace(`/dashboard/${user?.role}/profile`);
         handleToggleSidebar();
     };
+
+
+
+    const [showInput, setShowInput] = useState(false);
+    const [urlToCopy, setUrlToCopy] = useState('');
+
+    const handleShareClick = () => {
+        setUrlToCopy(window.location.href);
+        setShowInput(true);
+    };
+
+    const handleCopyClick = async () => {
+        try {
+            await navigator.clipboard.writeText(urlToCopy);
+            alert('URL copied to clipboard!');
+        } catch (err) {
+            console.error('Failed to copy text: ', err);
+        }
+    };
+
+    const handleCloseClick = () => {
+        setShowInput(false);
+    };
     return (
         <div>
             <div className={`${styles.container}`}>
@@ -206,6 +229,23 @@ export default function Sidebar() {
                         <span className='text-sm text-gray-300'>{user?.role}</span>
                     </div>
                 </div>
+
+
+                <div>
+                    {showInput ? (
+                        <div>
+                            <input type="text" value={urlToCopy} readOnly />
+                            <button onClick={handleCopyClick}>
+                                <img src="/path-to-copy-icon.png" alt="Copy" />
+                            </button>
+                            <button onClick={handleCloseClick}>Close</button>
+                        </div>
+                    ) : (
+                        <button onClick={handleShareClick}>Share</button>
+                    )}
+                </div>
+
+
                 <ul className={styles.list} >
                     {role === "user" &&
                         userMenuItems.map((cat) => (
@@ -252,6 +292,7 @@ export default function Sidebar() {
                         <span onClick={handleNavigationAndToggle} className='text-sm text-gray-300'>{user?.role}</span>
                     </div>
                 </div>
+
                 <ul className="space-y-3 text-[#b7bac1]" onClick={handleToggleSidebar}>
                     <ul className={styles.list}>
                         {role === "user" &&
