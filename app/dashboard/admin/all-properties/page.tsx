@@ -19,7 +19,7 @@ const MyProperties = () => {
         const fetchMyProperties = async () => {
             if (token && isMounted) {
                 const result = await getAllProperty('/');
-                console.log(result);
+                // console.log(result);
                 setMyProperties(result);
                 setLoading(false);
             }
