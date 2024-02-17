@@ -24,6 +24,7 @@ const Bookings = () => {
         updatedAt: string;
     };
     const [bookings, setBookings] = useState([]);
+    console.log(bookings);
     const [isLoading, setIsLoading] = useState(true);
     // console.log(bookings);
 
