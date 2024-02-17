@@ -10,17 +10,17 @@ const Transactions = ({ dashboardStats }: any) => {
   return (
     <div className={` ${styles.container}`}>
       <h2 className="text-secondary-50">Latest Bookings</h2>
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto whitespace-nowrap">
         <table className={styles.table}>
           <thead className={styles.thead}>
             <tr className="">
               <td>Guest Name</td>
               {
                 user?.role === "admin" &&
-                <td>Agent Name</td>
+                <td className="ml-14 md:ml-0">Agent Name</td>
               }
-              <td>Status</td>
-              <td>Date</td>
+              <td className="ml-8 md:ml-0">Status</td>
+              <td className="ml-8 md:ml-0">Date</td>
               <td>Amount</td>
             </tr>
           </thead>
@@ -39,7 +39,7 @@ const Transactions = ({ dashboardStats }: any) => {
                       {item?.owner?.name}
                     </div>
                   </td>
-                  }
+                }
 
                 <td>
                   <span className={`${styles.status} ${item?.status === "confirmed" ? styles.done : styles.pending}`}>
