@@ -71,6 +71,7 @@ const LoginForm = () => {
                     toast.error(dbResponse.error);
                 }
             }
+
             setIsLoading(false);
         } catch (error) {
             setIsLoading(false);
