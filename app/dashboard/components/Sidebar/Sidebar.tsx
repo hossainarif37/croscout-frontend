@@ -34,19 +34,14 @@ export default function Sidebar() {
             title: "Pages",
             list: [
                 {
-                    title: "Dashboard",
-                    path: "/dashboard",
-                    icon: <MdDashboard />,
+                    title: "My Bookings",
+                    path: "/dashboard/user/my-bookings",
+                    icon: <MdShoppingBag />,
                 },
                 {
                     title: "Transactions",
                     path: "/dashboard/user/transactions",
                     icon: <MdAttachMoney />,
-                },
-                {
-                    title: "My Bookings",
-                    path: "/dashboard/user/my-bookings",
-                    icon: <MdShoppingBag />,
                 },
                 {
                     title: "Favorites",
@@ -165,12 +160,7 @@ export default function Sidebar() {
                     title: "All Properties",
                     path: "/dashboard/admin/all-properties",
                     icon: <MdShoppingBag />,
-                },
-                // {
-                //     title: "Bookings",
-                //     path: "/dashboard/all-agents",
-                //     icon: <MdShoppingBag />,
-                // },
+                }
             ],
         },
         {

@@ -89,8 +89,10 @@ const Navbar = () => {
                             <>
                                 <button className={navbarStyles.dashboardBtn}>{user?.name}</button>
 
-                                <Link onClick={() => setNavUserToggle(false)} className={navbarStyles.dashboardBtn} href={"/dashboard"}>Dashboard</Link>
-
+                                <Link onClick={() =>
+                                    setNavUserToggle(false)}
+                                    className={navbarStyles.dashboardBtn}
+                                    href={user.role === "user" ? "/dashboard/user/my-bookings" : "/dashboard"}>Dashboard</Link>
                                 <button
 
                                     onClick={handleLogout}
@@ -112,8 +114,6 @@ const Navbar = () => {
 
                                     }}
                                 >Signup</button>
-
-
                             </>
                     }
                 </ul>
