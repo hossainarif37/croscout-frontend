@@ -99,7 +99,7 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
         nightFeeCalculation = daysDifference * singlePropertyDetails?.pricePerNight;
     }
 
-    const crouscouteServiceFee = 30;
+    const crouscouteServiceFee = 0;
     const { user, setUser } = useAuthContext();
     const { setLoginModal } = useModalContext();
     let totalGuests = childrenCount + adultsCount;
@@ -510,17 +510,17 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
 
                                     {/* Amount Section */}
                                     <div className="text-[1.25rem] font-semibold col-span-2 mt-6">
-                                        <span className='font-normal'>Per Night</span> - ${singlePropertyDetails?.pricePerNight}
+                                        <span className='font-normal'>Per Night</span> - €{singlePropertyDetails?.pricePerNight}
                                     </div>
 
                                     <div className='flex justify-between lg:text-xl font-semibold my-3'>
-                                        <span>({daysDifference} Night X ${singlePropertyDetails?.pricePerNight})</span>
-                                        <span>${nightFeeCalculation}</span>
+                                        <span>({daysDifference} Night X €{singlePropertyDetails?.pricePerNight})</span>
+                                        <span>€{nightFeeCalculation}</span>
                                     </div>
 
                                     <div className='border-y border-y-accent py-3 my-5 flex justify-between'>
                                         <span className=''>Croscout Services Fee</span>
-                                        <span className=''>${crouscouteServiceFee}</span>
+                                        <span className=''>€{crouscouteServiceFee}</span>
                                     </div>
 
                                     {/* <div className="flex justify-between border-b border-accent py-3">
@@ -530,7 +530,7 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
                                     <div className="flex justify-between items-center mt-3">
                                         <div className="font-medium">Total</div>
                                         <div className="font-medium border border-accent px-3 py-1.5 rounded">
-                                            ${nightFeeCalculation && nightFeeCalculation + crouscouteServiceFee}
+                                            €{nightFeeCalculation && nightFeeCalculation + crouscouteServiceFee}
                                         </div>
                                     </div>
                                     <div className="flex justify-center">
