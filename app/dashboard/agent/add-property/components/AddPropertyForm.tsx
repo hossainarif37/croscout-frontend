@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import styles from "./addProperty.module.css"
 import { useState } from "react";
 import ImageUploader from "./ImageUploader";
-import { categoryList } from "@/constant";
+import { categoryList, defaultStates } from "@/constant";
 import Image from "next/image";
 import { IoIosCloseCircle, IoMdClose } from "react-icons/io";
 import { useAuthContext } from "@/providers/AuthProvider";
@@ -32,8 +32,8 @@ const AddPropertyForm = () => {
     const [imagesArr, setImagesArr] = useState<string[]>([]);
     const [imagesArrError, setImagesArrError] = useState('');
     const [amenitiesError, setAmenitiesError] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
     const [amenities, setAmenities] = useState<AmenitiesState>([]);
+    const [isLoading, setIsLoading] = useState(false);
     const { user } = useAuthContext();
     const router = useRouter();
     const removeImage = (index: number) => {
@@ -42,6 +42,14 @@ const AddPropertyForm = () => {
     };
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
+        if (!user) {
+            toast.error("Login First")
+            return;
+        }
+        if (!user.isCompletedProfile) {
+            setIsLoading(false)
+            return toast.error("At first complete your profile in the dashboard settings.")
+        }
         if (imagesArr.length < 1) {
             return setImagesArrError('Image is required!');
         }
@@ -101,28 +109,6 @@ const AddPropertyForm = () => {
         amenityInput.value = "";
     }
 
-    const states = [
-        'Istria',
-        'Primorje',
-        'Lika-senj',
-        'Zadar',
-        'Sibenik-Knin',
-        'Split-Dalmatia',
-        'Dubrovnik-Neretva',
-        'Karlovac',
-        'Zagreb County',
-        'City of Zagreb',
-        'Krapina-Zagorje',
-        'Varazdin',
-        'Koprivnica-Krizevci',
-        'Bjelovar-Bilogora',
-        'Virovitica-Podravina',
-        'Pozega-Slavonia',
-        'Brod Posavina',
-        'Osijek-Baranja',
-        'Vukovar-Srijem',
-        'Medimurje'
-    ]
 
 
     return (
@@ -254,7 +240,7 @@ const AddPropertyForm = () => {
                                         <select id="input-field" className="form-select"
                                             {...register("location", { required: true })}
                                         >
-                                            <option value="" disabled defaultValue="Crotia">Select an option</option>
+                                            <option value="" disabled defaultValue="Croatia">Select an option</option>
                                             {/* <option value="Bangladesh">Bangladesh</option> */}
                                             {/* <option value="Germany">Germany</option> */}
                                             <option value="Croatia" >Croatia</option>
@@ -279,7 +265,7 @@ const AddPropertyForm = () => {
                                         >
                                             <option value="" disabled>Select an option</option>
                                             {
-                                                states?.map((state, indx) => <option key={indx} value={state}>{state}</option>
+                                                defaultStates?.map((state, indx) => <option key={indx} value={state}>{state}</option>
                                                 )
                                             }
                                         </select>

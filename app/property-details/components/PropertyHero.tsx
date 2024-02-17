@@ -94,6 +94,11 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
             return setLoginModal(true);
         }
 
+        if (!user.isCompletedProfile) {
+            setIsLoading(false)
+            return toast.error("At first complete your profile in the dashboard settings.")
+        }
+
 
         if (!isSelectDate) {
             setIsLoading(false);

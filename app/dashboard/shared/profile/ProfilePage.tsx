@@ -89,7 +89,8 @@ const ProfilePage = () => {
         const city = data.city;
         const state = data.state;
         const token = getStoredToken();
-        const allData = { name, image, role, taxNumber, telephoneOrPhone, street, houseOrBuildingNum, postcode, city, state };
+        const isCompletedProfile = true;
+        const allData = { name, image, role, taxNumber, telephoneOrPhone, street, houseOrBuildingNum, postcode, city, state, isCompletedProfile };
         const reqData = { allData, token, id: user?._id }
         if (user && user._id) {
             const dbResponse = await updateUserInfo(reqData)
@@ -191,14 +192,14 @@ const ProfilePage = () => {
                             <div className="flex flex-col gap-3 relative">
                                 <label className="text-white-50" htmlFor="role" defaultValue={user?.role}>Role</label>
                                 <input {...personalInfoForm.register("role", { required: true })} className="rounded w-full" type="text" name="role" id="role" defaultValue={user?.role} readOnly placeholder={errors.role ? "Please Enter Your Role" : "Your Role"} />
-                                {
+                                {/* {
                                     user?.role === "user" &&
                                     <span onClick={switchAgentToggle} className="text-sm absolute bottom-2 border py-0.5 px-0.5 rounded right-2 cursor-pointer">
                                         {
                                             isAgent ? "Cancel" : "Switch To Agent"
                                         }
                                     </span>
-                                }
+                                } */}
                             </div>
                             {
                                 (isAgent || user?.role === "agent") &&
@@ -226,7 +227,7 @@ const ProfilePage = () => {
                             <div className="flex flex-col gap-3 relative">
                                 <label className="text-white-50" htmlFor="newPassword">New Password</label>
                                 <input {...passwordForm.register("newPassword", { required: true })} className="rounded w-full" type={isShow ? "text" : "password"} name="newPassword" id="newPassword" placeholder={passwordForm.formState.errors.newPassword ? "Please Enter Your New Password" : "Your New Password"} />
-                                <span onClick={handleShowPassword} className="text-xl absolute top-3 right-2 cursor-pointer">
+                                <span onClick={handleShowPassword} className="text-xl absolute bottom-3 right-2 cursor-pointer">
                                     {
                                         isShow ?
                                             <FaEyeSlash></FaEyeSlash>
