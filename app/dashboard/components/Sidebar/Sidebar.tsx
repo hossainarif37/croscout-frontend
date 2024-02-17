@@ -51,16 +51,16 @@ export default function Sidebar() {
                 },
             ],
         },
-        {
-            title: "Analytics",
-            list: [
-                {
-                    title: "Revenue",
-                    path: "#",
-                    icon: <MdWork />,
-                }
-            ],
-        },
+        // {
+        //     title: "Analytics",
+        //     list: [
+        //         {
+        //             title: "Revenue",
+        //             path: "#",
+        //             icon: <MdWork />,
+        //         }
+        //     ],
+        // },
         {
             title: "User",
             list: [
@@ -105,16 +105,16 @@ export default function Sidebar() {
                 },
             ],
         },
-        {
-            title: "Analytics",
-            list: [
-                {
-                    title: "Revenue",
-                    path: "#",
-                    icon: <MdWork />,
-                }
-            ],
-        },
+        // {
+        //     title: "Analytics",
+        //     list: [
+        //         {
+        //             title: "Revenue",
+        //             path: "#",
+        //             icon: <MdWork />,
+        //         }
+        //     ],
+        // },
         {
             title: "User",
             list: [
@@ -164,16 +164,16 @@ export default function Sidebar() {
                 }
             ],
         },
-        {
-            title: "Analytics",
-            list: [
-                {
-                    title: "Revenue",
-                    path: "#",
-                    icon: <MdWork />,
-                }
-            ],
-        },
+        // {
+        //     title: "Analytics",
+        //     list: [
+        //         {
+        //             title: "Revenue",
+        //             path: "#",
+        //             icon: <MdWork />,
+        //         }
+        //     ],
+        // },
         {
             title: "User",
             list: [
