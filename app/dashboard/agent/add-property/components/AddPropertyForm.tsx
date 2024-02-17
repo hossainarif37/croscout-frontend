@@ -9,6 +9,7 @@ import { IoIosCloseCircle, IoMdClose } from "react-icons/io";
 import { useAuthContext } from "@/providers/AuthProvider";
 import toast from "react-hot-toast";
 import { useRouter } from 'next/navigation';
+import { ImSpinner } from "react-icons/im";
 
 type Inputs = {
     name: string
@@ -23,10 +24,12 @@ type Inputs = {
     ratings: number
     guests: number
 }
+
 const AddPropertyForm = () => {
     const { register, handleSubmit, reset, formState: { errors }, } = useForm<Inputs>();
     const [imagesArr, setImagesArr] = useState<string[]>([]);
     const [imagesArrError, setImagesArrError] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const { user } = useAuthContext();
     const router = useRouter();
     const removeImage = (index: number) => {
@@ -40,6 +43,7 @@ const AddPropertyForm = () => {
         }
         setImagesArrError('')
         // Convert the amenities string into an array
+
         const amenitiesArray = data.amenities.split(',').map(amenity => amenity.trim());
 
         // Construct the final object with the amenities array
@@ -50,9 +54,10 @@ const AddPropertyForm = () => {
             owner: user?._id
         };
 
-        console.log(finalData);
-        console.log(process.env.NEXT_PUBLIC_SERVER_URL);
+        // console.log(finalData);
+        // console.log(process.env.NEXT_PUBLIC_SERVER_URL);
         try {
+            setIsLoading(true);
             const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/properties`, {
                 method: 'POST',
                 headers: {
@@ -61,7 +66,7 @@ const AddPropertyForm = () => {
                 body: JSON.stringify(finalData),
             });
 
-            console.log(57, response);
+            // console.log(57, response);
 
 
             const result = await response.json();
@@ -71,10 +76,12 @@ const AddPropertyForm = () => {
             } else {
                 toast.error(result.error)
             }
+            setIsLoading(false);
         } catch (error) {
+            setIsLoading(false);
             console.error('Failed to submit property:', error);
         }
-
+        setIsLoading(false);
     };
 
     return (
@@ -200,8 +207,8 @@ const AddPropertyForm = () => {
                                         >
                                             <option value="" disabled>Select an option</option>
                                             <option value="Bangladesh">Bangladesh</option>
-                                            <option value="Bangladesh">Germany</option>
-                                            <option value="Bangladesh">Croatia</option>
+                                            <option value="Germany">Germany</option>
+                                            <option value="Crotia">Croatia</option>
                                         </select>
 
 
@@ -249,7 +256,7 @@ const AddPropertyForm = () => {
                                         placeholder="Enter number"
                                         onInput={(e) => {
                                             const inputValue = +(e.target as HTMLInputElement).value;
-                                            if (inputValue >  15) {
+                                            if (inputValue > 15) {
                                                 (e.target as HTMLInputElement).value = '15';
                                             }
                                         }}
@@ -317,7 +324,14 @@ const AddPropertyForm = () => {
 
                             {/* Save Button */}
                             <div className="flex-center py-3">
-                                <button type="submit" className="  bg-blue-500  rounded-md text-white lg:w-1/2 w-full px-5 py-3 cursor-pointer">Save</button>
+                                <button type="submit" className="  bg-blue-500  rounded-md text-white lg:w-1/2 w-full px-5 py-3 cursor-pointer">
+                                    {
+                                        isLoading ?
+                                            <ImSpinner className="animate-spin text-[26px]"></ImSpinner>
+                                            :
+                                            "Save"
+                                    }
+                                </button>
                             </div>
                         </form>
                     </div>

@@ -1,6 +1,5 @@
 "use client"
 import { useAuthContext } from '@/providers/AuthProvider';
-import Bookings from './components/Bookings';
 import BookingsTable from '../../components/BookingsTable/BookingsTable';
 import { useEffect, useState } from 'react';
 import { getBookingsById } from '@/lib/database/getUserBooking';

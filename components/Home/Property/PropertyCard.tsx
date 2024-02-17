@@ -13,6 +13,8 @@ import { getPropertyById } from "@/lib/database/getProperties";
 import { useAuthContext } from "@/providers/AuthProvider";
 import { checkFavoriteProperty } from "@/lib/database/checkFavoriteProperty";
 import toast from "react-hot-toast";
+import { useModalContext } from "@/providers/ModalProvider";
+import Link from "next/link";
 
 
 
@@ -23,11 +25,10 @@ interface Event {
 }
 
 export default function PropertyCard({ property }: Property & any,) {
+    const { setLoginModal } = useModalContext();
     const { user } = useAuthContext();
     const [isActive, setIsActive] = useState(false);
     const [isFav, setIsFav] = useState(false);
-
-
 
     const {
         _id,
@@ -104,6 +105,11 @@ export default function PropertyCard({ property }: Property & any,) {
         try {
             // Toggle the favorite state
 
+            if (!user) {
+                toast.error("Login first!")
+                return setLoginModal(true);
+            }
+
             // Call the API to toggle the favorite status
             const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/favorites/${user?._id}`, {
                 method: 'POST',
@@ -164,53 +170,59 @@ export default function PropertyCard({ property }: Property & any,) {
             <div className="h-[15rem] w-full relative rounded-t-[4px] overflow-hidden">
                 <ImageCarousel propertyId={_id} propertyImages={propertyImages} />
             </div>
-            <div
-                className="p-2 "
-                onClick={() => router.push(`/property-details/${_id}`)}
-            >
+            <Link href={`/property-details/${_id}`}>
                 <div
-                    className={"mt-5"}>
+                    className="p-2 "
+                // onClick={() => router.push(`/property-details/${_id}`)}
+                >
+                    <div
+                        className={"mt-5"}>
 
-                    {/* Location and State */}
-                    <h1 className="text-xl font-bold">
-                        {`${location.substring(0, 10)}, ${state.substring(0, 13)}`}
-                    </h1>
-                    {/* Location and State */}
-                    {/* <h1 className="text-xl font-bold">
+                        {/* Location and State */}
+                        <h1 className="text-xl font-bold">
+                            {`${location.substring(0, 10)}, ${state.substring(0, 13)}`}
+                        </h1>
+                        {/* Location and State */}
+                        {/* <h1 className="text-xl font-bold">
                         {`${name}`}
                     </h1> */}
 
-                    {/* Property Type */}
-                    <p className="mt-[10px]">{propertyType}</p>
+                        {/* Property Type */}
+                        <p className="mt-[10px]">{propertyType}</p>
 
-                    {/* StartDate and End Date */}
-                    <div>{nextFreeDays}</div>
+                        {/* StartDate and End Date */}
+                        <div>{nextFreeDays}</div>
 
-                    {/* Price and Ratings */}
-                    <div className="flex justify-between mt-[10px]">
-                        {/* Price */}
-                        <div className="text-accent font-semibold">€{pricePerNight} night</div>
-                        <div className="flex items-center gap-1.5 border-b border-b-accent">
-                            <div className="">
-                                <Image src={StarIcon} height={14} width={14} alt="img" />
-                            </div>
-                            {/* Ratings */}
-                            <div className="font-semibold text-accent leading-[100%]">
-                                {(
-                                    property.ratings.reduce((sum: any, rating: any) => sum + rating, 0) / property.ratings.length || 0
-                                ).toFixed(1)}
+                        {/* Price and Ratings */}
+                        <div className="flex justify-between mt-[10px]">
+                            {/* Price */}
+                            <div className="text-accent font-semibold">€{pricePerNight} night</div>
+                            <div className="flex items-center gap-1.5 border-b border-b-accent">
+                                <div className="">
+                                    <Image src={StarIcon} height={14} width={14} alt="img" />
+                                </div>
+                                {/* Ratings */}
+                                <div className="font-semibold text-accent leading-[100%]">
+                                    {(
+                                        property.ratings.reduce((sum: any, rating: any) => sum + rating, 0) / property.ratings.length || 0
+                                    ).toFixed(1)}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <button
-                type="button"
+            </Link>
+            {
+                (user?.role === "admin" || user?.role === "agent") ? " " :
+                    <button
+                        type="button"
+                        className="absolute z-10 top-5 right-5 cursor-pointer"
+                        onClick={handleFavorite}>
+                        <Image src={isFav ? FavFilled : FavOutline} alt="" />
+                    </button>
+            }
 
-                className="absolute z-10 top-5 right-5 cursor-pointer"
-                onClick={handleFavorite}>
-                <Image src={isFav ? FavFilled : FavOutline} alt="" />
-            </button>
         </div>
+
     );
 }

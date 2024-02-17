@@ -11,24 +11,30 @@ export function middleware(req: NextRequest) {
     const userRoutes = [
         "/dashboard/user/profile",
         "/dashboard/user/my-bookings",
-        "/dashboard/user/favorites",
-        "/dashboard/user/transactions"
+        "/dashboard/user/transactions",
+        "/dashboard/user/favorites"
     ];
 
     const agentRoutes = [
+        // "/dashboard",
         "/dashboard/agent/profile",
         "/dashboard/agent/add-property",
         "/dashboard/agent/my-properties",
         "/dashboard/agent/bookings",
-        "/dashboard/agend/transactions",
+        "/dashboard/agent/transactions",
+        "/dashboard/agent/manage-properties",
+        "/dashboard/agent/profile",
+        "/dashboard/agent/payment/:id"
     ];
 
     const adminRoutes = [
+        // "/dashboard",
         "/dashboard/admin/profile",
-        "/dashboard/admin/all-users",
         "/dashboard/admin/transactions",
-        "/dashboard/admin/all-properties",
+        "/dashboard/admin/all-users",
+        "/dashboard/admin/all-agents",
         "/dashboard/admin/all-bookings",
+        "/dashboard/admin/all-properties",
     ];
 
     if (token) {

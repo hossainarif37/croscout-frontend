@@ -71,9 +71,9 @@ const Favorites = () => {
             {
 
                 favorites.length < 1 ?
-                    <div className="empty-state">
-                        <h1>No favorites yet.</h1>
-                        <p>Find and add some places to your favorites list.</p>
+                    <div className="empty-state text-center">
+                        <h1 className="text-2xl lg:text-4xl">No favorites yet.</h1>
+                        <p className="text-xl lg:text-2xl">Find and add some places to your favorites list.</p>
                     </div>
                     :
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">

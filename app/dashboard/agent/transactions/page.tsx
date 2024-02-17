@@ -7,13 +7,14 @@ import Loading from "@/components/ui/Loading/Loading";
 
 interface TransactionData {
     success: boolean;
+    transactions: object[];
     // Include other properties of the transaction object here
 }
 const TransactionPage = () => {
     const [transaction, setTransaction] = useState<TransactionData | null>(null);
     const { user } = useAuthContext();
-    console.log(user?._id);
-    console.log(transaction);
+    // console.log(user?._id);
+    // console.log(transaction);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -40,6 +41,12 @@ const TransactionPage = () => {
 
     if (isLoading) {
         return <Loading />
+    }
+
+    if (!transaction?.transactions || (Array.isArray(transaction?.transactions) && transaction.transactions.length === 0)) {
+        return <div className='lg:min-h-screen flex-center mt-32 lg:mt-0'>
+            <h1 className='lg:text-4xl text-2xl font-bold text-white-50'>No Payment History Found.</h1>
+        </div>
     }
     return (
         <div className="min-h-screen md:bg-primary-50 md:px-5 py-10">

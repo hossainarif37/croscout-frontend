@@ -12,6 +12,7 @@ import {
     MdPeople,
     MdOutlineSettings,
     MdHelpCenter,
+    MdEuroSymbol,
 } from "react-icons/md";
 
 import Image from 'next/image';
@@ -34,19 +35,14 @@ export default function Sidebar() {
             title: "Pages",
             list: [
                 {
-                    title: "Dashboard",
-                    path: "/dashboard",
-                    icon: <MdDashboard />,
-                },
-                // {
-                //     title: "Transactions",
-                //     path: "#",
-                //     icon: <MdAttachMoney />,
-                // },
-                {
                     title: "My Bookings",
                     path: "/dashboard/user/my-bookings",
                     icon: <MdShoppingBag />,
+                },
+                {
+                    title: "Transactions",
+                    path: "/dashboard/user/transactions",
+                    icon: <MdEuroSymbol />,
                 },
                 {
                     title: "Favorites",
@@ -105,7 +101,7 @@ export default function Sidebar() {
                 {
                     title: "Transactions",
                     path: "/dashboard/agent/transactions",
-                    icon: <MdAttachMoney />,
+                    icon: <MdEuroSymbol />,
                 },
             ],
         },
@@ -144,28 +140,28 @@ export default function Sidebar() {
                 {
                     title: "Transactions",
                     path: "/dashboard/admin/transactions",
-                    icon: <MdAttachMoney />,
+                    icon: <MdEuroSymbol />,
                 },
                 {
                     title: "Users",
                     path: "/dashboard/admin/all-users",
-                    icon: <MdAttachMoney />,
+                    icon: <MdEuroSymbol />,
                 },
                 {
                     title: "Agents",
                     path: "/dashboard/admin/all-agents",
-                    icon: <MdAttachMoney />,
+                    icon: <MdEuroSymbol />,
                 },
                 {
                     title: "All Bookings",
                     path: "/dashboard/admin/all-bookings",
                     icon: <MdShoppingBag />,
                 },
-                // {
-                //     title: "Bookings",
-                //     path: "/dashboard/all-agents",
-                //     icon: <MdShoppingBag />,
-                // },
+                {
+                    title: "All Properties",
+                    path: "/dashboard/admin/all-properties",
+                    icon: <MdShoppingBag />,
+                }
             ],
         },
         {
@@ -195,7 +191,7 @@ export default function Sidebar() {
         <div>
             <div className={`${styles.container}`}>
                 <div className='flex gap-4 items-center mb-4'>
-                    <Image src={user?.image || userImg} alt='userImage' width={50} height={50} className='rounded-full border-white border' />
+                    <Image src={user?.image || userImg} alt='userImage' width={200} height={100} className='rounded-full w-14 h-14 border-white border' />
                     <div className='flex flex-col'>
                         <span>{user?.name}</span>
                         <span className='text-sm text-gray-300'>{user?.role}</span>

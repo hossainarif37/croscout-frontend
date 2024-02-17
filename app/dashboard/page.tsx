@@ -43,7 +43,7 @@ const Dashboard = () => {
     const { user } = useAuthContext();
     const [dashboardStats, setDashboardStats] = useState<DashboardStats>();
 
-
+    console.log(dashboardStats);
     useEffect(() => {
         if (!user?._id) {
             return;
@@ -91,6 +91,8 @@ const Dashboard = () => {
             change: 18,
         },
     ];
+
+    const latestBookings = dashboardStats?.latestAgentBookings || dashboardStats?.latestBookings;
     return (
         <div className={styles.wrapper}>
             <div className={styles.main}>
@@ -100,7 +102,7 @@ const Dashboard = () => {
                     ))}
                 </div>
                 <div className="my-5">
-                    <Transactions />
+                    <Transactions dashboardStats={latestBookings} />
                 </div>
                 <Chart />
             </div>

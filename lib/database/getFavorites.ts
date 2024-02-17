@@ -5,9 +5,6 @@ export const getFavorites = async (userId: any) => {
             'Content-Type': 'application/json',
         },
     });
-
-
-
     const result = await response.json();
 
     return result;

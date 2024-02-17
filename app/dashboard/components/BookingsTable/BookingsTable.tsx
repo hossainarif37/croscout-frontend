@@ -85,6 +85,10 @@ const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBooking
                         toast.error(dbResponse.error)
                     }
                 }
+                const optionSelect = document.getElementById(id) as HTMLInputElement
+                if (optionSelect) {
+                    optionSelect.value = "pending";
+                }
             });
         }
         if (value === "confirm") {
@@ -98,7 +102,7 @@ const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBooking
                 color: "#F9ECE4",
                 cancelButtonColor: "#3085d6",
                 cancelButtonText: "Close",
-                confirmButtonText: "Yes, cancel it!"
+                confirmButtonText: "Yes, confirm it!"
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     const dbResponse = await manageBookingStatus({ id, action: value })
@@ -112,6 +116,12 @@ const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBooking
                     }
                     else {
                         toast.error(dbResponse.error)
+                    }
+                }
+                else {
+                    const optionSelect = document.getElementById(id) as HTMLInputElement
+                    if (optionSelect) {
+                        optionSelect.value = "pending";
                     }
                 }
             });
@@ -150,47 +160,58 @@ const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBooking
                     </thead>
                     <tbody className='relative'>
                         {
-                            data?.map((booking, indx) => (
+                            data?.slice()?.reverse().map((booking, indx) => (
                                 <tr key={indx} className="hover:bg-[#2E374A] hover:rounded-lg bg-primary-50 my-3 p-2 cursor-pointer">
                                     <td className="px-6 py-4 m-5 font-medium">
                                         {indx + 1}
                                     </td>
                                     <td className="px-6 py-4 m-5 font-medium">
                                         <div className='flex'>
-                                            <div className='bg-purple-100 p-3 rounded-lg'>
+                                            {/* <div className='bg-purple-100 p-3 rounded-lg'>
                                                 <FaShoppingBag className='text-purple-800' />
-                                            </div>
-                                            <div className='pl-4'>
-                                                <p className='font-bold'>
-                                                    ${booking.price}
-                                                </p>
-                                                <p className=' text-sm'>{booking.guest?.name}</p>
+                                            </div> */}
+                                            <div className='flex items-center'>
+                                                <p className='font-semibold'>{booking.guest?.name}</p>
                                             </div>
                                         </div>
                                     </td>
-                                    <td className="px-6 py-4 m-5">
-                                        {
-                                            booking.status === "confirmed" ?
+                                    {
+                                        user?.role === "admin" ?
+                                            <td>
                                                 <button className='sm:text-left cursor-auto text-right md:text-sm text-xs'>
                                                     <span
                                                         className="bg-[#afcfee83] text-white-50 p-2 rounded-md">
-                                                        Confirmed
+                                                        {booking.status}
                                                     </span>
                                                 </button>
-                                                :
-                                                <select
-                                                    defaultValue="pending"
-                                                    onChange={(e) => { handleStatusChanged(e.target.value, booking._id) }}
-                                                    className='sm:text-left text-right md:text-sm text-xs w-32 bg-primary-50 text-white outline-none p-2 rounded-md' name="status" id="status">
-                                                    <option value="pending" disabled>Pending</option>
-                                                    <option value="cancel">Cancel</option>
-                                                    {
-                                                        user?.role === "agent" &&
-                                                        <option value="confirm">Confirm</option>
-                                                    }
-                                                </select>
-                                        }
-                                    </td>
+                                            </td>
+                                            :
+                                            <td className="px-6 py-4 m-5">
+                                                {
+                                                    booking.status === "confirmed" ?
+                                                        <button className='sm:text-left cursor-auto text-right md:text-sm text-xs'>
+                                                            <span
+                                                                className="bg-[#afcfee83] text-white-50 p-2 rounded-md">
+                                                                Confirmed
+                                                            </span>
+                                                        </button>
+                                                        :
+                                                        <select
+                                                            defaultValue="pending"
+                                                            onChange={(e) => { handleStatusChanged(e.target.value, booking._id) }}
+                                                            className='sm:text-left text-right md:text-sm text-xs w-32 bg-primary-50 text-white outline-none p-2 rounded-md'
+                                                            name="status"
+                                                            id={`${booking?._id}`}>
+                                                            <option value="pending" disabled>Pending</option>
+                                                            <option value="cancel">Cancel</option>
+                                                            {
+                                                                user?.role === "agent" &&
+                                                                <option value="confirm">Confirm</option>
+                                                            }
+                                                        </select>
+                                                }
+                                            </td>
+                                    }
                                     <td className="px-6 py-4 m-5">
                                         <p className=''>{timeSinceWithoutAbout(booking?.updatedAt)}</p>
                                     </td>
@@ -203,7 +224,7 @@ const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBooking
                                         </div>
                                     </td>
                                     <td className="px-6 py-4 m-5">
-                                        <p className='text-left left-3'>$ {booking.price}</p>
+                                        <p className='text-left left-3'>€ {booking.price}</p>
                                     </td>
                                     <td className="px-6 py-4 m-5">
                                         {/* <button onClick={() => toggleDropdown(booking?._id)}>
@@ -226,16 +247,24 @@ const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBooking
                                                         </Link>
                                                     </>
                                                     :
-                                                    <>
-                                                        <Link href={`/dashboard/agent/booking-details/${booking?._id}`}>
+                                                    user?.role === "agent" ?
+                                                        <>
+                                                            <Link href={`/dashboard/agent/booking-details/${booking?._id}`}>
+                                                                <button className='bg-primary-50 hover:border-white duration-200 w-full border-accent border text-white-50 px-2 py-1 rounded-md text-xs'>
+                                                                    Booking Details
+                                                                </button>
+                                                            </Link>
+                                                            <Link href={`/dashboard/agent/payment/${booking._id}`}>
+                                                                <button className='bg-primary-50 text-xs hover:border-white duration-200 w-full border-accent border text-white-50 px-2 py-1 rounded-md'>Payment Details</button>
+                                                            </Link>
+                                                        </>
+                                                        :
+                                                        <Link href={`/dashboard/admin/booking-details/${booking?._id}`}>
                                                             <button className='bg-primary-50 hover:border-white duration-200 w-full border-accent border text-white-50 px-2 py-1 rounded-md text-xs'>
                                                                 Booking Details
                                                             </button>
                                                         </Link>
-                                                        <Link href={`/dashboard/agent/payment/${booking._id}`}>
-                                                            <button className='bg-primary-50 text-xs hover:border-white duration-200 w-full border-accent border text-white-50 px-2 py-1 rounded-md'>Payment Details</button>
-                                                        </Link>
-                                                    </>
+
                                             }
 
                                         </div>
