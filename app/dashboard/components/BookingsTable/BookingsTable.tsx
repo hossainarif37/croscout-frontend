@@ -242,9 +242,9 @@ const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBooking
                                                         <Link href={`/dashboard/user/payment-details/${booking._id}`}>
                                                             <button className='bg-primary-50 text-xs hover:border-white duration-200 w-full border-accent border text-white-50 px-2 py-1 rounded-md'>Payment Details</button>
                                                         </Link>
-                                                        <Link href={`/dashboard/user/payment-confirmation-message/${booking._id}`}>
+                                                        {/* <Link href={`/dashboard/user/payment-confirmation-message/${booking._id}`}>
                                                             <button className='bg-primary-50 text-xs hover:border-white duration-200 w-full border-accent border text-white-50 px-2 py-1 rounded-md'>Confirm Payment</button>
-                                                        </Link>
+                                                        </Link> */}
                                                     </>
                                                     :
                                                     user?.role === "agent" ?

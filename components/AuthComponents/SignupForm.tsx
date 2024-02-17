@@ -48,6 +48,7 @@ const SignupForm = () => {
             else {
                 data.role = "user"
             }
+            data.email = data.email.toLowerCase();
             const dbResponse = await registerUser({ data });
             if (dbResponse?.success) {
                 toast.success(`${dbResponse?.message} Now Login with your credentials.`, { duration: 3000 });

@@ -15,6 +15,7 @@ import { checkFavoriteProperty } from "@/lib/database/checkFavoriteProperty";
 import toast from "react-hot-toast";
 import { useModalContext } from "@/providers/ModalProvider";
 import Link from "next/link";
+import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 
 
 
@@ -214,11 +215,23 @@ export default function PropertyCard({ property }: Property & any,) {
             </Link>
             {
                 (user?.role === "admin" || user?.role === "agent") ? " " :
+
                     <button
                         type="button"
                         className="absolute z-10 top-5 right-5 cursor-pointer"
                         onClick={handleFavorite}>
-                        <Image src={isFav ? FavFilled : FavOutline} alt="" />
+                        <>
+                            <span className='text-2xl text-white'>
+                            </span>
+                            <span className=''>
+                                {
+                                    isFav ?
+                                        <IoMdHeart className="text-3xl text-accent p-1 rounded-full bg-white/50" />
+                                        :
+                                        <IoMdHeartEmpty className="text-3xl text-white-50 p-1 rounded-full bg-black/30" />
+                                }
+                            </span>
+                        </>
                     </button>
             }
 
