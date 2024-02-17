@@ -79,28 +79,28 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
                 <table className="w-full text-left p-4 rtl:text-right rounded-t-xl text-secondary-50">
                     <thead className="my-3 bg-[#2E374A] p-5 ">
                         <tr>
-                            <th className="p-5 font-semibold">
+                            <th className="lg:p-5 p-3 font-semibold">
                                 #
                             </th>
-                            <th className="p-5 font-semibold">
+                            <th className="lg:p-5 p-3 font-semibold">
                                 Name
                             </th>
-                            <th className="p-5 font-semibold">
+                            <th className="lg:p-5 p-3 font-semibold">
                                 Email
                             </th>
                             {
                                 tableFor === "agent" &&
                                 <>
-                                    <th className="p-5 font-semibold">
+                                    <th className="lg:p-5 p-3 font-semibold">
                                         Tax ID
                                     </th>
 
                                 </>
                             }
-                            <th className="p-5 font-semibold">
+                            <th className="lg:p-5 p-3 font-semibold">
                                 User ID
                             </th>
-                            <th className="p-5 font-semibold">
+                            <th className="lg:p-5 p-3 font-semibold">
                                 Joined At
                             </th>
 
@@ -109,26 +109,26 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
                     <tbody className=' overflow-hidden'>
                         {
                             data?.map((user, indx) => <tr key={indx} className="hover:bg-[#2E374A] hover:rounded-lg bg-primary-50 my-3 p-2">
-                                <td className="px-6 py-4 m-5 font-medium">
+                                <td className="lg:px-6 px-4 text-sm lg:text-base py-4 m-5 font-medium">
                                     {indx + 1}
                                 </td>
-                                <td className="px-6 py-4 m-5">
+                                <td className="lg:px-6 px-4 text-sm lg:text-base py-4 m-5">
                                     {user?.name}
                                 </td>
-                                <td className="px-6 py-4 m-5 font-medium">
+                                <td className="lg:px-6 px-4 text-sm lg:text-base py-4 m-5 font-medium">
                                     {user?.email}
                                 </td>
                                 {
                                     tableFor === "agent" &&
 
-                                    <td className="px-6 py-4 m-5">
+                                    <td className="lg:px-6 px-4 text-sm lg:text-base py-4 m-5">
                                         {user?.taxNumber}
                                     </td>
                                 }
-                                <td className="px-6 py-4">
+                                <td className="lg:px-6 px-4 text-sm lg:text-base py-4">
                                     {user?._id}
                                 </td>
-                                <td className="px-6 py-4 m-5">
+                                <td className="lg:px-6 px-4 text-sm lg:text-base py-4 m-5">
                                     {format(new Date(user?.createdAt), "MMM dd, yyyy")}
                                 </td>
 
