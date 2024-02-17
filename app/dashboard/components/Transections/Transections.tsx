@@ -5,6 +5,7 @@ import { format } from "date-fns";
 
 
 const Transactions = ({ dashboardStats }: any) => {
+  console.log(dashboardStats);
   return (
     <div className={` ${styles.container}`}>
       <h2 className={styles.title}>Latest Transactions</h2>
