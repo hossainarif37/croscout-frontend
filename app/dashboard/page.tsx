@@ -100,7 +100,7 @@ const Dashboard = () => {
                     ))}
                 </div>
                 <div className="my-5">
-                    <Transactions dashboardStats={dashboardStats} />
+                    <Transactions dashboardStats={dashboardStats?.latestAgentBookings} />
                 </div>
                 <Chart />
             </div>

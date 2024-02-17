@@ -13,6 +13,7 @@ import { getPropertyById } from "@/lib/database/getProperties";
 import { useAuthContext } from "@/providers/AuthProvider";
 import { checkFavoriteProperty } from "@/lib/database/checkFavoriteProperty";
 import toast from "react-hot-toast";
+import { useModalContext } from "@/providers/ModalProvider";
 
 
 
@@ -23,11 +24,10 @@ interface Event {
 }
 
 export default function PropertyCard({ property }: Property & any,) {
+    const { setLoginModal } = useModalContext();
     const { user } = useAuthContext();
     const [isActive, setIsActive] = useState(false);
     const [isFav, setIsFav] = useState(false);
-
-
 
     const {
         _id,
@@ -103,6 +103,11 @@ export default function PropertyCard({ property }: Property & any,) {
     const handleFavorite = async () => {
         try {
             // Toggle the favorite state
+
+            if (!user) {
+                toast.error("Login first!")
+                return setLoginModal(true);
+            }
 
             // Call the API to toggle the favorite status
             const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/favorites/${user?._id}`, {
@@ -204,13 +209,16 @@ export default function PropertyCard({ property }: Property & any,) {
                     </div>
                 </div>
             </div>
-            <button
-                type="button"
+            {
+                (user?.role === "admin" || user?.role === "agent") ? " " :
+                    <button
+                        type="button"
+                        className="absolute z-10 top-5 right-5 cursor-pointer"
+                        onClick={handleFavorite}>
+                        <Image src={isFav ? FavFilled : FavOutline} alt="" />
+                    </button>
+            }
 
-                className="absolute z-10 top-5 right-5 cursor-pointer"
-                onClick={handleFavorite}>
-                <Image src={isFav ? FavFilled : FavOutline} alt="" />
-            </button>
         </div>
     );
 }

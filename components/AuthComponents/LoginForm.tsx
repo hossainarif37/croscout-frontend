@@ -58,16 +58,19 @@ const LoginForm = () => {
                     setUser(dbResponse.user);
                     setLoginModal(false);
                     const token = getStoredToken();
+                    const userRole = dbResponse?.user?.role;
                     if (token) {
                         setCookie("authToken", token.split(" ")[1], 24)
-                        router.push('/dashboard')
+                        if ((userRole === "agent") || (userRole === "admin")) {
+                            router.push('/dashboard')
+                            setLoginModal
+                        }
                     }
                 }
                 else {
                     toast.error(dbResponse.error);
                 }
             }
-            console.log(data);
             setIsLoading(false);
         } catch (error) {
             setIsLoading(false);

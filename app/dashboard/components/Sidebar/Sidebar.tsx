@@ -38,11 +38,11 @@ export default function Sidebar() {
                     path: "/dashboard",
                     icon: <MdDashboard />,
                 },
-                // {
-                //     title: "Transactions",
-                //     path: "#",
-                //     icon: <MdAttachMoney />,
-                // },
+                {
+                    title: "Transactions",
+                    path: "/dashboard/user/transactions",
+                    icon: <MdAttachMoney />,
+                },
                 {
                     title: "My Bookings",
                     path: "/dashboard/user/my-bookings",
@@ -159,6 +159,11 @@ export default function Sidebar() {
                 {
                     title: "All Bookings",
                     path: "/dashboard/admin/all-bookings",
+                    icon: <MdShoppingBag />,
+                },
+                {
+                    title: "All Properties",
+                    path: "/dashboard/admin/all-properties",
                     icon: <MdShoppingBag />,
                 },
                 // {
