@@ -2,10 +2,11 @@
 import Image from "next/image";
 import styles from "./transactions.module.css";
 import { format } from "date-fns";
+import { useAuthContext } from "@/providers/AuthProvider";
 
 
 const Transactions = ({ dashboardStats }: any) => {
-  console.log(dashboardStats);
+  const { user } = useAuthContext();
   return (
     <div className={` ${styles.container}`}>
       <h2 className="text-secondary-50">Latest Bookings</h2>
@@ -13,7 +14,11 @@ const Transactions = ({ dashboardStats }: any) => {
         <table className={styles.table}>
           <thead className={styles.thead}>
             <tr className="">
-              <td>Name</td>
+              <td>Guest Name</td>
+              {
+                user?.role === "admin" &&
+                <td>Agent Name</td>
+              }
               <td>Status</td>
               <td>Date</td>
               <td>Amount</td>
@@ -24,18 +29,20 @@ const Transactions = ({ dashboardStats }: any) => {
               dashboardStats?.map((item: any, indx: number) => <tr key={indx}>
                 <td>
                   <div className={styles.user}>
-                    <Image
-                      src="/noavatar.png"
-                      alt=""
-                      width={40}
-                      height={40}
-                      className={styles.userImage}
-                    />
-                    John doe
+                    {item?.guest?.name}
                   </div>
                 </td>
+                {
+                  user?.role === "admin" &&
+                  <td>
+                    <div className={styles.user}>
+                      {item?.owner?.name}
+                    </div>
+                  </td>
+                  }
+
                 <td>
-                  <span className={`${styles.status} ${styles.pending}`}>
+                  <span className={`${styles.status} ${item?.status === "confirmed" ? styles.done : styles.pending}`}>
                     {item?.status}
                   </span>
                 </td>
