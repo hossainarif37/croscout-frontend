@@ -224,7 +224,7 @@ const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBooking
                                         </div>
                                     </td>
                                     <td className="px-6 py-4 m-5">
-                                        <p className='text-left left-3'>$ {booking.price}</p>
+                                        <p className='text-left left-3'>€ {booking.price}</p>
                                     </td>
                                     <td className="px-6 py-4 m-5">
                                         {/* <button onClick={() => toggleDropdown(booking?._id)}>

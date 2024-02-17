@@ -12,6 +12,7 @@ import {
     MdPeople,
     MdOutlineSettings,
     MdHelpCenter,
+    MdEuroSymbol,
 } from "react-icons/md";
 
 import Image from 'next/image';
@@ -41,7 +42,7 @@ export default function Sidebar() {
                 {
                     title: "Transactions",
                     path: "/dashboard/user/transactions",
-                    icon: <MdAttachMoney />,
+                    icon: <MdEuroSymbol />,
                 },
                 {
                     title: "Favorites",
@@ -100,7 +101,7 @@ export default function Sidebar() {
                 {
                     title: "Transactions",
                     path: "/dashboard/agent/transactions",
-                    icon: <MdAttachMoney />,
+                    icon: <MdEuroSymbol />,
                 },
             ],
         },
@@ -139,17 +140,17 @@ export default function Sidebar() {
                 {
                     title: "Transactions",
                     path: "/dashboard/admin/transactions",
-                    icon: <MdAttachMoney />,
+                    icon: <MdEuroSymbol />,
                 },
                 {
                     title: "Users",
                     path: "/dashboard/admin/all-users",
-                    icon: <MdAttachMoney />,
+                    icon: <MdEuroSymbol />,
                 },
                 {
                     title: "Agents",
                     path: "/dashboard/admin/all-agents",
-                    icon: <MdAttachMoney />,
+                    icon: <MdEuroSymbol />,
                 },
                 {
                     title: "All Bookings",

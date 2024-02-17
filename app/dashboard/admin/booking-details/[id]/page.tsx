@@ -122,7 +122,7 @@ const page = () => {
                             </div>
                             <div className="grid gap-1">
                                 <div className="font-semibold text-gray-300 text-xl">Total price</div>
-                                <div>$ {bookingDetails?.price}</div>
+                                <div>€ {bookingDetails?.price}</div>
                             </div>
                             <div className="grid gap-1">
                                 <div className="font-semibold text-gray-300 text-xl">Special requests</div>
