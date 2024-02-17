@@ -16,8 +16,15 @@ export interface User {
     favoriteList?: string[];
     __v: number;
     _id: string;
-    taxNumber: string;
     createdAt: string;
+    telephoneOrPhone: string;
+    street: string;
+    houseOrBuildingNum: string;
+    postcode: string;
+    city: string;
+    state: string;
+    taxNumber: string;
+    isCompletedProfile: true;
 }
 
 

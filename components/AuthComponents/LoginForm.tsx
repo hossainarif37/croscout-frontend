@@ -37,10 +37,13 @@ const LoginForm = () => {
 
     // handle login login
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
+        const dataEmail = data.email.toLowerCase();
+        const password = data.password;
+        const fullData = { email: dataEmail, password }
         try {
             setIsLoading(true);
             if (isForgotMode) {
-                const dbResponse = await forgotRequest({ email: data.email });
+                const dbResponse = await forgotRequest({ email: dataEmail });
                 if (dbResponse.success) {
                     toast.success(dbResponse?.message);
                     setLoginModal(false);
@@ -51,7 +54,7 @@ const LoginForm = () => {
                 }
             }
             else {
-                const dbResponse = await loginUser({ data })
+                const dbResponse = await loginUser({ data: fullData })
                 if (dbResponse?.success) {
                     toast.success(dbResponse?.message);
                     storeToken(dbResponse.token);
@@ -71,6 +74,7 @@ const LoginForm = () => {
                     toast.error(dbResponse.error);
                 }
             }
+
             setIsLoading(false);
         } catch (error) {
             setIsLoading(false);

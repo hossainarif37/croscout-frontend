@@ -1,6 +1,5 @@
 "use client"
 
-import LoginForm from "@/components/AuthComponents/LoginForm";
 import SignupForm from "@/components/AuthComponents/SignupForm";
 import { useModalContext } from "@/providers/ModalProvider";
 

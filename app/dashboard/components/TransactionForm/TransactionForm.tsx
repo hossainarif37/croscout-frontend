@@ -13,7 +13,7 @@ interface TransactionItem {
     paymentMethod: string;
 }
 const TransactionForm: React.FC<TransactionFormProps> = ({ transaction }) => {
-    
+
     return (
         <div className=''>
             <div className="relative overflow-x-auto rounded-lg ">
@@ -60,7 +60,7 @@ const TransactionForm: React.FC<TransactionFormProps> = ({ transaction }) => {
                                         {format(new Date(item?.createdAt || ''), "MMM dd, yyyy")}
                                     </td>
                                     <td className="px-6 py-4 m-5">
-                                        <span className='font-semibold mr-.5'>€</span>{item?.amount}
+                                        <span className='font-semibold mr-.5'>€ </span>{item?.amount}
                                     </td>
                                 </tr>
                             ))
