@@ -38,8 +38,8 @@ const TransactionPage = () => {
     }
 
     if (!transaction?.transactions || (Array.isArray(transaction?.transactions) && transaction.transactions.length === 0)) {
-        return <div className='min-h-screen flex-center'>
-            <h1 className='text-4xl font-bold text-white-50'>No Payment History Found.</h1>
+        return <div className='lg:min-h-screen flex-center mt-32 lg:mt-0'>
+            <h1 className='lg:text-4xl text-2xl font-bold text-white-50'>No Payment History Found.</h1>
         </div>
     }
 
