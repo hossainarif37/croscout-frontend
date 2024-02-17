@@ -38,11 +38,11 @@ export default function Sidebar() {
                     path: "/dashboard",
                     icon: <MdDashboard />,
                 },
-                // {
-                //     title: "Transactions",
-                //     path: "#",
-                //     icon: <MdAttachMoney />,
-                // },
+                {
+                    title: "Transactions",
+                    path: "/dashboard/user/transactions",
+                    icon: <MdAttachMoney />,
+                },
                 {
                     title: "My Bookings",
                     path: "/dashboard/user/my-bookings",

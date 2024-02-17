@@ -85,6 +85,10 @@ const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBooking
                         toast.error(dbResponse.error)
                     }
                 }
+                const optionSelect = document.getElementById(id) as HTMLInputElement
+                if (optionSelect) {
+                    optionSelect.value = "pending";
+                }
             });
         }
         if (value === "confirm") {
@@ -98,7 +102,7 @@ const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBooking
                 color: "#F9ECE4",
                 cancelButtonColor: "#3085d6",
                 cancelButtonText: "Close",
-                confirmButtonText: "Yes, cancel it!"
+                confirmButtonText: "Yes, confirm it!"
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     const dbResponse = await manageBookingStatus({ id, action: value })
@@ -112,6 +116,12 @@ const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBooking
                     }
                     else {
                         toast.error(dbResponse.error)
+                    }
+                }
+                else {
+                    const optionSelect = document.getElementById(id) as HTMLInputElement
+                    if (optionSelect) {
+                        optionSelect.value = "pending";
                     }
                 }
             });
@@ -178,7 +188,9 @@ const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBooking
                                                 <select
                                                     defaultValue="pending"
                                                     onChange={(e) => { handleStatusChanged(e.target.value, booking._id) }}
-                                                    className='sm:text-left text-right md:text-sm text-xs w-32 bg-primary-50 text-white outline-none p-2 rounded-md' name="status" id="status">
+                                                    className='sm:text-left text-right md:text-sm text-xs w-32 bg-primary-50 text-white outline-none p-2 rounded-md'
+                                                    name="status"
+                                                    id={`${booking?._id}`}>
                                                     <option value="pending" disabled>Pending</option>
                                                     <option value="cancel">Cancel</option>
                                                     {

@@ -7,6 +7,7 @@ import Loading from "@/components/ui/Loading/Loading";
 
 interface TransactionData {
     success: boolean;
+    transactions: object[];
     // Include other properties of the transaction object here
 }
 const TransactionPage = () => {
@@ -41,6 +42,13 @@ const TransactionPage = () => {
     if (isLoading) {
         return <Loading />
     }
+
+    if (!transaction?.transactions || (Array.isArray(transaction?.transactions) && transaction.transactions.length === 0)) {
+        return <div className='min-h-screen flex-center'>
+            <h1 className='text-4xl font-bold text-white-50'>No Payment History Found.</h1>
+        </div>
+    }
+
     return (
         <div className="min-h-screen md:bg-primary-50 md:px-5 py-10">
             {transaction?.success && <TransactionForm transaction={transaction} />}
