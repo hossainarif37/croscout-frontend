@@ -12,12 +12,12 @@ interface IDateRange {
 // }
 
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 // import AccentInput from '../inputs/AccentInput';
 import Image from 'next/image';
 import ShareActive from "@/public/icons/share-active.svg";
-import FavActive from "@/public/icons/fav-active.svg";
-import { FaChevronDown } from 'react-icons/fa';
+import FavOutline from "@/public/icons/love-outline.svg";
+import FavFilled from "@/public/icons/love-filled.svg"; import { FaChevronDown } from 'react-icons/fa';
 // import { useModalContext } from '@/providers/ModalProvider';
 // import { useSearchContext } from '@/providers/SearchProvider';
 import { differenceInDays, format } from "date-fns";
@@ -33,6 +33,8 @@ import { Tooltip } from 'flowbite-react';
 import { ImSpinner9 } from 'react-icons/im';
 import { useRouter } from 'next/navigation';
 import { useModalContext } from '@/providers/ModalProvider';
+import { getStoredToken } from '@/utils/tokenStorage';
+import { getUser } from '@/lib/database/authUser';
 
 
 interface PropertyHeroProps {
@@ -60,6 +62,7 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
     const [calendarModal, setCalenderModal] = useState(false);
     const [guestModal, setGuestModal] = useState(false);
     const [isSelectDate, setIsSelectDate] = useState(false);
+    const [isFav, setIsFav] = useState(false);
     const [selectedDate, setSelectedDate] = useState<IDateRange[]>([
         {
             startDate: new Date(),
@@ -70,7 +73,7 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
     const [adultsCount, setAdultsCount] = useState<number>(0);
     const [childrenCount, setChildrenCount] = useState<number>(0);
     const [isLoading, setIsLoading] = useState(false);
-
+    const [favRefetch, setFavRefetch] = useState(false);
     const router = useRouter();
     // const { setGuestModal, setLocationModal } = useModalContext();
     // const { childrenCount, adultsCount, location, setLocation, isSearchBtnClicked, setIsSearchBtnClicked } = useSearchContext();
@@ -97,7 +100,7 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
     }
 
     const crouscouteServiceFee = 30;
-    const { user } = useAuthContext();
+    const { user, setUser } = useAuthContext();
     const { setLoginModal } = useModalContext();
     let totalGuests = childrenCount + adultsCount;
 
@@ -208,7 +211,65 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
 
     const allDisabledDates = [...previousDates, ...alreadBookingDates];
 
-    console.log(adminOrAgent);
+
+
+    const handleSaveToFavourites = async (id: string) => {
+        try {
+            // Toggle the favorite state
+
+            if (!user) {
+                toast.error("Login first!")
+                return setLoginModal(true);
+            }
+
+            // Call the API to toggle the favorite status
+            const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/favorites/${user?._id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Include the user's authentication token if needed
+                },
+                // Include the user's ID in the request body if needed
+                body: JSON.stringify({ propertyId: id }),
+            });
+            // check response status
+            if (!response.ok) {
+                throw new Error('Failed to toggle favorite status');
+            }
+
+            // Result
+            const result = await response.json();
+
+            // Set the favorite status
+            // setIsFav(result.isAdd);
+            // const token = getStoredToken();
+            // toast message
+            if (result.isAdd) {
+                toast.success(result.message);
+                setFavRefetch(pre => !pre)
+                // setIsFav(true);
+            } else {
+                toast.success(result.message);
+                setFavRefetch(pre => !pre)
+                // setIsFav(false);
+            }
+        } catch (error) {
+            console.error('Error toggling favorite status:', error);
+        }
+    }
+
+    let isExist;
+    useEffect(() => {
+        isExist = user?.favoriteList?.find(propId => propId === singlePropertyDetails?._id);
+
+        // Check iffavoriteList is an array
+        if (isExist) {
+            setIsFav(true);
+        } else {
+            setIsFav(false);
+        }
+    }, [user?._id, favRefetch]);
+
     // Guest Calculation
     return (
         <section className='wrapper'>
@@ -224,9 +285,9 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
                             <Image src={ShareActive} height={24} width={24} alt="" />
                             <div>Share</div>
                         </div>
-                        <div className="flex items-center gap-3 cursor-pointer">
-                            <Image src={FavActive} height={24} width={24} alt="" />
-                            <div>Save</div>
+                        <div onClick={() => { if (singlePropertyDetails?._id) handleSaveToFavourites(singlePropertyDetails._id) }} className="flex items-center gap-3 cursor-pointer">
+                            <Image src={isFav ? FavFilled : FavOutline} height={24} width={24} alt="" />
+                            <div>{isFav ? "Saved" : "Save"}</div>
                         </div>
                     </div>
                 </div>
