@@ -78,7 +78,7 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
     return (
         <div className=''>
             <div className="relative overflow-x-auto rounded-lg ">
-                <table className="w-full text-left p-4 rtl:text-right rounded-t-xl text-secondary-50">
+                <table className="w-full text-left p-4 rtl:text-right rounded-t-xl text-secondary-50 whitespace-nowrap">
                     <thead className="my-3 bg-[#2E374A] p-5 ">
                         <tr>
                             <th className="lg:p-5 p-3 font-semibold">
@@ -137,7 +137,7 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
                                     {format(new Date(user?.createdAt), "MMM dd, yyyy")}
                                 </td>
 
-                                <td className="lg:px-6 px-4 text-sm lg:text-base py-4 m-5 text-center">
+                                <td className="lg:px-6 px-4 text-xs lg:text-sm py-4 m-5 text-center">
                                     <button onClick={() => router.push(`/dashboard/admin/user-details/${user?._id}`)} className='px-4 py-1 rounded-md border border-green-400'>Users Details</button>
                                 </td>
 

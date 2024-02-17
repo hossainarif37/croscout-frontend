@@ -157,11 +157,6 @@ export default function Sidebar() {
                     title: "All Bookings",
                     path: "/dashboard/admin/all-bookings",
                     icon: <MdShoppingBag />,
-                },
-                {
-                    title: "All Properties",
-                    path: "/dashboard/admin/all-properties",
-                    icon: <MdShoppingBag />,
                 }
             ],
         },
