@@ -161,19 +161,19 @@ export default function PropertyCard({ property }: Property & any,) {
 
 
     return (
-        <Link href={`/property-details/${_id}`}>
-            <div
-                // onMouseEnter={handleHover}
-                // onMouseLeave={handleHoverOut}
+        <div
+            // onMouseEnter={handleHover}
+            // onMouseLeave={handleHoverOut}
 
-                className={`cursor-pointer relative border border-accent p-[5px] bg-secondary rounded-[8px] text-white `}
-            >
-                <div className="h-[15rem] w-full relative rounded-t-[4px] overflow-hidden">
-                    <ImageCarousel propertyId={_id} propertyImages={propertyImages} />
-                </div>
+            className={`cursor-pointer relative border border-accent p-[5px] bg-secondary rounded-[8px] text-white `}
+        >
+            <div className="h-[15rem] w-full relative rounded-t-[4px] overflow-hidden">
+                <ImageCarousel propertyId={_id} propertyImages={propertyImages} />
+            </div>
+            <Link href={`/property-details/${_id}`}>
                 <div
                     className="p-2 "
-                    // onClick={() => router.push(`/property-details/${_id}`)}
+                // onClick={() => router.push(`/property-details/${_id}`)}
                 >
                     <div
                         className={"mt-5"}>
@@ -211,18 +211,18 @@ export default function PropertyCard({ property }: Property & any,) {
                         </div>
                     </div>
                 </div>
-                {
-                    (user?.role === "admin" || user?.role === "agent") ? " " :
-                        <button
-                            type="button"
-                            className="absolute z-10 top-5 right-5 cursor-pointer"
-                            onClick={handleFavorite}>
-                            <Image src={isFav ? FavFilled : FavOutline} alt="" />
-                        </button>
-                }
+            </Link>
+            {
+                (user?.role === "admin" || user?.role === "agent") ? " " :
+                    <button
+                        type="button"
+                        className="absolute z-10 top-5 right-5 cursor-pointer"
+                        onClick={handleFavorite}>
+                        <Image src={isFav ? FavFilled : FavOutline} alt="" />
+                    </button>
+            }
 
-            </div>
-        </Link>
+        </div>
 
     );
 }
