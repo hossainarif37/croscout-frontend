@@ -25,12 +25,18 @@ export const getAllProperty = async (searchKey: string) => {
 }
 
 export const getPropertyById = async (id: string) => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/properties/${id}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
-    const result = await response.json();
-    return result;
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/properties/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        const result = await response.json();
+        return result;
+    } catch (error) {
+        console.error('Fetch error:', error);
+        throw error; // Rethrow the error to be handled by the caller
+    }
 }

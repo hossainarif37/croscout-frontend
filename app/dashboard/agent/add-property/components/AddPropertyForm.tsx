@@ -208,7 +208,7 @@ const AddPropertyForm = () => {
                                             <option value="" disabled>Select an option</option>
                                             <option value="Bangladesh">Bangladesh</option>
                                             <option value="Germany">Germany</option>
-                                            <option value="Crotia">Croatia</option>
+                                            <option value="Croatia">Croatia</option>
                                         </select>
 
 
