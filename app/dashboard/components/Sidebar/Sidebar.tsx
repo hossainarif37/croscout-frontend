@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { useState } from 'react'
 import styles from "./sidebar.module.css"
 import userImg from "@/public/noavatar.png"
 import {
@@ -196,6 +196,7 @@ export default function Sidebar() {
         router.replace(`/dashboard/${user?.role}/profile`);
         handleToggleSidebar();
     };
+
     return (
         <div>
             <div className={`${styles.container}`}>
@@ -206,6 +207,7 @@ export default function Sidebar() {
                         <span className='text-sm text-gray-300'>{user?.role}</span>
                     </div>
                 </div>
+
                 <ul className={styles.list} >
                     {role === "user" &&
                         userMenuItems.map((cat) => (
@@ -252,6 +254,7 @@ export default function Sidebar() {
                         <span onClick={handleNavigationAndToggle} className='text-sm text-gray-300'>{user?.role}</span>
                     </div>
                 </div>
+
                 <ul className="space-y-3 text-[#b7bac1]" onClick={handleToggleSidebar}>
                     <ul className={styles.list}>
                         {role === "user" &&

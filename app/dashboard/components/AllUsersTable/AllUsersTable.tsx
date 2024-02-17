@@ -4,6 +4,7 @@ import React from 'react';
 import toast from 'react-hot-toast';
 import Swal from 'sweetalert2';
 import { format } from 'date-fns';
+import { useRouter } from 'next/navigation';
 
 interface User {
     email: string;
@@ -26,6 +27,7 @@ interface AllUsersTableProps {
 
 const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
     const { user } = useAuthContext();
+    const router = useRouter();
     // const date: string | undefined = user?.createdAt;
 
     const handleConfirmAgent = () => {
@@ -103,6 +105,9 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
                             <th className="lg:p-5 p-3 font-semibold">
                                 Joined At
                             </th>
+                            <th className="lg:p-5 p-3 font-semibold text-center">
+                                Details
+                            </th>
 
                         </tr>
                     </thead>
@@ -130,6 +135,10 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
                                 </td>
                                 <td className="lg:px-6 px-4 text-sm lg:text-base py-4 m-5">
                                     {format(new Date(user?.createdAt), "MMM dd, yyyy")}
+                                </td>
+
+                                <td className="lg:px-6 px-4 text-sm lg:text-base py-4 m-5 text-center">
+                                    <button onClick={() => router.push(`/dashboard/admin/user-details/${user?._id}`)} className='px-4 py-1 rounded-md border border-green-400'>Users Details</button>
                                 </td>
 
 
