@@ -193,7 +193,7 @@ const ProfilePage = () => {
                                 <input {...personalInfoForm.register("role", { required: true })} className="rounded w-full" type="text" name="role" id="role" defaultValue={user?.role} readOnly placeholder={errors.role ? "Please Enter Your Role" : "Your Role"} />
                                 {
                                     user?.role === "user" &&
-                                    <span onClick={switchAgentToggle} className="text-sm absolute top-2 border py-0.5 px-0.5 rounded right-2 cursor-pointer">
+                                    <span onClick={switchAgentToggle} className="text-sm absolute bottom-2 border py-0.5 px-0.5 rounded right-2 cursor-pointer">
                                         {
                                             isAgent ? "Cancel" : "Switch To Agent"
                                         }

@@ -6,23 +6,12 @@ interface IDateRange {
     key?: string;
 }
 
-// interface IDateRangee {
-//     startDate: string;
-//     endDate: string;
-// }
-
 
 import React, { useEffect, useState } from 'react'
-// import AccentInput from '../inputs/AccentInput';
 import Image from 'next/image';
 import ShareActive from "@/public/icons/share-active.svg";
-import FavOutline from "@/public/icons/love-outline.svg";
-import FavFilled from "@/public/icons/love-filled.svg"; import { FaChevronDown } from 'react-icons/fa';
-// import { useModalContext } from '@/providers/ModalProvider';
-// import { useSearchContext } from '@/providers/SearchProvider';
+import { FaChevronDown } from 'react-icons/fa';
 import { differenceInDays, format } from "date-fns";
-// import { calculateDuration } from '@/utils/calculateDuration';
-// import { IPropertyData } from '../[id]/page';
 import { useAuthContext } from '@/providers/AuthProvider';
 import { IPropertyData } from '../[id]/page';
 import { IoIosCloseCircle } from 'react-icons/io';
@@ -33,31 +22,12 @@ import { Tooltip } from 'flowbite-react';
 import { ImSpinner9 } from 'react-icons/im';
 import { useRouter } from 'next/navigation';
 import { useModalContext } from '@/providers/ModalProvider';
-import { getStoredToken } from '@/utils/tokenStorage';
-import { getUser } from '@/lib/database/authUser';
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
-
 
 
 interface PropertyHeroProps {
     singlePropertyDetails?: IPropertyData['property'];
 }
-
-// interface IPropertyData {
-//     property: {
-//         _id: string | {};
-//         owner: {
-//             _id: string;
-//         };
-//         propertyImages: string[];
-//         pricePerNight: number;
-//         name: string; // Add this line
-//         state: string; // Add this line
-//         location: string; // Add this line
-//         // ... other properties
-//     };
-//     // ... other interfaces
-// }
 
 
 export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProps) {
@@ -75,11 +45,9 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
     const [adultsCount, setAdultsCount] = useState<number>(0);
     const [childrenCount, setChildrenCount] = useState<number>(0);
     const [isLoading, setIsLoading] = useState(false);
+    const [heroImage, setHeroImage] = useState<string | undefined>();
+    const [seeAllImage, setSeeAllImage] = useState(singlePropertyDetails?.propertyImages.slice(0, 4));
     const router = useRouter();
-    // const { setGuestModal, setLocationModal } = useModalContext();
-    // const { childrenCount, adultsCount, location, setLocation, isSearchBtnClicked, setIsSearchBtnClicked } = useSearchContext();
-
-    // console.log(singlePropertyDetails?.propertyImages);
 
 
     let formattedStartDate: any;
@@ -179,10 +147,6 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
         // Handle the successful booking, e.g., show a success message or redirect the user
     };
 
-    // duration = calculateDuration(selectedDate[0].startDate, selectedDate[0].endDate);
-
-    // const formattedStartDate = format(new Date(selectedDate[0].startDate), "MMM dd, yyyy");
-    // const formattedEndDate = format(new Date(selectedDate[0].endDate), "MMM dd, yyyy");
 
     // function for get all dates and this dates will be disable
     const alreadBookingDates = singlePropertyDetails?.bookedDates.flatMap((date: any) => {
@@ -294,7 +258,6 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
                                             :
                                             <IoMdHeartEmpty className='text-2xl rounded-full text-accent'></IoMdHeartEmpty>
                                     }
-                                    {/* <Image src={isFav ? FavFilled : FavOutline} height={24} width={24} alt="" /> */}
                                     <div>{isFav ? "Saved" : "Save"}</div>
                                 </div>
                         }
@@ -307,12 +270,20 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
                 <div className=" flex lg:flex-row flex-col gap-6">
                     <div className="flex-1 flex-grow block">
                         {singlePropertyDetails?.propertyImages.slice(0, 1).map((imageUrl: string, index: number) => (
-                            <img
+                            <Image
                                 key={index}
+                                src={heroImage || imageUrl}
+                                width={725}
+                                height={686}
                                 className="w-full h-full object-cover object-center border-accent border-[2px] rounded-[10px]"
-                                src={imageUrl}
-                                alt={`Property Image ${index + 1}`}
-                            />
+                                alt={`Property Image ${index + 1}`}>
+                            </Image>
+                            // <img
+                            //     key={index}
+                            //     className="w-full h-full object-cover object-center border-accent border-[2px] rounded-[10px]"
+                            //     src={heroImage || imageUrl}
+                            //     alt={`Property Image ${index + 1}`}
+                            // />
                         ))}
                     </div>
                     <div className="text-white">
@@ -588,21 +559,45 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
 
             {/* Multi Images Section */}
             <div className="lg:grid grid-cols-4 gap-6 mt-6 hidden">
-                {singlePropertyDetails?.propertyImages.slice(1, 5).map((imageUrl: string, index: number) => (
-                    <img
+                {seeAllImage?.map((imageUrl: string, index: number) => (
+                    <Image
+                        onClick={() => setHeroImage(imageUrl)}
                         key={index}
-                        className="w-full h-full object-cover object-center border-accent border-[2px] rounded-[10px]"
                         src={imageUrl}
-                        alt={`Property Image ${index + 1}`}
-                    />
+                        width={302}
+                        height={227}
+                        className="w-full h-full object-cover object-center border-accent border-[2px] rounded-[10px] cursor-pointer"
+                        alt={`Property Image ${index + 1}`}>
+                    </Image>
+                    // <img
+                    //     onClick={() => setHeroImage(imageUrl)}
+                    //     key={index}
+                    //     className="w-full h-full object-cover object-center border-accent border-[2px] rounded-[10px] cursor-pointer"
+                    //     src={imageUrl}
+                    //     alt={`Property Image ${index + 1}`}
+                    // />
                 ))}
             </div>
 
-            <div className="lg:flex justify-center mt-[3.75rem] hidden">
-                <button className="py-4 px-[3.75rem] text-white bg-accent text-[1.25rem] font-bold rounded-[5px]">
-                    See More Picture
-                </button>
-            </div>
+            {
+                (singlePropertyDetails?.propertyImages?.length ?? 0) > 5 &&
+                <div className="lg:flex justify-center mt-[3.75rem] hidden">
+                    {
+                        seeAllImage?.length === 4 ?
+                            <button
+                                onClick={() => setSeeAllImage(singlePropertyDetails?.propertyImages.slice(0, singlePropertyDetails?.propertyImages.length))}
+                                className="py-4 px-[3.75rem] text-white bg-accent text-[1.25rem] font-bold rounded-[5px]">
+                                See All Picture
+                            </button>
+                            :
+                            <button
+                                onClick={() => setSeeAllImage(singlePropertyDetails?.propertyImages.slice(0, 4))}
+                                className="py-4 px-[3.75rem] text-white bg-accent text-[1.25rem] font-bold rounded-[5px]">
+                                See Less Picture
+                            </button>
+                    }
+                </div>
+            }
         </section>
     );
 }

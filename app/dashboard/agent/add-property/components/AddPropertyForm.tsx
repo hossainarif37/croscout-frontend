@@ -182,7 +182,7 @@ const AddPropertyForm = () => {
                                     <p className="flex w-full rounded-md border-none outline-none text-sm lg:text-base text-secondary-50 placeholder:text-sm">
                                         {
 
-                                            amenities?.map((amenity, indx) => <span key={indx}>{amenity}, </span>)
+                                            amenities?.map((amenity, indx) => <span key={indx}> {amenity}, </span>)
                                         }
                                     </p>
                                     <div className="flex gap-4 relative">
@@ -191,7 +191,7 @@ const AddPropertyForm = () => {
                                             className=""
                                             placeholder="Input amenity and press the button"
                                         />
-                                        <span onClick={handleAddAminity} className="absolute cursor-pointer bg-primary-50 px-3 py-3  font-semibold text-accent right-0">+ Add Amenity</span>
+                                        <span onClick={handleAddAminity} className="absolute text-white bg-gradient-to-l from-cyan-400 to-cyan-500 py-3 rounded-r-md cursor-pointer  px-10 flex-center gap-x-2 right-0">+ Add Amenity</span>
                                     </div>
                                     {amenitiesError && <p className="text-red-600 mt-1 lg:text-base text-sm">Amenities is required!</p>}
 
@@ -257,7 +257,7 @@ const AddPropertyForm = () => {
                                             <option value="" disabled defaultValue="Crotia">Select an option</option>
                                             {/* <option value="Bangladesh">Bangladesh</option> */}
                                             {/* <option value="Germany">Germany</option> */}
-                                            <option value="Crotia" >Croatia</option>
+                                            <option value="Croatia" >Croatia</option>
                                         </select>
 
 

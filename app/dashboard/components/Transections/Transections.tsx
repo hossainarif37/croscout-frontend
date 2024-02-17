@@ -8,7 +8,7 @@ const Transactions = ({ dashboardStats }: any) => {
   console.log(dashboardStats);
   return (
     <div className={` ${styles.container}`}>
-      <h2 className={styles.title}>Latest Transactions</h2>
+      <h2 className="text-secondary-50">Latest Bookings</h2>
       <div className="overflow-x-auto">
         <table className={styles.table}>
           <thead className={styles.thead}>
