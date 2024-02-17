@@ -10,7 +10,11 @@ interface IDateRange {
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image';
 import ShareActive from "@/public/icons/share-active.svg";
-import { FaChevronDown } from 'react-icons/fa';
+import FavOutline from "@/public/icons/love-outline.svg";
+import FavFilled from "@/public/icons/love-filled.svg"; 
+import { FaChevronDown, FaRegCopy } from 'react-icons/fa';
+// import { useModalContext } from '@/providers/ModalProvider';
+// import { useSearchContext } from '@/providers/SearchProvider';
 import { differenceInDays, format } from "date-fns";
 import { useAuthContext } from '@/providers/AuthProvider';
 import { IPropertyData } from '../[id]/page';
@@ -48,6 +52,10 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
     const [heroImage, setHeroImage] = useState<string | undefined>();
     const [seeAllImage, setSeeAllImage] = useState(singlePropertyDetails?.propertyImages.slice(0, 4));
     const router = useRouter();
+
+    const [showInput, setShowInput] = useState(false);
+    const [urlToCopy, setUrlToCopy] = useState('');
+    const [isCopied, setIsCopied] = useState(false);
 
 
     let formattedStartDate: any;
@@ -239,6 +247,26 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
         }
     }, [user?._id]);
 
+
+    const handleShareClick = () => {
+        setUrlToCopy(window.location.href);
+        setShowInput(true);
+    };
+
+    const handleCopyClick = async () => {
+        try {
+            await navigator.clipboard.writeText(urlToCopy);
+            setIsCopied(true);
+            toast.success("url copied successfully!")
+        } catch (err) {
+            console.error('Failed to copy text: ', err);
+        }
+    };
+
+    const handleCloseClick = () => {
+        setShowInput(false);
+    };
+
     // Guest Calculation
     return (
         <section className='wrapper'>
@@ -250,9 +278,26 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
                 <div className="mt-6 lg:flex justify-between items-center">
                     <p>{singlePropertyDetails?.state}, {singlePropertyDetails?.location}</p>
                     <div className="flex items-center gap-16 mt-4 lg:mt-0">
+
                         <div className="flex items-center gap-3 cursor-pointer">
-                            <Image src={ShareActive} height={24} width={24} alt="" />
-                            <div>Share</div>
+                            {/* <Image src={ShareActive} height={24} width={24} alt="" />
+                            <div>Share</div> */}
+
+
+                            {showInput ? (
+                                <div className='flex gap-3 transition-all ease-in-out duration-300'>
+                                    <input type="text" value={urlToCopy} className='bg-white-50 text-black rounded-md border-none opacity-100 scale-100' />
+                                    <button onClick={handleCopyClick} className={`text-xl ${isCopied ? 'text-green-500' : 'text-[#25F299]'}`}>
+                                        <FaRegCopy />
+                                    </button>
+                                    <button onClick={handleCloseClick}>Close</button>
+                                </div>
+                            ) : (
+                                <button onClick={handleShareClick} className='flex gap-3 transition-all ease-in-out duration-300'>
+                                    <Image src={ShareActive} height={24} width={24} alt="" />
+                                    <div>Share</div>
+                                </button>
+                            )}
                         </div>
                         {
                             (user?.role === "admin" || user?.role === "agent") ? " " :

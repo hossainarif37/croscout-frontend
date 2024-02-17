@@ -27,11 +27,11 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
 
     return (
-        <div className={`${styles.container}`}>
+        <div className={`${styles.container}`} >
             <div className={`${styles.menu}`}>
                 <Sidebar />
             </div>
-            <div onClick={handleToggleSidebar} className={` ${styles.contain} overflow-auto h-screen py-20 scrollbar ${sidebarToggle && "blur-md pointer-events-auto"}`}>
+            <div className={` ${styles.contain} overflow-hidden min-h-screen py-20 scrollbar ${sidebarToggle && "blur-md pointer-events-auto"}`}>
                 <div className='mb-4'>
                     {/* <DashboardSearchFeild /> */}
                 </div>
