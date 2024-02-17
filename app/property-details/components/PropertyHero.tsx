@@ -35,6 +35,8 @@ import { useRouter } from 'next/navigation';
 import { useModalContext } from '@/providers/ModalProvider';
 import { getStoredToken } from '@/utils/tokenStorage';
 import { getUser } from '@/lib/database/authUser';
+import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
+
 
 
 interface PropertyHeroProps {
@@ -73,7 +75,6 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
     const [adultsCount, setAdultsCount] = useState<number>(0);
     const [childrenCount, setChildrenCount] = useState<number>(0);
     const [isLoading, setIsLoading] = useState(false);
-    const [favRefetch, setFavRefetch] = useState(false);
     const router = useRouter();
     // const { setGuestModal, setLocationModal } = useModalContext();
     // const { childrenCount, adultsCount, location, setLocation, isSearchBtnClicked, setIsSearchBtnClicked } = useSearchContext();
@@ -216,7 +217,6 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
     const handleSaveToFavourites = async (id: string) => {
         try {
             // Toggle the favorite state
-
             if (!user) {
                 toast.error("Login first!")
                 return setLoginModal(true);
@@ -246,12 +246,13 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
             // toast message
             if (result.isAdd) {
                 toast.success(result.message);
-                setFavRefetch(pre => !pre)
-                // setIsFav(true);
+                // setFavRefetch(pre => !pre)
+                setIsFav(true);
+                return;
             } else {
                 toast.success(result.message);
-                setFavRefetch(pre => !pre)
-                // setIsFav(false);
+                // setFavRefetch(pre => !pre)
+                setIsFav(false);
             }
         } catch (error) {
             console.error('Error toggling favorite status:', error);
@@ -261,14 +262,13 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
     let isExist;
     useEffect(() => {
         isExist = user?.favoriteList?.find(propId => propId === singlePropertyDetails?._id);
-
         // Check iffavoriteList is an array
         if (isExist) {
             setIsFav(true);
         } else {
             setIsFav(false);
         }
-    }, [user?._id, favRefetch]);
+    }, [user?._id]);
 
     // Guest Calculation
     return (
@@ -285,10 +285,19 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
                             <Image src={ShareActive} height={24} width={24} alt="" />
                             <div>Share</div>
                         </div>
-                        <div onClick={() => { if (singlePropertyDetails?._id) handleSaveToFavourites(singlePropertyDetails._id) }} className="flex items-center gap-3 cursor-pointer">
-                            <Image src={isFav ? FavFilled : FavOutline} height={24} width={24} alt="" />
-                            <div>{isFav ? "Saved" : "Save"}</div>
-                        </div>
+                        {
+                            (user?.role === "admin" || user?.role === "agent") ? " " :
+                                <div onClick={() => { if (singlePropertyDetails?._id) handleSaveToFavourites(singlePropertyDetails._id) }} className="flex items-center gap-3 cursor-pointer">
+                                    {
+                                        isFav ?
+                                            <IoMdHeart className='text-2xl rounded-full text-accent'></IoMdHeart>
+                                            :
+                                            <IoMdHeartEmpty className='text-2xl rounded-full text-accent'></IoMdHeartEmpty>
+                                    }
+                                    {/* <Image src={isFav ? FavFilled : FavOutline} height={24} width={24} alt="" /> */}
+                                    <div>{isFav ? "Saved" : "Save"}</div>
+                                </div>
+                        }
                     </div>
                 </div>
             </div>
