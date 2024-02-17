@@ -28,7 +28,6 @@ const page = () => {
         fetchData();
     }, []);
 
-
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
 
         const postData = {
@@ -117,12 +116,23 @@ const page = () => {
                     </div>
                 </div>
                 <div className="flex items-center justify-center p-6 w-full">
-                    <button
-                        className="rounded-md hover:border-white active:scale-95 duration-150 outline-none border border-accent px-3 py-3 text-sm lg:text-base placeholder:text-secondary-50 placeholder:text-sm"
-                        type="submit"
-                    >
-                        Sent Payment Request with Payment Details
-                    </button>
+                    {
+                        paymentDetails?.agentPaypalEmail ?
+                            <button
+                                className="rounded-md hover:border-white active:scale-95 duration-150 outline-none border border-accent px-3 py-3 text-sm lg:text-base placeholder:text-secondary-50 placeholder:text-sm"
+                                type="submit"
+                                disabled
+                            >
+                                Payment Request Already Send
+                            </button>
+                            :
+                            <button
+                                className="rounded-md hover:border-white active:scale-95 duration-150 outline-none border border-accent px-3 py-3 text-sm lg:text-base placeholder:text-secondary-50 placeholder:text-sm"
+                                type="submit"
+                            >
+                                Sent Payment Request with Payment Details
+                            </button>
+                    }
                 </div>
             </form>
         </div>
