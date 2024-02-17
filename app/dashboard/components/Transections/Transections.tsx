@@ -5,6 +5,7 @@ import { format } from "date-fns";
 
 
 const Transactions = ({ dashboardStats }: any) => {
+  console.log(dashboardStats);
   return (
     <div className={` ${styles.container}`}>
       <h2 className={styles.title}>Latest Transactions</h2>
@@ -39,7 +40,7 @@ const Transactions = ({ dashboardStats }: any) => {
                   </span>
                 </td>
                 <td>{format(new Date(item?.createdAt), "MMM dd, yyyy")}</td>
-                <td>${item?.price}</td>
+                <td>€ {item?.price}</td>
               </tr>)
             }
           </tbody>
