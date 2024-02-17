@@ -87,7 +87,7 @@ const PropertiesCard = ({ property, setDelete }: Property & any) => {
                     {/* Price and Ratings */}
                     <div className="flex justify-between mt-[10px]">
                         {/* Price */}
-                        <div className="text-accent font-semibold">€{pricePerNight} night</div>
+                        <div className="text-accent font-semibold">€ {pricePerNight} night</div>
                         <div className="flex items-center gap-1.5 border-b border-b-accent">
                             <div className="">
                                 {/* <Image src={StartIcon} height={14} width={14} alt="img" /> */}
