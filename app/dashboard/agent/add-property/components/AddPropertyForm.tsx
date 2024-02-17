@@ -25,11 +25,15 @@ type Inputs = {
     guests: number
 }
 
+type AmenitiesState = string[];
+
 const AddPropertyForm = () => {
     const { register, handleSubmit, reset, formState: { errors }, } = useForm<Inputs>();
     const [imagesArr, setImagesArr] = useState<string[]>([]);
     const [imagesArrError, setImagesArrError] = useState('');
+    const [amenitiesError, setAmenitiesError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [amenities, setAmenities] = useState<AmenitiesState>([]);
     const { user } = useAuthContext();
     const router = useRouter();
     const removeImage = (index: number) => {
@@ -42,14 +46,18 @@ const AddPropertyForm = () => {
             return setImagesArrError('Image is required!');
         }
         setImagesArrError('')
+        if (amenities.length === 0) {
+            return setAmenitiesError(true)
+        }
+        setAmenitiesError(false)
         // Convert the amenities string into an array
 
-        const amenitiesArray = data.amenities.split(',').map(amenity => amenity.trim());
+        // const amenitiesArray = data.amenities.split(',').map(amenity => amenity.trim());
 
         // Construct the final object with the amenities array
         const finalData = {
             ...data,
-            amenities: amenitiesArray,
+            amenities: amenities,
             propertyImages: [...imagesArr],
             owner: user?._id
         };
@@ -83,6 +91,38 @@ const AddPropertyForm = () => {
         }
         setIsLoading(false);
     };
+
+    const handleAddAminity = () => {
+        const amenityInput = document.getElementById("amenities") as HTMLInputElement;
+        const amenity = amenityInput.value;
+        if (amenity.length <= 0) return
+        setAmenities([...amenities, amenity]);
+        amenityInput.value = "";
+    }
+
+    const states = [
+        'Istria',
+        'Primorje',
+        'Lika-senj',
+        'Zadar',
+        'Sibenik-Knin',
+        'Split-Dalmatia',
+        'Dubrovnik-Neretva',
+        'Karlovac',
+        'Zagreb County',
+        'City of Zagreb',
+        'Krapina-Zagorje',
+        'Varazdin',
+        'Koprivnica-Krizevci',
+        'Bjelovar-Bilogora',
+        'Virovitica-Podravina',
+        'Pozega-Slavonia',
+        'Brod Posavina',
+        'Osijek-Baranja',
+        'Vukovar-Srijem',
+        'Medimurje'
+    ]
+
 
     return (
         <div>
@@ -138,14 +178,22 @@ const AddPropertyForm = () => {
                                     >
                                         Amenities
                                     </label>
-                                    <input
-                                        id="amenities"
-                                        placeholder="Enter amenities separated by commas (e.g. Wifi, Pool, Kitchen)"
-                                        {...register("amenities", { required: true })}
-                                    />
+                                    <p className="flex w-full rounded-md border-none outline-none text-sm lg:text-base text-secondary-50 placeholder:text-sm">
+                                        {
 
-                                    {/*//! Error */}
-                                    {errors?.amenities && <p className="text-red-600 mt-1 lg:text-base text-sm">Amenities is required!</p>}
+                                            amenities?.map((amenity, indx) => <span key={indx}>{amenity}, </span>)
+                                        }
+                                    </p>
+                                    <div className="flex gap-4 relative">
+                                        <input
+                                            id="amenities"
+                                            className=""
+                                            placeholder="Input amenity and press the button"
+                                        />
+                                        <span onClick={handleAddAminity} className="absolute cursor-pointer bg-primary-50 px-3 py-3  font-semibold text-accent right-0">+ Add Amenity</span>
+                                    </div>
+                                    {amenitiesError && <p className="text-red-600 mt-1 lg:text-base text-sm">Amenities is required!</p>}
+
                                 </div>
 
                                 <div className="grid md:grid-cols-2 gap-4">
@@ -205,10 +253,10 @@ const AddPropertyForm = () => {
                                         <select id="input-field" className="form-select"
                                             {...register("location", { required: true })}
                                         >
-                                            <option value="" disabled>Select an option</option>
-                                            <option value="Bangladesh">Bangladesh</option>
-                                            <option value="Germany">Germany</option>
-                                            <option value="Crotia">Croatia</option>
+                                            <option value="" disabled defaultValue="Crotia">Select an option</option>
+                                            {/* <option value="Bangladesh">Bangladesh</option> */}
+                                            {/* <option value="Germany">Germany</option> */}
+                                            <option value="Crotia" >Croatia</option>
                                         </select>
 
 
@@ -229,9 +277,10 @@ const AddPropertyForm = () => {
                                             {...register("state", { required: true })}
                                         >
                                             <option value="" disabled>Select an option</option>
-                                            <option value="Dhaka City">Dhaka City</option>
-                                            <option value="Dhaka City">Melbourne City</option>
-                                            <option value="Dhaka City">California</option>
+                                            {
+                                                states?.map((state, indx) => <option key={indx} value={state}>{state}</option>
+                                                )
+                                            }
                                         </select>
 
                                         {/*//! Error */}
@@ -324,7 +373,7 @@ const AddPropertyForm = () => {
 
                             {/* Save Button */}
                             <div className="flex-center py-3">
-                                <button type="submit" className="  bg-blue-500  rounded-md text-white lg:w-1/2 w-full px-5 py-3 cursor-pointer">
+                                <button type="submit" className="  bg-blue-500 flex items-center justify-center rounded-md text-white lg:w-1/2 w-full px-5 py-3 cursor-pointer">
                                     {
                                         isLoading ?
                                             <ImSpinner className="animate-spin text-[26px]"></ImSpinner>
