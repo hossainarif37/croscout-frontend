@@ -1,4 +1,5 @@
 "use client"
+// Import necessary modules and components
 import { getBookingDetails } from '@/lib/database/getBookingDetails';
 import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -6,6 +7,7 @@ import { IoArrowBack } from 'react-icons/io5';
 import { format } from 'date-fns';
 import Image from 'next/image';
 
+//* Define interfaces for booking details data and booking
 export interface IPropertyDetailsData {
     property: {
         name: string;
@@ -18,7 +20,7 @@ export interface IPropertyDetailsData {
         propertyImages: string[];
         owner: string;
         status: string;
-        guests: string
+        guests: string;
     };
     guest: {
         name: string;
@@ -31,22 +33,28 @@ export interface IPropertyDetailsData {
     endDate: string;
     status: string;
     price: string;
-    // ... other properties if needed
 }
 
 export interface IBooking {
     _id: string;
-    // ... other fields that belong to a booking
 }
 
+//? Define the functional component 'page'
 const page = () => {
+
+    //* Define state to store booking details
     const [bookingDetails, setBookingDetails] = useState<IPropertyDetailsData>();
     console.log(bookingDetails);
-    const { id } = useParams();
 
+    //* Get route parameters and router object
+    const { id } = useParams();
     const router = useRouter();
+
+    //* Fetch booking details when component mounts
     useEffect(() => {
         const fetchData = async () => {
+
+            //* Fetch booking details only if id is a string
             if (typeof id === 'string') {
                 const bookingData = await getBookingDetails(id);
                 setBookingDetails(bookingData.booking);
@@ -55,6 +63,8 @@ const page = () => {
 
         fetchData();
     }, []);
+
+    //? Return JSX for the 'page' component
     return (
         <div className='min-h-screen'>
             {bookingDetails && (
@@ -69,6 +79,8 @@ const page = () => {
                             <span className="font-normal text-gray-500 dark:text-gray-400 capitalize">Booking Status - <span className='font-semibold italic'>({bookingDetails?.status})</span></span>
                         </div>
                         <div className='lg:p-6 flex md:flex-row flex-col md:gap-6 gap-3'>
+
+                            {/*//*======= Display property images =========*/}
                             {bookingDetails?.property?.propertyImages && bookingDetails?.property?.propertyImages?.length > 0 ? (
                                 <>
                                     {bookingDetails?.property?.propertyImages.slice(0, 4).map((imgSrc, index) => (
@@ -86,55 +98,78 @@ const page = () => {
                                 <p>No image available.</p>
                             )}
                         </div>
+
+                        {/*//* Display booking details */}
                         <div className="p-6 grid gap-4 md:grid-cols-3">
+
+                            {/*//? Guest name */}
                             <div className="grid gap-1">
                                 <div className="font-semibold text-gray-300 text-xl">Guest name</div>
                                 <div>{bookingDetails?.guest.name}</div>
                             </div>
+
+                            {/*//? Owner name */}
                             <div className="grid gap-1">
                                 <div className="font-semibold text-gray-300 text-xl">Owner Name</div>
                                 <div>{bookingDetails?.owner.name}</div>
                             </div>
+
+                            {/*//? Confirmation status */}
                             <div className="grid gap-1">
                                 <div className="font-semibold text-gray-300 text-xl">Confirmation status</div>
                                 <div>{bookingDetails?.status}</div>
                             </div>
+
+                            {/*//? Check-in date */}
                             <div className="grid gap-1">
                                 <div className="font-semibold text-gray-300 text-xl">Check-in</div>
                                 <div>{format(new Date(bookingDetails?.startDate), "MMM dd, yyyy")}</div>
                             </div>
+
+                            {/*//? Check-out date */}
                             <div className="grid gap-1">
                                 <div className="font-semibold text-gray-300 text-xl">Check-out</div>
                                 <div>{format(new Date(bookingDetails?.endDate), "MMM dd, yyyy")}</div>
                             </div>
+
+                            {/*//? Location */}
                             <div className="grid gap-1">
                                 <div className="font-semibold text-gray-300 text-xl">Location</div>
                                 <div>{bookingDetails?.property?.location}</div>
                             </div>
+
+                            {/*//? Room type */}
                             <div className="grid gap-1">
                                 <div className="font-semibold text-gray-300 text-xl">Room type</div>
                                 <div>{bookingDetails?.property?.propertyType}</div>
                             </div>
+
+                            {/*//? Number of guests */}
                             <div className="grid gap-1">
                                 <div className="font-semibold text-gray-300 text-xl">Number of guests</div>
                                 <div>Guests: {bookingDetails?.totalGuests}</div>
                             </div>
+
+                            {/*//? Total price */}
                             <div className="grid gap-1">
                                 <div className="font-semibold text-gray-300 text-xl">Total price</div>
                                 <div>€ {bookingDetails?.price}</div>
                             </div>
+
+                            {/*//? Special requests */}
                             <div className="grid gap-1">
                                 <div className="font-semibold text-gray-300 text-xl">Special requests</div>
                                 <div>No smoking room</div>
                             </div>
                         </div>
-                        <div className=' lg:w-2/3 md:p-6'>
+
+                        {/*//? Description */}
+                        <div className='lg:w-2/3 md:p-6'>
                             <div className="font-semibold text-gray-300 text-xl">Description</div>
-                            <p className=' w-full'>{bookingDetails?.property?.description}</p>
+                            <p className='w-full'>{bookingDetails?.property?.description}</p>
                         </div>
                     </div>
                 </div>
-
             )}
         </div>
     );
