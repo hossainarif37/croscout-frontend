@@ -1,6 +1,6 @@
 "use client"
 import { useParams, useRouter } from 'next/navigation'
-import { Property, categoryList, defaultStates } from "@/constant";;
+import { Property, categoryList, defaultStates, defaultStatesForMap } from "@/constant";;
 import React, { useEffect, useState } from 'react';
 import { getPropertyById } from '@/lib/database/getProperties';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -326,7 +326,7 @@ const EditProperties = () => {
                                             >
                                                 <option value="" disabled>Select an option</option>
                                                 {
-                                                    defaultStates.map((state, indx) => <option key={indx} value={state}>{state}</option>)
+                                                    defaultStatesForMap.map((state, indx) => <option key={indx} value={state.label}>{state.label}</option>)
                                                 }
                                             </select>
 

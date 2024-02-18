@@ -8,6 +8,7 @@ import PropertyTestimonial from "../components/PropertyTestimonial";
 import { useParams } from "next/navigation";
 import { getPropertyById } from "@/lib/database/getProperties";
 import Loading from "@/components/ui/Loading/Loading";
+import PropertyDescription from "../components/PropertyDescription";
 
 // Interface of Properties Data 
 export interface IPropertyData {
@@ -36,6 +37,9 @@ export default function PropertyDetails() {
 
     const [singlePropertyDetails, setSinglePropertyDetails] = useState<IPropertyData>();
     const [loading, setLoading] = useState(true);
+
+    const images = singlePropertyDetails?.property?.propertyImages;
+    const lastIndex = images ? images.length - 1 : -1;
 
     useEffect(() => {
         const navbarId = document.getElementById("topbar")
@@ -75,7 +79,8 @@ export default function PropertyDetails() {
                 const descriptionMeta = document.querySelector('meta[name="description"]');
                 if (descriptionMeta) {
                     descriptionMeta.setAttribute('content', propertiesData.property.description);
-                }}
+                }
+            }
         };
 
         fetchData();
@@ -90,6 +95,10 @@ export default function PropertyDetails() {
         <div className="">
             <PropertyHero singlePropertyDetails={singlePropertyDetails?.property} />
             <PropertyAbout aboutDetails={singlePropertyDetails?.property} />
+            <PropertyDescription
+                description={singlePropertyDetails?.property?.description || ""}
+                image={(singlePropertyDetails?.property?.propertyImages || [])[lastIndex] || ""}
+            />
             <PropertyTestimonial />
             <PropertyReviews />
         </div>
