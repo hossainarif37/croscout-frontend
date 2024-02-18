@@ -29,6 +29,8 @@ import { useModalContext } from '@/providers/ModalProvider';
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import ImageCarousel from './ImageCarousel';
 import { SiProcessingfoundation } from 'react-icons/si';
+import { getUser } from '@/lib/database/authUser';
+import { getStoredToken } from '@/utils/tokenStorage';
 
 
 interface PropertyHeroProps {
@@ -221,16 +223,19 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
 
             // Set the favorite status
             // setIsFav(result.isAdd);
-            // const token = getStoredToken();
+            const token = getStoredToken();
+            if (!token) return;
             // toast message
             if (result.isAdd) {
                 toast.success(result.message);
-                // setFavRefetch(pre => !pre)
+                const { user: refetchUser } = await getUser({ token });
+                setUser(refetchUser);
                 setIsFav(true);
                 return;
             } else {
                 toast.success(result.message);
-                // setFavRefetch(pre => !pre)
+                const { user: refetchUser } = await getUser({ token });
+                setUser(refetchUser);
                 setIsFav(false);
             }
         } catch (error) {
