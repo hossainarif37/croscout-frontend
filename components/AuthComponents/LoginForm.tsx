@@ -95,7 +95,14 @@ const LoginForm = () => {
 
     return (
         <div className="w-full relative max-w-xl p-8 px-0 md:px-8 bg-white  font-sans mx-auto">
-            <button onClick={() => setLoginModal(false)} className="absolute hover:text-primary top-0 right-0 text-4xl"><IoIosCloseCircle /></button>
+
+            {/* Modal Close Button */}
+            <button onClick={() => {
+                setLoginModal(false);
+                setIsForgotMode(false);
+            }} className="absolute hover:text-primary top-0 right-0 text-4xl"><IoIosCloseCircle /></button>
+
+            {/* Form Title */}
             <h1 className="text-3xl font-bold text-center text-secondary">{isForgotMode ? "Forgot Password" : "Login"}</h1>
 
             {/* Input fields and the form started */}
