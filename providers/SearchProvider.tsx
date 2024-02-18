@@ -61,7 +61,6 @@ const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
         value: ''
         // flag: '',
     });
-    console.log(locationObject, setLocationObject)
     const [location, setLocation] = useState<string>("");
     // const [categoryInputValue, setCategoryInputValue] = useState<string>("");
     const [adultsCount, setAdultsCount] = useState<number>(0);

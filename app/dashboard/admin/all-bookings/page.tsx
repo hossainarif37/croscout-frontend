@@ -4,6 +4,7 @@ import { useAuthContext } from '@/providers/AuthProvider';
 import Loading from '@/components/ui/Loading/Loading';
 import BookingsTable from '../../components/BookingsTable/BookingsTable';
 import { getAllBookings } from '@/lib/database/getBookings';
+import EmptyPage from '@/components/common/EmptyPage';
 
 
 const page = () => {
@@ -51,9 +52,7 @@ const page = () => {
 
     // If there are no bookings, render a message indicating that no bookings were found
     if (!bookings || bookings.length === 0) {
-        return <div className='min-h-screen flex-center'>
-            <h1 className='text-4xl font-bold text-white-50'>No bookings found. Please book a property.</h1>
-        </div>
+        return <EmptyPage>No bookings found. Please book a property.</EmptyPage>
     }
 
     return (

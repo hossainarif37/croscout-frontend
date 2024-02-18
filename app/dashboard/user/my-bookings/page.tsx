@@ -4,6 +4,7 @@ import BookingsTable from '../../components/BookingsTable/BookingsTable';
 import { useEffect, useState } from 'react';
 import { getBookingsById } from '@/lib/database/getUserBooking';
 import Loading from '@/components/ui/Loading/Loading';
+import EmptyPage from '@/components/common/EmptyPage';
 
 const page = () => {
     const [bookings, setBookings] = useState([]);
@@ -37,9 +38,7 @@ const page = () => {
     }
 
     if (!bookings || bookings.length === 0) {
-        return <div className='min-h-screen flex-center'>
-            <h1 className='text-4xl font-bold text-white-50'>No bookings found. Please book a property.</h1>
-        </div>
+        return <EmptyPage>No bookings found. Please book a property.</EmptyPage>
     }
 
 
