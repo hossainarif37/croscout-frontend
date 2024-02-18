@@ -103,7 +103,7 @@ const PropertiesCard = ({ property, setDelete }: Property & any) => {
                         </div>
                     </div>
                     <div className={`flex gap-3 mt-4 ${styles.propertiesButton}`}>
-                        <button onClick={() => router.push(`/dashboard/edit-properties/${_id}`)} className='hover:bg-green-500  border border-green-500'>Edit</button>
+                        <button onClick={() => router.push(`/dashboard/admin/edit-properties/${_id}`)} className='hover:bg-green-500  border border-green-500'>Edit</button>
                         <button onClick={handleDelete} className='hover:bg-[#d33] border border-red-500'>Delete</button>
                     </div>
                 </div>

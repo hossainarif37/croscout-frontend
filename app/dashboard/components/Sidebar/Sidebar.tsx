@@ -23,6 +23,7 @@ import MenuLink from './MenuLink/MenuLink';
 import Loading from '@/components/ui/Loading/Loading';
 import { FaMagento, FaStar, FaUserAlt } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
+import { AiFillPropertySafety } from 'react-icons/ai';
 
 
 export default function Sidebar() {
@@ -161,7 +162,7 @@ export default function Sidebar() {
                 {
                     title: "All Properties",
                     path: "/dashboard/admin/all-properties",
-                    icon: <MdShoppingBag />,
+                    icon: <AiFillPropertySafety />,
                 },
             ],
         },
