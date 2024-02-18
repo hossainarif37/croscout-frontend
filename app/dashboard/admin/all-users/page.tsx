@@ -3,7 +3,6 @@ import Loading from '@/components/ui/Loading/Loading';
 import { getAllUsers, getUsersByRole } from '@/lib/database/getUsers';
 import React, { useEffect, useState } from 'react';
 import { BsPersonFill, BsThreeDotsVertical } from 'react-icons/bs';
-import DashboardSearchFeild from '../../components/DashboardSearchField/DashboardSearchFeild';
 import { useAuthContext } from '@/providers/AuthProvider';
 import AllUsersTable from '../../components/AllUsersTable/AllUsersTable';
 import { getStoredToken } from '@/utils/tokenStorage';
@@ -48,9 +47,6 @@ const page = () => {
     }
     return (
         <div className='bg-primary-50 px-3 py-3'>
-            {/* <div className='mb-5'>
-                <DashboardSearchFeild />
-            </div> */}
             <h4 className='text-xl mb-3 text-white-50'>All Users:</h4>
 
             <AllUsersTable data={users} tableFor="user" />
