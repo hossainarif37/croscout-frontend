@@ -8,6 +8,9 @@ import Transactions from "./components/Transections/Transections";
 import Chart from "./components/Chart/Chart";
 import Loading from "@/components/ui/Loading/Loading";
 import styles from "@/app/dashboard/components/dashboard.module.css";
+import { MdSupervisedUserCircle } from "react-icons/md";
+import { HiOutlineHomeModern } from "react-icons/hi2";
+import { FaHandHoldingDollar } from "react-icons/fa6";
 
 // Define the interface for booking data
 export interface IBooking {
@@ -76,18 +79,21 @@ const Dashboard = () => {
             title: user?.role === 'admin' ? "Total Users" : 'Total Properties',
             number: user?.role === 'admin' ? dashboardStats?.userCount : dashboardStats?.agentProperties,
             change: 12,
+            icon: <MdSupervisedUserCircle size={20} />
         },
         {
             id: 2,
             title: user?.role === 'admin' ? "Total Properties" : "Total Bookings",
             number: user?.role === 'admin' ? dashboardStats?.propertyCount : dashboardStats?.agentBookings,
             change: -2,
+            icon: <HiOutlineHomeModern size={20} />
         },
         {
             id: 3,
             title: user?.role === 'admin' ? "Total Revenue" : "Revenue",
             number: user?.role === 'admin' ? dashboardStats?.totalRevenue : dashboardStats?.agentRevenue,
             change: 18,
+            icon: <FaHandHoldingDollar size={20} />
         },
     ];
 
