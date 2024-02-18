@@ -225,38 +225,6 @@ const ProfilePage = () => {
                                 "Save Changes"
                         }</button>
                     </form>
-
-
-                    {/* Update Password */}
-                    {/* <form onSubmit={passwordForm.handleSubmit(handleChangePassword)} className="max-w-3xl mx-auto space-y-3 my-10">
-                        <h4 className="text-white-50 text-xl">Update Password:</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div className="flex flex-col gap-3">
-                                <label className="text-white-50" htmlFor="oldPassword">Old Password</label>
-                                <input {...passwordForm.register("oldPassword", { required: true })} className="rounded w-full" type="password" name="oldPassword" id="oldPassword" placeholder={passwordForm.formState.errors.oldPassword ? "Please Enter Your Old Password" : "Your Old Password"} />
-                            </div>
-                            <div className="flex flex-col gap-3 relative">
-                                <label className="text-white-50" htmlFor="newPassword">New Password</label>
-                                <input {...passwordForm.register("newPassword", { required: true })} className="rounded w-full" type={isShow ? "text" : "password"} name="newPassword" id="newPassword" placeholder={passwordForm.formState.errors.newPassword ? "Please Enter Your New Password" : "Your New Password"} />
-                                <span onClick={handleShowPassword} className="text-xl absolute bottom-3 right-2 cursor-pointer">
-                                    {
-                                        isShow ?
-                                            <FaEyeSlash></FaEyeSlash>
-                                            :
-                                            <FaEye></FaEye>
-                                    }
-                                </span>
-                            </div>
-                        </div>
-                        <button className="bg-green-500 hover:bg-transparent border border-transparent hover:border-green-500 text-white font-semibold px-2 py-2 rounded w-full flex items-center justify-center h-12">
-                            {
-                                isPassLoading ?
-                                    <ImSpinner9 className="animate-spin text-[26px]"></ImSpinner9>
-                                    :
-                                    "Change Password"
-                            }
-                        </button>
-                    </form> */}
                 </div>
             </div>
         </div>

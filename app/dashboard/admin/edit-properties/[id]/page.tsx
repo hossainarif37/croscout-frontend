@@ -1,6 +1,6 @@
 "use client"
 import { useParams, useRouter } from 'next/navigation'
-import { Property, categoryList, defaultStates } from "@/constant";;
+import { categoryList, defaultStates } from "@/constant";;
 import React, { useEffect, useState } from 'react';
 import { getPropertyById } from '@/lib/database/getProperties';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -64,7 +64,6 @@ const EditProperties = () => {
     };
 
     const { id } = useParams();
-    console.log(id);
 
     const fetchData = async () => {
         setLoading(true);
@@ -105,7 +104,6 @@ const EditProperties = () => {
         }
         setAmenitiesError(false)
         // Convert the amenities string into an array
-        // const amenitiesArray = data.amenities.split(',').map(amenity => amenity.trim());
 
         // Construct the final object with the amenities array
         const finalData = {
@@ -115,8 +113,6 @@ const EditProperties = () => {
             owner: user?._id
         };
 
-        // console.log(finalData);
-        // console.log(process.env.NEXT_PUBLIC_SERVER_URL);
         try {
 
             const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/properties/${id}`, {
@@ -400,25 +396,6 @@ const EditProperties = () => {
                                         imagesArrError && <p className="text-red-500">{imagesArrError}</p>
                                     }
                                     {/* --------------Upload Images Area End----------------*/}
-
-
-                                    {/* <div className="flex flex-col gap-1.5">
-                                    <label
-                                        htmlFor="images"
-                                    >
-                                        Property images
-                                    </label>
-                                    <input
-                                        className="p-0"
-                                        type="file"
-                                        id="images"
-                                        placeholder="Images"
-                                        {...register("image", { required: true })}
-                                    />
-                                    <div className="text-xs text-gray-500 dark:text-gray-400">Upload your images here</div>
-
-                                    {errors?.image && <p className="text-red-600 mt-1 lg:text-base text-sm">Property images is requeart!</p>}
-                                </div> */}
                                 </div>
 
                                 {/* Save Button */}
@@ -435,3 +412,6 @@ const EditProperties = () => {
 };
 
 export default EditProperties;
+
+
+
