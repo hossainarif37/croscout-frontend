@@ -182,7 +182,7 @@ export default function PropertyCard({ property }: Property & any,) {
 
                         {/* Location and State */}
                         <h1 className="text-xl font-bold">
-                            {`${location.substring(0, 10)}, ${state.substring(0, 13)}`}
+                            {`${state.substring(0, 13)}, ${location.substring(0, 10)}`}
                         </h1>
                         {/* Location and State */}
                         {/* <h1 className="text-xl font-bold">
