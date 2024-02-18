@@ -328,14 +328,16 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
                     <div className="flex-1 flex-grow block">
                         {singlePropertyDetails?.propertyImages.slice(0, 1).map((imageUrl: string, index: number) => (
                             <>
-                                <Image
-                                    key={index}
-                                    src={heroImage || imageUrl}
-                                    width={725}
-                                    height={686}
-                                    className="w-full h-full hidden md:block object-cover object-center border-accent border-[2px] rounded-[10px]"
-                                    alt={`Property Image ${index + 1}`}>
-                                </Image>
+                                <div>
+                                    <Image
+                                        key={index}
+                                        src={heroImage || imageUrl}
+                                        width={725}
+                                        height={686}
+                                        className="w-full h-full hidden md:block object-cover object-center border-accent border-[2px] rounded-[10px]"
+                                        alt={`Property Image ${index + 1}`}>
+                                    </Image>
+                                </div>
                                 <div className="h-[15rem] w-full relative rounded-t-[4px] overflow-hidden md:hidden">
                                     <ImageCarousel propertyId={singlePropertyDetails?._id} propertyImages={singlePropertyDetails?.propertyImages} />
                                 </div>
