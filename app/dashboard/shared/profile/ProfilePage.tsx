@@ -39,7 +39,7 @@ const ProfilePage = () => {
     const [currentImage, setCurrentImage] = useState('');
     const [isAgent, setIsAgent] = useState(false);
 
-    const { user, setUser } = useAuthContext();
+    const { user, setUser, setIsUpdateProfile } = useAuthContext();
     const [isShow, setIsShow] = useState(false);
 
     const [isInfoLoading, setInfoIsLoading] = useState(false);
@@ -101,6 +101,8 @@ const ProfilePage = () => {
             const dbResponse = await updateUserInfo(reqData)
             if (dbResponse.success) {
                 setInfoIsLoading(false);
+                setIsUpdateProfile(prev => !prev);
+
                 return toast.success(dbResponse?.message)
             } else {
                 setInfoIsLoading(false);

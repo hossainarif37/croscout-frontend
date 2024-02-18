@@ -35,6 +35,8 @@ interface AuthContextProps {
     setUser: React.Dispatch<React.SetStateAction<User | null>>;
     loading: boolean;
     setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+    isUpdateProfile: boolean;
+    setIsUpdateProfile: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 // Created Context
@@ -48,6 +50,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // State for user
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(false);
+    const [isUpdateProfile, setIsUpdateProfile] = useState(false);
 
     // console.log(user);
     // if(user){
@@ -81,7 +84,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return () => {
             isMounted = false;
         };
-    }, [token]);
+    }, [token, isUpdateProfile]);
 
     if (loading) {
         return <Loading />
@@ -92,7 +95,9 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         user,
         setUser,
         loading,
-        setLoading
+        setLoading,
+        isUpdateProfile,
+        setIsUpdateProfile
     };
 
 
