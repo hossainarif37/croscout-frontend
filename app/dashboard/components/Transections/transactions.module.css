@@ -7,14 +7,14 @@
   @apply mb-5 font-light text-[#182237];
 }
 .tbody{
-  @apply text-center lg:text-left lg:mt-4
+  @apply text-center lg:text-left lg:mt-4 text-secondary-50
 }
 .table {
   @apply w-full;
 }
 
 .table td {
-  @apply p-3 flex-1 justify-start;
+  @apply p-4 flex-1 justify-start;
 }
 .thead tr {
   @apply flex lg:justify-between justify-end items-center gap-8 rounded-t-xl
@@ -44,7 +44,7 @@
 }
 
 .done {
-  @apply bg-[#afcfee83];
+  @apply bg-[#327E5D] text-secondary-50;
 }
 
 .cancelled {
