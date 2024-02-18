@@ -40,10 +40,10 @@ const FavoriteCard = ({ favorite, setRemove }: any) => {
             // await userRefetch();
             const token = getStoredToken();
             if (token) {
+                toast.success('Favorite successfully removed');
                 const { user: refetchUser } = await getUser({ token });
                 setUser(refetchUser)
             }
-            toast.success('Favorite successfully removed');
 
 
             // Handle successful removal (e.g., update the UI)
