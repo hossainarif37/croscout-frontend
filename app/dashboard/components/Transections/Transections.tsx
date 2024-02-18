@@ -18,17 +18,17 @@ const Transactions = ({ dashboardStats }: any) => {
               <td>Guest Name</td>
               {
                 user?.role === "admin" &&
-                <td className="ml-14 md:ml-0">Agent Name</td>
+                <td >Agent Name</td>
               }
-              <td className="ml-8 md:ml-0">Status</td>
-              <td className="ml-8 md:ml-0">Date</td>
-              <td>Amount</td>
+              <td className=" md:ml-0">Status</td>
+              <td className=" md:ml-0">Date</td>
+              <td className="">Amount</td>
             </tr>
           </thead>
           <tbody className={`${styles.tbody} text-gray-400`}>
             {
               dashboardStats?.map((item: any, indx: number) => <tr key={indx}>
-                <td>
+                <td width={420}>
                   <div className={styles.user}>
                     {item?.guest?.name}
                   </div>
