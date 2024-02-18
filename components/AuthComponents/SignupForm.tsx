@@ -67,7 +67,10 @@ const SignupForm = () => {
 
     return (
         <div className=" relative max-w-xl w-full p-8 md:px-8 px-0 space-y-3 bg-white  font-sans mx-auto">
-            <button onClick={() => setSignupModal(false)} className="absolute hover:text-primary top-0 right-0 text-4xl"><IoIosCloseCircle /></button>
+            <button onClick={() => {
+                setSignupModal(false);
+                setIsForgotMode(false);
+            }} className="absolute hover:text-primary top-0 right-0 text-4xl"><IoIosCloseCircle /></button>
             <h1 className="text-3xl font-bold text-center text-secondary">Signup</h1>
 
             {/* Input fields and the form started */}
