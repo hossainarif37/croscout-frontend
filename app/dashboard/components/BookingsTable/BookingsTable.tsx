@@ -213,7 +213,7 @@ const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBooking
                                                         <select
                                                             defaultValue="pending"
                                                             onChange={(e) => { handleStatusChanged(e.target.value, booking._id) }}
-                                                            className='sm:text-left text-right md:text-sm text-xs w-32 bg-orange-400 text-white outline-none p-2 rounded-md'
+                                                            className='sm:text-left text-right md:text-sm text-xs w-32 bg-primary-50 text-white outline-none p-2 rounded-md'
                                                             name="status"
                                                             id={`${booking?._id}`}>
                                                             <option value="pending" disabled>Pending</option>
