@@ -242,7 +242,7 @@ export default function Sidebar() {
 
             {sidebarToggle && <div
                 onClick={() => setSidebarToggle(pre => !pre)}
-                className="text-3xl cursor-pointer block lg:hidden  top-4 left-5 z-50 fixed ">
+                className="text-3xl cursor-pointer block lg:hidden top-4 right-5 z-50 fixed ">
                 <IoIosCloseCircle />
             </div>}
 
