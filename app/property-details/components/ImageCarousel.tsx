@@ -2,15 +2,12 @@
 
 import { Carousel } from "flowbite-react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import propertyStyles from "./property.module.css"
+
 
 
 import React from 'react'
-import Link from "next/link";
 
 export default function ImageCarousel({ propertyImages, propertyId }: any) {
-    const router = useRouter();
 
     const customLeftControl = (
         <div className="custom-left-control">
@@ -34,15 +31,13 @@ export default function ImageCarousel({ propertyImages, propertyId }: any) {
         <div className="h-full">
             <Carousel slide={false}>
                 {
-                    propertyImages.map((img: any, i: number) => <Link className="h-full w-full" href={`/property-details/${propertyId}`}><Image key={i}
-                        // onClick={() => router.push(`/property-details/${propertyId}`)}
+                    propertyImages.map((img: any, i: number) => <Image key={i}
                         src={img}
                         alt="Property Image"
                         width={300}
                         height={300}
                         // layout="fill"
-                        className={"cursor-pointer h-full hover:scale-105 duration-200 w-full carouselImage object-cover"}
-                    /> </Link>)
+                        className={"cursor-pointer h-full hover:scale-105 duration-200 w-full carouselImage object-cover"}/>)
                 }
             </Carousel>
         </div>

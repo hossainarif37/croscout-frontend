@@ -132,8 +132,8 @@ const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBooking
     return (
         <div className=''>
             <div className="relative min-h-screen overflow-x-auto rounded-lg ">
-                <table className="w-full text-left p-4 rtl:text-right rounded-t-xl text-secondary-50">
-                    <thead className="my-3 bg-[#2E374A] p-5 ">
+                <table className="w-full text-left p-4 rtl:text-right rounded-t-xl text-secondary-50 text-sm lg:text-base whitespace-nowrap">
+                    <thead className="my-3 bg-[#2E374A] p-5 whitespace-nowrap">
                         <tr>
                             <th className="p-5 font-semibold">
                                 #
@@ -144,7 +144,7 @@ const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBooking
                             <th className="p-5 font-semibold">
                                 Status
                             </th>
-                            <th className="p-5 font-semibold">
+                            <th className="p-5 font-semibold ">
                                 Last Booking
                             </th>
                             <th className="p-5 font-semibold">
@@ -158,7 +158,7 @@ const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBooking
                             </th>
                         </tr>
                     </thead>
-                    <tbody className='relative'>
+                    <tbody className='relative whitespace-nowrap'>
                         {
                             data?.slice()?.reverse().map((booking, indx) => (
                                 <tr key={indx} className="hover:bg-[#2E374A] hover:rounded-lg bg-primary-50 my-3 p-2 cursor-pointer">
@@ -242,9 +242,9 @@ const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBooking
                                                         <Link href={`/dashboard/user/payment-details/${booking._id}`}>
                                                             <button className='bg-primary-50 text-xs hover:border-white duration-200 w-full border-accent border text-white-50 px-2 py-1 rounded-md'>Payment Details</button>
                                                         </Link>
-                                                        <Link href={`/dashboard/user/payment-confirmation-message/${booking._id}`}>
+                                                        {/* <Link href={`/dashboard/user/payment-confirmation-message/${booking._id}`}>
                                                             <button className='bg-primary-50 text-xs hover:border-white duration-200 w-full border-accent border text-white-50 px-2 py-1 rounded-md'>Confirm Payment</button>
-                                                        </Link>
+                                                        </Link> */}
                                                     </>
                                                     :
                                                     user?.role === "agent" ?

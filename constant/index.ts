@@ -196,6 +196,29 @@ export interface Property {
     ratings: number[];
 }
 
+export const defaultStates = [
+    'Istria',
+    'Primorje',
+    'Lika-senj',
+    'Zadar',
+    'Sibenik-Knin',
+    'Split-Dalmatia',
+    'Dubrovnik-Neretva',
+    'Karlovac',
+    'Zagreb County',
+    'City of Zagreb',
+    'Krapina-Zagorje',
+    'Varazdin',
+    'Koprivnica-Krizevci',
+    'Bjelovar-Bilogora',
+    'Virovitica-Podravina',
+    'Pozega-Slavonia',
+    'Brod Posavina',
+    'Osijek-Baranja',
+    'Vukovar-Srijem',
+    'Medimurje'
+]
+
 
 
 export const propertyList: Property[] = [

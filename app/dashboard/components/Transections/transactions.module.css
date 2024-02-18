@@ -17,10 +17,10 @@
   @apply p-3 flex-1 justify-start;
 }
 .thead tr {
-  @apply flex justify-between items-center gap-8 rounded-t-xl
+  @apply flex lg:justify-between justify-end items-center gap-8 rounded-t-xl
 }
 .thead td{
-  @apply flex-1 justify-start
+  @apply flex-1 lg:justify-start justify-end
 }
 
 .table tr {

@@ -4,6 +4,7 @@ import React from 'react';
 import toast from 'react-hot-toast';
 import Swal from 'sweetalert2';
 import { format } from 'date-fns';
+import { useRouter } from 'next/navigation';
 
 interface User {
     email: string;
@@ -26,6 +27,7 @@ interface AllUsersTableProps {
 
 const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
     const { user } = useAuthContext();
+    const router = useRouter();
     // const date: string | undefined = user?.createdAt;
 
     const handleConfirmAgent = () => {
@@ -50,58 +52,61 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
         });
     }
 
-
-    const handleCancelAgent = () => {
-        Swal.fire({
-            title: "Are you sure?",
-            text: "This user will get all this agent access!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#d33",
-            background: "#182237",
-            color: "#F9ECE4",
-            cancelButtonColor: "#3085d6",
-            cancelButtonText: "Close",
-            confirmButtonText: "Yes, confirm it!"
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                toast.success("dasdsa");
-                // const bookingsData = await getBookingsById(userId);
-                // setBookings(bookingsData.bookings);
-                Swal.close();
-            }
-        });
-    }
+    // Handle Cancel Agent 
+    // const handleCancelAgent = () => {
+    //     Swal.fire({
+    //         title: "Are you sure?",
+    //         text: "This user will get all this agent access!",
+    //         icon: "warning",
+    //         showCancelButton: true,
+    //         confirmButtonColor: "#d33",
+    //         background: "#182237",
+    //         color: "#F9ECE4",
+    //         cancelButtonColor: "#3085d6",
+    //         cancelButtonText: "Close",
+    //         confirmButtonText: "Yes, confirm it!"
+    //     }).then(async (result) => {
+    //         if (result.isConfirmed) {
+    //             toast.success("dasdsa");
+    //             // const bookingsData = await getBookingsById(userId);
+    //             // setBookings(bookingsData.bookings);
+    //             Swal.close();
+    //         }
+    //     });
+    // }
 
     return (
         <div className=''>
             <div className="relative overflow-x-auto rounded-lg ">
-                <table className="w-full text-left p-4 rtl:text-right rounded-t-xl text-secondary-50">
+                <table className="w-full text-left p-4 rtl:text-right rounded-t-xl text-secondary-50 whitespace-nowrap">
                     <thead className="my-3 bg-[#2E374A] p-5 ">
                         <tr>
-                            <th className="p-5 font-semibold">
+                            <th className="lg:p-5 p-3 font-semibold">
                                 #
                             </th>
-                            <th className="p-5 font-semibold">
+                            <th className="lg:p-5 p-3 font-semibold">
                                 Name
                             </th>
-                            <th className="p-5 font-semibold">
+                            <th className="lg:p-5 p-3 font-semibold">
                                 Email
                             </th>
                             {
                                 tableFor === "agent" &&
                                 <>
-                                    <th className="p-5 font-semibold">
+                                    <th className="lg:p-5 p-3 font-semibold">
                                         Tax ID
                                     </th>
 
                                 </>
                             }
-                            <th className="p-5 font-semibold">
+                            <th className="lg:p-5 p-3 font-semibold">
                                 User ID
                             </th>
-                            <th className="p-5 font-semibold">
+                            <th className="lg:p-5 p-3 font-semibold">
                                 Joined At
+                            </th>
+                            <th className="lg:p-5 p-3 font-semibold text-center">
+                                Details
                             </th>
 
                         </tr>
@@ -109,27 +114,31 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
                     <tbody className=' overflow-hidden'>
                         {
                             data?.map((user, indx) => <tr key={indx} className="hover:bg-[#2E374A] hover:rounded-lg bg-primary-50 my-3 p-2">
-                                <td className="px-6 py-4 m-5 font-medium">
+                                <td className="lg:px-6 px-4 text-sm lg:text-base py-4 m-5 font-medium">
                                     {indx + 1}
                                 </td>
-                                <td className="px-6 py-4 m-5">
+                                <td className="lg:px-6 px-4 text-sm lg:text-base py-4 m-5">
                                     {user?.name}
                                 </td>
-                                <td className="px-6 py-4 m-5 font-medium">
+                                <td className="lg:px-6 px-4 text-sm lg:text-base py-4 m-5 font-medium">
                                     {user?.email}
                                 </td>
                                 {
                                     tableFor === "agent" &&
 
-                                    <td className="px-6 py-4 m-5">
+                                    <td className="lg:px-6 px-4 text-sm lg:text-base py-4 m-5">
                                         {user?.taxNumber}
                                     </td>
                                 }
-                                <td className="px-6 py-4">
+                                <td className="lg:px-6 px-4 text-sm lg:text-base py-4">
                                     {user?._id}
                                 </td>
-                                <td className="px-6 py-4 m-5">
+                                <td className="lg:px-6 px-4 text-sm lg:text-base py-4 m-5">
                                     {format(new Date(user?.createdAt), "MMM dd, yyyy")}
+                                </td>
+
+                                <td className="lg:px-6 px-4 text-xs lg:text-sm py-4 m-5 text-center">
+                                    <button onClick={() => router.push(`/dashboard/admin/user-details/${user?._id}`)} className='px-4 py-1 rounded-md border border-green-400'>{user.role === 'agent' ? 'Agent' : 'User'} Details</button>
                                 </td>
 
 

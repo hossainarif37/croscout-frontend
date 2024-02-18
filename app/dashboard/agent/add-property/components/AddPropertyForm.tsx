@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import styles from "./addProperty.module.css"
 import { useState } from "react";
 import ImageUploader from "./ImageUploader";
-import { categoryList } from "@/constant";
+import { categoryList, defaultStates } from "@/constant";
 import Image from "next/image";
 import { IoIosCloseCircle, IoMdClose } from "react-icons/io";
 import { useAuthContext } from "@/providers/AuthProvider";
@@ -25,10 +25,14 @@ type Inputs = {
     guests: number
 }
 
+type AmenitiesState = string[];
+
 const AddPropertyForm = () => {
     const { register, handleSubmit, reset, formState: { errors }, } = useForm<Inputs>();
     const [imagesArr, setImagesArr] = useState<string[]>([]);
     const [imagesArrError, setImagesArrError] = useState('');
+    const [amenitiesError, setAmenitiesError] = useState(false);
+    const [amenities, setAmenities] = useState<AmenitiesState>([]);
     const [isLoading, setIsLoading] = useState(false);
     const { user } = useAuthContext();
     const router = useRouter();
@@ -38,18 +42,30 @@ const AddPropertyForm = () => {
     };
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
+        if (!user) {
+            toast.error("Login First")
+            return;
+        }
+        if (!user.isCompletedProfile) {
+            setIsLoading(false)
+            return toast.error("At first complete your profile in the dashboard settings.")
+        }
         if (imagesArr.length < 1) {
             return setImagesArrError('Image is required!');
         }
         setImagesArrError('')
+        if (amenities.length === 0) {
+            return setAmenitiesError(true)
+        }
+        setAmenitiesError(false)
         // Convert the amenities string into an array
 
-        const amenitiesArray = data.amenities.split(',').map(amenity => amenity.trim());
+        // const amenitiesArray = data.amenities.split(',').map(amenity => amenity.trim());
 
         // Construct the final object with the amenities array
         const finalData = {
             ...data,
-            amenities: amenitiesArray,
+            amenities: amenities,
             propertyImages: [...imagesArr],
             owner: user?._id
         };
@@ -83,6 +99,17 @@ const AddPropertyForm = () => {
         }
         setIsLoading(false);
     };
+
+    const handleAddAminity = () => {
+        const amenityInput = document.getElementById("amenities") as HTMLInputElement;
+        const amenity = amenityInput.value;
+        if (amenity.length <= 0) return
+        setAmenities([...amenities, amenity]);
+        setAmenitiesError(false)
+        amenityInput.value = "";
+    }
+
+
 
     return (
         <div>
@@ -138,14 +165,22 @@ const AddPropertyForm = () => {
                                     >
                                         Amenities
                                     </label>
-                                    <input
-                                        id="amenities"
-                                        placeholder="Enter amenities separated by commas (e.g. Wifi, Pool, Kitchen)"
-                                        {...register("amenities", { required: true })}
-                                    />
+                                    <p className="flex w-full rounded-md border-none outline-none text-sm lg:text-base text-secondary-50 placeholder:text-sm">
+                                        {
 
-                                    {/*//! Error */}
-                                    {errors?.amenities && <p className="text-red-600 mt-1 lg:text-base text-sm">Amenities is required!</p>}
+                                            amenities?.map((amenity, indx) => <span key={indx}> {amenity}, </span>)
+                                        }
+                                    </p>
+                                    <div className="flex gap-4 relative">
+                                        <input
+                                            id="amenities"
+                                            className=""
+                                            placeholder="Input amenity and press the button"
+                                        />
+                                        <span onClick={handleAddAminity} className="absolute text-white bg-gradient-to-l from-cyan-400 to-cyan-500 py-3 rounded-r-md cursor-pointer  px-10 flex-center gap-x-2 right-0">+ Add Amenity</span>
+                                    </div>
+                                    {amenitiesError && <p className="text-red-600 mt-1 lg:text-base text-sm">Amenities is required!</p>}
+
                                 </div>
 
                                 <div className="grid md:grid-cols-2 gap-4">
@@ -176,10 +211,10 @@ const AddPropertyForm = () => {
                                         >
                                             Property type
                                         </label>
-                                        <select id="input-field" className="form-select"
+                                        <select id="input-field" defaultValue="" className="form-select"
                                             {...register("propertyType", { required: true })}
                                         >
-                                            <option value="" selected disabled>Select an option</option>
+                                            <option value="" disabled>Select an option</option>
                                             {
                                                 categoryList.map((category, i) => <option
                                                     key={i} value={category.name}>
@@ -205,10 +240,10 @@ const AddPropertyForm = () => {
                                         <select id="input-field" className="form-select"
                                             {...register("location", { required: true })}
                                         >
-                                            <option value="" disabled>Select an option</option>
-                                            <option value="Bangladesh">Bangladesh</option>
-                                            <option value="Germany">Germany</option>
-                                            <option value="Crotia">Croatia</option>
+                                            <option value="" disabled defaultValue="Croatia">Select an option</option>
+                                            {/* <option value="Bangladesh">Bangladesh</option> */}
+                                            {/* <option value="Germany">Germany</option> */}
+                                            <option value="Croatia" >Croatia</option>
                                         </select>
 
 
@@ -229,9 +264,10 @@ const AddPropertyForm = () => {
                                             {...register("state", { required: true })}
                                         >
                                             <option value="" disabled>Select an option</option>
-                                            <option value="Dhaka City">Dhaka City</option>
-                                            <option value="Dhaka City">Melbourne City</option>
-                                            <option value="Dhaka City">California</option>
+                                            {
+                                                defaultStates?.map((state, indx) => <option key={indx} value={state}>{state}</option>
+                                                )
+                                            }
                                         </select>
 
                                         {/*//! Error */}
@@ -324,7 +360,7 @@ const AddPropertyForm = () => {
 
                             {/* Save Button */}
                             <div className="flex-center py-3">
-                                <button type="submit" className="  bg-blue-500  rounded-md text-white lg:w-1/2 w-full px-5 py-3 cursor-pointer">
+                                <button type="submit" className="  bg-blue-500 flex items-center justify-center rounded-md text-white lg:w-1/2 w-full px-5 py-3 cursor-pointer">
                                     {
                                         isLoading ?
                                             <ImSpinner className="animate-spin text-[26px]"></ImSpinner>

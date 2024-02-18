@@ -15,6 +15,7 @@ import { checkFavoriteProperty } from "@/lib/database/checkFavoriteProperty";
 import toast from "react-hot-toast";
 import { useModalContext } from "@/providers/ModalProvider";
 import Link from "next/link";
+import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 
 
 
@@ -29,6 +30,7 @@ export default function PropertyCard({ property }: Property & any,) {
     const { user } = useAuthContext();
     const [isActive, setIsActive] = useState(false);
     const [isFav, setIsFav] = useState(false);
+    const [isProgressive, setIsProgressive] = useState(false);
 
     const {
         _id,
@@ -63,6 +65,7 @@ export default function PropertyCard({ property }: Property & any,) {
     }, [user?._id]);
 
 
+    // Find next free days
     function findNextFreeDays(bookingDates: Event[]): string {
         const currentDate = new Date();
         currentDate.setHours(0, 0, 0, 0);
@@ -110,6 +113,8 @@ export default function PropertyCard({ property }: Property & any,) {
                 return setLoginModal(true);
             }
 
+            setIsProgressive(true);
+
             // Call the API to toggle the favorite status
             const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/favorites/${user?._id}`, {
                 method: 'POST',
@@ -132,6 +137,7 @@ export default function PropertyCard({ property }: Property & any,) {
 
             // Set the favorite status
             setIsFav(result.isAdd);
+            setIsProgressive(false);
 
             // toast message
             if (result.isAdd) {
@@ -180,7 +186,7 @@ export default function PropertyCard({ property }: Property & any,) {
 
                         {/* Location and State */}
                         <h1 className="text-xl font-bold">
-                            {`${location.substring(0, 10)}, ${state.substring(0, 13)}`}
+                            {`${state.substring(0, 13)}, ${location.substring(0, 10)}`}
                         </h1>
                         {/* Location and State */}
                         {/* <h1 className="text-xl font-bold">
@@ -196,7 +202,7 @@ export default function PropertyCard({ property }: Property & any,) {
                         {/* Price and Ratings */}
                         <div className="flex justify-between mt-[10px]">
                             {/* Price */}
-                            <div className="text-accent font-semibold">€{pricePerNight} night</div>
+                            <div className="text-accent font-semibold">€ {pricePerNight} night</div>
                             <div className="flex items-center gap-1.5 border-b border-b-accent">
                                 <div className="">
                                     <Image src={StarIcon} height={14} width={14} alt="img" />
@@ -214,11 +220,26 @@ export default function PropertyCard({ property }: Property & any,) {
             </Link>
             {
                 (user?.role === "admin" || user?.role === "agent") ? " " :
+
                     <button
                         type="button"
                         className="absolute z-10 top-5 right-5 cursor-pointer"
-                        onClick={handleFavorite}>
-                        <Image src={isFav ? FavFilled : FavOutline} alt="" />
+                        onClick={handleFavorite}
+                        disabled={isProgressive}
+                    >
+
+                        <>
+                            <span className='text-2xl text-white'>
+                            </span>
+                            <span className=''>
+                                {
+                                    isFav ?
+                                        <IoMdHeart className="text-3xl text-accent p-1 rounded-full bg-white/50" />
+                                        :
+                                        <IoMdHeartEmpty className="text-3xl text-white-50 p-1 rounded-full bg-black/30" />
+                                }
+                            </span>
+                        </>
                     </button>
             }
 

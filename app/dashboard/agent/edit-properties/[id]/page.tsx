@@ -1,6 +1,6 @@
 "use client"
 import { useParams, useRouter } from 'next/navigation'
-import { Property, categoryList } from "@/constant";;
+import { Property, categoryList, defaultStates } from "@/constant";;
 import React, { useEffect, useState } from 'react';
 import { getPropertyById } from '@/lib/database/getProperties';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -45,6 +45,7 @@ export interface IPropertyData {
 }
 
 
+type AmenitiesState = string[];
 
 const EditProperties = () => {
 
@@ -53,6 +54,8 @@ const EditProperties = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [imagesArrError, setImagesArrError] = useState('');
     const [propertiesData, setPropertiesData] = useState<IPropertyData>()
+    const [amenitiesError, setAmenitiesError] = useState(false);
+    const [amenities, setAmenities] = useState<AmenitiesState>([]);
     const { user } = useAuthContext();
     const router = useRouter();
     const removeImage = (index: number) => {
@@ -69,6 +72,7 @@ const EditProperties = () => {
                 const propertiesData = await getPropertyById(id);
                 setPropertiesData(propertiesData);
                 setImagesArr(propertiesData?.property.propertyImages);
+                setAmenities([...propertiesData?.property.amenities])
             }
         } catch (error) {
             console.error('Failed to fetch property data:', error);
@@ -84,23 +88,34 @@ const EditProperties = () => {
 
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
+        if (!user) {
+            toast.error("Login First")
+            return;
+        }
+        if (!user?.isCompletedProfile) {
+            return toast.error("At first complete your profile in the dashboard settings.")
+        }
         if (imagesArr.length < 1) {
             return setImagesArrError('Image is required!');
         }
         setImagesArrError('')
+        if (amenities.length === 0) {
+            return setAmenitiesError(true)
+        }
+        setAmenitiesError(false)
         // Convert the amenities string into an array
-        const amenitiesArray = data.amenities.split(',').map(amenity => amenity.trim());
+        // const amenitiesArray = data.amenities.split(',').map(amenity => amenity.trim());
 
         // Construct the final object with the amenities array
         const finalData = {
             ...data,
-            amenities: amenitiesArray,
+            amenities: amenities,
             propertyImages: [...imagesArr],
             owner: user?._id
         };
 
-        console.log(finalData);
-        console.log(process.env.NEXT_PUBLIC_SERVER_URL);
+        // console.log(finalData);
+        // console.log(process.env.NEXT_PUBLIC_SERVER_URL);
         try {
 
             const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/properties/${id}`, {
@@ -111,7 +126,7 @@ const EditProperties = () => {
                 body: JSON.stringify(finalData),
             });
 
-            console.log(57, response);
+            // console.log(57, response);
             const result = await response.json();
             if (result.success) {
                 toast.success(result.message);
@@ -125,6 +140,17 @@ const EditProperties = () => {
         }
 
     };
+
+
+    const handleAddAminity = () => {
+        const amenityInput = document.getElementById("amenities") as HTMLInputElement;
+        const amenity = amenityInput.value;
+        if (amenity.length <= 0) return
+        setAmenities([...amenities, amenity]);
+        setAmenitiesError(false)
+        amenityInput.value = "";
+    }
+
 
 
 
@@ -192,17 +218,23 @@ const EditProperties = () => {
                                         >
                                             Amenities
                                         </label>
-                                        <input
-                                            id="amenities"
-                                            placeholder="Enter amenities separated by commas (e.g. Wifi, Pool, Kitchen)"
-                                            defaultValue={propertiesData?.property.amenities.join(',')}
-                                            {...register("amenities", { required: true })}
-                                        />
+                                        <p className="flex w-full rounded-md border-none outline-none text-sm lg:text-base text-secondary-50 placeholder:text-sm">
+                                            {
 
-                                        {/*//! Error */}
-                                        {errors?.amenities && <p className="text-red-600 mt-1 lg:text-base text-sm">Amenities is required!</p>}
+                                                amenities?.map((amenity, indx) => <span key={indx}> {amenity}, </span>)
+                                            }
+                                        </p>
+                                        <div className="flex gap-4 relative">
+                                            <input
+                                                id="amenities"
+                                                className=""
+                                                placeholder="Input amenity and press the button"
+                                            />
+                                            <span onClick={handleAddAminity} className="absolute text-white bg-gradient-to-l from-cyan-400 to-cyan-500 py-3 rounded-r-md cursor-pointer  px-10 flex-center gap-x-2 right-0">+ Add Amenity</span>
+                                        </div>
+                                        {amenitiesError && <p className="text-red-600 mt-1 lg:text-base text-sm">Amenities is required!</p>}
+
                                     </div>
-
                                     <div className="grid md:grid-cols-2 gap-4">
 
                                         {/* Price Per Night */}
@@ -266,10 +298,8 @@ const EditProperties = () => {
                                                 {...register("location", { required: true })
                                                 }
                                             >
-                                                <option value="" disabled>Select an option</option>
-                                                <option value="Bangladesh">Bangladesh</option>
-                                                <option value="Bangladesh">Germany</option>
-                                                <option value="Bangladesh">Croatia</option>
+                                                <option value="" disabled defaultValue="Croatia">Select an option</option>
+                                                <option value="Croatia" >Croatia</option>
                                             </select>
 
 
@@ -291,9 +321,9 @@ const EditProperties = () => {
                                                 {...register("state", { required: true })}
                                             >
                                                 <option value="" disabled>Select an option</option>
-                                                <option value="Dhaka City">Dhaka City</option>
-                                                <option value="Dhaka City">Melbourne City</option>
-                                                <option value="Dhaka City">California</option>
+                                                {
+                                                    defaultStates.map((state, indx) => <option key={indx} value={state}>{state}</option>)
+                                                }
                                             </select>
 
                                             {/*//! Error */}

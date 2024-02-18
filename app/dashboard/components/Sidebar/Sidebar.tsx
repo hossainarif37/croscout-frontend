@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { useState } from 'react'
 import styles from "./sidebar.module.css"
 import userImg from "@/public/noavatar.png"
 import {
@@ -21,7 +21,8 @@ import { useModalContext } from '@/providers/ModalProvider';
 import { useAuthContext } from '@/providers/AuthProvider';
 import MenuLink from './MenuLink/MenuLink';
 import Loading from '@/components/ui/Loading/Loading';
-import { FaStar } from 'react-icons/fa';
+import { FaMagento, FaStar, FaUserAlt } from 'react-icons/fa';
+import { useRouter } from 'next/navigation';
 
 
 export default function Sidebar() {
@@ -51,16 +52,16 @@ export default function Sidebar() {
                 },
             ],
         },
-        {
-            title: "Analytics",
-            list: [
-                {
-                    title: "Revenue",
-                    path: "#",
-                    icon: <MdWork />,
-                }
-            ],
-        },
+        // {
+        //     title: "Analytics",
+        //     list: [
+        //         {
+        //             title: "Revenue",
+        //             path: "#",
+        //             icon: <MdWork />,
+        //         }
+        //     ],
+        // },
         {
             title: "User",
             list: [
@@ -105,16 +106,16 @@ export default function Sidebar() {
                 },
             ],
         },
-        {
-            title: "Analytics",
-            list: [
-                {
-                    title: "Revenue",
-                    path: "#",
-                    icon: <MdWork />,
-                }
-            ],
-        },
+        // {
+        //     title: "Analytics",
+        //     list: [
+        //         {
+        //             title: "Revenue",
+        //             path: "#",
+        //             icon: <MdWork />,
+        //         }
+        //     ],
+        // },
         {
             title: "User",
             list: [
@@ -145,35 +146,30 @@ export default function Sidebar() {
                 {
                     title: "Users",
                     path: "/dashboard/admin/all-users",
-                    icon: <MdEuroSymbol />,
+                    icon: <FaUserAlt />,
                 },
                 {
                     title: "Agents",
                     path: "/dashboard/admin/all-agents",
-                    icon: <MdEuroSymbol />,
+                    icon: <FaMagento />,
                 },
                 {
                     title: "All Bookings",
                     path: "/dashboard/admin/all-bookings",
                     icon: <MdShoppingBag />,
-                },
-                {
-                    title: "All Properties",
-                    path: "/dashboard/admin/all-properties",
-                    icon: <MdShoppingBag />,
                 }
             ],
         },
-        {
-            title: "Analytics",
-            list: [
-                {
-                    title: "Revenue",
-                    path: "#",
-                    icon: <MdWork />,
-                }
-            ],
-        },
+        // {
+        //     title: "Analytics",
+        //     list: [
+        //         {
+        //             title: "Revenue",
+        //             path: "#",
+        //             icon: <MdWork />,
+        //         }
+        //     ],
+        // },
         {
             title: "User",
             list: [
@@ -185,19 +181,29 @@ export default function Sidebar() {
             ],
         },
     ];
+    const router = useRouter();
+    const handleToggleSidebar = () => {
+        setSidebarToggle(false);
+    }
 
+    // Define a function to handle the navigation and sidebar toggle
+    const handleNavigationAndToggle = () => {
+        router.replace(`/dashboard/${user?.role}/profile`);
+        handleToggleSidebar();
+    };
 
     return (
         <div>
             <div className={`${styles.container}`}>
-                <div className='flex gap-4 items-center mb-4'>
+                <div className='flex gap-4 items-center mb-4' onClick={() => router.replace(`/dashboard/${user?.role}/profile`)}>
                     <Image src={user?.image || userImg} alt='userImage' width={200} height={100} className='rounded-full w-14 h-14 border-white border' />
                     <div className='flex flex-col'>
                         <span>{user?.name}</span>
                         <span className='text-sm text-gray-300'>{user?.role}</span>
                     </div>
                 </div>
-                <ul className={styles.list}>
+
+                <ul className={styles.list} >
                     {role === "user" &&
                         userMenuItems.map((cat) => (
                             <li key={cat.title} className='mb-4'>
@@ -235,8 +241,16 @@ export default function Sidebar() {
             </div>}
 
             {/*//* ------Mobile Version-------*/}
-            <div className={`z-40 pt-14 block lg:hidden fixed h-full bg-[#151c2c]  p-5 shadow-lg origin-left top-0 rounded-md ${!sidebarToggle ? 'scale-x-0' : 'scale-x-100 w-72'} duration-300 rounded-md`}>
-                <ul className="space-y-3 text-[#b7bac1]">
+            <div className={`z-40 pt-14 block lg:hidden fixed h-full bg-[#151c2c]  p-5 shadow-lg origin-left top-0 rounded-md ${!sidebarToggle ? 'scale-x-0' : 'scale-x-100 w-full'} duration-300 rounded-md`}>
+                <div className='flex gap-4 items-center my-4'  >
+                    <Image onClick={handleNavigationAndToggle} src={user?.image || userImg} alt='userImage' width={200} height={100} className='rounded-full w-14 h-14 border-white border' />
+                    <div className='flex flex-col'>
+                        <span onClick={handleNavigationAndToggle}>{user?.name}</span>
+                        <span onClick={handleNavigationAndToggle} className='text-sm text-gray-300'>{user?.role}</span>
+                    </div>
+                </div>
+
+                <ul className="space-y-3 text-[#b7bac1]" onClick={handleToggleSidebar}>
                     <ul className={styles.list}>
                         {role === "user" &&
                             userMenuItems.map((cat) => (

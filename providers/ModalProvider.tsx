@@ -18,6 +18,8 @@ interface ModalContextProps {
     setLanguageModal: React.Dispatch<React.SetStateAction<boolean>>;
     sidebarToggle: boolean;
     setSidebarToggle: React.Dispatch<React.SetStateAction<boolean>>;
+    isForgotMode: boolean;
+    setIsForgotMode: React.Dispatch<React.SetStateAction<boolean>>;
 
 }
 
@@ -38,6 +40,8 @@ const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
     const [locationModal, setLocationModal] = useState(false);
     const [languageModal, setLanguageModal] = useState(false);
     const [sidebarToggle, setSidebarToggle] = useState(false);
+    const [isForgotMode, setIsForgotMode] = useState(false);
+
 
     // Context Values
     const contextValue: ModalContextProps = {
@@ -54,7 +58,9 @@ const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
         languageModal,
         setLanguageModal,
         sidebarToggle,
-        setSidebarToggle
+        setSidebarToggle,
+        isForgotMode,
+        setIsForgotMode
     };
 
     return (

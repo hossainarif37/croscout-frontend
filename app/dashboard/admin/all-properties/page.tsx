@@ -39,7 +39,7 @@ const MyProperties = () => {
     }
 
     return (
-        <div className="h-screen">
+        <div className="min-h-screen">
             <div className="text-white-50 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 xl:grid-cols-4 gap-11">
                 {/* MyProperties: {myProperties?.length} */}
                 {
