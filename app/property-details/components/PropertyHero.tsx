@@ -108,7 +108,7 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
 
         if (!user.isCompletedProfile) {
             setIsLoading(false)
-            return toast.error("At first complete your profile in the dashboard settings.")
+            return toast.error("At first complete your profile in your profile settings.", { duration: 5000 })
         }
 
 

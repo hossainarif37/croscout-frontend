@@ -1,11 +1,12 @@
+import { defaultStatesForMap } from "@/constant";
 import countries from "world-countries";
 
-const formattedCountries = countries.map((country) => ({
-    value: country.cca2,
-    label: country.name.common,
-    flag: country.flag,
-    latlng: country.latlng,
-    region: country.region,
+const formattedCountries = defaultStatesForMap.map((state) => ({
+    value: state.value,
+    label: state.value,
+    latlng: state.latlng,
+    region: state.region,
+    // flag: state.flag,
 }))
 
 export const useCountries = () => {

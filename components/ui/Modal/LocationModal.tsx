@@ -12,6 +12,8 @@ const LocationModal = () => {
     const { locationModal, setLocationModal } = useModalContext();
     const { location, setLocation, locationObject, setLocationObject } = useSearchContext();
 
+
+
     const Map = useMemo(() => dynamic(() => import('../../Map'), {
         ssr: false
     }), [locationObject]);
@@ -41,7 +43,7 @@ const LocationModal = () => {
                         if (value) {
                             setLocation(value?.label);
                         }
-                        setLocationObject(value)
+                        setLocationObject(value);
                     }}
                     isAddProperty={false}
                 />
