@@ -7,9 +7,11 @@ import { useRouter } from "next/navigation";
 import favoritesButton from "./favorite.module.css"
 import { useAuthContext } from "@/providers/AuthProvider";
 import toast from "react-hot-toast";
+import { getUser } from "@/lib/database/authUser";
+import { getStoredToken } from "@/utils/tokenStorage";
 
 const FavoriteCard = ({ favorite, setRemove }: any) => {
-    const { user } = useAuthContext();
+    const { user, userRefetch, setUser } = useAuthContext();
     const {
         _id,
         pricePerNight,
@@ -35,7 +37,14 @@ const FavoriteCard = ({ favorite, setRemove }: any) => {
                 throw new Error('Failed to remove favorite');
             }
             setRemove((prev: boolean) => !prev);
+            // await userRefetch();
+            const token = getStoredToken();
+            if (token) {
+                const { user: refetchUser } = await getUser({ token });
+                setUser(refetchUser)
+            }
             toast.success('Favorite successfully removed');
+
 
             // Handle successful removal (e.g., update the UI)
             // You might want to call a function passed down from the parent component

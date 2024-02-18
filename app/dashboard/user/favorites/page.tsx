@@ -47,7 +47,7 @@ const Favorites = () => {
                 const data = await getFavorites(user?._id);
 
                 if (data.success) {
-                    setFavorites(data.favoritList);
+                    setFavorites(data?.favoritList);
                 } else {
                     console.log(data);
                 }
