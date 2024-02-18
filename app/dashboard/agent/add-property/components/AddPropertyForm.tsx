@@ -38,33 +38,40 @@ const AddPropertyForm = () => {
     const [isLoading, setIsLoading] = useState(false);
     const { user } = useAuthContext();
     const router = useRouter();
+
     const removeImage = (index: number) => {
         setImagesArr(prevImages => prevImages.filter((_, i) => i !== index));
         console.log(imagesArr);
     };
 
+    // Define onSubmit function to handle form submission
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
+
+        //* Check if user is logged in
         if (!user) {
-            toast.error("Login First")
+            toast.error("Login First");
             return;
         }
+
+        //* Check if user has completed their profile
         if (!user.isCompletedProfile) {
-            setIsLoading(false)
-            return toast.error("At first complete your profile in the dashboard settings.")
+            setIsLoading(false);
+            return toast.error("At first complete your profile in the dashboard settings.");
         }
+
+        //* Check if images are uploaded
         if (imagesArr.length < 1) {
             return setImagesArrError('Image is required!');
         }
-        setImagesArrError('')
+        setImagesArrError('');
+
+        //* Check if amenities are selected
         if (amenities.length === 0) {
-            return setAmenitiesError(true)
+            return setAmenitiesError(true);
         }
-        setAmenitiesError(false)
-        // Convert the amenities string into an array
+        setAmenitiesError(false);
 
-        // const amenitiesArray = data.amenities.split(',').map(amenity => amenity.trim());
-
-        // Construct the final object with the amenities array
+        //* Construct the final object with the amenities array and other data
         const finalData = {
             ...data,
             amenities: amenities,
@@ -72,10 +79,9 @@ const AddPropertyForm = () => {
             owner: user?._id
         };
 
-        // console.log(finalData);
-        // console.log(process.env.NEXT_PUBLIC_SERVER_URL);
         try {
             setIsLoading(true);
+            // Send a POST request to the server with the property data
             const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/properties`, {
                 method: 'POST',
                 headers: {
@@ -84,32 +90,42 @@ const AddPropertyForm = () => {
                 body: JSON.stringify(finalData),
             });
 
-            // console.log(57, response);
-
-
+            // Parse the response
             const result = await response.json();
+
             if (result.success) {
                 toast.success(result.message, { duration: 5000 });
                 router.push('manage-properties');
             } else {
-                toast.error(result.error)
+                //* If there's an error, show error message
+                toast.error(result.error);
             }
             setIsLoading(false);
         } catch (error) {
+
+            //! Handle any errors that occur during the submission process
             setIsLoading(false);
             console.error('Failed to submit property:', error);
         }
         setIsLoading(false);
     };
 
+    // Function to handle addition of an amenity
     const handleAddAminity = () => {
+        //* Get the input element for amenity
         const amenityInput = document.getElementById("amenities") as HTMLInputElement;
         const amenity = amenityInput.value;
-        if (amenity.length <= 0) return
+
+        //* Check if the input is not empty
+        if (amenity.length <= 0) return;
+        // Add the amenity to the amenities array
         setAmenities([...amenities, amenity]);
-        setAmenitiesError(false)
+        setAmenitiesError(false);
+
+        // Clear the input field
         amenityInput.value = "";
-    }
+    };
+
 
     if (!user?.isCompletedProfile) {
         return <div className="empty-state text-center">
@@ -192,7 +208,7 @@ const AddPropertyForm = () => {
 
                                 <div className="grid md:grid-cols-2 gap-4">
 
-                                    {/* Price Per Night */}
+                                    {/*//* Price Per Night */}
                                     <div className="flex flex-col gap-1.5">
                                         <label
                                             htmlFor="pricePerNight"
@@ -211,7 +227,7 @@ const AddPropertyForm = () => {
                                         {errors?.pricePerNight && <p className="text-red-600 mt-1 lg:text-base text-sm">Price is required!</p>}
                                     </div>
 
-                                    {/* Property Type */}
+                                    {/*//* Property Type */}
                                     <div className={`flex flex-col gap-1.5 `}>
                                         <label
                                             htmlFor="property-type"
@@ -309,7 +325,7 @@ const AddPropertyForm = () => {
                                     {errors?.guests && <p className="text-red-600 mt-1 lg:text-base text-sm">Guest is required!</p>}
                                 </div>
 
-                                {/* --------------Upload Images Area End----------------*/}
+                                {/*//* --------------Upload Images Area End----------------*/}
                                 {
                                     imagesArr.length > 0 &&
                                     <div className="flex gap-x-4 w-80">
@@ -334,7 +350,7 @@ const AddPropertyForm = () => {
                                         }
                                     </div>
                                 }
-                                {/* Image Uploader Component */}
+                                {/*//* Image Uploader Component */}
                                 <ImageUploader
                                     setImagesArr={setImagesArr}
                                 />

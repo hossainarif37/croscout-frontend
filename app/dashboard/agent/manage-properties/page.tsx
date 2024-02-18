@@ -6,14 +6,20 @@ import { useAuthContext } from "@/providers/AuthProvider";
 import { getStoredToken } from "@/utils/tokenStorage";
 import { useEffect, useState } from "react";
 import PropertiesCard from "./PropertiesCard"
+
+
+//? Define MyProperties functional component
 const MyProperties = () => {
+    //* Get token from local storage
     const token = getStoredToken();
+
+    //* State variables initialization
     const [myProperties, setMyProperties] = useState([]);
     const { user } = useAuthContext();
     const [loading, setLoading] = useState(true);
     const [isDelete, setDelete] = useState(false);
 
-
+    //* Fetch user properties when component mounts or isDelete state changes
     useEffect(() => {
         let isMounted = true;
         const fetchMyProperties = async () => {
@@ -21,8 +27,7 @@ const MyProperties = () => {
                 const result = await getPropertiesByUser({ token, email: user?.email });
                 setMyProperties(result.properties);
                 setLoading(false);
-            }
-            else {
+            } else {
                 setMyProperties([]);
                 setLoading(false);
             }
@@ -33,25 +38,32 @@ const MyProperties = () => {
         };
     }, [token, user, isDelete]);
 
+    //* Render Loading component if data is still loading
     if (loading) {
-        return <Loading />
+        return <Loading />;
     }
 
+    //* Render property cards if there are properties, otherwise render a message
     return (
         <div className="min-h-screen">
             <div className="text-white-50 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 xl:grid-cols-4 gap-11">
-                {/* MyProperties: {myProperties?.length} */}
-                {
-                    myProperties?.length > 0 && (
-                        myProperties.map((property, id) => <PropertiesCard key={id} property={property}
+                {myProperties?.length > 0 && (
+                    myProperties.map((property, id) => (
+                        <PropertiesCard
+                            key={id}
+                            property={property}
                             setDelete={setDelete}
-                        ></PropertiesCard>)
-                    )
-                }
+                        />
+                    ))
+                )}
             </div>
-            {
-                myProperties?.length < 1 && <div className="text-center mt-20 text-white"><h1 className="lg:text-4xl text-2xl text-center">You haven't any Properties. Please Add Property</h1></div>
-            }
+            {myProperties?.length < 1 && (
+                <div className="text-center mt-20 text-white">
+                    <h1 className="lg:text-4xl text-2xl text-center">
+                        You haven't any Properties. Please Add Property
+                    </h1>
+                </div>
+            )}
         </div>
     );
 };
