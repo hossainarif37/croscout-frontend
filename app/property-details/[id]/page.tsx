@@ -38,6 +38,9 @@ export default function PropertyDetails() {
     const [singlePropertyDetails, setSinglePropertyDetails] = useState<IPropertyData>();
     const [loading, setLoading] = useState(true);
 
+    const images = singlePropertyDetails?.property?.propertyImages;
+    const lastIndex = images ? images.length - 1 : -1;
+
     useEffect(() => {
         const navbarId = document.getElementById("topbar")
         if (navbarId) {
@@ -94,7 +97,7 @@ export default function PropertyDetails() {
             <PropertyAbout aboutDetails={singlePropertyDetails?.property} />
             <PropertyDescription
                 description={singlePropertyDetails?.property?.description || ""}
-                image={(singlePropertyDetails?.property?.propertyImages || []).slice(0, 1)[0] || ""}
+                image={(singlePropertyDetails?.property?.propertyImages || [])[lastIndex] || ""}
             />
             <PropertyTestimonial />
             <PropertyReviews />
