@@ -4,7 +4,7 @@ import { getUserDetailsById } from '@/lib/database/getUserDetails';
 import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
-
+// Interface for user details
 interface UserDetails {
     name: string;
     email: string;
@@ -22,6 +22,7 @@ const page = () => {
     const { id } = useParams();
 
 
+    // Fetch user details based on ID
     useEffect(() => {
         const fetchData = async () => {
             if (typeof id === 'string') {
@@ -35,13 +36,16 @@ const page = () => {
         fetchData();
     }, []);
 
+
+    // Render loading spinner if data is loading
     if (isLoading) {
         return <Loading />
     }
 
-
     return (
         <div className="space-y-6 text-wrap">
+
+            {/*//* User Details Section */}
             <div className="px-4 md:px-6">
                 <div className="space-y-3">
                     <div className="space-y-1 text-white-50">
@@ -49,6 +53,8 @@ const page = () => {
                     </div>
                 </div>
             </div>
+
+            {/*//*========= User Details: User information field start ========= */}
             <div className="px-4 md:px-6 text-secondary-50">
                 <div className="rounded-lg border border-gray-600 bg-card text-card-foreground shadow-sm">
                     <div className="p-4 md:p-6">
@@ -77,6 +83,9 @@ const page = () => {
                     </div>
                 </div>
             </div>
+            {/*//*========= User Details: User information field End ========= */}
+
+            {/*//*======== Address Details Section start ============*/}
             <div className="px-4 md:px-6">
                 <div className="rounded-lg border border-gray-600 bg-card text-card-foreground shadow-sm">
                     <div className="p-4 md:px-6 md:pt-6">

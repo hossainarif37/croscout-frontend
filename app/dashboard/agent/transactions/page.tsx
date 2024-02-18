@@ -5,28 +5,37 @@ import { User, useAuthContext } from "@/providers/AuthProvider";
 import { getAllTrasaction, getTransactionById } from "@/lib/database/getTransactions";
 import Loading from "@/components/ui/Loading/Loading";
 
+//? Define the structure of transaction data
 interface TransactionData {
     success: boolean;
     transactions: object[];
-    // Include other properties of the transaction object here
 }
+
+//? TransactionPage component
 const TransactionPage = () => {
+
+    //* State to store transaction data
     const [transaction, setTransaction] = useState<TransactionData | null>(null);
+
+    //* Access user data from AuthProvider
     const { user } = useAuthContext();
-    // console.log(user?._id);
-    // console.log(transaction);
+
+    //* State to manage loading state
     const [isLoading, setIsLoading] = useState(true);
 
+    //* Fetch transaction data when component mounts or user ID changes
     useEffect(() => {
         const fetchTransactions = async () => {
             try {
-                setIsLoading(true);
+                setIsLoading(true); // Set loading to true before fetching data
                 if (user && user._id) {
+
+                    //* Fetch transaction data by user ID
                     const data = await getTransactionById(user?._id);
                     console.log(data);
                     setTransaction(data);
                 } else {
-                    // Handle the case where user or user._id is undefined
+                    //! Handle the case where user or user._id is undefined
                     console.error('User ID is not available');
                 }
                 setIsLoading(false);
@@ -39,15 +48,21 @@ const TransactionPage = () => {
         fetchTransactions();
     }, [user?._id]);
 
+    //* Render loading component if data is still loading
     if (isLoading) {
-        return <Loading />
+        return <Loading />;
     }
 
+    //* Render message if no transaction data is found
     if (!transaction?.transactions || (Array.isArray(transaction?.transactions) && transaction.transactions.length === 0)) {
-        return <div className='lg:min-h-screen flex-center mt-32 lg:mt-0'>
-            <h1 className='lg:text-4xl text-2xl font-bold text-white-50'>No Payment History Found.</h1>
-        </div>
+        return (
+            <div className='lg:min-h-screen flex-center mt-32 lg:mt-0'>
+                <h1 className='lg:text-4xl text-2xl font-bold text-white-50'>No Payment History Found.</h1>
+            </div>
+        );
     }
+
+    //* Render TransactionForm component if transaction data is available
     return (
         <div className="min-h-screen md:bg-primary-50 md:px-5 py-10">
             {transaction?.success && <TransactionForm transaction={transaction} />}

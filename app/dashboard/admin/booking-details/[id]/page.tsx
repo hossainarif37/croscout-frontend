@@ -2,7 +2,6 @@
 import { getBookingDetails } from '@/lib/database/getBookingDetails';
 import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import { IoArrowBack } from 'react-icons/io5';
 import { format } from 'date-fns';
 import Image from 'next/image';
 
@@ -41,19 +40,30 @@ export interface IBooking {
 }
 
 const page = () => {
+    // State variable for booking details
     const [bookingDetails, setBookingDetails] = useState<IPropertyDetailsData>();
-    console.log(bookingDetails);
+
+    // Retrieving booking ID from route parameters
     const { id } = useParams();
 
+    // Initializing router
     const router = useRouter();
+
+    // Effect hook to fetch booking details on component mount
     useEffect(() => {
+
+        // Function to fetch booking details
         const fetchData = async () => {
             if (typeof id === 'string') {
+                // Fetching booking details by ID
                 const bookingData = await getBookingDetails(id);
+
+                // Setting booking details
                 setBookingDetails(bookingData.booking);
             }
         };
 
+        // Calling fetchData function
         fetchData();
     }, []);
     return (
