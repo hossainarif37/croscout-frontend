@@ -18,11 +18,12 @@ interface MapProps {
     center?: number[]
 }
 
+
 const Map: React.FC<MapProps> = ({ center }) => {
     return (
         <MapContainer
-            center={center as L.LatLngExpression || [51, -0.09]}
-            zoom={center ? 4 : 2}
+            center={center as L.LatLngExpression || [45.815, 15.982]} // Centered at Zagreb, Croatia as fallback
+            zoom={center ? 12 : 8} // Adjust the zoom levels as needed
             scrollWheelZoom={false}
             className="lg:h-[35vh] h-[20vh] rounded-lg mt-5"
         >
@@ -38,6 +39,7 @@ const Map: React.FC<MapProps> = ({ center }) => {
                 )
             }
         </MapContainer>
+
     );
 };
 
