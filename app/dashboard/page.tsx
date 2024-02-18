@@ -1,16 +1,15 @@
 "use client"
-
+// Import necessary React hooks and components
+import { useEffect, useState } from "react";
+import { useAuthContext } from "@/providers/AuthProvider";
+import { getDashboardStats } from "@/lib/database/getDashboardStats";
 import StatisticsCard from "./components/StatisticsCard/StatisticsCard";
 import Transactions from "./components/Transections/Transections";
 import Chart from "./components/Chart/Chart";
-import styles from "@/app/dashboard/components/dashboard.module.css"
-import { useAuthContext } from "@/providers/AuthProvider";
-import { useEffect, useState } from "react";
-import { getAllUsers } from "@/lib/database/getUsers";
-import loading from "../loading";
 import Loading from "@/components/ui/Loading/Loading";
-import { getDashboardStats } from "@/lib/database/getDashboardStats";
+import styles from "@/app/dashboard/components/dashboard.module.css";
 
+// Define the interface for booking data
 export interface IBooking {
     guest: string;
     property: string;
@@ -27,7 +26,8 @@ export interface IBooking {
     userTransactionId?: string;
 }
 
-interface DashboardStats {
+// Define the interface for dashboard statistics
+export interface DashboardStats {
     userCount?: number;
     propertyCount?: number;
     totalRevenue?: number;
@@ -38,39 +38,38 @@ interface DashboardStats {
     latestAgentBookings?: IBooking[];
 }
 
+// Dashboard component that fetches and displays dashboard statistics
 const Dashboard = () => {
+    // State to track loading status and dashboard statistics
     const [loading, setLoading] = useState(true);
     const { user } = useAuthContext();
     const [dashboardStats, setDashboardStats] = useState<DashboardStats>();
 
-    console.log(dashboardStats);
+    // Fetch dashboard statistics when the user ID changes
     useEffect(() => {
         if (!user?._id) {
             return;
         }
-        const fetchUsers = async () => {
+        const fetchDashboardStats = async () => {
             try {
                 setLoading(true);
-
-                const data = await getDashboardStats(user?._id);
-
+                const data = await getDashboardStats(user._id);
                 setDashboardStats(data.stats);
-                setLoading(false);
             } catch (error) {
-                console.error('Error occurred while fetching users:', error);
+                console.error('Error fetching dashboard stats:', error);
+            } finally {
                 setLoading(false);
             }
         };
-
-        fetchUsers();
+        fetchDashboardStats();
     }, [user?._id]);
 
+    // Conditional rendering based on loading state
     if (loading) {
-        <Loading />
+        return <Loading />;
     }
 
-
-
+    // Prepare data for statistics cards
     const cards = [
         {
             id: 1,
@@ -92,7 +91,10 @@ const Dashboard = () => {
         },
     ];
 
+    // Determine which bookings to display based on user role
     const latestBookings = dashboardStats?.latestAgentBookings || dashboardStats?.latestBookings;
+
+    // Render the dashboard with statistics cards and transactions
     return (
         <div className={styles.wrapper}>
             <div className={styles.main}>
