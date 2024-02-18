@@ -16,6 +16,8 @@ import toast from "react-hot-toast";
 import { useModalContext } from "@/providers/ModalProvider";
 import Link from "next/link";
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
+import { getStoredToken } from "@/utils/tokenStorage";
+import { getUser } from "@/lib/database/authUser";
 
 
 
@@ -27,7 +29,7 @@ interface Event {
 
 export default function PropertyCard({ property }: Property & any,) {
     const { setLoginModal } = useModalContext();
-    const { user } = useAuthContext();
+    const { user, setUser, userRefetch } = useAuthContext();
     const [isActive, setIsActive] = useState(false);
     const [isFav, setIsFav] = useState(false);
     const [isProgressive, setIsProgressive] = useState(false);
@@ -107,7 +109,6 @@ export default function PropertyCard({ property }: Property & any,) {
     const handleFavorite = async () => {
         try {
             // Toggle the favorite state
-
             if (!user) {
                 toast.error("Login first!")
                 return setLoginModal(true);
@@ -125,7 +126,7 @@ export default function PropertyCard({ property }: Property & any,) {
                 // Include the user's ID in the request body if needed
                 body: JSON.stringify({ propertyId: _id }),
             });
-            console.log(56, response);
+            // console.log(56, response);
 
             // check response status
             if (!response.ok) {
@@ -138,12 +139,17 @@ export default function PropertyCard({ property }: Property & any,) {
             // Set the favorite status
             setIsFav(result.isAdd);
             setIsProgressive(false);
-
             // toast message
+            const token = getStoredToken();
+            if (!token) return;
             if (result.isAdd) {
                 toast.success(result.message);
+                const { user: refetchUser } = await getUser({ token });
+                setUser(refetchUser)
             } else {
                 toast.success(result.message);
+                const { user: refetchUser } = await getUser({ token });
+                setUser(refetchUser)
             }
 
         } catch (error) {

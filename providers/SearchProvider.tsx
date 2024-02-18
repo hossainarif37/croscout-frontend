@@ -55,13 +55,13 @@ const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
     ]);
 
     const [locationObject, setLocationObject] = useState<CountrySelectValue>({
-        flag: '',
         label: '',
         latlng: [0, 0],
         region: '',
         value: ''
+        // flag: '',
     });
-
+    console.log(locationObject, setLocationObject)
     const [location, setLocation] = useState<string>("");
     // const [categoryInputValue, setCategoryInputValue] = useState<string>("");
     const [adultsCount, setAdultsCount] = useState<number>(0);

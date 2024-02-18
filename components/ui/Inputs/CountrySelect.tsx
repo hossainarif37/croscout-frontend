@@ -5,11 +5,11 @@ import { useCountries } from "@/hooks/useCountries";
 
 
 export type CountrySelectValue = {
-    flag: string,
     label: string,
     latlng: number[],
     region: string,
     value: string
+    // flag: string,
 } | undefined;
 
 interface CountrySelectProps {
@@ -32,10 +32,13 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ value, onChange, isAddPro
                 value={value}
                 // onMenuClose={handleMenuClose}
 
-                onChange={(value) => onChange(value as CountrySelectValue)}
+                onChange={(value) => {
+                    console.log("Selected value:", value);
+                    onChange(value as CountrySelectValue);
+                }}
                 formatOptionLabel={(option: any) => (
                     <div className='flex flex-row  items-center gap-3'>
-                        <div>{option.flag}</div>
+                        {/* <div>{option.flag}</div> */}
                         <div>
                             {option.label},
                             <span className={'text-neutral-500 ml-1'}>

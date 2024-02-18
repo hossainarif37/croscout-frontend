@@ -219,6 +219,129 @@ export const defaultStates = [
     'Medimurje'
 ]
 
+export const defaultStatesForMap = [
+    {
+        label: 'Istria',
+        latlng: [45.2405, 13.866],
+        region: 'Istria',
+        value: 'Istria'
+    },
+    {
+        label: 'Primorje',
+        latlng: [45.3088, 14.4826],
+        region: 'Primorje-Gorski Kotar',
+        value: 'Primorje'
+    },
+    {
+        label: 'Lika-senj',
+        latlng: [44.5549, 15.3903],
+        region: 'Lika-Senj',
+        value: 'Lika-senj'
+    },
+    {
+        label: 'Zadar',
+        latlng: [44.1194, 15.2314],
+        region: 'Zadar',
+        value: 'Zadar'
+    },
+    {
+        label: 'Sibenik-Knin',
+        latlng: [43.7363, 16.3643],
+        region: 'Šibenik-Knin',
+        value: 'Sibenik-Knin'
+    },
+    {
+        label: 'Split-Dalmatia',
+        latlng: [43.5126, 16.4396],
+        region: 'Split-Dalmatia',
+        value: 'Split-Dalmatia'
+    },
+    {
+        label: 'Dubrovnik-Neretva',
+        latlng: [42.6507, 18.0944],
+        region: 'Dubrovnik-Neretva',
+        value: 'Dubrovnik-Neretva'
+    },
+    {
+        label: 'Karlovac',
+        latlng: [45.489, 15.5568],
+        region: 'Karlovac',
+        value: 'Karlovac'
+    },
+    {
+        label: 'Zagreb County',
+        latlng: [45.577, 15.5994],
+        region: 'Zagreb County',
+        value: 'Zagreb County'
+    },
+    {
+        label: 'City of Zagreb',
+        latlng: [45.815, 15.9819],
+        region: 'City of Zagreb',
+        value: 'City of Zagreb'
+    },
+    {
+        label: 'Krapina-Zagorje',
+        latlng: [46.1579, 15.8444],
+        region: 'Krapina-Zagorje',
+        value: 'Krapina-Zagorje'
+    },
+    {
+        label: 'Varazdin',
+        latlng: [46.3043, 16.3372],
+        region: 'Varaždin',
+        value: 'Varazdin'
+    },
+    {
+        label: 'Koprivnica-Krizevci',
+        latlng: [46.1649, 16.8269],
+        region: 'Koprivnica-Križevci',
+        value: 'Koprivnica-Krizevci'
+    },
+    {
+        label: 'Bjelovar-Bilogora',
+        latlng: [45.9025, 16.8409],
+        region: 'Bjelovar-Bilogora',
+        value: 'Bjelovar-Bilogora'
+    },
+    {
+        label: 'Virovitica-Podravina',
+        latlng: [45.8311, 17.3836],
+        region: 'Virovitica-Podravina',
+        value: 'Virovitica-Podravina'
+    },
+    {
+        label: 'Pozega-Slavonia',
+        latlng: [45.3401, 17.6785],
+        region: 'Požega-Slavonia',
+        value: 'Pozega-Slavonia'
+    },
+    {
+        label: 'Brod Posavina',
+        latlng: [45.1611, 17.997],
+        region: 'Brod-Posavina',
+        value: 'Brod Posavina'
+    },
+    {
+        label: 'Osijek-Baranja',
+        latlng: [45.5549, 18.6953],
+        region: 'Osijek-Baranja',
+        value: 'Osijek-Baranja'
+    },
+    {
+        label: 'Vukovar-Srijem',
+        latlng: [45.2736, 18.7557],
+        region: 'Vukovar-Srijem',
+        value: 'Vukovar-Srijem'
+    },
+    {
+        label: 'Medimurje',
+        latlng: [46.3805, 16.4365],
+        region: 'Međimurje',
+        value: 'Medimurje'
+    }
+];
+
 
 
 export const propertyList: Property[] = [

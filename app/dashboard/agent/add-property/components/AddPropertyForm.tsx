@@ -3,13 +3,15 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import styles from "./addProperty.module.css"
 import { useState } from "react";
 import ImageUploader from "./ImageUploader";
-import { categoryList, defaultStates } from "@/constant";
+import { categoryList, defaultStates, defaultStatesForMap } from "@/constant";
 import Image from "next/image";
 import { IoIosCloseCircle, IoMdClose } from "react-icons/io";
 import { useAuthContext } from "@/providers/AuthProvider";
 import toast from "react-hot-toast";
 import { useRouter } from 'next/navigation';
 import { ImSpinner } from "react-icons/im";
+import Link from "next/link";
+import { FaArrowRightLong } from "react-icons/fa6";
 
 type Inputs = {
     name: string
@@ -87,7 +89,7 @@ const AddPropertyForm = () => {
 
             const result = await response.json();
             if (result.success) {
-                toast.success(result.message);
+                toast.success(result.message, { duration: 5000 });
                 router.push('manage-properties');
             } else {
                 toast.error(result.error)
@@ -109,7 +111,12 @@ const AddPropertyForm = () => {
         amenityInput.value = "";
     }
 
-
+    if (!user?.isCompletedProfile) {
+        return <div className="empty-state text-center">
+            <h1 className="text-2xl font-bold">First complete your profile. After that you can add property</h1>
+            <Link className="border border-accent py-2 px-10 mt-5 rounded-lg hover:border-white duration-150 flex gap-x-2 items-center" href={'/dashboard/agent/profile'}><span>Go to Profile</span><FaArrowRightLong /></Link>
+        </div>
+    }
 
     return (
         <div>
@@ -265,7 +272,7 @@ const AddPropertyForm = () => {
                                         >
                                             <option value="" disabled>Select an option</option>
                                             {
-                                                defaultStates?.map((state, indx) => <option key={indx} value={state}>{state}</option>
+                                                defaultStatesForMap?.map((state, indx) => <option key={indx} value={state.label}>{state.label}</option>
                                                 )
                                             }
                                         </select>
