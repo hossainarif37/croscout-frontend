@@ -18,7 +18,6 @@ const LocationModal = () => {
         ssr: false
     }), [locationObject]);
 
-    // console.log(location);
 
     return (
         <div className={`fixed z-50 w-full h-full bg-black bg-opacity-30 flex justify-center items-center top-0 right-0 ${locationModal ? 'scale-100' : 'scale-0'}`}>
