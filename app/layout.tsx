@@ -64,7 +64,7 @@ export default function RootLayout({
                   <LanguageModal />
 
 
-                  <div className="flex h-screen flex-col ">
+                  <div className="flex min-h-screen flex-col ">
                     <Navbar />
                     <main className="flex-1">
                       <Main>

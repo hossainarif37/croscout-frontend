@@ -6,6 +6,11 @@ import { getFavorites } from "@/lib/database/getFavorites";
 import { useAuthContext } from "@/providers/AuthProvider";
 import { useEffect, useState } from "react";
 import FavoriteCard from "./components/FavoriteCard";
+import Link from "next/link";
+import { goToSpecificSection } from "@/utils/goToSpecificSection";
+import { useSearchContext } from "@/providers/SearchProvider";
+import { FaArrowRight } from "react-icons/fa";
+import { FaArrowRightLong } from "react-icons/fa6";
 
 export interface FavoriteItem {
     _id: string;
@@ -25,6 +30,7 @@ export interface FavoriteItem {
 
 const Favorites = () => {
     const { user } = useAuthContext();
+    const { setIsFilterSection } = useSearchContext();
     const [loading, setLoading] = useState(false);
     const [favorites, setFavorites] = useState<FavoriteItem[]>([]);
     const [remove, setRemove] = useState(false);
@@ -66,14 +72,17 @@ const Favorites = () => {
 
 
 
+
+
     return (
-        <div className="h-screen">
+        <div className="min-h-screen">
             {
 
                 favorites.length < 1 ?
                     <div className="empty-state text-center">
                         <h1 className="text-2xl lg:text-4xl">No favorites yet.</h1>
                         <p className="text-xl lg:text-2xl">Find and add some places to your favorites list.</p>
+                        <Link className="border border-accent py-2 px-10 mt-5 rounded-lg hover:border-white duration-150 flex gap-x-2 items-center" href={'/'} onClick={() => setIsFilterSection(true)}><span>Explore some places</span><FaArrowRightLong /></Link>
                     </div>
                     :
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">

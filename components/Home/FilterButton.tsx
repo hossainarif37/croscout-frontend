@@ -1,11 +1,26 @@
 "use client"
 
+import { useSearchContext } from "@/providers/SearchProvider";
 import { useToggleContext } from "@/providers/ToggleProvider";
+import { goToSpecificSection } from "@/utils/goToSpecificSection";
 import Image from "next/image";
+import { useRouter } from 'next/navigation';
+import { useEffect } from "react";
 
 
 const FilterButton = () => {
     const { taxToggle, setTaxToggle } = useToggleContext();
+    const { isFilterSection, setIsFilterSection } = useSearchContext();
+    // const isHashLocation = document.location.hash;
+
+    useEffect(() => {
+        if (isFilterSection) {
+            goToSpecificSection('filter-section');
+        }
+        setTimeout(() => {
+            setIsFilterSection(false);
+        }, 2000);
+    }, [isFilterSection]);
 
     return (
         <>

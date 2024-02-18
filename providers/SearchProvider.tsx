@@ -31,6 +31,8 @@ export interface SearchContextProps {
     // setFilteredProperty: Dispatch<SetStateAction<FilteredProperty>>;
     searchDisable: boolean;
     setSearchDisable: Dispatch<SetStateAction<boolean>>;
+    isFilterSection: boolean;
+    setIsFilterSection: Dispatch<SetStateAction<boolean>>;
     // categoryInputValue: string;
     activeCat: string;
     setActiveCat: Dispatch<SetStateAction<string>>;
@@ -55,7 +57,7 @@ const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
     const [locationObject, setLocationObject] = useState<CountrySelectValue>({
         flag: '',
         label: '',
-        latlng: [0,0],
+        latlng: [0, 0],
         region: '',
         value: ''
     });
@@ -65,6 +67,7 @@ const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
     const [adultsCount, setAdultsCount] = useState<number>(0);
     const [childrenCount, setChildrenCount] = useState<number>(0);
     const [isSearchBtnClicked, setIsSearchBtnClicked] = useState<boolean>(false);
+    const [isFilterSection, setIsFilterSection] = useState<boolean>(true);
     const [searchDisable, setSearchDisable] = useState<boolean>(true);
     // const [filteredProperty, setFilteredProperty] = useState<FilteredProperty>([]);
 
@@ -87,7 +90,9 @@ const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
         locationObject,
         setLocationObject,
         activeCat: '',
-        setActiveCat: () => { }
+        setActiveCat: () => { },
+        isFilterSection,
+        setIsFilterSection
     };
 
     return (
