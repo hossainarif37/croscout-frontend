@@ -32,7 +32,7 @@ const LocationModal = () => {
                 </div>
                 <hr />
                 <div className="py-5">
-                    <h1 className="text-2xl mb-2 font-semibold text-secondary">Where do you wanna go??</h1>
+                    <h1 className="text-2xl mb-2 font-semibold text-secondary">Where do you wanna go?</h1>
                     <p className="text-gray-500">Find the perfect location!</p>
                 </div>
                 <CountrySelect
