@@ -37,6 +37,7 @@ interface AuthContextProps {
     setLoading: React.Dispatch<React.SetStateAction<boolean>>;
     isUpdateProfile: boolean;
     setIsUpdateProfile: React.Dispatch<React.SetStateAction<boolean>>;
+    userRefetch: () => Promise<void>;
 }
 
 // Created Context
@@ -61,6 +62,14 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // }
 
     // Fetches user data on component mount, sets user state
+
+    const userRefetch = async () => {
+        const token = getStoredToken();
+        if (token) {
+            const newUser = await getUser({ token });
+            return setUser(newUser)
+        }
+    }
     const token = getStoredToken();
     useEffect(() => {
         if (!token) {
@@ -97,7 +106,8 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         loading,
         setLoading,
         isUpdateProfile,
-        setIsUpdateProfile
+        setIsUpdateProfile,
+        userRefetch
     };
 
 
