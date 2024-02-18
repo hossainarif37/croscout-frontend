@@ -211,10 +211,10 @@ const AddPropertyForm = () => {
                                         >
                                             Property type
                                         </label>
-                                        <select id="input-field" className="form-select"
+                                        <select id="input-field" defaultValue="" className="form-select"
                                             {...register("propertyType", { required: true })}
                                         >
-                                            <option value="" selected disabled>Select an option</option>
+                                            <option value="" disabled>Select an option</option>
                                             {
                                                 categoryList.map((category, i) => <option
                                                     key={i} value={category.name}>

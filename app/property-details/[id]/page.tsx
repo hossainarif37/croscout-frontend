@@ -5,7 +5,6 @@ import PropertyAbout from "../components/PropertyAbout";
 import PropertyHero from "../components/PropertyHero";
 import PropertyReviews from "../components/PropertyReviews";
 import PropertyTestimonial from "../components/PropertyTestimonial";
-import { propertyList } from "@/constant";
 import { useParams } from "next/navigation";
 import { getPropertyById } from "@/lib/database/getProperties";
 import Loading from "@/components/ui/Loading/Loading";
@@ -71,8 +70,12 @@ export default function PropertyDetails() {
                         owner: propertiesData.property.owner as IPropertyData['property']['owner'],
                     },
                 });
-            }
-
+                // Update the metadata with the property details
+                document.title = `${propertiesData.property.name} | Croscout`;
+                const descriptionMeta = document.querySelector('meta[name="description"]');
+                if (descriptionMeta) {
+                    descriptionMeta.setAttribute('content', propertiesData.property.description);
+                }}
         };
 
         fetchData();

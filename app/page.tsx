@@ -6,6 +6,14 @@ import PropertyList from "@/components/Home/Property/PropertyList";
 import { useAuthContext } from "@/providers/AuthProvider";
 import Main from "./Main";
 
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Croscout | Home',
+  description: 'Discover unique and affordable accommodations worldwide with Croscout. Your perfect stay is just a click away.',
+}
+
+
 export default function Home() {
 
   return (

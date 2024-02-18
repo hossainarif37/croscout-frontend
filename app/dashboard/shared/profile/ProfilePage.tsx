@@ -12,6 +12,7 @@ import { IChangePassword, IUserInfo, changePassword, getUser, updateUserInfo } f
 import toast from "react-hot-toast";
 import { ImSpinner9 } from "react-icons/im";
 import { setCookie } from "@/utils/authCookie";
+import Swal from "sweetalert2";
 
 type IPersonalInfo = {
     name: string;
@@ -31,6 +32,7 @@ type IPasswordInfo = {
     newPassword: string;
 };
 
+
 const createFormInstance = <T extends Record<string, unknown>>() => {
     return useForm<T>();
 };
@@ -44,6 +46,7 @@ const ProfilePage = () => {
 
     const [isInfoLoading, setInfoIsLoading] = useState(false);
     const [isPassLoading, setPassIsLoading] = useState(false);
+    const [isImageChangeLoading, setImageChangeLoading] = useState(false);
 
 
     const personalInfoForm = createFormInstance<IPersonalInfo>();
@@ -73,8 +76,100 @@ const ProfilePage = () => {
 
     // handler for delete image
     const handleDeleteImage = async () => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "Your image will Delete from everywhere!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            background: "#182237",
+            color: "#F9ECE4",
+            cancelButtonColor: "#3085d6",
+            cancelButtonText: "Close",
+            confirmButtonText: "Yes, delete it!"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                setImageChangeLoading(true);
+                const token = getStoredToken();
+                const allData = {
+                    name: user?.name,
+                    image: "",
+                    role: user?.role,
+                    taxNumber: user?.taxNumber,
+                    telephoneOrPhone: user?.telephoneOrPhone,
+                    street: user?.street,
+                    houseOrBuildingNum: user?.houseOrBuildingNum,
+                    postcode: user?.postcode,
+                    city: user?.city,
+                    state: user?.state,
+                    isCompletedProfile: user?.isCompletedProfile,
+                };
+
+                const reqData: any = { allData, token, id: user?._id }
+
+                if (user && user._id) {
+                    const dbResponse = await updateUserInfo(reqData)
+                    if (dbResponse.success) {
+                        setImageChangeLoading(false);
+                        setIsUpdateProfile(prev => !prev);
+
+                        return toast.success(dbResponse?.message)
+                    } else {
+                        setImageChangeLoading(false);
+                        return toast.error(dbResponse?.error);
+                    }
+                } else {
+                    setImageChangeLoading(false);
+                    console.error('User ID is not available');
+                }
+                setImageChangeLoading(false);
+            }
+        });
+    };
+
+    // handler for delete image
+    const handleImageCancel = async () => {
         setCurrentImage("");
     };
+
+    const handleImageChange = async () => {
+        setImageChangeLoading(true);
+        const token = getStoredToken();
+
+        // All personal info from the input fields
+        const allData = {
+            name: user?.name,
+            image: currentImage,
+            role: user?.role,
+            taxNumber: user?.taxNumber,
+            telephoneOrPhone: user?.telephoneOrPhone,
+            street: user?.street,
+            houseOrBuildingNum: user?.houseOrBuildingNum,
+            postcode: user?.postcode,
+            city: user?.city,
+            state: user?.state,
+            isCompletedProfile: user?.isCompletedProfile,
+        };
+
+        const reqData: any = { allData, token, id: user?._id }
+
+        if (user && user._id) {
+            const dbResponse = await updateUserInfo(reqData)
+            if (dbResponse.success) {
+                setImageChangeLoading(false);
+                setIsUpdateProfile(prev => !prev);
+
+                return toast.success(dbResponse?.message)
+            } else {
+                setImageChangeLoading(false);
+                return toast.error(dbResponse?.error);
+            }
+        } else {
+            setImageChangeLoading(false);
+            console.error('User ID is not available');
+        }
+        setImageChangeLoading(false);
+    }
 
     const handlePersonalInfoSave: SubmitHandler<IPersonalInfo> = async (data) => {
         setInfoIsLoading(true);
@@ -83,7 +178,7 @@ const ProfilePage = () => {
         // All personal info from the input fields
         const allData = {
             name: data.name,
-            image: currentImage,
+            image: user?.image,
             role: data.role,
             taxNumber: data.taxNumber,
             telephoneOrPhone: data.telephoneOrPhone,
@@ -95,7 +190,7 @@ const ProfilePage = () => {
             isCompletedProfile: true,
         };
 
-        const reqData = { allData, token, id: user?._id }
+        const reqData: any = { allData, token, id: user?._id }
 
         if (user && user._id) {
             const dbResponse = await updateUserInfo(reqData)
@@ -159,6 +254,20 @@ const ProfilePage = () => {
                     <Image className="w-52 h-52 object-cover rounded-full" alt="user image" width={208} height={208} src={currentImage || user?.image || userImg} />
                     <div className="flex justify-start items-center flex-col gap-3">
                         <ImageUploader setCurrentImage={setCurrentImage} />
+                        {
+                            currentImage &&
+                            <div className="flex gap-3 w-full">
+                                <button onClick={handleImageChange} className="bg-green-500 hover:bg-transparent border border-transparent hover:border-red-500 text-white font-semibold px-2 py-2 rounded w-full flex justify-center">
+                                    {
+                                        isImageChangeLoading ?
+                                            <ImSpinner9 className="animate-spin text-[26px]"></ImSpinner9>
+                                            :
+                                            "Save"
+                                    }
+                                </button>
+                                <button onClick={handleImageCancel} className="bg-red-500 hover:bg-transparent border border-transparent hover:border-red-500 text-white font-semibold px-2 py-2 rounded w-full">Cancel</button>
+                            </div>
+                        }
                         <button onClick={handleDeleteImage} className="bg-red-500 hover:bg-transparent border border-transparent hover:border-red-500 text-white font-semibold px-2 py-2 rounded w-full">Remove Picture</button>
                     </div>
                 </div>
