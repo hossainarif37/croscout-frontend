@@ -27,6 +27,8 @@ import { ImSpinner9 } from 'react-icons/im';
 import { useRouter } from 'next/navigation';
 import { useModalContext } from '@/providers/ModalProvider';
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
+import ImageCarousel from './ImageCarousel';
+import { SiProcessingfoundation } from 'react-icons/si';
 
 
 interface PropertyHeroProps {
@@ -317,17 +319,23 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
 
             {/* Form Section */}
             <div className="pt-[3.75rem]">
-                <div className=" flex lg:flex-row flex-col gap-6">
+                <div className=" flex md:flex-row flex-col gap-6">
                     <div className="flex-1 flex-grow block">
                         {singlePropertyDetails?.propertyImages.slice(0, 1).map((imageUrl: string, index: number) => (
-                            <Image
-                                key={index}
-                                src={heroImage || imageUrl}
-                                width={725}
-                                height={686}
-                                className="w-full h-full object-cover object-center border-accent border-[2px] rounded-[10px]"
-                                alt={`Property Image ${index + 1}`}>
-                            </Image>
+                            <>
+                                <Image
+                                    key={index}
+                                    src={heroImage || imageUrl}
+                                    width={725}
+                                    height={686}
+                                    className="w-full h-full hidden md:block object-cover object-center border-accent border-[2px] rounded-[10px]"
+                                    alt={`Property Image ${index + 1}`}>
+                                </Image>
+                                <div className="h-[15rem] w-full relative rounded-t-[4px] overflow-hidden md:hidden">
+                                    <ImageCarousel propertyId={singlePropertyDetails?._id} propertyImages={singlePropertyDetails?.propertyImages} />
+                                </div>
+                                {/* <ImageCarousel propertyImages={singlePropertyDetails.propertyImages} id={singlePropertyDetails._id} /> */}
+                            </>
                             // <img
                             //     key={index}
                             //     className="w-full h-full object-cover object-center border-accent border-[2px] rounded-[10px]"
@@ -608,7 +616,7 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
             </div>
 
             {/* Multi Images Section */}
-            <div className="lg:grid grid-cols-4 gap-6 mt-6 hidden">
+            <div className="md:grid grid-cols-4 gap-6 mt-6 hidden">
                 {seeAllImage?.map((imageUrl: string, index: number) => (
                     <Image
                         onClick={() => setHeroImage(imageUrl)}
