@@ -67,7 +67,7 @@ const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
     const [adultsCount, setAdultsCount] = useState<number>(0);
     const [childrenCount, setChildrenCount] = useState<number>(0);
     const [isSearchBtnClicked, setIsSearchBtnClicked] = useState<boolean>(false);
-    const [isFilterSection, setIsFilterSection] = useState<boolean>(true);
+    const [isFilterSection, setIsFilterSection] = useState<boolean>(false);
     const [searchDisable, setSearchDisable] = useState<boolean>(true);
     // const [filteredProperty, setFilteredProperty] = useState<FilteredProperty>([]);
 

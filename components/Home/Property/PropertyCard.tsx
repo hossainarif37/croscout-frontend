@@ -30,6 +30,7 @@ export default function PropertyCard({ property }: Property & any,) {
     const { user } = useAuthContext();
     const [isActive, setIsActive] = useState(false);
     const [isFav, setIsFav] = useState(false);
+    const [isProgressive, setIsProgressive] = useState(false);
 
     const {
         _id,
@@ -112,6 +113,8 @@ export default function PropertyCard({ property }: Property & any,) {
                 return setLoginModal(true);
             }
 
+            setIsProgressive(true);
+
             // Call the API to toggle the favorite status
             const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/favorites/${user?._id}`, {
                 method: 'POST',
@@ -134,6 +137,7 @@ export default function PropertyCard({ property }: Property & any,) {
 
             // Set the favorite status
             setIsFav(result.isAdd);
+            setIsProgressive(false);
 
             // toast message
             if (result.isAdd) {
@@ -220,7 +224,10 @@ export default function PropertyCard({ property }: Property & any,) {
                     <button
                         type="button"
                         className="absolute z-10 top-5 right-5 cursor-pointer"
-                        onClick={handleFavorite}>
+                        onClick={handleFavorite}
+                        disabled={isProgressive}
+                    >
+
                         <>
                             <span className='text-2xl text-white'>
                             </span>
