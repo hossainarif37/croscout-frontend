@@ -21,10 +21,9 @@ type Inputs = {
 const LoginForm = () => {
     const [isShow, setIsShow] = useState(false);
 
-    const { setLoginModal, setSignupModal } = useModalContext();
+    const { setLoginModal, setSignupModal, setIsForgotMode, isForgotMode } = useModalContext();
     const { register, handleSubmit, watch, formState: { errors }, } = useForm<Inputs>()
     const [isLoading, setIsLoading] = useState(false);
-    const [isForgotMode, setIsForgotMode] = useState(false);
     const { setUser } = useAuthContext();
 
     const router = useRouter();
@@ -35,17 +34,19 @@ const LoginForm = () => {
         setIsShow(!isShow)
     }
 
-    // handle login login
+    // handle login
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         const dataEmail = data.email.toLowerCase();
         const password = data.password;
         const fullData = { email: dataEmail, password }
         try {
             setIsLoading(true);
+
+            // Forgot Password functionality
             if (isForgotMode) {
                 const dbResponse = await forgotRequest({ email: dataEmail });
                 if (dbResponse.success) {
-                    toast.success(dbResponse?.message);
+                    toast.success(dbResponse?.message, { duration: 5000 });
                     setLoginModal(false);
                     setIsForgotMode(false);
                 }
@@ -53,20 +54,26 @@ const LoginForm = () => {
                     toast.error(dbResponse.error);
                 }
             }
+
+            // Login functionality
             else {
                 const dbResponse = await loginUser({ data: fullData })
                 if (dbResponse?.success) {
                     toast.success(dbResponse?.message);
                     storeToken(dbResponse.token);
                     setUser(dbResponse.user);
-                    setLoginModal(false);
                     const token = getStoredToken();
                     const userRole = dbResponse?.user?.role;
                     if (token) {
                         setCookie("authToken", token.split(" ")[1], 24)
                         if ((userRole === "agent") || (userRole === "admin")) {
                             router.push('/dashboard')
-                            setLoginModal
+                            setLoginModal(false);
+                            // setLoginModal
+                        }
+                        else if (userRole === "user") {
+                            router.push('/dashboard/user/my-bookings');
+                            setLoginModal(false);
                         }
                     }
                 }
@@ -128,11 +135,14 @@ const LoginForm = () => {
                         }
                     </span>
                 </div>
+
                 {/* Sign in Button */}
-                <button type="submit" className="text-lg flex items-center justify-center rounded-xl relative  py-2 h-[52px] w-full bg-rose-500 hover:bg-rose-400 text-white duration-200 overflow-hidden active:bg-rose-400 z-50 font-semibold my-6">
+                <button
+
+                    type="submit" className="text-lg flex items-center justify-center rounded-xl relative  py-2 h-[52px] w-full bg-rose-500 hover:bg-rose-400 text-white duration-200 overflow-hidden active:bg-rose-400 z-50 font-semibold my-6">
                     {
                         isLoading ?
-                            <ImSpinner9 className="animate-spin text-[26px]"></ImSpinner9>
+                            <ImSpinner9 className="animate-spin text-[26px]" />
                             :
                             isForgotMode ? "Send Reset Link" : "login"
                     }

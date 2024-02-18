@@ -64,6 +64,7 @@ export default function PropertyCard({ property }: Property & any,) {
     }, [user?._id]);
 
 
+    // Find next free days
     function findNextFreeDays(bookingDates: Event[]): string {
         const currentDate = new Date();
         currentDate.setHours(0, 0, 0, 0);

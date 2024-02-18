@@ -82,7 +82,7 @@ const page = () => {
                     <form onSubmit={handleSubmit(onSubmit)} className="rounded-lg bg-card text-card-foreground shadow-sm w-full max-w-2xl lg:p-8 p-2 py-4 lg:py-10 bg-primary-50 text-secondary-50 mx-auto">
                         <div className="p-6 flex flex-col items-center space-y-2">
                             <h3 className="text-2xl font-semibold whitespace-nowrap leading-none tracking-tight">Payment Confirmation</h3>
-                            <p className="text-sm text-muted-foreground text-center">Enter your email address and confirm your payment.</p>
+                            <p className="text-sm text-muted-foreground text-center">Enter your Transaction ID for verification.</p>
                         </div>
                         <div className="flex  gap-4 items-center ">
                             <div className=" flex-1 space-y-2">

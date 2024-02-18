@@ -39,7 +39,7 @@ const ProfilePage = () => {
     const [currentImage, setCurrentImage] = useState('');
     const [isAgent, setIsAgent] = useState(false);
 
-    const { user, setUser } = useAuthContext();
+    const { user, setUser, setIsUpdateProfile } = useAuthContext();
     const [isShow, setIsShow] = useState(false);
 
     const [isInfoLoading, setInfoIsLoading] = useState(false);
@@ -78,24 +78,31 @@ const ProfilePage = () => {
 
     const handlePersonalInfoSave: SubmitHandler<IPersonalInfo> = async (data) => {
         setInfoIsLoading(true);
-        const name = data.name;
-        const image = currentImage;
-        const role = data.role;
-        const taxNumber = data.taxNumber;
-        const telephoneOrPhone = data.telephoneOrPhone;
-        const street = data.street;
-        const houseOrBuildingNum = data.houseOrBuildingNum;
-        const postcode = data.postcode;
-        const city = data.city;
-        const state = data.state;
         const token = getStoredToken();
-        const isCompletedProfile = true;
-        const allData = { name, image, role, taxNumber, telephoneOrPhone, street, houseOrBuildingNum, postcode, city, state, isCompletedProfile };
+
+        // All personal info from the input fields
+        const allData = {
+            name: data.name,
+            image: currentImage,
+            role: data.role,
+            taxNumber: data.taxNumber,
+            telephoneOrPhone: data.telephoneOrPhone,
+            street: data.street,
+            houseOrBuildingNum: data.houseOrBuildingNum,
+            postcode: data.postcode,
+            city: data.city,
+            state: data.state,
+            isCompletedProfile: true,
+        };
+
         const reqData = { allData, token, id: user?._id }
+
         if (user && user._id) {
             const dbResponse = await updateUserInfo(reqData)
             if (dbResponse.success) {
                 setInfoIsLoading(false);
+                setIsUpdateProfile(prev => !prev);
+
                 return toast.success(dbResponse?.message)
             } else {
                 setInfoIsLoading(false);
@@ -108,40 +115,42 @@ const ProfilePage = () => {
         setInfoIsLoading(false);
     };
 
-    const handleChangePassword: SubmitHandler<IPasswordInfo> = async (data) => {
-        setPassIsLoading(true);
-        const newPassword = data.newPassword;
-        const oldPassword = data.oldPassword;
-        const updateData = { newPassword, oldPassword };
-        const token = getStoredToken();
-        if (user && user._id) {
-            const reqData: IChangePassword = { updateData, token, id: user._id };
-            const dbResponse = await changePassword(reqData);
-            if (dbResponse.success) {
-                setPassIsLoading(false);
-                const fetchUser = async () => {
-                    if (token) {
-                        const { user } = await getUser({ token });
-                        setUser(user);
-                        setCookie("authToken", token.split(" ")[1], 24)
-                    }
-                    else {
-                        setUser(null)
-                    }
-                };
-                fetchUser();
-                return toast.success(dbResponse?.message)
-            } else {
-                setPassIsLoading(false);
-                return toast.error(dbResponse?.error);
-            }
-        } else {
-            setPassIsLoading(false);
-            // Handle the case where user._id is undefined
-            console.error('User ID is not available');
-        }
-        setPassIsLoading(false);
-    };
+
+    //* Handle updates the old password to the new password
+    // const handleChangePassword: SubmitHandler<IPasswordInfo> = async (data) => {
+    //     setPassIsLoading(true);
+    //     const newPassword = data.newPassword;
+    //     const oldPassword = data.oldPassword;
+    //     const updateData = { newPassword, oldPassword };
+    //     const token = getStoredToken();
+    //     if (user && user._id) {
+    //         const reqData: IChangePassword = { updateData, token, id: user._id };
+    //         const dbResponse = await changePassword(reqData);
+    //         if (dbResponse.success) {
+    //             setPassIsLoading(false);
+    //             const fetchUser = async () => {
+    //                 if (token) {
+    //                     const { user } = await getUser({ token });
+    //                     setUser(user);
+    //                     setCookie("authToken", token.split(" ")[1], 24)
+    //                 }
+    //                 else {
+    //                     setUser(null)
+    //                 }
+    //             };
+    //             fetchUser();
+    //             return toast.success(dbResponse?.message)
+    //         } else {
+    //             setPassIsLoading(false);
+    //             return toast.error(dbResponse?.error);
+    //         }
+    //     } else {
+    //         setPassIsLoading(false);
+    //         // Handle the case where user._id is undefined
+    //         console.error('User ID is not available');
+    //     }
+    //     setPassIsLoading(false);
+    // };
 
     return (
         <div className='min-h-screen'>
@@ -217,7 +226,9 @@ const ProfilePage = () => {
                         }</button>
                     </form>
 
-                    <form onSubmit={passwordForm.handleSubmit(handleChangePassword)} className="max-w-3xl mx-auto space-y-3 my-10">
+
+                    {/* Update Password */}
+                    {/* <form onSubmit={passwordForm.handleSubmit(handleChangePassword)} className="max-w-3xl mx-auto space-y-3 my-10">
                         <h4 className="text-white-50 text-xl">Update Password:</h4>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="flex flex-col gap-3">
@@ -245,7 +256,7 @@ const ProfilePage = () => {
                                     "Change Password"
                             }
                         </button>
-                    </form>
+                    </form> */}
                 </div>
             </div>
         </div>

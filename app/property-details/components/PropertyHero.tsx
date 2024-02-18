@@ -11,7 +11,7 @@ import React, { useEffect, useState } from 'react'
 import Image from 'next/image';
 import ShareActive from "@/public/icons/share-active.svg";
 import FavOutline from "@/public/icons/love-outline.svg";
-import FavFilled from "@/public/icons/love-filled.svg"; 
+import FavFilled from "@/public/icons/love-filled.svg";
 import { FaChevronDown, FaRegCopy } from 'react-icons/fa';
 // import { useModalContext } from '@/providers/ModalProvider';
 // import { useSearchContext } from '@/providers/SearchProvider';
@@ -257,7 +257,7 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
         try {
             await navigator.clipboard.writeText(urlToCopy);
             setIsCopied(true);
-            toast.success("url copied successfully!")
+            toast.success("URL copied successfully!")
         } catch (err) {
             console.error('Failed to copy text: ', err);
         }

@@ -17,7 +17,7 @@ type Inputs = {
     role: string
 }
 const SignupForm = () => {
-    const { setLoginModal, setSignupModal } = useModalContext();
+    const { setLoginModal, setSignupModal, setIsForgotMode } = useModalContext();
     const { register, unregister, handleSubmit, watch, formState: { errors }, } = useForm<Inputs>()
     const [isAgent, setIsAgent] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -150,6 +150,7 @@ const SignupForm = () => {
                     onClick={() => {
                         setLoginModal(true);
                         setSignupModal(false);
+                        setIsForgotMode(false)
                     }} className="underline hover:text-indigo-600">
                     Log In
                 </button>

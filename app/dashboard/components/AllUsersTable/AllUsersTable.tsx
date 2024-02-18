@@ -52,28 +52,28 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
         });
     }
 
-
-    const handleCancelAgent = () => {
-        Swal.fire({
-            title: "Are you sure?",
-            text: "This user will get all this agent access!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#d33",
-            background: "#182237",
-            color: "#F9ECE4",
-            cancelButtonColor: "#3085d6",
-            cancelButtonText: "Close",
-            confirmButtonText: "Yes, confirm it!"
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                toast.success("dasdsa");
-                // const bookingsData = await getBookingsById(userId);
-                // setBookings(bookingsData.bookings);
-                Swal.close();
-            }
-        });
-    }
+    // Handle Cancel Agent 
+    // const handleCancelAgent = () => {
+    //     Swal.fire({
+    //         title: "Are you sure?",
+    //         text: "This user will get all this agent access!",
+    //         icon: "warning",
+    //         showCancelButton: true,
+    //         confirmButtonColor: "#d33",
+    //         background: "#182237",
+    //         color: "#F9ECE4",
+    //         cancelButtonColor: "#3085d6",
+    //         cancelButtonText: "Close",
+    //         confirmButtonText: "Yes, confirm it!"
+    //     }).then(async (result) => {
+    //         if (result.isConfirmed) {
+    //             toast.success("dasdsa");
+    //             // const bookingsData = await getBookingsById(userId);
+    //             // setBookings(bookingsData.bookings);
+    //             Swal.close();
+    //         }
+    //     });
+    // }
 
     return (
         <div className=''>
@@ -138,7 +138,7 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
                                 </td>
 
                                 <td className="lg:px-6 px-4 text-xs lg:text-sm py-4 m-5 text-center">
-                                    <button onClick={() => router.push(`/dashboard/admin/user-details/${user?._id}`)} className='px-4 py-1 rounded-md border border-green-400'>Users Details</button>
+                                    <button onClick={() => router.push(`/dashboard/admin/user-details/${user?._id}`)} className='px-4 py-1 rounded-md border border-green-400'>{user.role === 'agent' ? 'Agent' : 'User'} Details</button>
                                 </td>
 
 
