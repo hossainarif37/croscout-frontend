@@ -38,7 +38,7 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
             <div className="relative overflow-x-auto rounded-lg ">
                 <table className="w-full text-left p-4 rtl:text-right rounded-t-xl text-secondary-50 whitespace-nowrap">
 
-                    {/*//?==========TAble head Start================*/}
+                    {/*//?==========Table head Start================*/}
                     <thead className="my-3 bg-[#2E374A] p-5 ">
                         <tr>
                             <th className="lg:p-5 p-3 font-semibold">
@@ -71,9 +71,9 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
 
                         </tr>
                     </thead>
-                    {/*//?==========TAble head End================*/}
+                    {/*//?==========Table head End================*/}
 
-                    {/*//?==========TAble Body Start================*/}
+                    {/*//?==========Table Body Start================*/}
                     <tbody className=' overflow-hidden'>
                         {
                             //  Map over the user data to create table rows
@@ -108,7 +108,7 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
                             </tr>)
                         }
                     </tbody>
-                    {/*//?==========TAble body end================*/}
+                    {/*//?==========Table body end================*/}
                 </table>
             </div>
         </div>

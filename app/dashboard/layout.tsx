@@ -11,22 +11,24 @@ import styles from "@/app/dashboard/components/dashboard.module.css";
 
 // Define the props for the DashboardLayout component
 interface DashboardLayoutProps {
-    children: ReactNode; // The children to be rendered within the layout
+    children: ReactNode;
 }
 
-// DashboardLayout component that provides a consistent layout for the dashboard
+//* DashboardLayout component that provides a consistent layout for the dashboard
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
-    // Use the ModalContext to control the sidebar toggle state
+
+    //* Use the ModalContext to control the sidebar toggle state
     const { setSidebarToggle, sidebarToggle } = useModalContext();
-    // Use the AuthContext to check if the user is loading
+
+    //* Use the AuthContext to check if the user is loading
     const { loading } = useAuthContext();
 
-    // If the user is loading, render the Loading component
+    //* If the user is loading, render the Loading component
     if (loading) {
         return <Loading />;
     }
 
-    // Render the main layout with a sidebar and main content area
+    //* Render the main layout with a sidebar and main content area
     return (
         <div className={`${styles.container}`}>
             <div className={`${styles.menu}`}>
