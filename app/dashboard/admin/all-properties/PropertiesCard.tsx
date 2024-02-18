@@ -10,6 +10,7 @@ import Loading from '@/components/ui/Loading/Loading';
 
 // Functional component for rendering a property card
 const PropertiesCard = ({ property, setDelete }: Property & any) => {
+
     // Destructuring property object
     const {
         _id,
@@ -57,7 +58,7 @@ const PropertiesCard = ({ property, setDelete }: Property & any) => {
                 }
             });
         } catch (error) {
-            // Handling error if deletion fails
+            //! Handling error if deletion fails
             console.error('Error deleting property:', error);
             toast.error('An error occurred while deleting the property');
         }
@@ -85,8 +86,10 @@ const PropertiesCard = ({ property, setDelete }: Property & any) => {
                         {/* Price */}
                         <div className="text-accent font-semibold">€{pricePerNight} night</div>
                     </div>
+
                     <div className={`flex gap-3 mt-4 ${styles.propertiesButton}`}>
-                        {/* Buttons for editing and deleting property */}
+
+                        {/*//? Buttons for editing and deleting property */}
                         <button onClick={() => router.push(`/dashboard/admin/edit-properties/${_id}`)} className='hover:bg-green-500  border border-green-500'>Edit</button>
                         <button onClick={handleDelete} className='hover:bg-[#d33] border border-red-500'>Delete</button>
                     </div>

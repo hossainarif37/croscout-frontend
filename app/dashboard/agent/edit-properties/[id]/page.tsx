@@ -88,25 +88,31 @@ const EditProperties = () => {
 
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
+
+        //* Check if user is authenticated
         if (!user) {
             toast.error("Login First")
             return;
         }
+
+        //* Check if user has completed profile
         if (!user?.isCompletedProfile) {
             return toast.error("At first complete your profile in the dashboard settings.")
         }
+
+        //* Check if images are uploaded
         if (imagesArr.length < 1) {
             return setImagesArrError('Image is required!');
         }
         setImagesArrError('')
+
+        //* Check if amenities are selected
         if (amenities.length === 0) {
             return setAmenitiesError(true)
         }
         setAmenitiesError(false)
-        // Convert the amenities string into an array
-        // const amenitiesArray = data.amenities.split(',').map(amenity => amenity.trim());
 
-        // Construct the final object with the amenities array
+        //* Construct the final object with the amenities array
         const finalData = {
             ...data,
             amenities: amenities,
@@ -117,7 +123,7 @@ const EditProperties = () => {
         // console.log(finalData);
         // console.log(process.env.NEXT_PUBLIC_SERVER_URL);
         try {
-
+            //* Submit data to server
             const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/properties/${id}`, {
                 method: 'PUT',
                 headers: {
@@ -132,6 +138,7 @@ const EditProperties = () => {
                 toast.success(result.message);
                 router.push('/dashboard/agent/manage-properties');
             } else {
+                //!Error
                 toast.error(result.error)
             }
 
@@ -142,6 +149,7 @@ const EditProperties = () => {
     };
 
 
+    //* Define function to add amenity
     const handleAddAminity = () => {
         const amenityInput = document.getElementById("amenities") as HTMLInputElement;
         const amenity = amenityInput.value;
@@ -151,14 +159,10 @@ const EditProperties = () => {
         amenityInput.value = "";
     }
 
-
-
-
+    //* Render Loading component if data is still loading
     if (loading) {
         return <Loading />
     }
-
-
 
 
     return (
@@ -170,7 +174,7 @@ const EditProperties = () => {
                             <form onSubmit={handleSubmit(onSubmit)} className={`${styles.formInput} px-2 py-4 lg:p-12 space-y-4`}>
                                 <div className={` grid gap-4`}>
 
-                                    {/* Property Name */}
+                                    {/*//* Property Name */}
                                     <div className="flex flex-col gap-1.5">
                                         <label
                                             htmlFor="property-name"
@@ -190,7 +194,7 @@ const EditProperties = () => {
                                     </div>
 
 
-                                    {/* Description */}
+                                    {/*//* Description */}
                                     <div className="flex flex-col gap-1.5">
                                         <label
                                             htmlFor="description"
@@ -208,10 +212,10 @@ const EditProperties = () => {
                                         {errors?.description && <p className="text-red-600 mt-1 lg:text-base text-sm">Description name is required!</p>}
                                     </div>
                                 </div>
-                                {/* <div data-orientation="horizontal" role="none" className="shrink-0 bg-gray-100 h-[1px] w-full"></div> */}
+
                                 <div className="grid gap-4">
 
-                                    {/*Amenities  */}
+                                    {/*//* Amenities  */}
                                     <div className="flex flex-col gap-1.5">
                                         <label
                                             htmlFor="amenities"
@@ -237,7 +241,7 @@ const EditProperties = () => {
                                     </div>
                                     <div className="grid md:grid-cols-2 gap-4">
 
-                                        {/* Price Per Night */}
+                                        {/*//* Price Per Night */}
                                         <div className="flex flex-col gap-1.5">
                                             <label
                                                 htmlFor="pricePerNight"
@@ -257,7 +261,7 @@ const EditProperties = () => {
                                             {errors?.pricePerNight && <p className="text-red-600 mt-1 lg:text-base text-sm">Price is required!</p>}
                                         </div>
 
-                                        {/* Property Type */}
+                                        {/*//* Property Type */}
                                         <div className={`flex flex-col gap-1.5 `}>
                                             <label
                                                 htmlFor="property-type"
@@ -268,7 +272,7 @@ const EditProperties = () => {
                                                 {...register("propertyType", { required: true })}
                                                 defaultValue={propertiesData?.property?.propertyType}
                                             >
-                                                {/* <option value="" selected disabled>Select an option</option> */}
+                                                {/*//* <option value="" selected disabled>Select an option</option> */}
                                                 {
                                                     categoryList.map((category, i) => <option
                                                         key={i} value={category.name}>
@@ -284,7 +288,7 @@ const EditProperties = () => {
 
                                     <div className={`grid md:grid-cols-2 gap-4 ${styles.state}`}>
 
-                                        {/* Location */}
+                                        {/*//* Location */}
                                         <div className="flex flex-col gap-1.5">
                                             <label
                                                 htmlFor="location"
@@ -307,7 +311,7 @@ const EditProperties = () => {
                                             {errors?.location && <p className="text-red-600 mt-1 lg:text-base text-sm">Location is required!</p>}
                                         </div>
 
-                                        {/* State */}
+                                        {/*//* State */}
                                         <div className="flex flex-col gap-1.5">
                                             <label
                                                 htmlFor="state"
@@ -331,7 +335,7 @@ const EditProperties = () => {
                                         </div>
                                     </div>
 
-                                    {/* Guests */}
+                                    {/*//* Guests */}
                                     <div className="flex flex-col gap-1.5">
                                         <label
                                             htmlFor="guests"
@@ -400,24 +404,6 @@ const EditProperties = () => {
                                     }
                                     {/* --------------Upload Images Area End----------------*/}
 
-
-                                    {/* <div className="flex flex-col gap-1.5">
-                                    <label
-                                        htmlFor="images"
-                                    >
-                                        Property images
-                                    </label>
-                                    <input
-                                        className="p-0"
-                                        type="file"
-                                        id="images"
-                                        placeholder="Images"
-                                        {...register("image", { required: true })}
-                                    />
-                                    <div className="text-xs text-gray-500 dark:text-gray-400">Upload your images here</div>
-
-                                    {errors?.image && <p className="text-red-600 mt-1 lg:text-base text-sm">Property images is requeart!</p>}
-                                </div> */}
                                 </div>
 
                                 {/* Save Button */}

@@ -44,7 +44,8 @@ const page = () => {
 
     return (
         <div className="space-y-6 text-wrap">
-            {/* User Details Section */}
+
+            {/*//* User Details Section */}
             <div className="px-4 md:px-6">
                 <div className="space-y-3">
                     <div className="space-y-1 text-white-50">
@@ -52,6 +53,8 @@ const page = () => {
                     </div>
                 </div>
             </div>
+
+            {/*//*========= User Details: User information field start ========= */}
             <div className="px-4 md:px-6 text-secondary-50">
                 <div className="rounded-lg border border-gray-600 bg-card text-card-foreground shadow-sm">
                     <div className="p-4 md:p-6">
@@ -80,7 +83,9 @@ const page = () => {
                     </div>
                 </div>
             </div>
-            {/* Address Details Section */}
+            {/*//*========= User Details: User information field End ========= */}
+
+            {/*//*======== Address Details Section start ============*/}
             <div className="px-4 md:px-6">
                 <div className="rounded-lg border border-gray-600 bg-card text-card-foreground shadow-sm">
                     <div className="p-4 md:px-6 md:pt-6">

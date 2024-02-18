@@ -11,24 +11,27 @@ import PropertiesCard from "./PropertiesCard";
 const MyProperties = () => {
     // Retrieving token from local storage
     const token = getStoredToken();
+
     // State variables for properties and loading status
     const [myProperties, setMyProperties] = useState([]);
     const [loading, setLoading] = useState(true);
+
     // State variable to track property deletion
     const [isDelete, setDelete] = useState(false);
 
     // Fetching user information using context
     const { user } = useAuthContext();
 
-    // Effect hook to fetch user's properties
     useEffect(() => {
         // Variable to track component mount status
         let isMounted = true;
+
         const fetchMyProperties = async () => {
             // Checking if token exists and component is mounted
             if (token && isMounted) {
                 // Fetching properties
                 const result = await getAllProperty('/');
+
                 // Setting properties and updating loading status
                 setMyProperties(result);
                 setLoading(false);
@@ -40,6 +43,7 @@ const MyProperties = () => {
         };
         // Calling fetch function
         fetchMyProperties();
+
         // Cleanup function to update mount status
         return () => {
             isMounted = false;
@@ -51,7 +55,6 @@ const MyProperties = () => {
         return <Loading />
     }
 
-    // Rendering properties list or empty state based on property existence
     return (
         <div className="min-h-screen">
             <div className="text-white-50 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 xl:grid-cols-4 gap-11">

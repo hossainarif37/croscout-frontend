@@ -1,8 +1,9 @@
 "use client"
+// Import necessary modules and styles
+import styles from './chart.module.css'; // Import CSS module for styling
+import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts'; // Import components from Recharts library
 
-import styles from './chart.module.css'
-import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-
+//? Define data for the line chart
 const data = [
     {
         name: "Sun",
@@ -41,11 +42,17 @@ const data = [
     },
 ];
 
+//* Define the Chart functional component
 const Chart = () => {
     return (
         <div className={styles.container}>
+            {/*//* Title */}
+
             <h2 className={styles.title}>Weekly Recap</h2>
+
+            {/*//* Responsive container for the line chart */}
             <ResponsiveContainer width="100%" height="90%">
+                {/*//* Line chart */}
                 <LineChart
                     width={500}
                     height={300}
@@ -57,16 +64,28 @@ const Chart = () => {
                         bottom: 5,
                     }}
                 >
+                    {/*//* X-axis */}
                     <XAxis dataKey="name" />
+
+                    {/*//* Y-axis */}
                     <YAxis />
+
+                    {/*//* Tooltip */}
                     <Tooltip contentStyle={{ background: "#151c2c", border: "none" }} />
+
+                    {/*//* Legend */}
                     <Legend />
+
+                    {/*//* Line for 'visit' data */}
                     <Line type="monotone" dataKey="visit" stroke="#8884d8" strokeDasharray="5 5" />
+
+                    {/*//* Line for 'click' data */}
                     <Line type="monotone" dataKey="click" stroke="#82ca9d" strokeDasharray="5 5" />
                 </LineChart>
             </ResponsiveContainer>
         </div>
-    )
+    );
 }
 
-export default Chart
+// Export the Chart component
+export default Chart;

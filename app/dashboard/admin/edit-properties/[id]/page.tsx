@@ -58,6 +58,8 @@ const EditProperties = () => {
     const [amenities, setAmenities] = useState<AmenitiesState>([]);
     const { user } = useAuthContext();
     const router = useRouter();
+
+
     const removeImage = (index: number) => {
         setImagesArr(prevImages => prevImages.filter((_, i) => i !== index));
         console.log(imagesArr);
@@ -84,8 +86,6 @@ const EditProperties = () => {
     useEffect(() => {
         fetchData();
     }, [id]);
-
-
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         if (!user) {
@@ -127,7 +127,7 @@ const EditProperties = () => {
             const result = await response.json();
             if (result.success) {
                 toast.success(result.message);
-                router.push('/dashboard/agent/manage-properties');
+                router.push('/dashboard/admin/all-properties');
             } else {
                 toast.error(result.error)
             }
@@ -149,14 +149,9 @@ const EditProperties = () => {
     }
 
 
-
-
     if (loading) {
         return <Loading />
     }
-
-
-
 
     return (
         <div>

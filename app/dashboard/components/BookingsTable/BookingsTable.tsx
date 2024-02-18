@@ -307,11 +307,13 @@ interface IAllBookingsTable {
     setBookings: any
 }
 
-// Functional component for rendering a bookings table
+//* Functional component for rendering a bookings table
 const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBookings }) => {
-    // State to manage dropdown visibility
+
+    //* State to manage dropdown visibility
     const [dropdownOpen, setDropdownOpen] = useState("");
-    // Function to toggle dropdown visibility
+
+    //* Function to toggle dropdown visibility
     const toggleDropdown = (id: string) => {
         if (dropdownOpen) {
             return setDropdownOpen("")
@@ -319,20 +321,20 @@ const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBooking
         setDropdownOpen(id);
     };
 
-    // Function to calculate time since a given date
+    //* Function to calculate time since a given date
     const timeSinceWithoutAbout = (dateString: any) => {
         const date = new Date(dateString);
         const distance = formatDistanceToNow(date, { addSuffix: true });
         return distance.replace(/^about /, '');
     };
 
-    // Fetching user information using context
+    //* Fetching user information using context
     const { user } = useAuthContext();
     const userId = (user?._id);
 
-    // Function to handle status change of a booking
+    //? Function to handle status change of a booking
     const handleStatusChanged = (value: string, id: any) => {
-        // Handling different actions based on status change
+        //* Handling different actions based on status change
         if (value === "cancel") {
             // Confirmation dialog for cancel action
             Swal.fire({
@@ -348,10 +350,12 @@ const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBooking
                 confirmButtonText: "Yes, cancel it!"
             }).then(async (result) => {
                 if (result.isConfirmed) {
-                    // Managing booking status in the database
+
+                    //* Managing booking status in the database
                     const dbResponse = await manageBookingStatus({ id, action: value })
                     if (dbResponse.success) {
-                        // If success, update bookings data and close dialog
+
+                        //* If success, update bookings data and close dialog
                         toast.success(dbResponse.message);
                         const bookingsData = await getBookingsById(userId);
                         setBookings(bookingsData.bookings);
@@ -361,7 +365,7 @@ const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBooking
                         toast.error(dbResponse.error)
                     }
                 }
-                // Resetting dropdown value
+                //* Resetting dropdown value
                 const optionSelect = document.getElementById(id) as HTMLInputElement
                 if (optionSelect) {
                     optionSelect.value = "pending";
@@ -369,6 +373,7 @@ const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBooking
             });
         }
         if (value === "confirm") {
+
             // Confirmation dialog for confirm action
             Swal.fire({
                 title: "Are you sure?",
@@ -383,10 +388,12 @@ const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBooking
                 confirmButtonText: "Yes, confirm it!"
             }).then(async (result) => {
                 if (result.isConfirmed) {
-                    // Managing booking status in the database
+
+                    //* Managing booking status in the database
                     const dbResponse = await manageBookingStatus({ id, action: value })
                     if (dbResponse.success) {
-                        // If success, update bookings data and close dialog
+
+                        //* If success, update bookings data and close dialog
                         toast.success(dbResponse.message);
                         const bookingsData = await getBookingsById(userId);
                         setBookings(bookingsData.bookings);
@@ -407,7 +414,7 @@ const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBooking
         }
     }
 
-    // Rendering bookings table
+    //? Rendering bookings table
     return (
         <div className=''>
             <div className="relative min-h-screen overflow-x-auto rounded-lg ">
@@ -439,7 +446,7 @@ const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBooking
                     </thead>
                     <tbody className='relative whitespace-nowrap'>
                         {
-                            // Mapping through bookings data and rendering rows
+                            //* Mapping through bookings data and rendering rows
                             data?.slice()?.reverse().map((booking, indx) => (
                                 <tr key={indx} className="hover:bg-[#2E374A] hover:rounded-lg bg-primary-50 my-3 p-2 cursor-pointer">
                                     <td className="px-6 py-4 m-5 font-medium">
@@ -453,7 +460,7 @@ const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBooking
                                         </div>
                                     </td>
                                     {
-                                        // Rendering status based on user role
+                                        //* Rendering status based on user role
                                         user?.role === "admin" ?
                                             <td>
                                                 <button className='sm:text-left cursor-auto text-right md:text-sm text-xs'>
@@ -474,7 +481,7 @@ const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBooking
                                                             </span>
                                                         </button>
                                                         :
-                                                        // Dropdown for pending status with cancel/confirm options
+                                                        //* Dropdown for pending status with cancel/confirm options
                                                         <select
                                                             defaultValue="pending"
                                                             onChange={(e) => { handleStatusChanged(e.target.value, booking._id) }}
@@ -508,7 +515,7 @@ const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBooking
                                     <td className="px-6 py-4 m-5">
                                         <div className={`flex flex-col bottom-0 right-3 gap-2 font-semibol`}>
                                             {
-                                                // Rendering different links based on user role
+                                                //* Rendering different links based on user role
                                                 user?.role === "user" ?
                                                     <>
                                                         <Link href={`/dashboard/user/booking-details/${booking?._id}`}>
@@ -553,5 +560,4 @@ const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBooking
     );
 };
 
-// Exporting the component as default
 export default BookingsTable;

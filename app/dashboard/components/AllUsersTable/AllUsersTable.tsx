@@ -4,7 +4,7 @@ import React from 'react';
 import { format } from 'date-fns';
 import { useRouter } from 'next/navigation';
 
-// Define the User interface with properties for user details
+//? Define the User interface with properties for user details
 interface User {
     email: string;
     name: string;
@@ -18,7 +18,7 @@ interface User {
     createdAt: string;
 }
 
-// Define the props for the AllUsersTable component
+//? Define the props for the AllUsersTable component
 interface AllUsersTableProps {
     data: User[]; // An array of User objects to display in the table
     tableFor: string; // A string indicating the type of users to display (e.g., "agent")
@@ -28,6 +28,7 @@ interface AllUsersTableProps {
 const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
     // Get the current authenticated user from the AuthProvider context
     const { user } = useAuthContext();
+
     // Get the router object for navigation
     const router = useRouter();
 
@@ -36,6 +37,8 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
         <div className=''>
             <div className="relative overflow-x-auto rounded-lg ">
                 <table className="w-full text-left p-4 rtl:text-right rounded-t-xl text-secondary-50 whitespace-nowrap">
+
+                    {/*//?==========TAble head Start================*/}
                     <thead className="my-3 bg-[#2E374A] p-5 ">
                         <tr>
                             <th className="lg:p-5 p-3 font-semibold">
@@ -68,6 +71,9 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
 
                         </tr>
                     </thead>
+                    {/*//?==========TAble head End================*/}
+
+                    {/*//?==========TAble Body Start================*/}
                     <tbody className=' overflow-hidden'>
                         {
                             //  Map over the user data to create table rows
@@ -102,6 +108,7 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
                             </tr>)
                         }
                     </tbody>
+                    {/*//?==========TAble body end================*/}
                 </table>
             </div>
         </div>

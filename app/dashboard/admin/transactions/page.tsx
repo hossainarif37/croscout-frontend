@@ -23,6 +23,7 @@ const TransactionPage = () => {
                 const data = await getAllTrasaction();
                 console.log(data);
                 setTransaction(data);
+
                 // console.log('Setting isLoading to false');
                 setIsLoading(false);
             } catch (error) {

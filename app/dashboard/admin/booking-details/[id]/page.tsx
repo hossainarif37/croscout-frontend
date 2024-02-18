@@ -42,18 +42,22 @@ export interface IBooking {
 const page = () => {
     // State variable for booking details
     const [bookingDetails, setBookingDetails] = useState<IPropertyDetailsData>();
+
     // Retrieving booking ID from route parameters
     const { id } = useParams();
+
     // Initializing router
     const router = useRouter();
 
     // Effect hook to fetch booking details on component mount
     useEffect(() => {
+
         // Function to fetch booking details
         const fetchData = async () => {
             if (typeof id === 'string') {
                 // Fetching booking details by ID
                 const bookingData = await getBookingDetails(id);
+
                 // Setting booking details
                 setBookingDetails(bookingData.booking);
             }

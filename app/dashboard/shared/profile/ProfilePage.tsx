@@ -53,16 +53,17 @@ const ProfilePage = () => {
     const passwordForm = createFormInstance<IPasswordInfo>();
 
     const { formState: { errors }, } = personalInfoForm;
-    // const { register, handleSubmit, formState: { errors }, } = personalInfoForm;
+    //* const { register, handleSubmit, formState: { errors }, } = personalInfoForm;
 
-    // handler for toggle password show option
+    //* handler for toggle password show option
     const handleShowPassword = () => {
         setIsShow(!isShow)
     }
 
-    // handler for swich role to agent toggle
+    //* handler for swich role to agent toggle
     const switchAgentToggle = () => {
-        // console.log(role);
+
+        //? console.log(role);
         if (!isAgent) {
             setIsAgent(true);
             personalInfoForm.setValue("role", "agent");
@@ -74,7 +75,7 @@ const ProfilePage = () => {
         }
     }
 
-    // handler for delete image
+    //* handler for delete image
     const handleDeleteImage = async () => {
         Swal.fire({
             title: "Are you sure?",
@@ -127,7 +128,7 @@ const ProfilePage = () => {
         });
     };
 
-    // handler for delete image
+    //? handler for delete image
     const handleImageCancel = async () => {
         setCurrentImage("");
     };
@@ -136,7 +137,7 @@ const ProfilePage = () => {
         setImageChangeLoading(true);
         const token = getStoredToken();
 
-        // All personal info from the input fields
+        //? All personal info from the input fields
         const allData = {
             name: user?.name,
             image: currentImage,
@@ -175,7 +176,7 @@ const ProfilePage = () => {
         setInfoIsLoading(true);
         const token = getStoredToken();
 
-        // All personal info from the input fields
+        //? All personal info from the input fields
         const allData = {
             name: data.name,
             image: user?.image,
@@ -272,6 +273,8 @@ const ProfilePage = () => {
                     </div>
                 </div>
                 <div className="">
+
+                    {/*//* ============= User profile form ===========**/}
                     <form onSubmit={personalInfoForm.handleSubmit(handlePersonalInfoSave)} className="mx-auto max-w-3xl space-y-3 my-6">
                         <h4 className="text-white-50 text-xl">Update Personal Info:</h4>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

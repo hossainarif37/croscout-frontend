@@ -3,7 +3,6 @@
 import Loading from '@/components/ui/Loading/Loading';
 import { getUsersByRole } from '@/lib/database/getUsers';
 import React, { useEffect, useState } from 'react';
-import { useAuthContext } from '@/providers/AuthProvider';
 import AllUsersTable from '../../components/AllUsersTable/AllUsersTable';
 import { getStoredToken } from '@/utils/tokenStorage';
 
@@ -25,25 +24,28 @@ const Page = () => {
             try {
                 // Setting loading status to true
                 setIsLoading(true);
+
                 // Retrieving token from local storage
                 const token = getStoredToken();
+
                 // If token is not available, throw an error
                 if (!token) {
                     throw new Error('Token is required for authorization');
                 }
                 // Fetching users by role
                 const data = await getUsersByRole({ role: "user", token });
+
                 // Setting users and updating loading status
                 setUsers(data.users);
                 setIsLoading(false);
             } catch (error) {
-                // Handling error if fetching users fails
+
+                //! Handling error if fetching users fails
                 console.error('Error occurred while fetching users:', error);
                 setIsLoading(false);
             }
         };
 
-        // Calling fetchUsers function
         fetchUsers();
     }, []);
 
