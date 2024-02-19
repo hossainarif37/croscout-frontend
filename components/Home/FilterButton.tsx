@@ -4,7 +4,6 @@ import { useSearchContext } from "@/providers/SearchProvider";
 import { useToggleContext } from "@/providers/ToggleProvider";
 import { goToSpecificSection } from "@/utils/goToSpecificSection";
 import Image from "next/image";
-import { useRouter } from 'next/navigation';
 import { useEffect } from "react";
 
 

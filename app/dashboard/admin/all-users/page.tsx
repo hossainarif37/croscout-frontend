@@ -6,14 +6,14 @@ import React, { useEffect, useState } from 'react';
 import AllUsersTable from '../../components/AllUsersTable/AllUsersTable';
 import { getStoredToken } from '@/utils/tokenStorage';
 
-const Page = () => {
-    // Type definition for user object
-    type User = {
-        name: string;
-        role: string;
-        email: string;
-    };
+// Type definition for user object
+type User = {
+    name: string;
+    role: string;
+    email: string;
+};
 
+const Page = () => {
     // State variables for users and loading status
     const [users, setUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(true);

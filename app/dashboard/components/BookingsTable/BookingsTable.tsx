@@ -128,6 +128,10 @@ const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBooking
                     }
                     else {
                         console.log(dbResponse.error);
+                        const optionSelect = document.getElementById(id) as HTMLInputElement
+                        if (optionSelect) {
+                            optionSelect.value = "pending";
+                        }
                         toast.error(dbResponse.error, { duration: 5000 });
                     }
                 }

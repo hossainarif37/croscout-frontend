@@ -6,6 +6,7 @@ import { Property } from '@/constant';
 import toast from 'react-hot-toast';
 import Swal from 'sweetalert2';
 import Loading from '@/components/ui/Loading/Loading';
+import { getStoredToken } from '@/utils/tokenStorage';
 
 
 const PropertiesCard = ({ property, setDelete }: Property & any) => {
@@ -37,10 +38,15 @@ const PropertiesCard = ({ property, setDelete }: Property & any) => {
 
                 //* If the user confirms the deletion
                 if (result.isConfirmed) {
+                    const token = getStoredToken();
+                    if (!token) throw new Error('Token is required for get Favorites');
 
                     //* Send a DELETE request to the server to delete the property
                     const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/properties/${_id}`, {
                         method: 'DELETE',
+                        headers: {
+                            'Authorization': token
+                        }
                     });
 
                     //* If the request is successful
