@@ -11,6 +11,7 @@ import { IoMdClose } from 'react-icons/io';
 import ImageUploader from '../../add-property/components/ImageUploader';
 import styles from "../../add-property/components/addProperty.module.css"
 import Loading from '@/components/ui/Loading/Loading';
+import { getStoredToken } from '@/utils/tokenStorage';
 
 
 type Inputs = {
@@ -123,11 +124,15 @@ const EditProperties = () => {
         // console.log(finalData);
         // console.log(process.env.NEXT_PUBLIC_SERVER_URL);
         try {
+            const token = getStoredToken();
+            if (!token) throw new Error('Token is required for get Favorites');
             //* Submit data to server
             const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/properties/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': token
+
                 },
                 body: JSON.stringify(finalData),
             });

@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation';
 import { ImSpinner } from "react-icons/im";
 import Link from "next/link";
 import { FaArrowRightLong } from "react-icons/fa6";
+import { getStoredToken } from "@/utils/tokenStorage";
 
 type Inputs = {
     name: string
@@ -80,12 +81,17 @@ const AddPropertyForm = () => {
         };
 
         try {
+
+            const token = getStoredToken();
+            if (!token) throw new Error('Token is required for get Favorites');
+
             setIsLoading(true);
             // Send a POST request to the server with the property data
             const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/properties`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': token
                 },
                 body: JSON.stringify(finalData),
             });
@@ -200,7 +206,7 @@ const AddPropertyForm = () => {
                                             className=""
                                             placeholder="Input amenity and press the button"
                                         />
-                                        <span onClick={handleAddAminity} className="absolute text-white bg-gradient-to-l from-cyan-400 to-cyan-500 py-3 rounded-r-md cursor-pointer  px-10 flex-center gap-x-2 right-0">+ Add Amenity</span>
+                                        <span onClick={handleAddAminity} className="absolute text-white bg-gradient-to-l from-cyan-400 to-cyan-500 py-2.5 lg:py-3 px-2 rounded-r-md cursor-pointer  md:px-10 flex-center gap-x-2 right-0">+ Add Amenity</span>
                                     </div>
                                     {amenitiesError && <p className="text-red-600 mt-1 lg:text-base text-sm">Amenities is required!</p>}
 

@@ -31,7 +31,7 @@ export interface IUserInfo {
 }
 
 
-
+// Registers a new user by sending registration data to the server.
 export const registerUser = async ({ data }: { data: RegistrationData }) => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/register`, {
         method: 'POST',
@@ -45,6 +45,7 @@ export const registerUser = async ({ data }: { data: RegistrationData }) => {
 }
 
 
+// Logs in a user by sending login data to the server.
 export const loginUser = async ({ data }: { data: LoginData }) => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/login`, {
         method: 'POST',
@@ -58,6 +59,7 @@ export const loginUser = async ({ data }: { data: LoginData }) => {
 }
 
 
+// Logs out the currently authenticated user.
 export const logoutUser = async () => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/logout`, {
         method: 'GET',
@@ -70,6 +72,8 @@ export const logoutUser = async () => {
     return responseData;
 }
 
+
+// Retrieves user information from the server using the provided token.
 export const getUser = async ({ token }: { token: string }) => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/current-user`, {
         method: 'GET',
@@ -77,13 +81,13 @@ export const getUser = async ({ token }: { token: string }) => {
             'Content-Type': 'application/json',
             'Authorization': token
         },
-        // credentials: "include",
     });
     const responseData = await response.json();
     return responseData;
 }
 
 
+// Initiates a forgot password request by sending the user's email to the server.
 export const forgotRequest = async ({ email }: { email: string }) => {
     const clientUrl = window.location.origin;
     const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/forgot-password`, {
@@ -97,6 +101,8 @@ export const forgotRequest = async ({ email }: { email: string }) => {
     return responseData;
 }
 
+
+// Resets the user's password using the provided token and new password.
 export const resetPassword = async ({ token, newPassword }: { token: string; newPassword?: string }) => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/reset-password`, {
         method: 'POST',
@@ -110,6 +116,7 @@ export const resetPassword = async ({ token, newPassword }: { token: string; new
 }
 
 
+// Changes the password of a user with the given ID using the provided token and update data.
 export const changePassword = async (data: IChangePassword) => {
     const update = data.updateData;
     // console.log(data);
@@ -125,13 +132,13 @@ export const changePassword = async (data: IChangePassword) => {
         body: JSON.stringify({ update }),
     });
     const res = await response.json();
-    // console.log(res);
     return res;
 }
 
+
+// Updates user information with the provided data, using the user's ID and token for authorization.
 export const updateUserInfo = async (data: IUserInfo) => {
     const update = data.allData;
-    // console.log(data);
     if (!data.token) {
         throw new Error('Token is required for authorization');
     }

@@ -1,6 +1,7 @@
 "use client"
 import Loading from '@/components/ui/Loading/Loading';
 import { getPaymentDetailsById } from '@/lib/database/getPaymentDetails';
+import { getStoredToken } from '@/utils/tokenStorage';
 import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -39,6 +40,8 @@ const page = () => {
     const { register, handleSubmit, watch, formState: { errors }, } = useForm<Inputs>();
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
 
+        const token = getStoredToken();
+        if (!token) throw new Error('Token is required for get Favorites');
 
         const transactionData = {
             userTransactionId: data?.userTransactionId,
@@ -48,6 +51,7 @@ const page = () => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': token
             },
             body: JSON.stringify(transactionData),
         });

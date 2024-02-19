@@ -1,5 +1,3 @@
-import { id } from "date-fns/locale";
-
 export const getPropertiesByUser = async ({ token, email }: { token: string, email: string | undefined }) => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/properties/user/${email}`, {
         method: 'GET',
@@ -7,7 +5,6 @@ export const getPropertiesByUser = async ({ token, email }: { token: string, ema
             'Content-Type': 'application/json',
             'Authorization': token
         },
-        // credentials: 'include',
     });
     const responseData = await response.json();
     return responseData;
@@ -37,6 +34,6 @@ export const getPropertyById = async (id: string) => {
         return result;
     } catch (error) {
         console.error('Fetch error:', error);
-        throw error; // Rethrow the error to be handled by the caller
+        throw error;
     }
 }

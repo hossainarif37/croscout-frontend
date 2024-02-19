@@ -1,6 +1,7 @@
 "use client"
 import { IPaymentData } from '@/app/dashboard/user/payment-details/[id]/page';
 import { getPaymentDetailsById } from '@/lib/database/getPaymentDetails';
+import { getStoredToken } from '@/utils/tokenStorage';
 import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from "react-hook-form"
@@ -29,6 +30,8 @@ const page = () => {
     }, []);
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
+        const token = getStoredToken();
+        if (!token) throw new Error('Token is required for get Favorites');
 
         const postData = {
             agentPaypalEmail: data.agentPaypalEmail,
@@ -39,6 +42,7 @@ const page = () => {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': token
             },
             body: JSON.stringify(postData),
         });

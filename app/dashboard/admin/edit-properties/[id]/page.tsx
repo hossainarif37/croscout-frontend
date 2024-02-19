@@ -11,6 +11,7 @@ import { IoMdClose } from 'react-icons/io';
 import ImageUploader from '@/app/dashboard/agent/add-property/components/ImageUploader';
 import styles from "@/app/dashboard/agent/add-property/components/addProperty.module.css"
 import Loading from '@/components/ui/Loading/Loading';
+import { getStoredToken } from '@/utils/tokenStorage';
 
 
 type Inputs = {
@@ -114,11 +115,14 @@ const EditProperties = () => {
         };
 
         try {
+            const token = getStoredToken();
+            if (!token) throw new Error('Token is required for get Favorites');
 
             const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/properties/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': token
                 },
                 body: JSON.stringify(finalData),
             });
@@ -142,9 +146,9 @@ const EditProperties = () => {
     const handleAddAminity = () => {
         const amenityInput = document.getElementById("amenities") as HTMLInputElement;
         const amenity = amenityInput.value;
-        if (amenity.length <= 0) return
+        if (amenity.length <= 0) return;
         setAmenities([...amenities, amenity]);
-        setAmenitiesError(false)
+        setAmenitiesError(false);
         amenityInput.value = "";
     }
 

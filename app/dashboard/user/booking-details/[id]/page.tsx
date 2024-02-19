@@ -2,7 +2,6 @@
 import { getBookingDetails } from '@/lib/database/getBookingDetails';
 import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import { IoArrowBack } from 'react-icons/io5';
 import { format } from 'date-fns';
 import Image from 'next/image';
 
@@ -135,7 +134,6 @@ const page = () => {
                         </div>
                     </div>
                 </div>
-
             )}
         </div>
     );

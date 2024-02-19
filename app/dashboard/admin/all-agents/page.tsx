@@ -6,12 +6,13 @@ import { getStoredToken } from "@/utils/tokenStorage";
 import { useEffect, useState } from "react";
 import AllUsersTable from "../../components/AllUsersTable/AllUsersTable";
 
+type User = {
+    name: string
+    role: string
+    email: string
+};
+
 const AllAgentsPage = () => {
-    type User = {
-        name: string
-        role: string
-        email: string
-    };
 
     // State to hold the list of users
     const [users, setUsers] = useState([]);
