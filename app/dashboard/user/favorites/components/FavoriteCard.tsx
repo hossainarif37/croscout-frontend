@@ -24,11 +24,15 @@ const FavoriteCard = ({ favorite, setRemove }: any) => {
 
     const handleRemove = async () => {
         try {
+            const token = getStoredToken();
+            if (!token) throw new Error('Token is required for delete Favorites');
+
+
             const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/favorites/${user?._id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
-                    // Include any authorization headers if needed
+                    'Authorization': token
                 },
                 body: JSON.stringify({ propertyId: _id }),
             });
@@ -37,18 +41,10 @@ const FavoriteCard = ({ favorite, setRemove }: any) => {
                 throw new Error('Failed to remove favorite');
             }
             setRemove((prev: boolean) => !prev);
-            // await userRefetch();
-            const token = getStoredToken();
-            if (token) {
-                toast.success('Favorite successfully removed');
-                const { user: refetchUser } = await getUser({ token });
-                setUser(refetchUser)
-            }
 
-
-            // Handle successful removal (e.g., update the UI)
-            // You might want to call a function passed down from the parent component
-            // to refresh the list of favorites without a full page reload
+            toast.success('Favorite successfully removed');
+            const { user: refetchUser } = await getUser({ token });
+            setUser(refetchUser)
 
         } catch (error) {
             console.error('Error removing favorite:', error);

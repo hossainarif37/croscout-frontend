@@ -7,6 +7,7 @@ import { Property } from '@/constant';
 import toast from 'react-hot-toast';
 import Swal from 'sweetalert2';
 import Loading from '@/components/ui/Loading/Loading';
+import { getStoredToken } from '@/utils/tokenStorage';
 
 // Functional component for rendering a property card
 const PropertiesCard = ({ property, setDelete }: Property & any) => {
@@ -27,6 +28,11 @@ const PropertiesCard = ({ property, setDelete }: Property & any) => {
     // Function to handle property deletion
     const handleDelete = async () => {
         try {
+
+            const token = getStoredToken();
+            if (!token) throw new Error('Token is required for get Favorites');
+
+
             // Confirmation dialog for deletion
             Swal.fire({
                 title: "Are you sure?",
@@ -43,6 +49,9 @@ const PropertiesCard = ({ property, setDelete }: Property & any) => {
                     // Sending DELETE request to server
                     const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/properties/${_id}`, {
                         method: 'DELETE',
+                        headers: {
+                            'Authorization': token
+                        }
                     });
 
                     if (response.ok) {

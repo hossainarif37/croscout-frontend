@@ -10,11 +10,7 @@ interface IDateRange {
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image';
 import ShareActive from "@/public/icons/share-active.svg";
-import FavOutline from "@/public/icons/love-outline.svg";
-import FavFilled from "@/public/icons/love-filled.svg";
 import { FaChevronDown, FaRegCopy } from 'react-icons/fa';
-// import { useModalContext } from '@/providers/ModalProvider';
-// import { useSearchContext } from '@/providers/SearchProvider';
 import { differenceInDays, format } from "date-fns";
 import { useAuthContext } from '@/providers/AuthProvider';
 import { IPropertyData } from '../[id]/page';
@@ -28,7 +24,6 @@ import { useRouter } from 'next/navigation';
 import { useModalContext } from '@/providers/ModalProvider';
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import ImageCarousel from './ImageCarousel';
-import { SiProcessingfoundation } from 'react-icons/si';
 import { getUser } from '@/lib/database/authUser';
 import { getStoredToken } from '@/utils/tokenStorage';
 
@@ -67,8 +62,6 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
     let formattedEndDate: any;
 
 
-    // let duration: any = "Any week";
-
     const startDate = new Date(selectedDate[0].startDate);
     const endDate = new Date(selectedDate[0].endDate);
     formattedStartDate = format(startDate, "MMM dd, yyyy");
@@ -87,19 +80,14 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
 
     const adminOrAgent = user?.role === "admin" || user?.role === "agent";
 
-    // console.log(user);
     const handleBooking = async () => {
         setIsLoading(true);
 
 
-        // Assuming you have the guestId and propertyId available
         const guestId = user?._id;
-        // const owner = singlePropertyDetails?.owner;
-        // console.log("owner", owner);
         const propertyId = singlePropertyDetails?._id;
-        // console.log(propertyId);
         const price = nightFeeCalculation + crouscouteServiceFee;
-        // console.log(price);
+
         if (!user) {
             setIsLoading(false)
             toast.error("Login first")
@@ -140,12 +128,14 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
             endDate: new Date(selectedDate[0]?.endDate),
         };
 
+        const token = getStoredToken();
+        if (!token) throw new Error('Token is required for post and bookings');
         // Make the POST request with the booking data 
-        // Make the POST request with the booking data
         const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/bookings`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': token
             },
             body: JSON.stringify(bookingData),
         });
@@ -160,8 +150,6 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
             setIsLoading(false);
             return toast.error(responseData?.error)
         }
-        // console.log('Booking successful:', responseData);
-        // Handle the successful booking, e.g., show a success message or redirect the user
     };
 
 
@@ -177,7 +165,7 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
             currentDate.setDate(currentDate.getDate() + 1);
         }
         return datesArray;
-    }) ?? []; // Provide an empty array as a fallback
+    }) ?? [];
 
 
     const maximumGuest = singlePropertyDetails?.guests || 0;
@@ -194,7 +182,7 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
     const allDisabledDates = [...previousDates, ...alreadBookingDates];
 
 
-
+    // handler for add to favourites item
     const handleSaveToFavourites = async (id: string) => {
         try {
             // Toggle the favorite state
@@ -203,14 +191,16 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
                 return setLoginModal(true);
             }
 
+            const token = getStoredToken();
+            if (!token) throw new Error('Token is required for get Favorites');
+
             // Call the API to toggle the favorite status
             const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/favorites/${user?._id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    // Include the user's authentication token if needed
+                    'Authorization': token
                 },
-                // Include the user's ID in the request body if needed
                 body: JSON.stringify({ propertyId: id }),
             });
             // check response status
@@ -221,10 +211,6 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
             // Result
             const result = await response.json();
 
-            // Set the favorite status
-            // setIsFav(result.isAdd);
-            const token = getStoredToken();
-            if (!token) return;
             // toast message
             if (result.isAdd) {
                 toast.success(result.message);
@@ -274,7 +260,6 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
         setShowInput(false);
     };
 
-    // Guest Calculation
     return (
         <section className='wrapper'>
             {/* Top section */}
@@ -287,10 +272,6 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
                     <div className="flex items-center gap-16 mt-4 lg:mt-0">
 
                         <div className="flex items-center gap-3 cursor-pointer">
-                            {/* <Image src={ShareActive} height={24} width={24} alt="" />
-                            <div>Share</div> */}
-
-
                             {showInput ? (
                                 <div className='flex gap-3 transition-all ease-in-out duration-300'>
                                     <input type="text" value={urlToCopy} className='bg-white-50 text-black rounded-md border-none opacity-100 scale-100' />
@@ -328,7 +309,7 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
                     <div className="flex-1 flex-grow block">
                         {singlePropertyDetails?.propertyImages.slice(0, 1).map((imageUrl: string, index: number) => (
                             <>
-                                <div>
+                                <div className='h-full'>
                                     <Image
                                         key={index}
                                         src={heroImage || imageUrl}
@@ -341,14 +322,7 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
                                 <div className="h-[15rem] w-full relative rounded-t-[4px] overflow-hidden md:hidden">
                                     <ImageCarousel propertyId={singlePropertyDetails?._id} propertyImages={singlePropertyDetails?.propertyImages} />
                                 </div>
-                                {/* <ImageCarousel propertyImages={singlePropertyDetails.propertyImages} id={singlePropertyDetails._id} /> */}
                             </>
-                            // <img
-                            //     key={index}
-                            //     className="w-full h-full object-cover object-center border-accent border-[2px] rounded-[10px]"
-                            //     src={heroImage || imageUrl}
-                            //     alt={`Property Image ${index + 1}`}
-                            // />
                         ))}
                     </div>
                     <div className="text-white">
@@ -362,12 +336,6 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
                             <div className="grid grid-cols-2 px-4 lg:px-[2.5rem] py-[1.25rem] gap-[1.25rem] bg-secondary">
 
                                 <div className="col-span-2">
-                                    {/* <div className="flex justify-between border-b border-accent pb-3">
-                                        <div className="font-medium">Night x $45</div>
-                                        <div className="font-medium">$225</div>
-                                    </div> */}
-
-
 
                                     {/*//? Check in and check out label */}
                                     <div className='mb-3'>
@@ -567,11 +535,6 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
                                         <span className=''>Croscout Services Fee</span>
                                         <span className=''>€{crouscouteServiceFee}</span>
                                     </div>
-
-                                    {/* <div className="flex justify-between border-b border-accent py-3">
-                                        <div className="font-medium">Croscout Services Fee</div>
-                                        <div className="font-medium">$30</div>
-                                    </div> */}
                                     <div className="flex justify-between items-center mt-3">
                                         <div className="font-medium">Total</div>
                                         <div className="font-medium border border-accent px-3 py-1.5 rounded">
@@ -634,13 +597,6 @@ export default function PropertyHero({ singlePropertyDetails }: PropertyHeroProp
                         className="w-full h-full object-cover object-center border-accent border-[2px] rounded-[10px] cursor-pointer"
                         alt={`Property Image ${index + 1}`}>
                     </Image>
-                    // <img
-                    //     onClick={() => setHeroImage(imageUrl)}
-                    //     key={index}
-                    //     className="w-full h-full object-cover object-center border-accent border-[2px] rounded-[10px] cursor-pointer"
-                    //     src={imageUrl}
-                    //     alt={`Property Image ${index + 1}`}
-                    // />
                 ))}
             </div>
 

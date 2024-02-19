@@ -36,7 +36,6 @@ export default function ImageCarousel({ propertyImages, propertyId }: any) {
                         alt="Property Image"
                         width={300}
                         height={300}
-                        // layout="fill"
                         className={"cursor-pointer h-full hover:scale-105 duration-200 w-full carouselImage object-cover"}/>)
                 }
             </Carousel>

@@ -1,12 +1,9 @@
 'use client'
-import Link from "next/link";
 import PropertyCard from "./PropertyCard";
 import PrimaryButton from "@/components/ui/buttons/Button";
-import { Property, propertyList } from "@/constant";
+import { Property } from "@/constant";
 import { useSearchContext } from "@/providers/SearchProvider";
-import { IoMdClose } from "react-icons/io";
 import ClearSearchButton from "@/components/ui/buttons/ClearSearchButton";
-// import { clearSearchInputValue } from "@/utils/filterProperties";
 import { getAllProperty } from "@/lib/database/getProperties";
 import Loading from "@/components/ui/Loading/Loading";
 import { useSearchParams } from "next/navigation";

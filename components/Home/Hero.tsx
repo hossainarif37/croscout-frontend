@@ -15,8 +15,7 @@ const Hero = () => {
             </h1>
             <p className=" text-white-50 select-none text-xl text-center"
             >
-                There are many variations of passages of Lorem Ipsum available, but the
-                majority have suffered alteration in some form,
+                Explore unique getaways with Croscout. Your perfect home awaits – redefine travel with comfort, charm, and unforgettable experiences.
             </p>
 
             {/* Wrapper */}

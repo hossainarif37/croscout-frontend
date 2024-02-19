@@ -29,7 +29,7 @@ interface Event {
 
 export default function PropertyCard({ property }: Property & any,) {
     const { setLoginModal } = useModalContext();
-    const { user, setUser, userRefetch } = useAuthContext();
+    const { user, setUser } = useAuthContext();
     const [isActive, setIsActive] = useState(false);
     const [isFav, setIsFav] = useState(false);
     const [isProgressive, setIsProgressive] = useState(false);
@@ -116,14 +116,16 @@ export default function PropertyCard({ property }: Property & any,) {
 
             setIsProgressive(true);
 
+            const token = getStoredToken();
+            if (!token) throw new Error('Token is required for handle favourite');
+
             // Call the API to toggle the favorite status
             const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/favorites/${user?._id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    // Include the user's authentication token if needed
+                    'Authorization': token
                 },
-                // Include the user's ID in the request body if needed
                 body: JSON.stringify({ propertyId: _id }),
             });
             // console.log(56, response);
@@ -140,8 +142,6 @@ export default function PropertyCard({ property }: Property & any,) {
             setIsFav(result.isAdd);
             setIsProgressive(false);
             // toast message
-            const token = getStoredToken();
-            if (!token) return;
             if (result.isAdd) {
                 toast.success(result.message);
                 const { user: refetchUser } = await getUser({ token });
@@ -166,10 +166,6 @@ export default function PropertyCard({ property }: Property & any,) {
     const handleHoverOut = () => {
         setIsActive(false);
     };
-
-    const router = useRouter();
-
-    // console.log(property);
 
 
     return (

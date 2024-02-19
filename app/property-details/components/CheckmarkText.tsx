@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import React from 'react'
 import CheckMarkIcon from '@/public/icons/checkmark.svg'
-import { type } from 'os';
 
 type IProps = {
     children: React.ReactNode

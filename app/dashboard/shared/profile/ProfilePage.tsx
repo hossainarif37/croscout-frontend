@@ -62,8 +62,6 @@ const ProfilePage = () => {
 
     //* handler for swich role to agent toggle
     const switchAgentToggle = () => {
-
-        //? console.log(role);
         if (!isAgent) {
             setIsAgent(true);
             personalInfoForm.setValue("role", "agent");

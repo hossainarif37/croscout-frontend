@@ -1,7 +1,7 @@
 'use client';
 
 import { Tooltip } from "flowbite-react";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 
 interface CounterProps {

@@ -18,7 +18,6 @@ export default function CategoryList() {
             onClick={props.onClick}
             style={{ position: "absolute", top: "31%", zIndex: 1 }}
         >
-            {/* Your custom arrow content for previous */}
             <BiLeftArrow />
         </div>
     );
@@ -29,12 +28,11 @@ export default function CategoryList() {
             onClick={props.onClick}
             style={{ position: 'absolute', top: '31%', zIndex: 1 }}
         >
-            {/* Your custom arrow content for next */}
             <BiRightArrow />
         </div>
     );
 
-    var settings = {
+    let settings = {
         dots: false,
         infinite: true,
         speed: 500,
