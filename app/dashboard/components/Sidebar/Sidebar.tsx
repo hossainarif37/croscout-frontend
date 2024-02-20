@@ -25,6 +25,7 @@ import { FaMagento, FaStar, FaUserAlt } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 import { AiFillPropertySafety } from 'react-icons/ai';
 import { HiOutlineHomeModern } from 'react-icons/hi2';
+import { SiCodereview } from 'react-icons/si';
 
 
 export default function Sidebar() {
@@ -51,6 +52,11 @@ export default function Sidebar() {
                     title: "Favorites",
                     path: "/dashboard/user/favorites",
                     icon: <FaStar />,
+                },
+                {
+                    title: "Feadback",
+                    path: "/dashboard/user/feadback",
+                    icon: <SiCodereview />,
                 },
             ],
         },
