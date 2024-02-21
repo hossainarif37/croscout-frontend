@@ -24,7 +24,8 @@ export interface User {
     city: string;
     state: string;
     taxNumber: string;
-    isCompletedProfile: true;
+    isCompletedProfile: boolean;
+    isEmailVerified: boolean;
 }
 
 
