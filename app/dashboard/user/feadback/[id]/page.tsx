@@ -1,16 +1,30 @@
 "use client"
+import { useAuthContext } from '@/providers/AuthProvider';
+import { getStoredToken } from '@/utils/tokenStorage';
+import { useParams, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { FaRegStar, FaStar } from 'react-icons/fa';
 
 type Inputs = {
     rating: number
-    feadback: string
+    comment: string
     selectedRating: number
 }
 const page = () => {
 
-    const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<Inputs>();
+    const { id } = useParams();
+    // const router = useRouter();
+    // const { property_id } = router?.query;
+    const searchParams = useSearchParams()
+
+    const property_id = searchParams.get("property_id")
+    console.log(property_id);
+
+
+    const { register, handleSubmit, watch, reset, setValue, formState: { errors } } = useForm<Inputs>();
 
     // Add a state variable to track the selected rating
     const [selectedRating, setSelectedRating] = useState({ rating: 0, description: '' });
@@ -25,8 +39,36 @@ const page = () => {
     };
 
     // Function to handle submit button click and log the selected rating
-    const onSubmit = (data: any) => {
+    const onSubmit = async (data: any) => {
         console.log(data);
+
+        const token = getStoredToken();
+        if (!token) throw new Error('Token is required for get Favorites');
+
+        const feadbackData = {
+            propertyId: property_id,
+            bookingId: id,
+            rating: data?.rating,
+            comment: data?.comment,
+        }
+        console.log(feadbackData);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/properties/feedback`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            },
+            body: JSON.stringify(feadbackData),
+        });
+
+        const responseData = await response.json();
+        if (responseData.success) {
+            toast.success(responseData?.message);
+            reset();
+        }
+        else {
+            toast.error(responseData?.error)
+        }
     };
 
     // Render the star icons
@@ -67,7 +109,7 @@ const page = () => {
                         id="review"
                         rows={4}
                         placeholder="Write your feadback here.(Optional)"
-                        {...register('feadback')}
+                        {...register('comment')}
                     ></textarea>
                 </div>
 
@@ -104,39 +146,6 @@ const page = () => {
                     Submit Review
                 </button>
             </form>
-
-
-            {/* //? Another design */}
-            {/* <form onSubmit={handleSubmit(onSubmit)} className="lg:mt-20 mt-10 max-w-2xl gap-4 mx-auto  bg-primary-50 lg:px-8 lg:py-12 px-3 py-8 text-secondary-50 space-y-4 cursor-pointer">
-                <div className="flex items-center gap-4">
-                    <div className="text-2xl font-bold">Write a review</div>
-                </div>
-                <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-4 text-2xl">
-                        {renderStars()}
-                    </div>
-                </div>
-                <div className="grid gap-4">
-                    <label
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 sr-only"
-                        htmlFor="review"
-                    >
-                        Enter your review
-                    </label>
-                    <textarea
-                        className="resize-none bg-[#2E374A] lg:text-base placeholder:text-secondary-50 placeholder:text-sm flex w-full rounded-md border-none outline-none px-3 py-2 text-sm min-h-[150px]"
-                        id="review"
-                        placeholder="Enter your review"
-                        {...register('feadback')}
-                    ></textarea>
-                </div>
-                <button
-                    className="bg-blue-500 rounded-md h-10 px-4 py-2"
-                    type="submit"
-                >
-                    Submit Review
-                </button>
-            </form> */}
         </div>
     );
 };
