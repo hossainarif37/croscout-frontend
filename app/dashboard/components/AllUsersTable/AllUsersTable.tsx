@@ -27,12 +27,13 @@ interface User {
 //? Define the props for the AllUsersTable component
 interface AllUsersTableProps {
     data: User[];
-    tableFor: string; 
-    // setUsers: (users: User[]) => void; 
+    tableFor: string;
+    setUsers?: any;
 }
 
 
-const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
+
+const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor, setUsers }) => {
     // Get the current authenticated user from the AuthProvider context
     const { user } = useAuthContext();
 
@@ -69,10 +70,10 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
                         // <Loading />
                         // setDelete(true);
                         // Fetching users by role
-                        // const data = await getUsersByRole({ role: "user", token });
+                        const data = await getUsersByRole({ role: "user", token });
 
                         // Setting users and updating loading status
-                        // setUsers(data.users);
+                        setUsers(data.users);
                         Swal.close();
                     } else {
                         // If deletion fails, show error message
