@@ -55,7 +55,7 @@ const Page = () => {
     }
 
     // Rendering message if no users exist
-    if (users.length <= 0) {
+    if (users?.length <= 0) {
         return <div className="text-center mt-20 text-white min-h-screen"><h1 className="lg:text-4xl text-2xl text-center">Don't register any user yet.</h1></div>;
     }
 

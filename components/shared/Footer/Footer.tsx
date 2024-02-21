@@ -64,23 +64,23 @@ const Footer = () => {
                                 <div className="col-span-3 md:col-span-1">
                                     <h2 className="text-xl font-semibold">Hosting</h2>
                                     <div className="mt-6 flex flex-col leading-[200%] text-[#CBC9C9]">
-                                        <Link href={"#"}>Airbnb your home</Link>
-                                        <Link href={"#"}>AirCover for Hosts</Link>
+                                        <Link href={"#"}>Croscout your home</Link>
+                                        <Link href={"#"}>Croscout for Hosts</Link>
                                         <Link href={"#"}>Hosting resources</Link>
                                         <Link href={"#"}>Community forum</Link>
                                         <Link href={"#"}>Hosting responsibly</Link>
-                                        <Link href={"#"}>Airbnb-friendly apartments</Link>
+                                        <Link href={"#"}>Croscout-friendly apartments</Link>
                                     </div>
                                 </div>
                                 <div className="col-span-3 md:col-span-1">
-                                    <h2 className="text-xl font-semibold">Airbnb</h2>
+                                    <h2 className="text-xl font-semibold">Croscout</h2>
                                     <div className="mt-6 flex flex-col leading-[200%] text-[#CBC9C9]">
                                         <Link href={"#"}>Newsroom</Link>
                                         <Link href={"#"}>New features</Link>
                                         <Link href={"#"}>Careers</Link>
                                         <Link href={"#"}>Investors</Link>
                                         <Link href={"#"}>Gift cards</Link>
-                                        <Link href={"#"}>Airbnb.org emergency stays</Link>
+                                        <Link href={"#"}>Croscout.eu emergency stays</Link>
                                     </div>
                                 </div>
                             </div>
