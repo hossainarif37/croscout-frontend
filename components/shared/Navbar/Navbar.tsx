@@ -61,13 +61,13 @@ const Navbar = () => {
 
     const profileRoute = user?.role === "user" ? "/dashboard/user/profile" : user?.role === "agent" ? "/dashboard/agent/profile" : user?.role === "admin" ? "/dashboard/admin/profile" : "";
 
-    const isVerifed = user?.isCompletedProfile && user?.isEmailVerified;
+    const isVerifed = user?.isEmailVerified;
     return (
         <>
             {
                 user && !isVerifed &&
                 <div hidden={isResetPassword || isVerifyEmail} className="bg-red-500 text-white">
-                    <p className="text-center py-1 text-white"><Link href={profileRoute} className="underline">Please complete your profile with verify email to access all features<IoArrowForward className="inline"/></Link></p>
+                    <p className="text-center py-3 text-white"><Link href={profileRoute} className="underline">You email is not verified! Please verify your email.<IoArrowForward className="inline" /></Link></p>
                 </div>
             }
             <nav hidden={isResetPassword || isVerifyEmail} id="topbar" className={`py-5   z-40 sticky top-0 ${isDashboard ? "bg-[#182237]" : "bg-primary"}`}>

@@ -316,7 +316,7 @@ const ProfilePage = () => {
                                 <input {...personalInfoForm.register("street", { required: true })} className="rounded w-full" type="text" name="street" id="street" defaultValue={user?.street} placeholder={errors.street ? "Please Enter Your Street" : "Your Street"} />
                             </div>
                             <div className="flex flex-col gap-3">
-                                <label className="text-white-50" htmlFor="houseOrBuildingNum">House/Building</label>
+                                <label className="text-white-50" htmlFor="houseOrBuildingNum">House/Building Number</label>
                                 <input {...personalInfoForm.register("houseOrBuildingNum", { required: true })} className="rounded w-full" type="text" name="houseOrBuildingNum" id="houseOrBuildingNum" defaultValue={user?.houseOrBuildingNum} placeholder={errors.houseOrBuildingNum ? "Please Enter Your House or Building Number" : "Your House or Building Number"} />
                             </div>
                             <div className="flex flex-col gap-3">
