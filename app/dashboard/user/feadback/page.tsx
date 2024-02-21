@@ -10,6 +10,7 @@ type Inputs = {
 }
 const page = () => {
 
+    const [loading, setLoading] = useState(false);
     const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<Inputs>();
 
     // Add a state variable to track the selected rating

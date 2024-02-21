@@ -6,6 +6,7 @@ import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from "react-hook-form"
 import toast from 'react-hot-toast';
+import { ImSpinner9 } from 'react-icons/im';
 
 type Inputs = {
     agentPaypalEmail: string
@@ -14,6 +15,7 @@ type Inputs = {
 const page = () => {
     const [paymentDetails, setPaymentDetails] = useState<IPaymentData>();
     const [isLoading, setIsLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
     const { register, handleSubmit, watch, formState: { errors }, } = useForm<Inputs>();
     const { id } = useParams();
 
@@ -38,6 +40,7 @@ const page = () => {
             paymentInstruction: data.paymentInstruction,
             bookingId: id
         }
+        setLoading(true)
         const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/bookings/${id}/payment-details`, {
             method: 'PUT',
             headers: {
@@ -49,11 +52,14 @@ const page = () => {
 
         const responseData = await response.json();
         if (responseData.success) {
+            setLoading(false)
             toast.success(responseData?.message)
         }
         else {
+            setLoading(false)
             toast.error(responseData?.error)
         }
+        setLoading(false)
     }
     return (
         <div className='min-h-screen lg:mt-32'>
@@ -147,10 +153,15 @@ const page = () => {
                             :
                             //? Otherwise, show active button to submit payment request
                             <button
-                                className="rounded-md hover:border-white active:scale-95 duration-150 outline-none border border-accent px-3 py-3 text-sm lg:text-base placeholder:text-secondary-50 placeholder:text-sm"
+                                className="rounded-md hover:border-white active:scale-95 duration-150 outline-none border border-accent px-3 py-3 text-sm lg:text-base placeholder:text-secondary-50 placeholder:text-sm flex items-center justify-center"
                                 type="submit"
                             >
-                                Send Payment Request with Payment Details
+                                {
+                                    loading ?
+                                        <ImSpinner9 className="animate-spin text-[26px]"></ImSpinner9>
+                                        :
+                                        "Send Payment Request with Payment Details"
+                                }
                             </button>
                     }
                 </div>
