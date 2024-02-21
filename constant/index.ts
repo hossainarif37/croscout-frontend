@@ -157,7 +157,7 @@ export const multiCategory = [
         ],
     },
     {
-        title: "Airbnb-friendly apartments",
+        title: "Croscout-friendly apartments",
         subCats: [
             {
                 title: "",
