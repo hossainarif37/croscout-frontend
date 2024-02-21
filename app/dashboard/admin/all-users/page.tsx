@@ -8,15 +8,38 @@ import { getStoredToken } from '@/utils/tokenStorage';
 
 // Type definition for user object
 type User = {
-    name: string;
-    role: string;
     email: string;
+    name: string;
+    password: string;
+    image: string;
+    role: string;
+    favoriteList?: string[];
+    __v: number;
+    _id: string;
+    taxNumber: string;
+    createdAt: string;
 };
 
 const Page = () => {
     // State variables for users and loading status
-    const [users, setUsers] = useState([]);
+    const [users, setUsers] = useState<User[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+
+
+
+    const handleSetUsers = async () => {
+        // Retrieving token from local storage
+        const token = getStoredToken();
+
+        // If token is not available, throw an error
+        if (!token) {
+            throw new Error('Token is required for authorization');
+        }
+        // Fetch the updated list of users
+        const updatedUsers = await getUsersByRole({ role: "agent", token });
+        // Update the state with the new list of users
+        setUsers(updatedUsers);
+    };
 
     useEffect(() => {
         // Function to fetch users
