@@ -24,6 +24,7 @@ interface Booking {
     startDate: string;
     endDate: string;
     updatedAt: string;
+    property: string
 }
 
 interface IAllBookingsTable {
@@ -34,6 +35,7 @@ interface IAllBookingsTable {
 
 //* Functional component for rendering a bookings table
 const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBookings }) => {
+    console.log(data);
 
     //* State to manage dropdown visibility
     const [dropdownOpen, setDropdownOpen] = useState("");
@@ -257,6 +259,9 @@ const BookingsTable: React.FC<IAllBookingsTable> = ({ data, tableFor, setBooking
                                                         </Link>
                                                         <Link href={`/dashboard/user/payment-details/${booking._id}`}>
                                                             <button className='bg-primary-50 text-xs hover:border-white duration-200 w-full border-accent border text-white-50 px-2 py-1 rounded-md'>Payment Details</button>
+                                                        </Link>
+                                                        <Link href={`/dashboard/user/feadback/${booking?._id}?property_id=${booking?.property}`}>
+                                                            <button className='bg-primary-50 text-xs hover:border-white duration-200 w-full border-accent border text-white-50 px-2 py-1 rounded-md'>Feadback</button>
                                                         </Link>
                                                     </>
                                                     :

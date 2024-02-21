@@ -53,11 +53,11 @@ export default function Sidebar() {
                     path: "/dashboard/user/favorites",
                     icon: <FaStar />,
                 },
-                {
-                    title: "Feadback",
-                    path: "/dashboard/user/feadback",
-                    icon: <SiCodereview />,
-                },
+                // {
+                //     title: "Feadback",
+                //     path: "/dashboard/user/feadback",
+                //     icon: <SiCodereview />,
+                // },
             ],
         },
         // {

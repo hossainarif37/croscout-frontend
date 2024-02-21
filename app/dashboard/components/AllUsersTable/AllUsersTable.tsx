@@ -3,6 +3,10 @@ import { useAuthContext } from '@/providers/AuthProvider';
 import React from 'react';
 import { format } from 'date-fns';
 import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
+import Swal from 'sweetalert2';
+import Loading from '@/components/ui/Loading/Loading';
+import { getStoredToken } from '@/utils/tokenStorage';
 
 //? Define the User interface with properties for user details
 interface User {
@@ -28,9 +32,58 @@ interface AllUsersTableProps {
 const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
     // Get the current authenticated user from the AuthProvider context
     const { user } = useAuthContext();
+    console.log(user);
+
+
+    const handleDelete = async (userId: string) => {
+        try {
+
+            const token = getStoredToken();
+            if (!token) throw new Error('Token is required for get Favorites');
+            // Confirmation dialog for deletion
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                background: "#182237",
+                color: "#F9ECE4",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Yes, delete it!"
+            }).then(async (result) => {
+                if (result?.isConfirmed) {
+                    // Sending DELETE request to server
+                    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/${userId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': token
+                        }
+                    });
+
+                    if (response.ok) {
+                        // If deletion is successful, show success message, update state, and close modal
+                        toast.success('User deleted successfully');
+                        <Loading />
+                        // setDelete(true);
+                        Swal.close();
+                    } else {
+                        // If deletion fails, show error message
+                        toast.error('Failed to delete user');
+                    }
+                }
+            });
+        } catch (error) {
+            //! Handling error if deletion fails
+            console.error('Error deleting user:', error);
+            toast.error('An error occurred while deleting the user');
+        }
+    };
 
     // Get the router object for navigation
     const router = useRouter();
+    console.log(router);
 
     // Render the table with user data
     return (
@@ -68,6 +121,9 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
                             <th className="lg:p-5 p-3 font-semibold text-center">
                                 Details
                             </th>
+                            <th className="lg:p-5 p-3 font-semibold text-center">
+                                Delete User
+                            </th>
 
                         </tr>
                     </thead>
@@ -104,6 +160,9 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor }) => {
 
                                 <td className="lg:px-6 px-4 text-xs lg:text-sm py-4 m-5 text-center">
                                     <button onClick={() => router.push(`/dashboard/admin/user-details/${user?._id}`)} className='px-4 py-1 rounded-md border border-green-400'>{user.role === 'agent' ? 'Agent' : 'User'} Details</button>
+                                </td>
+                                <td className="lg:px-6 px-4 text-xs lg:text-sm py-4 m-5 text-center">
+                                    <button onClick={() => handleDelete(user?._id)} className='px-4 py-1 rounded-md border border-green-400'> Delete</button>
                                 </td>
                             </tr>)
                         }
