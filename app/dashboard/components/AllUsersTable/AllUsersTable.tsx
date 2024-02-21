@@ -70,10 +70,16 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor, setUsers 
                         // <Loading />
                         // setDelete(true);
                         // Fetching users by role
-                        const data = await getUsersByRole({ role: "user", token });
+                        if (tableFor === "agent") {
+                            const data = await getUsersByRole({ role: "agent", token });
+                            setUsers(data.users);
+                        }
+                        else if (tableFor === "user") {
+                            const data = await getUsersByRole({ role: "user", token });
 
-                        // Setting users and updating loading status
-                        setUsers(data.users);
+                            setUsers(data.users);
+                        }
+                        
                         Swal.close();
                     } else {
                         // If deletion fails, show error message
@@ -166,7 +172,7 @@ const AllUsersTable: React.FC<AllUsersTableProps> = ({ data, tableFor, setUsers 
 
                                 <td className="lg:px-6 px-4 text-xs lg:text-sm py-4 m-5 text-center">
                                     <Link href={`/dashboard/admin/user-details/${user?._id}`}>
-                                    <button className='px-4 py-1 rounded-md border text-white-50 hover:border-white duration-150 border-green-400'>{user.role === 'agent' ? 'Agent' : 'User'} Details</button>
+                                        <button className='px-4 py-1 rounded-md border text-white-50 hover:border-white duration-150 border-green-400'>{user.role === 'agent' ? 'Agent' : 'User'} Details</button>
                                     </Link>
                                 </td>
                                 <td className="lg:px-6 px-4 text-xs lg:text-sm py-4 m-5 text-center">

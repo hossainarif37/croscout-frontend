@@ -26,21 +26,6 @@ const Page = () => {
     const [isLoading, setIsLoading] = useState(true);
 
 
-
-    const handleSetUsers = async () => {
-        // Retrieving token from local storage
-        const token = getStoredToken();
-
-        // If token is not available, throw an error
-        if (!token) {
-            throw new Error('Token is required for authorization');
-        }
-        // Fetch the updated list of users
-        const updatedUsers = await getUsersByRole({ role: "agent", token });
-        // Update the state with the new list of users
-        setUsers(updatedUsers);
-    };
-
     useEffect(() => {
         // Function to fetch users
         const fetchUsers = async () => {
@@ -86,7 +71,7 @@ const Page = () => {
     return (
         <div className='bg-primary-50 px-3 py-3'>
             <h4 className='text-xl mb-3 text-white-50'>All Users:</h4>
-            <AllUsersTable data={users} tableFor="agent" setUsers={setUsers} />
+            <AllUsersTable data={users} tableFor="user" setUsers={setUsers} />
         </div>
     );
 };
