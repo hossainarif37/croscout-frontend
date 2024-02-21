@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 import { ImSpinner9 } from "react-icons/im";
 import { setCookie } from "@/utils/authCookie";
 import Swal from "sweetalert2";
+import { sendVerificationEmail } from "@/lib/database/verifyEmail";
 
 type IPersonalInfo = {
     name: string;
@@ -245,6 +246,18 @@ const ProfilePage = () => {
     //     }
     //     setPassIsLoading(false);
     // };
+    const isEmailVerified = user?.isEmailVerified;
+
+    const handleVerifyMessage = async () => {
+        const dbResponse = await sendVerificationEmail();
+        if (dbResponse?.success) {
+            toast.success(dbResponse?.message);
+
+        }
+        else {
+            toast.error("Verification email not send");
+        }
+    }
 
     return (
         <div className='min-h-screen'>
@@ -280,9 +293,19 @@ const ProfilePage = () => {
                                 <label className="text-white-50" htmlFor="firstName">Name</label>
                                 <input {...personalInfoForm.register("name", { required: true })} className="rounded w-full" type="text" defaultValue={user?.name} name="name" id="name" placeholder={errors.name ? "Please Enter Your Name" : "Your Name"} />
                             </div>
-                            <div className="flex flex-col gap-3">
+                            <div className="flex flex-col gap-3 relative">
                                 <label className="text-white-50" htmlFor="email">Email</label>
                                 <input {...personalInfoForm.register("email", { required: true })} className="rounded w-full" type="email" name="email" id="email" defaultValue={user?.email} readOnly placeholder={errors.email ? "Please Enter Your Email" : "Your Email"} />
+                                {
+                                    isEmailVerified ?
+                                        <span className="text-sm absolute bottom-2 text-green-500 rounded py-0.5 px-2 right-2 font-semibold">
+                                            Verified  ✓
+                                        </span>
+                                        :
+                                        <span onClick={handleVerifyMessage} className="text-sm absolute bottom-2 bg-red-500 hover:bg-red-600 duration-150 font-semibold text-white rounded py-0.5 px-2 right-2 cursor-pointer">
+                                            Verify
+                                        </span>
+                                }
                             </div>
                             <div className="flex flex-col gap-3">
                                 <label className="text-white-50" htmlFor="telephoneOrPhone">Telephone/Phone</label>
