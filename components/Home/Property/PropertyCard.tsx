@@ -212,8 +212,8 @@ export default function PropertyCard({ property }: Property & any,) {
                                 {/* Ratings */}
                                 <div className="font-semibold text-accent leading-[100%]">
                                     {(
-                                        property?.ratings?.reduce((sum: any, rating: any) => sum + rating, 0) / property.ratings?.length || 0
-                                    ).toFixed(1)}
+                                        property?.feedbacks?.reduce((sum: any, feedback: any) => sum + feedback?.rating, 0) / property?.feedbacks?.length || 0
+                                    )?.toFixed(1)}
                                 </div>
                             </div>
                         </div>

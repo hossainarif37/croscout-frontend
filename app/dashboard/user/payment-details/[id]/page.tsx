@@ -6,6 +6,7 @@ import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import { ImSpinner9 } from 'react-icons/im';
 import { RiMessage2Fill } from 'react-icons/ri';
 
 export interface IPaymentData {
@@ -24,6 +25,7 @@ type Inputs = {
 const page = () => {
     const [paymentDetails, setPaymentDetails] = useState<IPaymentData>();
     const [isLoading, setIsLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
     const { id } = useParams();
     useEffect(() => {
         const fetchData = async () => {
@@ -47,6 +49,7 @@ const page = () => {
             userTransactionId: data?.userTransactionId,
             bookingId: id,
         }
+        setLoading(true);
         const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/bookings/${id}/transaction-id`, {
             method: 'POST',
             headers: {
@@ -58,11 +61,14 @@ const page = () => {
 
         const responseData = await response.json();
         if (responseData.success) {
+            setLoading(false);
             toast.success(responseData?.message)
         }
         else {
+            setLoading(false);
             toast.error(responseData?.error)
         }
+        setLoading(false);
     }
 
 
@@ -106,10 +112,15 @@ const page = () => {
                             </div>
                             <div className='mt-8'>
                                 <button
-                                    className="rounded-md border-none outline-none bg-blue-600 lg:px-8 px-4 py-3 text-sm lg:text-base placeholder:text-secondary-50 placeholder:text-sm"
+                                    className="rounded-md border-none outline-none bg-blue-600 lg:px-8 px-4 py-3 text-sm lg:text-base placeholder:text-secondary-50 placeholder:text-sm flex items-center justify-center"
                                     type="submit"
                                 >
-                                    Submit
+                                    {
+                                        loading ?
+                                            <ImSpinner9 className="animate-spin text-[26px]"></ImSpinner9>
+                                            :
+                                            "Submit"
+                                    }
                                 </button>
                             </div>
                         </div>
