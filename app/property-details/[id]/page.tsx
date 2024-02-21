@@ -99,7 +99,7 @@ export default function PropertyDetails() {
                 description={singlePropertyDetails?.property?.description || ""}
                 image={(singlePropertyDetails?.property?.propertyImages || [])[lastIndex] || ""}
             />
-            <PropertyTestimonial />
+            <PropertyTestimonial id={singlePropertyDetails?.property._id || ""} />
             <PropertyReviews />
         </div>
     );

@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { FaRegStar, FaStar } from 'react-icons/fa';
+import { ImSpinner9 } from 'react-icons/im';
 
 type Inputs = {
     rating: number
@@ -15,6 +16,7 @@ type Inputs = {
 }
 const page = () => {
 
+    const [loading, setLoading] = useState(false);
     const { id } = useParams();
     // const router = useRouter();
     // const { property_id } = router?.query;
@@ -51,7 +53,7 @@ const page = () => {
             rating: data?.rating,
             comment: data?.comment,
         }
-        console.log(feadbackData);
+        setLoading(true);
         const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/properties/feedback`, {
             method: 'POST',
             headers: {
@@ -64,11 +66,14 @@ const page = () => {
         const responseData = await response.json();
         if (responseData.success) {
             toast.success(responseData?.message);
+            setLoading(false);
             reset();
         }
         else {
+            setLoading(false);
             toast.error(responseData?.error)
         }
+        setLoading(false);
     };
 
     // Render the star icons
@@ -141,9 +146,14 @@ const page = () => {
                 {/* //? Submit Button */}
                 <button
                     type="submit"
-                    className="w-full bg-blue-500 rounded-md py-3"
+                    className="w-full bg-blue-500 rounded-md py-3 flex items-center justify-center"
                 >
-                    Submit Review
+                    {
+                        loading ?
+                            <ImSpinner9 className="animate-spin text-[26px]"></ImSpinner9>
+                            :
+                            "Save"
+                    }
                 </button>
             </form>
         </div>

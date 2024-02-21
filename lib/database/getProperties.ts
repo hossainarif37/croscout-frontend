@@ -37,3 +37,20 @@ export const getPropertyById = async (id: string) => {
         throw error;
     }
 }
+
+
+export const getPropertyTestimonials = async (id: string) => {
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/properties/${id}/feedbacks`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        const result = await response.json();
+        return result;
+    } catch (error) {
+        console.error('Fetch error:', error);
+        throw error;
+    }
+}
