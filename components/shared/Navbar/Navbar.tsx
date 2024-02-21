@@ -16,6 +16,8 @@ import { HiMenuAlt1 } from "react-icons/hi";
 import { CgMenuGridR } from "react-icons/cg";
 import { setCookie } from "cookies-next";
 import { removeCookie } from "@/utils/authCookie";
+import { sendVerificationEmail, verifyEmail } from "@/lib/database/verifyEmail";
+import { IoArrowBack, IoArrowForward } from "react-icons/io5";
 
 const Navbar = () => {
     const { navUserToggle, setNavUserToggle } = useToggleContext();
@@ -27,6 +29,7 @@ const Navbar = () => {
     const pathname = usePathname();
     const isResetPassword = /\/reset-password\/[^/]+$/.test(pathname);
     const isDashboard = pathname.includes('/dashboard');
+    const isVerifyEmail = pathname.includes('/verify-email');
     const router = useRouter();
 
     const handleLogout = async () => {
@@ -56,69 +59,80 @@ const Navbar = () => {
         setNavUserToggle(false); // Close the menuList 
     };
 
+    const profileRoute = user?.role === "user" ? "/dashboard/user/profile" : user?.role === "agent" ? "/dashboard/agent/profile" : user?.role === "admin" ? "/dashboard/admin/profile" : "";
+
+    const isVerifed = user?.isCompletedProfile && user?.isEmailVerified;
     return (
-        <nav hidden={isResetPassword} id="topbar" className={`py-5   z-40 sticky top-0 ${isDashboard ? "bg-[#182237]" : "bg-primary"}`}>
-            {/* Wrapper */}
-            <div className={` flex-between items-center relative ${isDashboard ? "w-full px-6" : "wrapper"}`}>
-                <div className="text-white lg:hidden">
-                    {isDashboard && <div
-                        onClick={handleSidebarToggle}
-                        className="text-2xl cursor-pointer block lg:hidden">
-                        {sidebarToggle ? <IoIosCloseCircle /> : <CgMenuGridR color="white" />}
-                    </div>}
+        <>
+            {
+                user && !isVerifed &&
+                <div hidden={isResetPassword || isVerifyEmail} className="bg-red-500 text-white">
+                    <p className="text-center py-1 text-white"><Link href={profileRoute} className="underline">Please complete your profile with verify email to access all features<IoArrowForward className="inline"/></Link></p>
                 </div>
-                {/* Logo */}
-                <NavLogo />
+            }
+            <nav hidden={isResetPassword || isVerifyEmail} id="topbar" className={`py-5   z-40 sticky top-0 ${isDashboard ? "bg-[#182237]" : "bg-primary"}`}>
+                {/* Wrapper */}
+                <div className={` flex-between items-center relative ${isDashboard ? "w-full px-6" : "wrapper"}`}>
+                    <div className="text-white lg:hidden">
+                        {isDashboard && <div
+                            onClick={handleSidebarToggle}
+                            className="text-2xl cursor-pointer block lg:hidden">
+                            {sidebarToggle ? <IoIosCloseCircle /> : <CgMenuGridR color="white" />}
+                        </div>}
+                    </div>
+                    {/* Logo */}
+                    <NavLogo />
 
-                {/* NavMenu - Visible for Version */}
-                <NavMenu />
+                    {/* NavMenu - Visible for Version */}
+                    <NavMenu />
 
-                {/* Menu Button - Visible for Mobile Version */}
-                <button
-                    onClick={handleMenuToggle}
-                    className="block md:hidden text-white select-none text-2xl">
-                    {navUserToggle ? <IoIosCloseCircle /> : <AiOutlineMenu color="white" />}
-                </button>
+                    {/* Menu Button - Visible for Mobile Version */}
+                    <button
+                        onClick={handleMenuToggle}
+                        className="block md:hidden text-white select-none text-2xl">
+                        {navUserToggle ? <IoIosCloseCircle /> : <AiOutlineMenu color="white" />}
+                    </button>
 
 
 
-                {/* User Menu Dropdown */}
-                <ul className={`${navbarStyles.navUserMenu} ${navUserToggle ? "scale-y-100" : "scale-y-0"}`}>
-                    {
-                        user ?
-                            <>
-                                <button className={navbarStyles.dashboardBtn}>{user?.name}</button>
+                    {/* User Menu Dropdown */}
+                    <ul className={`${navbarStyles.navUserMenu} ${navUserToggle ? "scale-y-100" : "scale-y-0"}`}>
+                        {
+                            user ?
+                                <>
+                                    <button className={navbarStyles.dashboardBtn}>{user?.name}</button>
 
-                                <Link onClick={() =>
-                                    setNavUserToggle(false)}
-                                    className={navbarStyles.dashboardBtn}
-                                    href={user.role === "user" ? "/dashboard/user/my-bookings" : "/dashboard"}>Dashboard</Link>
-                                <button
+                                    <Link onClick={() =>
+                                        setNavUserToggle(false)}
+                                        className={navbarStyles.dashboardBtn}
+                                        href={user.role === "user" ? "/dashboard/user/my-bookings" : "/dashboard"}>Dashboard</Link>
+                                    <button
 
-                                    onClick={handleLogout}
-                                >Logout</button>
-                            </>
-                            :
-                            <>
-                                <button
-                                    onClick={() => {
-                                        setLoginModal(true);
-                                        setNavUserToggle(false);
+                                        onClick={handleLogout}
+                                    >Logout</button>
+                                </>
+                                :
+                                <>
+                                    <button
+                                        onClick={() => {
+                                            setLoginModal(true);
+                                            setNavUserToggle(false);
 
-                                    }}
-                                >Login</button>
-                                <button
-                                    onClick={() => {
-                                        setSignupModal(true);
-                                        setNavUserToggle(false);
+                                        }}
+                                    >Login</button>
+                                    <button
+                                        onClick={() => {
+                                            setSignupModal(true);
+                                            setNavUserToggle(false);
 
-                                    }}
-                                >Signup</button>
-                            </>
-                    }
-                </ul>
-            </div>
-        </nav >
+                                        }}
+                                    >Signup</button>
+                                </>
+                        }
+                    </ul>
+                </div>
+            </nav >
+        </>
     );
 };
 
