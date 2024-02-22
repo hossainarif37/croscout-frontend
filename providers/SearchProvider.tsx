@@ -71,6 +71,7 @@ const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
     const [isFilterSection, setIsFilterSection] = useState<boolean>(false);
     const [searchDisable, setSearchDisable] = useState<boolean>(true);
     const [currentFilter, setCurrentFilter] = useState("");
+    const [activeCat, setActiveCat] = useState("")
 
     // const [filteredProperty, setFilteredProperty] = useState<FilteredProperty>([]);
 
@@ -92,8 +93,8 @@ const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
         // categoryInputValue,
         locationObject,
         setLocationObject,
-        activeCat: '',
-        setActiveCat: () => { },
+        activeCat,
+        setActiveCat,
         isFilterSection,
         setIsFilterSection,
         currentFilter,
