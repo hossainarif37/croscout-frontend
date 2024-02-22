@@ -36,6 +36,8 @@ export interface SearchContextProps {
     // categoryInputValue: string;
     activeCat: string;
     setActiveCat: Dispatch<SetStateAction<string>>;
+    currentFilter: string;
+    setCurrentFilter: Dispatch<SetStateAction<string>>;
 }
 
 const SearchContext = createContext<SearchContextProps | null>(null);
@@ -68,6 +70,8 @@ const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
     const [isSearchBtnClicked, setIsSearchBtnClicked] = useState<boolean>(false);
     const [isFilterSection, setIsFilterSection] = useState<boolean>(false);
     const [searchDisable, setSearchDisable] = useState<boolean>(true);
+    const [currentFilter, setCurrentFilter] = useState("");
+
     // const [filteredProperty, setFilteredProperty] = useState<FilteredProperty>([]);
 
     const contextValue: SearchContextProps = {
@@ -91,7 +95,9 @@ const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
         activeCat: '',
         setActiveCat: () => { },
         isFilterSection,
-        setIsFilterSection
+        setIsFilterSection,
+        currentFilter,
+        setCurrentFilter
     };
 
     return (
