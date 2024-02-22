@@ -23,12 +23,14 @@ const page = () => {
                 const dbResponse = await verifyEmail({ token })
                 if (dbResponse?.success) {
                     setVerifyMessage(dbResponse?.message)
+                    console.log(26, dbResponse);
                     const userToken = getStoredToken();
                     if (!userToken) throw new Error("token is missing");
                     const { user } = await getUser({ token: userToken });
                     setUser(user);
                 }
                 else {
+                    console.log(33, dbResponse);
                     setVerifyMessage(dbResponse?.error)
                 }
             }
@@ -43,6 +45,8 @@ const page = () => {
     if (loading) {
         return <Loading />
     }
+
+    console.log(49, verifyMessage);
 
     return (
         <div className="min-h-screen max-w-7xl mx-auto my-10">
