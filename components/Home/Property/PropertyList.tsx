@@ -13,7 +13,7 @@ import { removeSearchQuery } from "@/utils/searchQuery";
 const PropertyList = () => {
     const [properties, setProperties] = useState([])
     const [isLoading, setIsLoading] = useState(true);
-    const { isSearchBtnClicked, setIsSearchBtnClicked, setActiveCat, setLocation, setLocationObject, setAdultsCount, setChildrenCount } = useSearchContext();
+    const { isSearchBtnClicked, setCurrentFilter, setIsSearchBtnClicked, setActiveCat, setLocation, setLocationObject, setAdultsCount, setChildrenCount } = useSearchContext();
 
     const searchParams = useSearchParams();
     const queryString = `?${searchParams.toString()}`;
@@ -40,7 +40,7 @@ const PropertyList = () => {
             }
         };
         getProperty();
-    }, [queryString]);
+    }, [searchKey]);
 
     if (isLoading) {
         return <Loading></Loading>
@@ -54,6 +54,7 @@ const PropertyList = () => {
                 // clearSearchInputValue();
                 setActiveCat('');
                 setLocation('');
+                setCurrentFilter('');
                 setLocationObject(undefined);
                 removeSearchQuery();
                 setChildrenCount(0);
@@ -81,6 +82,7 @@ const PropertyList = () => {
                         // setFilteredProperty([]);
                         setActiveCat('');
                         setLocation('');
+                        setCurrentFilter('');
                         setLocationObject(undefined)
                         removeSearchQuery();
                         setChildrenCount(0);
