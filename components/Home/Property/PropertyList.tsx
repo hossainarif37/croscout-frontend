@@ -40,7 +40,7 @@ const PropertyList = () => {
             }
         };
         getProperty();
-    }, [searchKey]);
+    }, [searchKey, searchParams]);
 
     if (isLoading) {
         return <Loading></Loading>
