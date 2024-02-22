@@ -6,7 +6,7 @@ import { useAuthContext } from "@/providers/AuthProvider";
 import { getStoredToken } from "@/utils/tokenStorage";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IoArrowBack } from "react-icons/io5";
 
 const page = () => {
@@ -16,21 +16,30 @@ const page = () => {
     const token = searchParams.get("token");
     const [loading, setLoading] = useState(false);
 
+    const hasRequestBeenMade = useRef(false);
+
     useEffect(() => {
         const verifyEmailReq = async () => {
+            if (hasRequestBeenMade.current) return;
+            hasRequestBeenMade.current = true;
+
             setLoading(true);
+
+            console.log('token: ', token);
 
             if (token) {
                 try {
                     const dbResponse = await verifyEmail({ token });
                     if (dbResponse?.success) {
                         setVerifyMessage(dbResponse?.message);
+                        console.log(dbResponse);
                         const userToken = getStoredToken();
                         if (!userToken) throw new Error("token is missing");
                         const { user } = await getUser({ token: userToken });
                         setUser(user);
                     } else {
                         setVerifyMessage(dbResponse?.error);
+                        dbResponse
                     }
                 } catch (error) {
                     console.error("Error verifying email:", error);
@@ -42,12 +51,15 @@ const page = () => {
         };
 
         verifyEmailReq();
-    }, []);
+    }, [token]); // Include 'token' in the dependency array
+
 
 
     if (loading) {
         return <Loading />
     }
+
+    console.log(verifyMessage);
 
 
     return (
