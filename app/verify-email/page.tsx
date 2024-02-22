@@ -15,30 +15,33 @@ const page = () => {
     const searchParams = useSearchParams();
     const token = searchParams.get("token");
     const [loading, setLoading] = useState(false);
+
     useEffect(() => {
         const verifyEmailReq = async () => {
             setLoading(true);
 
             if (token) {
-                const dbResponse = await verifyEmail({ token })
-                if (dbResponse?.success) {
-                    setVerifyMessage(dbResponse?.message)
-                    console.log(26, dbResponse);
-                    const userToken = getStoredToken();
-                    if (!userToken) throw new Error("token is missing");
-                    const { user } = await getUser({ token: userToken });
-                    setUser(user);
-                }
-                else {
-                    console.log(33, dbResponse);
-                    setVerifyMessage(dbResponse?.error)
+                try {
+                    const dbResponse = await verifyEmail({ token });
+                    if (dbResponse?.success) {
+                        setVerifyMessage(dbResponse?.message);
+                        const userToken = getStoredToken();
+                        if (!userToken) throw new Error("token is missing");
+                        const { user } = await getUser({ token: userToken });
+                        setUser(user);
+                    } else {
+                        setVerifyMessage(dbResponse?.error);
+                    }
+                } catch (error) {
+                    console.error("Error verifying email:", error);
+                    // Handle the error appropriately, e.g., set an error message
+                } finally {
+                    setLoading(false);
                 }
             }
-            setLoading(false);
-        }
-        return () => {
-            verifyEmailReq()
-        }
+        };
+
+        verifyEmailReq();
     }, []);
 
 
@@ -46,7 +49,6 @@ const page = () => {
         return <Loading />
     }
 
-    console.log(49, verifyMessage);
 
     return (
         <div className="min-h-screen max-w-7xl mx-auto my-10">
@@ -55,7 +57,7 @@ const page = () => {
                     <IoArrowBack className="mx-1"></IoArrowBack>Back to Home</button>
             </Link>
             <div className="min-h-[60vh] flex items-center justify-center">
-                <div className="text-4xl text-secondary-50 text-center">
+                <div className="text-4xl text-white-50 text-center">
                     <p>{verifyMessage}</p>
                 </div>
             </div>
