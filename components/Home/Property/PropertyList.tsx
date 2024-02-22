@@ -41,7 +41,7 @@ const PropertyList = () => {
             }
         };
         getProperty();
-    }, [searchKey]);
+    }, [searchKey, searchParams]);
 
 
     const handleShowMore = () => {
