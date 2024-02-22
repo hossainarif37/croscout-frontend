@@ -6,6 +6,7 @@ import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import PrimaryButton from "../ui/buttons/Button";
 import { useSearchContext } from "@/providers/SearchProvider";
 import { setSearchQuery } from "@/utils/searchQuery";
+import { goToSpecificSection } from "@/utils/goToSpecificSection";
 
 export default function MultiCategory() {
     const [showMoreClicked, setShowMoreClicked] = useState(false);
@@ -22,6 +23,7 @@ export default function MultiCategory() {
     const handleLocationSearch = (state: string) => {
         setLocation(state);
         setSearchQuery("location", state);
+        goToSpecificSection('filter-section')
     }
 
     return (
