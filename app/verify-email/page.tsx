@@ -14,8 +14,11 @@ const page = () => {
     const [verifyMessage, setVerifyMessage] = useState("");
     const searchParams = useSearchParams();
     const token = searchParams.get("token");
+    const [loading, setLoading] = useState(false);
     useEffect(() => {
         const verifyEmailReq = async () => {
+            setLoading(true);
+
             if (token) {
                 const dbResponse = await verifyEmail({ token })
                 if (dbResponse?.success) {
@@ -29,11 +32,18 @@ const page = () => {
                     setVerifyMessage(dbResponse?.error)
                 }
             }
+            setLoading(false);
         }
         return () => {
             verifyEmailReq()
         }
-    }, [])
+    }, []);
+
+
+    if (loading) {
+        return <Loading />
+    }
+
     return (
         <div className="min-h-screen max-w-7xl mx-auto my-10">
             <Link href="/">
@@ -42,10 +52,7 @@ const page = () => {
             </Link>
             <div className="min-h-[60vh] flex items-center justify-center">
                 <div className="text-4xl text-secondary-50 text-center">
-                    <p>{verifyMessage && verifyMessage}</p>
-                    {!verifyMessage &&
-                        <Loading></Loading>
-                    }
+                    <p>{verifyMessage}</p>
                 </div>
             </div>
         </div>
