@@ -14,7 +14,7 @@ const page = () => {
     const [verifyMessage, setVerifyMessage] = useState("");
     const searchParams = useSearchParams();
     const token = searchParams.get("token");
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const hasRequestBeenMade = useRef(false);
 
@@ -23,7 +23,6 @@ const page = () => {
             if (hasRequestBeenMade.current) return;
             hasRequestBeenMade.current = true;
 
-            setLoading(true);
 
             console.log('token: ', token);
 
@@ -51,7 +50,7 @@ const page = () => {
         };
 
         verifyEmailReq();
-    }, [token]); // Include 'token' in the dependency array
+    }, [token, hasRequestBeenMade]); // Include 'token' in the dependency array
 
 
 
