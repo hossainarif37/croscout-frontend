@@ -1,6 +1,6 @@
 "use client";
 
-import { multiCategory } from "@/constant";
+import { defaultStates, multiCategory } from "@/constant";
 import React, { useEffect, useState } from "react";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import PrimaryButton from "../ui/buttons/Button";
@@ -34,13 +34,13 @@ export default function MultiCategory() {
                     ))}
                 </div> */}
                 <div className="grid grid-cols-6 mt-20 gap-5 lg:gap-20">
-                    {multiCategory[0].subCats.map((item, index) => (
+                    {defaultStates.map((state, index) => (
                         <div
                             key={index}
                             className="col-span-3 lg:col-span-1 text-lg font-semibold cursor-pointer text-white whitespace-nowrap"
                         >
                             <div className="flex items-center gap-2">
-                                {item.title}
+                                {state}
                             </div>
                             {/* <div className="font-normal text-sm">{item?.subCat}</div> */}
                         </div>
