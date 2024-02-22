@@ -8,7 +8,7 @@ import { getAllProperty } from "@/lib/database/getProperties";
 import Loading from "@/components/ui/Loading/Loading";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { removeSearchQuery } from "@/utils/searchQuery";
+import { removeSearchQuery, setSearchQuery } from "@/utils/searchQuery";
 
 const PropertyList = () => {
     const [properties, setProperties] = useState([])
@@ -23,8 +23,9 @@ const PropertyList = () => {
     const priceQuery = searchParams.get("price");
     const alphabetQuery = searchParams.get("alphabate");
     const newestQuery = searchParams.get("newest");
+    const limitQuery = searchParams.get("limit");
 
-    const searchKey = locationQuery || guestQuery || categoryQuery || priceQuery || alphabetQuery || newestQuery;
+    const searchKey = locationQuery || guestQuery || categoryQuery || priceQuery || alphabetQuery || newestQuery || limitQuery;
 
 
     useEffect(() => {
@@ -41,6 +42,13 @@ const PropertyList = () => {
         };
         getProperty();
     }, [searchKey]);
+
+
+    const handleShowMore = () => {
+        const limit = (properties.length + 20).toString();
+        setSearchQuery("limit", limit);
+    }
+
 
     if (isLoading) {
         return <Loading></Loading>
@@ -69,8 +77,6 @@ const PropertyList = () => {
         </div>
     }
 
-
-
     return (
         <>
             {/* Clear Search Button */}
@@ -97,7 +103,10 @@ const PropertyList = () => {
                 ))}
             </div>
             <div className="my-10">
-                <PrimaryButton className="px-5 lg:px-10">Show More</PrimaryButton>
+                {
+                    properties.length >= 20 &&
+                    <PrimaryButton onClick={handleShowMore} className="px-5 lg:px-10">Show More</PrimaryButton>
+                }
             </div>
         </>
     );
