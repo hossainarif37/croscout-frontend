@@ -20,6 +20,7 @@ import { GiSettingsKnobs } from "react-icons/gi";
 const FilterButton = () => {
     const { taxToggle, setTaxToggle, filterToggle, setFilterToggle } = useToggleContext();
     const { isFilterSection, setIsFilterSection } = useSearchContext();
+    const [currentFilter, setCurrentFilter] = useState("");
 
     // const isHashLocation = document.location.hash;
 
@@ -32,7 +33,11 @@ const FilterButton = () => {
         }, 2000);
     }, [isFilterSection]);
 
-    const removeSearchQuery = () => {
+
+
+    const removeSearchQuery = (current: string) => {
+        setCurrentFilter(current);
+        setFilterToggle(false);
         const url = new URL(window.location.href);
         const params = new URLSearchParams(url.search);
         params.delete("newest");
@@ -43,28 +48,43 @@ const FilterButton = () => {
     };
 
     const handleNewestFilter = () => {
-        removeSearchQuery()
+        if (currentFilter === "newest") {
+            return removeSearchQuery("")
+        }
+        removeSearchQuery("newest")
         setSearchQuery("newest", "true")
     }
 
     const handleAphabaticFilter = (order: string) => {
         if (order === "asc") {
-            removeSearchQuery()
+            if (currentFilter === "alphabateASC") {
+                return removeSearchQuery("")
+            }
+            removeSearchQuery("alphabateASC")
             setSearchQuery("alphabate", order)
         }
         else if (order === "dsc") {
-            removeSearchQuery()
+            if (currentFilter === "alphabateDSC") {
+                return removeSearchQuery("")
+            }
+            removeSearchQuery("alphabateDSC")
             setSearchQuery("alphabate", order)
         }
     }
 
     const handlePriceFilter = (order: string) => {
         if (order === "asc") {
-            removeSearchQuery();
+            if (currentFilter === "priceASC") {
+                return removeSearchQuery("")
+            }
+            removeSearchQuery("priceASC");
             setSearchQuery("price", order)
         }
         else if (order === "dsc") {
-            removeSearchQuery();
+            if (currentFilter === "priceDSC") {
+                return removeSearchQuery("")
+            }
+            removeSearchQuery("priceDSC");
             setSearchQuery("price", order)
         }
     }
@@ -84,19 +104,28 @@ const FilterButton = () => {
                     </button>
 
                     <div className={`${filterButtonStyles.filterMenu} ${filterToggle ? "scale-y-100" : "scale-y-0"}`}>
-                        <button onClick={()=> handleNewestFilter()}>
-                            Newest <MdEvent className="inline" />
+                        <button
+                            className={currentFilter === "newest" ? filterButtonStyles.activeButton : ""}
+                            onClick={() => handleNewestFilter()}>                            Newest <MdEvent className="inline" />
                         </button>
-                        <button onClick={() => handleAphabaticFilter("asc")}>
+                        <button
+                            className={currentFilter === "alphabateASC" ? filterButtonStyles.activeButton : ""}
+                            onClick={() => handleAphabaticFilter("asc")}>
                             Sort A to Z <FaSortAlphaDown className="inline" />
                         </button>
-                        <button onClick={() => handleAphabaticFilter("dsc")}>
+                        <button
+                            className={currentFilter === "alphabateDSC" ? filterButtonStyles.activeButton : ""}
+                            onClick={() => handleAphabaticFilter("dsc")}>
                             Sort Z to A <FaSortAlphaDownAlt className="inline" />
                         </button>
-                        <button onClick={() => handlePriceFilter("asc")}>
+                        <button
+                            className={currentFilter === "priceASC" ? filterButtonStyles.activeButton : ""}
+                            onClick={() => handlePriceFilter("asc")}>
                             Price: Low To High <FaArrowUp className="inline" />
                         </button>
-                        <button onClick={() => handlePriceFilter("dsc")}>
+                        <button
+                            className={currentFilter === "priceDSC" ? filterButtonStyles.activeButton : ""}
+                            onClick={() => handlePriceFilter("dsc")}>
                             Price: High To Low <FaArrowDown className="inline" />
                         </button>
                     </div>

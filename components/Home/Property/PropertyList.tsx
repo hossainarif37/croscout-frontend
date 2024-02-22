@@ -20,8 +20,11 @@ const PropertyList = () => {
     const locationQuery = searchParams.get("location");
     const guestQuery = searchParams.get("guest");
     const categoryQuery = searchParams.get("category");
+    const priceQuery = searchParams.get("price");
+    const alphabetQuery = searchParams.get("alphabate");
+    const newestQuery = searchParams.get("newest");
 
-    const searchKey = locationQuery || guestQuery || categoryQuery;
+    const searchKey = locationQuery || guestQuery || categoryQuery || priceQuery || alphabetQuery || newestQuery;
 
 
     useEffect(() => {
