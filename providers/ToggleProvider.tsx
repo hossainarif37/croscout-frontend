@@ -27,7 +27,7 @@ const ToggleProvider: React.FC<ToggleProviderProps> = ({ children }) => {
         setNavUserToggle,
         taxToggle,
         setTaxToggle,
-        showSelectedOption, // Add this line
+        showSelectedOption,
         setShowSelectedOption,
     };
 
