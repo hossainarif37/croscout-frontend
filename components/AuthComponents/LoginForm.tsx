@@ -36,12 +36,13 @@ const LoginForm = () => {
 
     const handleGoogleLogin = () => {
         try {
-            window.open('http://localhost:5000/api/auth/google', '_self');
+            window.open(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/google`, '_self');
         } catch (error) {
             console.error('Failed to open Google login window:', error);
             // Optionally, show an error message to the user
         }
     };
+
     // handle login
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         const dataEmail = data.email.toLowerCase();
