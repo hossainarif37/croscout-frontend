@@ -16,19 +16,19 @@ const page = () => {
     const token = searchParams.get("token");
     const [loading, setLoading] = useState(true);
 
-    const hasRequestBeenMade = useRef(false);
-
     useEffect(() => {
+        let isMounted = true;
+
+        if (!token) {
+            setLoading(false);
+            return;
+        }
+
         const verifyEmailReq = async () => {
-            if (hasRequestBeenMade.current) return;
-            hasRequestBeenMade.current = true;
-
-
-            console.log('token: ', token);
-
-            if (token) {
-                try {
-                    const dbResponse = await verifyEmail({ token });
+            setLoading(true);
+            try {
+                const dbResponse = await verifyEmail({ token });
+                if (isMounted) {
                     if (dbResponse?.success) {
                         setVerifyMessage(dbResponse?.message);
                         console.log(dbResponse);
@@ -38,19 +38,25 @@ const page = () => {
                         setUser(user);
                     } else {
                         setVerifyMessage(dbResponse?.error);
-                        dbResponse
                     }
-                } catch (error) {
-                    console.error("Error verifying email:", error);
-                    // Handle the error appropriately, e.g., set an error message
-                } finally {
+                    setLoading(false);
+                }
+            } catch (error) {
+                console.error("Error verifying email:", error);
+                // Handle the error appropriately, e.g., set an error message
+                if (isMounted) {
                     setLoading(false);
                 }
             }
         };
 
         verifyEmailReq();
-    }, []); // Include 'token' in the dependency array
+
+        return () => {
+            isMounted = false;
+        };
+    }, [token]);
+    // Include 'token' in the dependency array
 
 
 
