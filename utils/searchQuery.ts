@@ -15,6 +15,7 @@ export const removeSearchQuery = () => {
     params.delete("newest");
     params.delete("alphabate");
     params.delete("price");
+    params.delete("limit");
     url.search = params.toString();
     window.history.pushState(null, '', url.toString());
 };
