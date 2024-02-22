@@ -5,7 +5,7 @@ import { useToggleContext } from "@/providers/ToggleProvider";
 import { goToSpecificSection } from "@/utils/goToSpecificSection";
 import Image from "next/image";
 import filterButtonStyles from "./fiterbutton.module.css"
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { FaArrowDown, FaSortAlphaDownAlt } from "react-icons/fa";
 import { FaArrowUp } from "react-icons/fa6";
 import { MdEvent } from "react-icons/md";
@@ -21,8 +21,6 @@ const FilterButton = () => {
     const { taxToggle, setTaxToggle, filterToggle, setFilterToggle } = useToggleContext();
     const { isFilterSection, setIsFilterSection, currentFilter, setCurrentFilter } = useSearchContext();
 
-    // const isHashLocation = document.location.hash;
-
     useEffect(() => {
         if (isFilterSection) {
             goToSpecificSection('filter-section');
@@ -32,27 +30,38 @@ const FilterButton = () => {
         }, 2000);
     }, [isFilterSection]);
 
-
-
+    // function for remove search query
     const removeSearchQuery = (current: string) => {
         setCurrentFilter(current);
-        const url = new URL(window.location.href);
-        const params = new URLSearchParams(url.search);
-        params.delete("newest");
-        params.delete("alphabate");
-        params.delete("price");
-        url.search = params.toString();
-        window.history.pushState(null, '', url.toString());
+        setFilterToggle(false);
+        goToSpecificSection('filter-section')
+        if (current === "") {
+            const url = new URL(window.location.href);
+            const params = new URLSearchParams(url.search);
+            params.delete("newest");
+            params.delete("price");
+            params.delete("alphabate");
+            url.search = params.toString();
+            window.history.pushState(null, '', url.toString());
+        }
     };
 
+    // handler for newest filter
     const handleNewestFilter = () => {
         if (currentFilter === "newest") {
             return removeSearchQuery("")
         }
         removeSearchQuery("newest")
         setSearchQuery("newest", "true")
+        const url = new URL(window.location.href);
+        const params = new URLSearchParams(url.search);
+        params.delete("alphabate");
+        params.delete("price");
+        url.search = params.toString();
+        window.history.pushState(null, '', url.toString());
     }
 
+    // handler for alphabatic filter
     const handleAphabaticFilter = (order: string) => {
         if (order === "asc") {
             if (currentFilter === "alphabateASC") {
@@ -60,6 +69,12 @@ const FilterButton = () => {
             }
             removeSearchQuery("alphabateASC")
             setSearchQuery("alphabate", order)
+            const url = new URL(window.location.href);
+            const params = new URLSearchParams(url.search);
+            params.delete("newest");
+            params.delete("price");
+            url.search = params.toString();
+            window.history.pushState(null, '', url.toString());
         }
         else if (order === "desc") {
             if (currentFilter === "alphabateDESC") {
@@ -67,9 +82,16 @@ const FilterButton = () => {
             }
             removeSearchQuery("alphabateDESC")
             setSearchQuery("alphabate", order)
+            const url = new URL(window.location.href);
+            const params = new URLSearchParams(url.search);
+            params.delete("newest");
+            params.delete("price");
+            url.search = params.toString();
+            window.history.pushState(null, '', url.toString());
         }
     }
 
+    // handler for price filter
     const handlePriceFilter = (order: string) => {
         if (order === "asc") {
             if (currentFilter === "priceASC") {
@@ -77,13 +99,25 @@ const FilterButton = () => {
             }
             removeSearchQuery("priceASC");
             setSearchQuery("price", order)
+            const url = new URL(window.location.href);
+            const params = new URLSearchParams(url.search);
+            params.delete("newest");
+            params.delete("alphabate");
+            url.search = params.toString();
+            window.history.pushState(null, '', url.toString());
         }
         else if (order === "desc") {
             if (currentFilter === "priceDESC") {
                 return removeSearchQuery("")
             }
             removeSearchQuery("priceDESC");
-            setSearchQuery("price", order)
+            setSearchQuery("price", order);
+            const url = new URL(window.location.href);
+            const params = new URLSearchParams(url.search);
+            params.delete("newest");
+            params.delete("alphabate");
+            url.search = params.toString();
+            window.history.pushState(null, '', url.toString());
         }
     }
 
@@ -92,8 +126,8 @@ const FilterButton = () => {
             <div id="filter-section" className="mt-10 md:mt-[14rem]" />
 
             <section>
-                <div className="flex gap-2 lg:gap-5 relative">
-                    <button className="border px-[0.875rem] rounded-[3px] py-1 lg:py-3" onClick={() => setFilterToggle(!filterToggle)}>
+                <div className="flex gap-2 lg:gap-4 relative">
+                    <button className="border px-[0.875rem] rounded-[3px] py-1 lg:py-3" onClick={() => setFilterToggle(pre => !pre)}>
                         <div className="flex items-center gap-2 text-white">
                             <GiSettingsKnobs className="rotate-90 text-xl" />
                             <div className="">Filters</div>
