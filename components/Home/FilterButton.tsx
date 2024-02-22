@@ -19,8 +19,7 @@ import { GiSettingsKnobs } from "react-icons/gi";
 
 const FilterButton = () => {
     const { taxToggle, setTaxToggle, filterToggle, setFilterToggle } = useToggleContext();
-    const { isFilterSection, setIsFilterSection } = useSearchContext();
-    const [currentFilter, setCurrentFilter] = useState("");
+    const { isFilterSection, setIsFilterSection, currentFilter, setCurrentFilter } = useSearchContext();
 
     // const isHashLocation = document.location.hash;
 
@@ -37,7 +36,6 @@ const FilterButton = () => {
 
     const removeSearchQuery = (current: string) => {
         setCurrentFilter(current);
-        setFilterToggle(false);
         const url = new URL(window.location.href);
         const params = new URLSearchParams(url.search);
         params.delete("newest");
@@ -89,7 +87,6 @@ const FilterButton = () => {
         }
     }
 
-    console.log(currentFilter);
     return (
         <>
             <div id="filter-section" className="mt-10 md:mt-[14rem]" />

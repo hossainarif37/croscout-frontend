@@ -12,6 +12,9 @@ export const removeSearchQuery = () => {
     params.delete("location");
     params.delete("guest");
     params.delete("category");
+    params.delete("newest");
+    params.delete("alphabate");
+    params.delete("price");
     url.search = params.toString();
     window.history.pushState(null, '', url.toString());
 };

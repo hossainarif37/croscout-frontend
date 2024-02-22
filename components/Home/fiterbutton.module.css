@@ -1,5 +1,5 @@
 .filterMenu{
-    @apply md:bg-white bg-primary-50 w-56 shadow-lg shadow-gray-700 p-1 left-0 absolute duration-200  border border-primary z-50  md:top-[65px] top-[42px] rounded-lg origin-top flex flex-col  gap-y-3
+    @apply md:bg-white bg-primary-50 w-56 shadow-lg shadow-gray-700 p-1 left-0 absolute duration-200  border border-primary z-30  md:top-[65px] top-[42px] rounded-lg origin-top flex flex-col  gap-y-3
 }
 
 .filterMenu button {
