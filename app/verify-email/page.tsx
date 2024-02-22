@@ -50,7 +50,7 @@ const page = () => {
         };
 
         verifyEmailReq();
-    }, [token, hasRequestBeenMade]); // Include 'token' in the dependency array
+    }, []); // Include 'token' in the dependency array
 
 
 
