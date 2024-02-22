@@ -4,9 +4,12 @@ import { defaultStates, multiCategory } from "@/constant";
 import React, { useEffect, useState } from "react";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import PrimaryButton from "../ui/buttons/Button";
+import { useSearchContext } from "@/providers/SearchProvider";
+import { setSearchQuery } from "@/utils/searchQuery";
 
 export default function MultiCategory() {
     const [showMoreClicked, setShowMoreClicked] = useState(false);
+    const { setLocation } = useSearchContext();
 
 
 
@@ -14,6 +17,12 @@ export default function MultiCategory() {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
+
+
+    const handleLocationSearch = (state: string) => {
+        setLocation(state);
+        setSearchQuery("location", state);
+    }
 
     return (
         <div className="py-20 bg-secondary">
@@ -39,7 +48,7 @@ export default function MultiCategory() {
                             key={index}
                             className="col-span-3 lg:col-span-1 text-lg font-semibold cursor-pointer text-white whitespace-nowrap"
                         >
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2" onClick={() => handleLocationSearch(state)}>
                                 {state}
                             </div>
                             {/* <div className="font-normal text-sm">{item?.subCat}</div> */}
