@@ -14,21 +14,19 @@ const page = () => {
     const [verifyMessage, setVerifyMessage] = useState("");
     const searchParams = useSearchParams();
     const token = searchParams.get("token");
-    const [loading, setLoading] = useState(false);
-
-    const hasRequestBeenMade = useRef(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+
+        if (!token) {
+            setLoading(false);
+            return;
+        }
+        let isMounted = true;
+
         const verifyEmailReq = async () => {
-            if (hasRequestBeenMade.current) return;
-            hasRequestBeenMade.current = true;
-
-            setLoading(true);
-
-            console.log('token: ', token);
-
-            if (token) {
-                try {
+            try {
+                if (isMounted) {
                     const dbResponse = await verifyEmail({ token });
                     if (dbResponse?.success) {
                         setVerifyMessage(dbResponse?.message);
@@ -39,19 +37,25 @@ const page = () => {
                         setUser(user);
                     } else {
                         setVerifyMessage(dbResponse?.error);
-                        dbResponse
                     }
-                } catch (error) {
-                    console.error("Error verifying email:", error);
-                    // Handle the error appropriately, e.g., set an error message
-                } finally {
+                }
+            } catch (error) {
+                console.error("Error verifying email:", error);
+                // Handle the error appropriately, e.g., set an error message
+                if (isMounted) {
                     setLoading(false);
                 }
             }
+            setLoading(false);
         };
 
         verifyEmailReq();
-    }, [token]); // Include 'token' in the dependency array
+
+        return () => {
+            isMounted = false;
+        };
+    }, [token]);
+    // Include 'token' in the dependency array
 
 
 
