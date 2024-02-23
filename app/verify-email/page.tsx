@@ -17,18 +17,17 @@ const page = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        let isMounted = true;
 
         if (!token) {
             setLoading(false);
             return;
         }
+        let isMounted = true;
 
         const verifyEmailReq = async () => {
-            setLoading(true);
             try {
-                const dbResponse = await verifyEmail({ token });
                 if (isMounted) {
+                    const dbResponse = await verifyEmail({ token });
                     if (dbResponse?.success) {
                         setVerifyMessage(dbResponse?.message);
                         console.log(dbResponse);
@@ -39,7 +38,6 @@ const page = () => {
                     } else {
                         setVerifyMessage(dbResponse?.error);
                     }
-                    setLoading(false);
                 }
             } catch (error) {
                 console.error("Error verifying email:", error);
@@ -48,6 +46,7 @@ const page = () => {
                     setLoading(false);
                 }
             }
+            setLoading(false);
         };
 
         verifyEmailReq();
