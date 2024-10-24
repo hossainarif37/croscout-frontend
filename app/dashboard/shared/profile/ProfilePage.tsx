@@ -211,41 +211,6 @@ const ProfilePage = () => {
     };
 
 
-    //* Handle updates the old password to the new password
-    // const handleChangePassword: SubmitHandler<IPasswordInfo> = async (data) => {
-    //     setPassIsLoading(true);
-    //     const newPassword = data.newPassword;
-    //     const oldPassword = data.oldPassword;
-    //     const updateData = { newPassword, oldPassword };
-    //     const token = getStoredToken();
-    //     if (user && user._id) {
-    //         const reqData: IChangePassword = { updateData, token, id: user._id };
-    //         const dbResponse = await changePassword(reqData);
-    //         if (dbResponse.success) {
-    //             setPassIsLoading(false);
-    //             const fetchUser = async () => {
-    //                 if (token) {
-    //                     const { user } = await getUser({ token });
-    //                     setUser(user);
-    //                     setCookie("authToken", token.split(" ")[1], 24)
-    //                 }
-    //                 else {
-    //                     setUser(null)
-    //                 }
-    //             };
-    //             fetchUser();
-    //             return toast.success(dbResponse?.message)
-    //         } else {
-    //             setPassIsLoading(false);
-    //             return toast.error(dbResponse?.error);
-    //         }
-    //     } else {
-    //         setPassIsLoading(false);
-    //         // Handle the case where user._id is undefined
-    //         console.error('User ID is not available');
-    //     }
-    //     setPassIsLoading(false);
-    // };
     const isEmailVerified = user?.isEmailVerified;
 
     const handleVerifyMessage = async () => {

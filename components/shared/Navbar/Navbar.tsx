@@ -100,16 +100,20 @@ const Navbar = () => {
                         {
                             user ?
                                 <>
+                                    {/* username */}
                                     <button className={navbarStyles.dashboardBtn}>{user?.name}</button>
 
-                                    <Link onClick={() =>
-                                        setNavUserToggle(false)}
+                                    <Link
+                                        onClick={() => setNavUserToggle(false)}
                                         className={navbarStyles.dashboardBtn}
-                                        href={user.role === "user" ? "/dashboard/user/my-bookings" : "/dashboard"}>Dashboard</Link>
-                                    <button
+                                        href={user.role === "user" ? "/dashboard/user/my-bookings" : "/dashboard"}
+                                    >
+                                        Dashboard
+                                    </Link>
 
-                                        onClick={handleLogout}
-                                    >Logout</button>
+                                    <button onClick={handleLogout}>
+                                        Logout
+                                    </button>
                                 </>
                                 :
                                 <>
@@ -119,14 +123,18 @@ const Navbar = () => {
                                             setNavUserToggle(false);
 
                                         }}
-                                    >Login</button>
+                                    >
+                                        Login
+                                    </button>
                                     <button
                                         onClick={() => {
                                             setSignupModal(true);
                                             setNavUserToggle(false);
 
                                         }}
-                                    >Signup</button>
+                                    >
+                                        Signup
+                                    </button>
                                 </>
                         }
                     </ul>

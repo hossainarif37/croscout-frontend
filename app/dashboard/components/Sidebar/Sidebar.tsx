@@ -53,23 +53,8 @@ export default function Sidebar() {
                     path: "/dashboard/user/favorites",
                     icon: <FaStar />,
                 },
-                // {
-                //     title: "Feadback",
-                //     path: "/dashboard/user/feadback",
-                //     icon: <SiCodereview />,
-                // },
             ],
         },
-        // {
-        //     title: "Analytics",
-        //     list: [
-        //         {
-        //             title: "Revenue",
-        //             path: "#",
-        //             icon: <MdWork />,
-        //         }
-        //     ],
-        // },
         {
             title: "User",
             list: [
@@ -114,16 +99,6 @@ export default function Sidebar() {
                 },
             ],
         },
-        // {
-        //     title: "Analytics",
-        //     list: [
-        //         {
-        //             title: "Revenue",
-        //             path: "#",
-        //             icon: <MdWork />,
-        //         }
-        //     ],
-        // },
         {
             title: "User",
             list: [
@@ -173,16 +148,6 @@ export default function Sidebar() {
                 },
             ],
         },
-        // {
-        //     title: "Analytics",
-        //     list: [
-        //         {
-        //             title: "Revenue",
-        //             path: "#",
-        //             icon: <MdWork />,
-        //         }
-        //     ],
-        // },
         {
             title: "User",
             list: [
